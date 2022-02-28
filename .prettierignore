@@ -1,0 +1,9 @@
+**/*.svg
+package.json
+.eslintignore
+*.png
+*.toml
+.gitignore
+.prettierignore
+LICENSE
+/public/build

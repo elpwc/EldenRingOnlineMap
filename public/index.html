@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset='utf-8' />
+	<meta name='viewport' content='width=device-width,initial-scale=1' />
+	<meta name="author" content="elpwc@hotmail.com" />
+
+	<title>老头环地图 - Elden Ring Online Map</title>
+
+	<link rel='icon' type='image/png' href='/favicon.png?v=1'>
+	<!--link rel='stylesheet' href='/global.css'>
+	<link rel='stylesheet' href='/build/bundle.css'>
+	<script defer src='/build/bundle.js'></script-->
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+		integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+		crossorigin="" />
+
+	<script type="text/javascript">
+		// refresh cashed js/css.
+		const VERSION = '0.0.0.1';        // current version, !!! update this in EVERY PUBLISH when js/css contents has been changed !!!
+		const in_dev = true;              // is in dev
+		const DEV_CODE = ~~(10000000 * Math.random());                             // devCode which updates when page reloads while in_dev is true
+		const params = '?ver=' + VERSION + (in_dev && ('&dev=' + DEV_CODE));  // Parameters after css/js filename
+		// set document
+		const head = document.getElementsByTagName('head')[0];
+		const link1 = document.createElement('link');
+		link1.setAttribute('rel', 'stylesheet');
+		link1.setAttribute('href', './global.css' + params);
+		const link2 = document.createElement('link');
+		link2.setAttribute('rel', 'stylesheet');
+		link2.setAttribute('href', './build/bundle.css' + params);
+		const script = document.createElement('script');
+		script.setAttribute('defer', 'true');
+		script.setAttribute('src', './build/bundle.js' + params);
+		head.appendChild(link1);
+		head.appendChild(link2);
+		head.appendChild(script);
+	</script>
+
+</head>
+
+<body>
+</body>
+
+</html>
