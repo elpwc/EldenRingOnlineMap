@@ -1,2 +1,3 @@
-export {};
-// export let xxx = writeable('');
+import { writable } from "svelte/store";
+
+export let currentPageStore = writable('home');
