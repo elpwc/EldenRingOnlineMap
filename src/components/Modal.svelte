@@ -21,11 +21,13 @@
   /** 关闭时强制刷新 */
   //export let refreshOnClose: boolean = false;
   export let zindex: number = 0;
+  export let backgroundColor = 'black';
+  export let backgroundOpacity = 0.5;
 </script>
 
 {#if visible}
   <div id="container" style="z-index: {zindex};">
-    <div id="bg" transition:fade={{ duration: 300 }} on:outroend={onFlyOutEnd} />
+    <div id="bg" style="background-color: {backgroundColor}; opacity: {backgroundOpacity}" transition:fade={{ duration: 300 }} on:outroend={onFlyOutEnd} />
 
     <div class="modal" style="width: {width}; top: {top};" transition:fly={{ y: 200, duration: 300 }}>
       <!--标题-->
@@ -50,14 +52,12 @@
 
 <style>
   #bg {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 0;
-    background-color: rgb(0, 0, 0);
-    opacity: 0.5;
   }
   .modal {
     position: absolute;

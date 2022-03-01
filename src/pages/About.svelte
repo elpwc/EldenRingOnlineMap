@@ -8,26 +8,40 @@
 </script>
 
 <div class="container">
-  <img src="./resource/images/fire.png" alt="fire" height="50%"/>
-  <p id="title">Elden Ring Online Map</p>
+  <img src="./resource/images/fire.png" alt="fire" height="50%" />
+  <p id="title" class="svelte-q01t2y"><span class="heads">E</span>lden <span class="heads">R</span>ing <span class="heads">O</span>nline <span class="heads">M</span>ap</p>
   <p id="cr">
     build by <a href="https://github.com/elpwc" target="_blank"
       >@elpwc<sup>
-        <svg xmlns="http://www.w3.org/2000/svg" width="5" height="5" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
+        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="7" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
           <path
             fill-rule="evenodd"
             d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
           />
         </svg>
       </sup>
-    </a> &copy; 2022, MIT License
+    </a>
+    &copy; 2022 wniko, MIT License<br />
+
+    Map Data Source:
+    <a href="https://www.ali213.net/zt/eldenring/map/" target="_blank"
+      >Youxia
+      <sup>
+        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="7" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
+          <path
+            fill-rule="evenodd"
+            d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
+          />
+        </svg>
+      </sup>
+    </a>
   </p>
   <div id="buttonsDiv">
     <button
       on:click={() => {
         window.open('https://github.com/elpwc/EldenRingOnlineMap/issues', '_blank');
       }}
-      >漏洞、建议反馈
+      >漏洞・意见反馈
       <sup>
         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
           <path
@@ -62,15 +76,20 @@
     color: rgb(208, 200, 181);
     align-items: center;
     justify-content: space-between;
+    user-select: none;
   }
   a {
     color: rgb(208, 200, 181);
+  }
+  .heads {
+    font-size: 1.4em;
   }
   #title {
     font-size: 1.5em;
   }
   #cr {
-    font-size: 0.5em;
+    font-size: 0.9em;
+    text-align: center;
   }
   #buttonsDiv {
     display: flex;

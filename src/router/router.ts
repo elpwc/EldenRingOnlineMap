@@ -4,7 +4,7 @@ import Apothegm from '../pages/Apothegm.svelte';
 import Map from '../pages/Map.svelte';
 
 export const routes = {
-  '/': Home,
+  '/': Map,
   '/about': About,
   '/apothegm': Apothegm,
   '/map': Map,

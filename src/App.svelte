@@ -13,22 +13,22 @@
 
 <div style="height: 100%; ">
   <nav class="menu">
-    <a href="/map" use:link>
+    <a href="/" use:link>
       {#if currentPage === 'map'}
         <div class="backgroundLight" transition:fade />
       {/if}
-      <img src="./resource/icons/map.png" alt="mapicon" width="50px" />
+      <img src="./resource/icons/map.png" alt="mapicon" width="40px" />
       <span>地图</span>
     </a>
     <a href="/apothegm" use:link>
       {#if currentPage === 'apothegm'}
         <div class="backgroundLight" transition:fade />
-      {/if}<img src="./resource/icons/apothegm.png" alt="mapicon" width="50px" /><span>讯息</span></a
+      {/if}<img src="./resource/icons/apothegm.png" alt="mapicon" width="40px" /><span>讯息</span></a
     >
     <a href="/about" use:link>
       {#if currentPage === 'about'}
         <div class="backgroundLight" transition:fade />
-      {/if}<img src="./resource/icons/about.png" alt="mapicon" width="50px" /><span>说明</span></a
+      {/if}<img src="./resource/icons/about.png" alt="mapicon" width="40px" /><span>说明</span></a
     >
   </nav>
   <main style="height: calc( 100% - 70px );">
@@ -51,7 +51,7 @@
     flex-direction: row;
     justify-content: space-around;
     z-index: 600;
-    box-shadow: 0 0 5px 0 black;
+    box-shadow: 0 0 30px 0 #54524a;
   }
   .menu a {
     width: -webkit-fill-available;
@@ -63,8 +63,19 @@
     flex-direction: column;
     align-items: center;
     text-shadow: 0 0 5px black;
+    user-select: none;
+    transition: all 0.3s;
   }
   .menu a img {
     padding: 0px;
+    user-select: none;
+  }
+  .menu a span{
+    padding: 4px 0;
+  }
+  @media (any-hover: hover){
+    .menu a:hover{
+      background-color: #1e1e1c;
+    }
   }
 </style>

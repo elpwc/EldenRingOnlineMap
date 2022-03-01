@@ -1,38 +1,41 @@
-export enum MapPointType {
-    Empty = '',
-    Boss = 'boss',
-    LittleBoss = 'littboss',
-    NPC = 'npc',
-    GoldenSeed = 'goldseed',
-    Magic = 'magic',
-    Weapon = 'weapon',
-}
+import type { MapPointType } from './enum';
 
 export type MapPoint = {
-    id: number;
-    type: MapPointType;
-    name: string,
-    desc: string,
-    lng: number;
-    lat: number;
-    like: number;
-    dislike: number;
-    ip: string;
-    is_deleted: boolean;
-    create_date: string;
-    update_date: string;
-
-}
+  id: number;
+  type: MapPointType;
+  name: string;
+  desc: string;
+  lng: number;
+  lat: number;
+  like: number;
+  dislike: number;
+  ip: string;
+  is_deleted: boolean;
+  create_date: string;
+  update_date: string;
+};
 
 export type Apothegm = {
-    id: number;
-    content: string;
-    tags: string;
-    gesture: number;
-    like: number;
-    dislike: number;
-    ip: string;
-    is_deleted: boolean;
-    create_date: string;
-    update_date: string;
-}
+  id: number;
+  content: string;
+  tags: string;
+  gesture: number;
+  like: number;
+  dislike: number;
+  ip: string;
+  is_deleted: boolean;
+  create_date: string;
+  update_date: string;
+};
+
+/**
+ * 获取IP/地址结果
+ */
+export type GetIPPositionReturn = {
+  /** IP */
+  cip: string;
+  /** 行政区划编码 */
+  cid: string;
+  /** 位置 */
+  cname: string;
+};

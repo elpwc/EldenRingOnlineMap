@@ -3,7 +3,11 @@
   import { onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
-  import { MapPointType } from '../utils/typings';
+  import { MapPointType } from '../utils/enum';
+  import axios from 'axios';
+  import { ip } from '../stores';
+  import About from '../pages/About.svelte';
+  import type { MapPoint } from '../utils/typings';
 
   let map;
 
@@ -11,28 +15,46 @@
   let mapH = window.innerHeight;
 
   let addPointVisability = false;
+  let selectTypeVisability = false;
 
   /** 添加地标模式 */
   let isAddPointMode = false;
 
   let showfilterDiv = false;
 
+  let currentClickedlatLng;
+
+  let addedPointType: MapPointType = MapPointType.Empty;
+  let addedPointName = '';
+  let addedPointDesc = '';
+
+  let searchWord = '';
+
+  let checkedTypes: string[] = [];
+
+  let markers = [];
+
   onMount(() => {
-    map = L.map('map').setView([40, -40], 2);
+    map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([40, -40], 2);
 
     L.tileLayer('https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg', {
-      attribution: 'Data <a href="https://www.ali213.net/zt/eldenring/map/" target="_blank">Youxia</a>',
       maxZoom: 7,
+      minZoom: 2,
       tileSize: 200,
       zoomOffset: 0,
     }).addTo(map);
 
+    L.control.zoom({ position: 'bottomleft' }).addTo(map);
+
     map.on('click', e => {
       if (isAddPointMode) {
+        currentClickedlatLng = e.latlng;
         L.marker(e.latlng).addTo(map);
         addPointVisability = true;
       }
     });
+
+    loadMarkers();
   });
 
   window.addEventListener('resize', e => {
@@ -40,15 +62,55 @@
     mapH = window.innerHeight;
   });
 
+  const loadMarkers = () => {
+    axios({
+      method: 'GET',
+      url: './map.php',
+      params: {
+        type: checkedTypes.join('|'),
+        kword: searchWord,
+        ip: '',
+        under: '',
+      },
+    }).then(res => {
+      console.log(res.data);
+      const tmpmarkers = [];
+      res.data.forEach((m: MapPoint) => {
+        markers.push(L.marker(L.latLng(m.lat, m.lng)));
+      });
+    });
+
+    markers.forEach(marker => {
+      marker.addTo(map);
+    });
+  };
+
   const onSearch = () => {
-    alert(123);
+    loadMarkers();
   };
 
   const onAddButtonClick = () => {
     isAddPointMode = !isAddPointMode;
   };
 
-  const onAdd = () => {};
+  const onAdd = () => {
+    axios({
+      method: 'POST',
+      url: './map.php',
+      data: {
+        type: addedPointType,
+        name: addedPointName,
+        desc: addedPointDesc,
+        lng: currentClickedlatLng.lng,
+        lat: currentClickedlatLng.lat,
+        like: 0,
+        dislike: 0,
+        ip,
+      },
+    }).then(res => {
+      console.log(res);
+    });
+  };
 
   const onClose = () => {
     addPointVisability = false;
@@ -59,37 +121,103 @@
   };
 
   const filters = [
-    { name: '我标注的', value: MapPointType.Empty },
-    { name: '篝火', value: MapPointType.Empty },
+    { name: '我标注的', value: 'self' },
+    { name: '全选', value: 'all' },
+
+    { name: '地点', hr: true },
+    { name: '赐福', value: MapPointType.Cifu },
+    { name: '捷径', value: MapPointType.Jiejing },
+    { name: '传送门', value: MapPointType.Portal },
+    { name: '刷魂点', value: MapPointType.SoulSite },
+    { name: '商店', value: MapPointType.Shop },
+    { name: 'NPC', value: MapPointType.NPC },
+    { name: '地图碎片', value: MapPointType.Map },
+    { name: '地点', value: MapPointType.Place },
+
+    { name: '怪', hr: true },
     { name: '小BOSS', value: MapPointType.LittleBoss },
     { name: 'BOSS', value: MapPointType.Boss },
+    { name: '红灵入侵', value: MapPointType.RedSoul },
+    { name: '精英怪', value: MapPointType.Jingyingguai },
+
+    { name: '道具', hr: true },
+    { name: '锻造石', value: MapPointType.Stone },
     { name: '黄金种子', value: MapPointType.GoldenSeed },
+    { name: '露滴', value: MapPointType.Ludi },
+    { name: '逃课道具', value: MapPointType.Taoke },
+    { name: '石灰钥匙', value: MapPointType.Key },
+
+    { name: '武器', hr: true },
     { name: '魔法', value: MapPointType.Magic },
-    { name: '祷告', value: MapPointType },
+    { name: '祷告', value: MapPointType.Daogao },
     { name: '武器', value: MapPointType.Weapon },
-    { name: '锻造石', value: MapPointType },
-    { name: '露滴', value: MapPointType },
-    { name: '说明', value: MapPointType },
-    { name: '警示', value: MapPointType },
-    { name: '红灵入侵', value: MapPointType },
-    { name: '装备', value: MapPointType },
-    { name: '精英怪', value: MapPointType },
-    { name: '捷径', value: MapPointType },
-    { name: '传送门', value: MapPointType },
-    { name: '刷魂点', value: MapPointType },
-    { name: '逃课道具', value: MapPointType },
-    { name: '商店', value: MapPointType },
+    { name: '衣服', value: MapPointType.Clothes },
+    { name: '战灰', value: MapPointType.Zhanhui },
+    { name: '骨灰', value: MapPointType.Guhui },
+
+    { name: '留言', hr: true },
+    { name: '说明', value: MapPointType.Text },
+    { name: '警示', value: MapPointType.Warn },
+  ];
+
+  const selectTypes = [
+    { name: '留言', hr: true },
+    { name: '说明', value: MapPointType.Text },
+    { name: '警示', value: MapPointType.Warn },
+
+    { name: '地点', hr: true },
+    { name: '赐福', value: MapPointType.Cifu },
+    { name: '捷径', value: MapPointType.Jiejing },
+    { name: '传送门', value: MapPointType.Portal },
+    { name: '刷魂点', value: MapPointType.SoulSite },
+    { name: '商店', value: MapPointType.Shop },
+    { name: 'NPC', value: MapPointType.NPC },
+    { name: '地图碎片', value: MapPointType.Map },
+    { name: '地点', value: MapPointType.Place },
+
+    { name: '怪', hr: true },
+    { name: '小BOSS', value: MapPointType.LittleBoss },
+    { name: 'BOSS', value: MapPointType.Boss },
+    { name: '红灵入侵', value: MapPointType.RedSoul },
+    { name: '精英怪', value: MapPointType.Jingyingguai },
+
+    { name: '道具', hr: true },
+    { name: '锻造石', value: MapPointType.Stone },
+    { name: '黄金种子', value: MapPointType.GoldenSeed },
+    { name: '露滴', value: MapPointType.Ludi },
+    { name: '逃课道具', value: MapPointType.Taoke },
+    { name: '石灰钥匙', value: MapPointType.Key },
+
+    { name: '武器', hr: true },
+    { name: '魔法', value: MapPointType.Magic },
+    { name: '祷告', value: MapPointType.Daogao },
+    { name: '武器', value: MapPointType.Weapon },
+    { name: '衣服', value: MapPointType.Clothes },
+    { name: '战灰', value: MapPointType.Zhanhui },
+    { name: '骨灰', value: MapPointType.Guhui },
   ];
 
   const onFilterCheckChange = e => {
     console.log(e.target.value, e.target.checked);
+    if (e.target.checked) {
+      if (!checkedTypes.includes(e.target.value)) {
+        checkedTypes.push(e.target.value);
+      }
+    } else {
+      if (checkedTypes.includes(e.target.value)) {
+        checkedTypes = checkedTypes.filter(i => {
+          return i === e.target.value;
+        });
+      }
+    }
+    loadMarkers();
   };
 </script>
 
 <div>
   <div id="topDiv">
     {#if !isAddPointMode}
-      <input type="text" placeholder="搜索地标" /><button on:click={onSearch}>搜索</button>
+      <input type="text" placeholder="搜索地标" bind:value={searchWord} /><button on:click={onSearch}>搜索</button>
     {:else}
       <p id="addpointtip">在地图上点击一点添加坐标</p>
     {/if}
@@ -108,10 +236,16 @@
 
   {#if showfilterDiv}
     <div id="filterDiv" transition:fly={{ x: -80, duration: 300 }}>
-      <div id="filter">
+      <div id="filter" style="max-height: {window.innerHeight - 80}px;">
         {#each filters as filter}
-          <label><input type="checkbox" value={filter.value} on:change={onFilterCheckChange} />{filter.name} </label>
+          {#if filter?.hr}
+            <p class="filterHr"><span>——</span><span>{filter.name}</span><span>——</span></p>
+          {:else}
+            <label><input type="checkbox" value={filter.value} on:change={onFilterCheckChange} />{filter.name} </label>
+          {/if}
         {/each}
+
+        <button id="showNameBtn">标注地名</button>
       </div>
     </div>
     <div id="leftDiv2" in:fly={{ x: -85, duration: 300 }} out:fly={{ x: -85, duration: 300 }}>
@@ -131,7 +265,7 @@
     visible={addPointVisability}
     top="15%"
     title="添加一个地标"
-    zindex={114514}
+    zindex={114600}
     showOkButton
     showCloseButton
     okButtonText="添加"
@@ -140,12 +274,33 @@
     onCloseButtonClick={onClose}
   >
     <div id="modalInner">
-      <select name="pointType">
-        <option>类型</option>
-      </select>
-      <input type="text" placeholder="名称" />
-      <textarea placeholder="描述" />
+      <button
+        on:click={() => {
+          selectTypeVisability = true;
+        }}
+        >{selectTypes.filter(type => {
+          return type.value === addedPointType;
+        })?.[0]?.name || '——选择类型——'}</button
+      >
+      <input type="text" placeholder="名称" bind:value={addedPointName} />
+      <textarea placeholder="描述" bind:value={addedPointDesc} />
     </div>
+    <Modal visible={selectTypeVisability} top="10%" title="选择类型" zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
+      <div id="selectModalInner">
+        {#each selectTypes as filter}
+          {#if filter?.hr}
+            <p class="filterHrInModal"><span>——</span><span>{filter.name}</span><span>——</span></p>
+          {:else}
+            <button
+              on:click={() => {
+                addedPointType = filter.value;
+                selectTypeVisability = false;
+              }}>{filter.name}</button
+            >
+          {/if}
+        {/each}
+      </div>
+    </Modal>
   </Modal>
 </div>
 
@@ -153,6 +308,15 @@
   p {
     margin: 0;
     padding: 0;
+  }
+  .filterHr {
+    align-self: center;
+    color: #f5cc95;
+  }
+  .filterHrInModal {
+    align-self: center;
+    color: #f5cc95;
+    width: -webkit-fill-available;
   }
   #map {
     height: 1000px;
@@ -169,11 +333,15 @@
   textarea {
     height: 100px;
   }
+  #showNameBtn {
+    margin: 4px;
+    font-size: 0.6em;
+  }
   #addPointButton {
     margin-left: 5px;
-	display: flex;
-	align-items: center;
-	min-width: fit-content;
+    display: flex;
+    align-items: center;
+    min-width: fit-content;
   }
   #filterBtn {
     border-radius: 5px;
@@ -206,7 +374,7 @@
   }
   #filterDiv {
     position: absolute;
-    top: 100px;
+    top: 70px;
     left: 0px;
     width: 80px;
     z-index: 114515;
@@ -218,9 +386,10 @@
     background-color: rgb(21, 22, 17, 0.7);
     color: rgb(208, 200, 181);
     font-family: 'Times New Roman', Times, serif;
-    font-size: 0.3em;
+    font-size: 0.8em;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
   }
   #bottomDiv {
     position: absolute;
@@ -246,5 +415,10 @@
     flex-direction: column;
     gap: 10px;
     padding-bottom: 40px;
+  }
+  #selectModalInner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
   }
 </style>
