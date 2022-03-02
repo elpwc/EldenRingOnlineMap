@@ -231,6 +231,10 @@
 
   const onClose = () => {
     addPointVisability = false;
+    addedPointDesc = '';
+    addedPointName = '';
+    addedPointType = MapPointType.Empty;
+    addedPointUnderground = false;
     tempMarker.remove();
   };
 
