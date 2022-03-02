@@ -21,6 +21,11 @@ button, input, select, textarea{
 	transition: all 0.3s;
 }
 
+button, select{
+	user-select: none;
+	min-width: fit-content;
+}
+
 button.active{
 	border: solid 2px rgb(208, 200, 181);
 	box-shadow: 0 0 5px 1px rgb(208, 200, 181);
