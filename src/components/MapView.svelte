@@ -8,6 +8,7 @@
   import { ip } from '../stores';
   import About from '../pages/About.svelte';
   import type { MapPoint } from '../utils/typings';
+  //import { icon, MapIcon } from './icons';
 
   let map;
 
@@ -32,8 +33,20 @@
   let searchWord = '';
 
   let checkedTypes: string[] = [];
+  let showPlaceNames = true;
+  let undergroundStatus = 2;
+  let filterString = '';
+  let showSelf = false;
+
+  let selectAll = false;
 
   let markers = [];
+
+  let searchResultMarkers = [];
+
+  let tempMarker;
+
+  let isSearch = false;
 
   onMount(() => {
     map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([40, -40], 2);
@@ -50,7 +63,15 @@
     map.on('click', e => {
       if (isAddPointMode) {
         currentClickedlatLng = e.latlng;
-        L.marker(e.latlng).addTo(map);
+        tempMarker = L.marker(e.latlng, {
+          icon: L.divIcon({
+            html: '<div>114514</div>',
+            className: '',
+            iconSize: L.point(50, 50),
+            iconUrl: '',
+          }),
+        });
+        tempMarker.addTo(map);
         addPointVisability = true;
       }
     });
@@ -64,30 +85,56 @@
   });
 
   const loadMarkers = () => {
-    axios({
-      method: 'GET',
-      url: './map.php',
-      params: {
-        type: checkedTypes.join('|'),
-        kword: searchWord,
-        ip: '',
-        under: '',
-      },
-    }).then(res => {
-      console.log(res.data);
-      const tmpmarkers = [];
-      res.data.forEach((m: MapPoint) => {
-        markers.push(L.marker(L.latLng(m.lat, m.lng)));
-      });
-    });
+    axios
+      .get('./map.php', {
+        params: {
+          type: selectAll ? '' : checkedTypes.join('|'),
+          kword: searchWord,
+          ip: showSelf ? ip : '',
+          under: undergroundStatus,
+        },
+      })
+      .then(res => {
+        console.log(res.data);
+        markers.forEach(marker => {
+          marker.remove();
+        });
+        markers = [];
+        res.data.forEach((m: MapPoint) => {
+          markers.push(L.marker(L.latLng(m.lat, m.lng), { icon: icon(MapIcon.default) }));
+        });
 
-    markers.forEach(marker => {
-      marker.addTo(map);
-    });
+        markers.forEach(marker => {
+          marker.addTo(map);
+        });
+      });
   };
 
   const onSearch = () => {
-    loadMarkers();
+    isSearch = true;
+
+    axios
+      .get('./map.php', {
+        params: {
+          kword: searchWord,
+        },
+      })
+      .then(res => {
+        console.log(res.data);
+        searchResultMarkers.forEach(marker => {
+          marker.remove();
+        });
+        searchResultMarkers = [];
+        res.data.forEach((m: MapPoint) => {
+          searchResultMarkers.push(L.marker(L.latLng(m.lat, m.lng)));
+        });
+
+        searchResultMarkers.forEach(marker => {
+          marker.addTo(map);
+        });
+      });
+
+    //loadMarkers();
   };
 
   const onAddButtonClick = () => {
@@ -95,10 +142,8 @@
   };
 
   const onAdd = () => {
-    axios({
-      method: 'POST',
-      url: './map.php',
-      data: {
+    axios
+      .post('./map.php', {
         type: addedPointType,
         name: addedPointName,
         desc: addedPointDesc,
@@ -107,14 +152,15 @@
         like: 0,
         dislike: 0,
         ip,
-      },
-    }).then(res => {
-      console.log(res);
-    });
+      })
+      .then(res => {
+        console.log(res);
+      });
   };
 
   const onClose = () => {
     addPointVisability = false;
+    tempMarker.remove();
   };
 
   const onFilterButtonClick = () => {
@@ -200,16 +246,26 @@
 
   const onFilterCheckChange = e => {
     console.log(e.target.value, e.target.checked);
-    if (e.target.checked) {
-      if (!checkedTypes.includes(e.target.value)) {
-        checkedTypes.push(e.target.value);
-      }
-    } else {
-      if (checkedTypes.includes(e.target.value)) {
-        checkedTypes = checkedTypes.filter(i => {
-          return i === e.target.value;
-        });
-      }
+    switch (e.target.value) {
+      case 'self':
+        showSelf = e.target.checked;
+        break;
+      case 'all':
+        selectAll = e.target.checked;
+        break;
+      default:
+        if (e.target.checked) {
+          if (!checkedTypes.includes(e.target.value)) {
+            checkedTypes.push(e.target.value);
+          }
+        } else {
+          if (checkedTypes.includes(e.target.value)) {
+            checkedTypes = checkedTypes.filter(i => {
+              return i !== e.target.value;
+            });
+          }
+        }
+        break;
     }
     loadMarkers();
   };
@@ -218,7 +274,23 @@
 <div>
   <div id="topDiv">
     {#if !isAddPointMode}
-      <input type="text" placeholder="搜索地标" bind:value={searchWord} /><button on:click={onSearch}>搜索</button>
+      <div id="searchTextContainer">
+        <input type="text" style="border: none; width: 80%; box-shadow: none;" placeholder="搜索地标" bind:value={searchWord} />
+        {#if isSearch}
+          <button
+            style="border: none; font-size: 0.6em; box-shadow: none;"
+            on:click={() => {
+              isSearch = false;
+              searchResultMarkers.forEach(marker => {
+                marker.remove();
+              });
+              searchWord = '';
+              searchResultMarkers = [];
+            }}>清除结果</button
+          >
+        {/if}
+      </div>
+      <button on:click={onSearch}>搜索</button>
     {:else}
       <p id="addpointtip">在地图上点击一点添加坐标</p>
     {/if}
@@ -236,7 +308,7 @@
   </div>
 
   {#if showfilterDiv}
-    <div id="filterDiv" transition:fly={{ x: -80, duration: 300 }}>
+    <div id="filterDiv" transition:fly={{ x: -160, duration: 300 }}>
       <div id="filter" style="max-height: {window.innerHeight - 80}px;">
         {#each filters as filter}
           {#if filter?.hr}
@@ -245,15 +317,43 @@
             <label><input type="checkbox" value={filter.value} on:change={onFilterCheckChange} />{filter.name} </label>
           {/if}
         {/each}
-
-        <button id="showNameBtn">标注地名</button>
       </div>
+      <button
+        id="showNameBtn"
+        on:click={() => {
+          showPlaceNames = !showPlaceNames;
+        }}>显示地名{showPlaceNames ? ' √' : ''}</button
+      >
+      <div id="underSelector" style="padding: 3px; font-size: 0.6em;">
+        <button
+          class={undergroundStatus === 0 && 'active'}
+          on:click={() => {
+            undergroundStatus = 0;
+            loadMarkers();
+          }}>全部</button
+        >
+        <button
+          class={undergroundStatus === 1 && 'active'}
+          on:click={() => {
+            undergroundStatus = 1;
+            loadMarkers();
+          }}>地面</button
+        >
+        <button
+          class={undergroundStatus === 2 && 'active'}
+          on:click={() => {
+            undergroundStatus = 2;
+            loadMarkers();
+          }}>地下</button
+        >
+      </div>
+      <!--input type="text" placeholder="关键词" bind:value={filterString}/-->
     </div>
-    <div id="leftDiv2" in:fly={{ x: -85, duration: 300 }} out:fly={{ x: -85, duration: 300 }}>
+    <div id="leftDiv2" in:fly={{ x: -165, duration: 300 }} out:fly={{ x: -165, duration: 300 }}>
       <button id="filterBtn" on:click={onFilterButtonClick}>◀<br />收<br />回</button>
     </div>
   {:else}
-    <div id="leftDiv" in:fly={{ x: 85, duration: 300 }} out:fly={{ x: 85, duration: 300 }}>
+    <div id="leftDiv" in:fly={{ x: 165, duration: 300 }} out:fly={{ x: 165, duration: 300 }}>
       <button id="filterBtn" on:click={onFilterButtonClick}>➤<br />筛<br />选</button>
     </div>
   {/if}
@@ -284,16 +384,16 @@
         })?.[0]?.name || '——选择类型——'}</button
       >
       <div id="underSelector">
-        <button class={!addedPointUnderground && 'active'}
+        <button
+          class={!addedPointUnderground && 'active'}
           on:click={() => {
             addedPointUnderground = false;
-          }}
-          >地面</button
-        ><button class={addedPointUnderground && 'active'}
+          }}>地面</button
+        ><button
+          class={addedPointUnderground && 'active'}
           on:click={() => {
             addedPointUnderground = true;
-          }}
-          >地下</button
+          }}>地下</button
         >
       </div>
       <input type="text" placeholder="名称" bind:value={addedPointName} />
@@ -323,6 +423,16 @@
     margin: 0;
     padding: 0;
   }
+  #searchTextContainer {
+    border: solid 1px rgb(208, 200, 181);
+    box-shadow: 0 0 3px 0 rgb(208, 200, 181);
+    background-color: rgb(21, 22, 17);
+    color: rgb(208, 200, 181);
+    font-family: 'Times New Roman', Times, serif;
+    display: flex;
+    width: 200px;
+  }
+
   .filterHr {
     align-self: center;
     color: #f5cc95;
@@ -382,7 +492,7 @@
   #leftDiv2 {
     position: absolute;
     top: 100px;
-    left: 75px;
+    left: 155px;
     z-index: 114514;
     align-self: center;
   }
@@ -390,20 +500,21 @@
     position: absolute;
     top: 70px;
     left: 0px;
-    width: 80px;
+    width: 160px;
     z-index: 114515;
     align-self: center;
-  }
-  #filter {
     border: solid 1px rgb(208, 200, 181);
     box-shadow: 0 0 2px 0 white;
     background-color: rgb(21, 22, 17, 0.7);
     color: rgb(208, 200, 181);
+  }
+  #filter {
     font-family: 'Times New Roman', Times, serif;
     font-size: 0.8em;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    height: 320px;
   }
   #bottomDiv {
     position: absolute;
@@ -435,11 +546,11 @@
     flex-wrap: wrap;
     justify-content: left;
   }
-  #underSelector{
-    width:-webkit-fill-available;
+  #underSelector {
+    width: -webkit-fill-available;
     display: flex;
   }
-  #underSelector button{
-    width:-webkit-fill-available;
+  #underSelector button {
+    width: -webkit-fill-available;
   }
 </style>

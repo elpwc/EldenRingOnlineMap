@@ -111,7 +111,7 @@ switch ($request_type) {
                     ]
                 ],
                 ['', ['ip', $ip]],
-                ['', ['under', $under]],
+                ['', ['is_underground', $under]],
                 ['', ['is_deleted', '0']]
             ]
         ];

@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `map`(
     `desc` VARCHAR(1024),
     `lng` DOUBLE NOT NULL,
     `lat` DOUBLE NOT NULL,
+    `is_underground` BOOLEAN DEFAULT FALSE,
     `like` INT UNSIGNED DEFAULT 0,
     `dislike` INT UNSIGNED DEFAULT 0,
     `ip` VARCHAR(20),
