@@ -1,65 +1,71 @@
-html, body {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	font-family: 'Times New Roman', Times, serif;
+html,
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Times New Roman', Times, serif;
 }
 
-body{
-	margin: 0;
-	padding: 0;
-	background-color: rgb(21, 22, 17);
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(21, 22, 17);
 }
 
-button, input, select, textarea{
-	border: solid 1px rgb(208, 200, 181);
-	box-shadow: 0 0 3px 0 rgb(208, 200, 181);
-	background-color: rgb(21, 22, 17);
-	color: rgb(208, 200, 181);
-	font-family: 'Times New Roman', Times, serif;
-	transition: all 0.3s;
+button,
+input,
+select,
+textarea {
+  border: solid 1px rgb(208, 200, 181);
+  box-shadow: 0 0 3px 0 rgb(208, 200, 181);
+  background-color: rgb(21, 22, 17);
+  color: rgb(208, 200, 181);
+  font-family: 'Times New Roman', Times, serif;
+  transition: all 0.3s;
 }
 
-button, select{
-	user-select: none;
-	min-width: fit-content;
+button,
+select {
+  user-select: none;
+  min-width: fit-content;
 }
 
-button.active{
-	border: solid 2px rgb(208, 200, 181);
-	box-shadow: 0 0 5px 1px rgb(208, 200, 181);
+button.active {
+  border: solid 2px rgb(208, 200, 181);
+  box-shadow: 0 0 5px 1px rgb(208, 200, 181);
 }
 
-@media (any-hover: hover){
-	button:hover, select:hover{
-		border: solid 1px rgb(208, 200, 181);
-		box-shadow: 0 0 7px 1px rgb(208, 200, 181);
-	}
+@media (any-hover: hover) {
+  button:hover,
+  select:hover {
+    border: solid 1px rgb(208, 200, 181);
+    box-shadow: 0 0 7px 1px rgb(208, 200, 181);
+  }
 }
 
-button:active, select:active{
-	border: solid 1px rgb(208, 200, 181);
-	box-shadow: 0 0 3px 0 rgb(208, 200, 181);
-	background-color: rgb(40, 41, 37);
-	color: rgb(177, 168, 146);
-	transition: all 0.1s;
+button:active,
+select:active {
+  border: solid 1px rgb(208, 200, 181);
+  box-shadow: 0 0 3px 0 rgb(208, 200, 181);
+  background-color: rgb(40, 41, 37);
+  color: rgb(177, 168, 146);
+  transition: all 0.1s;
 }
 
 html ::-webkit-scrollbar {
-	width: 8px;
-	height: 8px;
-	margin-left: -8px;
-  }
-  
-  html ::-webkit-scrollbar-thumb {
-	border-radius: 4px;
-	background: #ffffff;
-  }
-  
-  html ::-webkit-scrollbar-track {
-	border-radius: 4px;
-	background: rgb(33, 32, 75);
-	margin: 0;
-  }
-  
+  width: 6px;
+  height: 6px;
+  margin-left: -6px;
+}
+
+html ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgb(208, 200, 181);
+}
+
+html ::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background: rgb(0,0,0,0);
+  margin: 0;
+}

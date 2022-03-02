@@ -17,18 +17,18 @@
       {#if currentPage === 'map'}
         <div class="backgroundLight" transition:fade />
       {/if}
-      <img src="./resource/icons/map.png" alt="mapicon" width="40px" />
+      <img src="./resource/images/map.png" alt="mapicon" width="40px" />
       <span>地图</span>
     </a>
     <a href="/apothegm" use:link>
       {#if currentPage === 'apothegm'}
         <div class="backgroundLight" transition:fade />
-      {/if}<img src="./resource/icons/apothegm.png" alt="mapicon" width="40px" /><span>讯息</span></a
+      {/if}<img src="./resource/images/apothegm.png" alt="mapicon" width="40px" /><span>讯息</span></a
     >
     <a href="/about" use:link>
       {#if currentPage === 'about'}
         <div class="backgroundLight" transition:fade />
-      {/if}<img src="./resource/icons/about.png" alt="mapicon" width="40px" /><span>说明</span></a
+      {/if}<img src="./resource/images/about.png" alt="mapicon" width="40px" /><span>说明</span></a
     >
   </nav>
   <main style="height: calc( 100% - 70px );">
@@ -70,11 +70,11 @@
     padding: 0px;
     user-select: none;
   }
-  .menu a span{
+  .menu a span {
     padding: 4px 0;
   }
-  @media (any-hover: hover){
-    .menu a:hover{
+  @media (any-hover: hover) {
+    .menu a:hover {
       background-color: #1e1e1c;
     }
   }

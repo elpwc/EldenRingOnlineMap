@@ -139,12 +139,14 @@ switch ($request_type) {
                     'type' => $row['type'],
                     'name' => $row['name'],
                     'desc' => $row['desc'],
-                    'lng' => $row['lng'],
-                    'lat' => $row['lat'],
-                    'like' => $row['like'],
-                    'dislike' => $row['dislike'],
+                    'lng' => (double)$row['lng'],
+                    'lat' =>  (double)$row['lat'],
+                    'like' =>  (int)$row['like'],
+                    'dislike' => (int)$row['dislike'],
                     'ip' => $row['ip'],
-                    'is_deleted' => $row['is_deleted'],
+                    'is_deleted' => (bool)(int)$row['is_deleted'],
+                    'is_underground' => (bool)(int)$row['is_underground'],
+                    'is_lock' => (bool)(int)$row['is_lock'],
                     'create_date' => $row['create_date'],
                     'update_date' => $row['update_date'],
                 ]);
@@ -156,10 +158,64 @@ switch ($request_type) {
 
         break;
     case 'DELETE':
+        @$id = trim((string)($data->id));
+
+        $sql = "UPDATE map
+        SET `is_deleted`=1
+        WHERE `id`=$id;";
+
+        $result = mysqli_query($sqllink, $sql);
+
+        echo ($result);
 
         break;
-    case 'PUT':
+    case 'PATCH':
+        @$id = trim((string)($data->id));
+        @$type = trim((string)($data->type));
+        @$name = trim((string)($data->name));
+        @$desc = trim((string)($data->desc));
+        @$lng = (string)($data->lng);
+        @$lat = (string)($data->lat);
+        @$like = (string)($data->like);
+        @$dislike = ($data->dislike);
+        @$ip = trim((string)($data->ip));
+        @$is_deleted = (string)($data->is_deleted);
+        @$is_lock = (string)($data->is_lock);
+        @$is_underground = (string)($data->is_underground);
 
+        $select = [
+            ['type', $type],
+            ['name',$name],
+            ['desc',$desc],
+            ['lng',$lng],
+            ['lat',$lat],
+            ['like',$like],
+            ['dislike',$dislike],
+            ['ip',$ip],
+            ['is_deleted',$is_deleted],
+            ['is_lock',$is_lock],
+            ['is_underground',$is_underground],
+        ];
+
+        $geneRes = '';
+        for($i = 0; $i < count($select); $i++){
+            $item = $select[$i];
+            if($item[1] != ''){
+                $geneRes .= "`$item[0]` = \"$item[1]\",";
+            }
+        }
+
+        if(substr($geneRes, -1) == ','){
+            $geneRes = substr($geneRes, 0, strlen($geneRes)-1);
+        }
+
+        $sql = "UPDATE map
+        SET $geneRes
+        WHERE `id`=$id;";
+
+        $result = mysqli_query($sqllink, $sql);
+
+        echo ($result);
         break;
     default:
         break;

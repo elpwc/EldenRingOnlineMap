@@ -1,0 +1,11 @@
+.icon {
+  display: flex;
+}
+.icon p {
+  text-shadow: 0 0 5px black;
+  min-width: max-content;
+  font-size: 0.8em;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}

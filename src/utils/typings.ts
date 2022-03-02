@@ -11,6 +11,8 @@ export type MapPoint = {
   dislike: number;
   ip: string;
   is_deleted: boolean;
+  is_lock: boolean;
+  is_underground: boolean;
   create_date: string;
   update_date: string;
 };
