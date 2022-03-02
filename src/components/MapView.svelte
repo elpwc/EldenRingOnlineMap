@@ -193,6 +193,10 @@
               console.log(res);
               addPointVisability = false;
               editMode = false;
+              addedPointDesc = '';
+              addedPointName = '';
+              addedPointType = MapPointType.Empty;
+              addedPointUnderground = false;
               loadMarkers();
             });
         } else {
@@ -218,6 +222,11 @@
             .then(res => {
               console.log(res);
               addPointVisability = false;
+              addedPointDesc = '';
+              addedPointName = '';
+              addedPointType = MapPointType.Empty;
+              addedPointUnderground = false;
+              tempMarker.remove();
               loadMarkers();
             });
         } else {
