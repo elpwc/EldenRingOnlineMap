@@ -27,6 +27,7 @@
   let addedPointType: MapPointType = MapPointType.Empty;
   let addedPointName = '';
   let addedPointDesc = '';
+  let addedPointUnderground = false;
 
   let searchWord = '';
 
@@ -282,6 +283,19 @@
           return type.value === addedPointType;
         })?.[0]?.name || '——选择类型——'}</button
       >
+      <div id="underSelector">
+        <button class={!addedPointUnderground && 'active'}
+          on:click={() => {
+            addedPointUnderground = false;
+          }}
+          >地面</button
+        ><button class={addedPointUnderground && 'active'}
+          on:click={() => {
+            addedPointUnderground = true;
+          }}
+          >地下</button
+        >
+      </div>
       <input type="text" placeholder="名称" bind:value={addedPointName} />
       <textarea placeholder="描述" bind:value={addedPointDesc} />
     </div>
@@ -420,5 +434,12 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
+  }
+  #underSelector{
+    width:-webkit-fill-available;
+    display: flex;
+  }
+  #underSelector button{
+    width:-webkit-fill-available;
   }
 </style>
