@@ -553,7 +553,7 @@
       <p style="min-height: 80px; width: fit-content; max-height: {window.innerHeight * 0.4}px; overflow-y: scroll; text-shadow: 0 0 20px black;">
         {@html currentClickedMarker?.desc.replaceAll('\n', '<br />')}
       </p>
-      <div>
+      <div style="display: flex;">
         <button on:click={onLike}>{`给予好评 ${currentClickedMarker?.like}`}</button>
         <button on:click={onDislike}>{`给予恶评 ${currentClickedMarker?.dislike}`}</button>
       </div>
@@ -629,7 +629,7 @@
               searchWord = '';
               searchResultMarkers = [];
               loadMarkers();
-            }}>清除结果</button
+            }}>{searchResultMarkers.length / 2}个结果, 点此清除结果</button
           >
         {/if}
       </div>
