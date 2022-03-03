@@ -309,9 +309,9 @@
           }}
         >
           <div class="title">
-            <div class="title-reply"><span class="titlespan">{apo?.title}</span></div>
+            <div class="title-reply"><span class="titlespan">{@html apo?.title}</span></div>
           </div>
-          <p class="contentp">{apo?.content}</p>
+          <p class="contentp">{@html apo?.content}</p>
 
           <div class="title-reply" style="justify-content: space-between; ">
             <span class="replyspan">回应 {apo?.replies?.length}</span>
@@ -367,9 +367,9 @@
         </div>
 
         <div>
-          <p style="font-size: 1.2em; font-weight: bold; ">{apothegms?.[currentShowingApoIndex]?.title}</p>
+          <p style="font-size: 1.2em; font-weight: bold; ">{@html apothegms?.[currentShowingApoIndex]?.title}</p>
 
-          <p>{apothegms?.[currentShowingApoIndex]?.content}</p>
+          <p>{@html apothegms?.[currentShowingApoIndex]?.content}</p>
           <div class="title">
             <div class="title-reply">
               <span class="titlespan">{getMD5Id(apothegms?.[currentShowingApoIndex]?.ip)}</span><span class="replyspan">回应 {apothegms?.[currentShowingApoIndex]?.replies?.length}</span>
@@ -419,7 +419,7 @@
                   </span>
                 </div>
               </div>
-              <p class="contentp">{reply?.content}</p>
+              <p class="contentp">{@html reply?.content}</p>
             </div>
           {/each}
         {/if}

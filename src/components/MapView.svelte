@@ -483,7 +483,9 @@
     }}
   >
     <div class="modalInner" style="align-items: center;">
-      <p style="width: fit-content; max-height: {window.innerHeight * 0.4}px; overflow-y: scroll; text-shadow: 0 0 20px black;">{@html currentClickedMarker?.desc.replaceAll('\n', '<br />')}</p>
+      <p style="min-height: 80px; width: fit-content; max-height: {window.innerHeight * 0.4}px; overflow-y: scroll; text-shadow: 0 0 20px black;">
+        {@html currentClickedMarker?.desc.replaceAll('\n', '<br />')}
+      </p>
       <div>
         <button on:click={onLike}>{`给予好评 ${currentClickedMarker?.like}`}</button>
         <button on:click={onDislike}>{`给予恶评 ${currentClickedMarker?.dislike}`}</button>
@@ -557,7 +559,7 @@
     <div id="filterDiv" transition:fly={{ x: -160, duration: 300 }}>
       <p style="font-size: 0.6em;">地图上点地标可以查看详细</p>
       <div id="filter" style="max-height: {window.innerHeight - 80}px;">
-        {#each filters as filter}
+        {#each filters as filter (filter.name)}
           {#if filter?.hr}
             <p class="filterHr"><span>——</span><span>{filter.name}</span><span>——</span></p>
           {:else}
@@ -650,7 +652,7 @@
     </div>
     <Modal visible={selectTypeVisability} top="5%" title="选择类型" zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
       <div id="selectModalInner">
-        {#each filters as filter}
+        {#each filters as filter (filter.name)}
           {#if filter?.hr}
             <p class="filterHrInModal"><span>——————</span><span>{filter.name}</span><span>——————</span></p>
           {:else if !filter?.functional}
@@ -802,12 +804,12 @@
   }
   .modalInner button {
     font-size: 1.1em;
-    padding: 5px 0;
+    padding: 5px 13px;
   }
   .modalInner textarea {
   }
   .modalInner p {
-    color: rgb(208, 200, 181);
+    color: rgb(251 241 218);
   }
   #selectModalInner {
     display: flex;
