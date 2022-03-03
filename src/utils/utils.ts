@@ -1,4 +1,4 @@
-import type { GetIPPositionReturn } from "./typings";
+import type { GetIPPositionReturn } from './typings';
 
 /**
  * 获取IP和地址
@@ -11,4 +11,21 @@ export const get_ip_position = (): GetIPPositionReturn => {
   if (value) {
     return value as GetIPPositionReturn;
   }
+};
+
+export const setCookie = (cname, cvalue, exdays = 30) => {
+  const d = new Date();
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+  const expires = 'expires=' + d.toUTCString();
+  document.cookie = cname + '=' + cvalue + '; ' + expires;
+};
+
+export const getCookie = cname => {
+  const name = cname + '=';
+  const ca = document.cookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    const c = ca[i].trim();
+    if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+  }
+  return '';
 };

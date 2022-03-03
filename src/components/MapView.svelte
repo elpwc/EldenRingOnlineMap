@@ -9,6 +9,7 @@
   import type { MapPoint } from '../utils/typings';
   import { MapIcon } from './icons';
   import './icons.css';
+  import { getCookie, setCookie } from '../utils/utils';
 
   let map;
 
@@ -62,7 +63,23 @@
   let editMode = false;
 
   onMount(() => {
-    map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([40, -40], 2);
+    let initZoom = 2;
+    let initLat = 40;
+    let initLng = -40;
+
+    if (getCookie('zoom')) {
+      initZoom = Number(getCookie('zoom'));
+    }
+    if (getCookie('centerlat')) {
+      initLat = Number(getCookie('centerlat'));
+    }
+    if (getCookie('centerlng')) {
+      initLng = Number(getCookie('centerlng'));
+    }
+
+    console.log(initZoom, initLat, initLng);
+
+    map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
 
     L.tileLayer('https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg', {
       maxZoom: 7,
@@ -82,6 +99,18 @@
         tempMarker.addTo(map);
         addPointVisability = true;
       }
+    });
+
+    map.on('zoomend', e => {
+      setCookie('zoom', map?.getZoom());
+      setCookie('centerlat', map?.getCenter().lat);
+      setCookie('centerlng', map?.getCenter().lng);
+    });
+
+    map.on('moveend', e => {
+      setCookie('zoom', map?.getZoom());
+      setCookie('centerlat', map?.getCenter().lat);
+      setCookie('centerlng', map?.getCenter().lng);
     });
 
     loadMarkers();
