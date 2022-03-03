@@ -6,7 +6,6 @@
   import { MapPointType } from '../utils/enum';
   import axios from 'axios';
   import { ip } from '../stores';
-  import About from '../pages/About.svelte';
   import type { MapPoint } from '../utils/typings';
   import { MapIcon } from './icons';
   import './icons.css';
@@ -500,7 +499,7 @@
           {#if filter?.hr}
             <p class="filterHr"><span>——</span><span>{filter.name}</span><span>——</span></p>
           {:else}
-            <label><input class="checkbox" type="checkbox" value={filter.value} on:change={onFilterCheckChange} />{filter.name} </label>
+            <label><input class="checkbox" type="checkbox" value={filter.value} checked={checkedTypes.includes(filter.value)} on:change={onFilterCheckChange} />{filter.name} </label>
           {/if}
         {/each}
       </div>
