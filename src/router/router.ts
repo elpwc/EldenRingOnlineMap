@@ -6,6 +6,6 @@ import Map from '../pages/Map.svelte';
 export const routes = {
   '/': Map,
   '/about': About,
-  '/apothegm': Apothegm,
+  '/apothegm/:id?': Apothegm,
   '/map': Map,
 };

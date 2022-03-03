@@ -17,8 +17,21 @@ export type MapPoint = {
   update_date: string;
 };
 
+export type Reply = {
+  id: number;
+  pid: number;
+  content: string;
+  like: number;
+  dislike: number;
+  ip: string;
+  is_deleted: boolean;
+  create_date: string;
+  update_date: string;
+};
+
 export type Apothegm = {
   id: number;
+  title: string;
   content: string;
   tags: string;
   gesture: number;
@@ -28,6 +41,8 @@ export type Apothegm = {
   is_deleted: boolean;
   create_date: string;
   update_date: string;
+  reply_date: string;
+  replies: Reply[];
 };
 
 /**

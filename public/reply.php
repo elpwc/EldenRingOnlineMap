@@ -18,17 +18,18 @@ $sqllink = @mysqli_connect(HOST, USER, PASS, DBNAME) or die('数据库连接出�
 mysqli_set_charset($sqllink, 'utf8');
 
 $result = '';
+
 switch ($request_type) {
     case 'POST':
-        @$title = trim((string)($data->title));
+        @$pid = trim((string)($data->pid));
         @$content = trim((string)($data->content));
         @$like = ($data->like);
         @$dislike = ($data->dislike);
         @$ip = trim((string)($data->ip));
 
         $sql = 'INSERT 
-        INTO apothegm (`title`, `content`, `like`, `dislike`, `ip`, `is_deleted`)
-        VALUES ("' . cator_to_cn_censorship(anti_inj($title)) . '","' . cator_to_cn_censorship(anti_inj($content)) . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0");
+        INTO apo_reply (`pid`, `content`, `like`, `dislike`, `ip`, `is_deleted`)
+        VALUES ("' . anti_inj($pid) . '","' . cator_to_cn_censorship(anti_inj($content)) . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0");
         ';
 
         $result = mysqli_query($sqllink, $sql);
@@ -37,6 +38,7 @@ switch ($request_type) {
         break;
     case 'GET':
         @$id_ori = $_GET['id'];
+        @$pid_ori = $_GET['pid'];
         /** IP */
         @$ip_ori = $_GET['ip'];
         /** 个数, 不填为全部 */
@@ -44,9 +46,12 @@ switch ($request_type) {
         @$kword_ori = $_GET['kword'];
 
         $ip = '';
+        $pid = 0;
         $count = 0;
-        $type = '';
         $kword = '';
+        if (is_numeric($pid_ori)) {
+            $pid = (int)$pid_ori;
+        }
         if (is_numeric($count_ori)) {
             $count = (int)$count_ori;
         }
@@ -66,9 +71,9 @@ switch ($request_type) {
         $select = [
             'AND',
             [
+                ['', ['pid', $pid]],
                 [
                     'OR', [
-                        ['LIKE', ['title', $kword]],
                         ['LIKE', ['content', $kword]]
                     ]
                 ],
@@ -83,7 +88,7 @@ switch ($request_type) {
         }
 
         $sql = "SELECT $count
-        FROM apothegm
+        FROM apo_reply
         $geneRes
         ORDER BY `update_date` DESC;
         ";
@@ -95,55 +100,20 @@ switch ($request_type) {
         if ($result->num_rows > 0) {
             $i = 0;
             while ($row = $result->fetch_assoc()) {
-                $crtPid = $row['id'];
-                $sql2 = "SELECT *
-                FROM apo_reply
-                WHERE `pid`='$crtPid' AND `is_deleted`='0'
-                ORDER BY `create_date` DESC;
-                ";
-                $replyResult = mysqli_query($sqllink, $sql2);
-
-                $replies = [];
-
-                if ($replyResult->num_rows > 0) {
-                    $j = 0;
-                    while ($row2 = $replyResult->fetch_assoc()) {
-                        array_push($replies, [
-                            'id' => $row2['id'],
-                            'pid' => $row2['pid'],
-                            'content' => $row2['content'],
-                            'like' =>  (int)$row2['like'],
-                            'dislike' => (int)$row2['dislike'],
-                            'ip' => $row2['ip'],
-                            'is_deleted' => (bool)(int)$row2['is_deleted'],
-                            'create_date' => $row2['create_date'],
-                            'update_date' => $row2['update_date'],
-                        ]);
-                        $j++;
-                    }
-                }
-
-
                 array_push($res, [
                     'id' => $row['id'],
-                    'title' => $row['title'],
+                    'pid' => $row['pid'],
                     'content' => $row['content'],
-                    'tags' => $row['tags'],
-                    'gesture' => (int)$row['gesture'],
                     'like' =>  (int)$row['like'],
                     'dislike' => (int)$row['dislike'],
                     'ip' => $row['ip'],
                     'is_deleted' => (bool)(int)$row['is_deleted'],
                     'create_date' => $row['create_date'],
                     'update_date' => $row['update_date'],
-                    'reply_date' => $row['reply_date'],
-                    'replies' => $replies
                 ]);
                 $i++;
             }
         }
-
-
 
         echo json_encode($res);
 
@@ -151,7 +121,7 @@ switch ($request_type) {
     case 'DELETE':
         @$id = trim((string)($data->id));
 
-        $sql = "UPDATE apothegm
+        $sql = "UPDATE apo_reply
         SET `is_deleted`=1
         WHERE `id`=$id;";
 
@@ -162,28 +132,22 @@ switch ($request_type) {
         break;
     case 'PATCH':
         @$id = trim((string)($data->id));
-        @$title = trim((string)($data->type));
+        @$pid = trim((string)($data->pid));
         @$content = trim((string)($data->name));
-        @$tags = trim((string)($data->desc));
-        @$gesture = (string)($data->lng);
         @$like = (string)($data->like);
         @$dislike = ($data->dislike);
         @$ip = trim((string)($data->ip));
         @$is_deleted = (string)($data->is_deleted);
-        @$reply_date = (string)($data->reply_date);
 
         if ($is_deleted == 'false') $is_deleted = "0";
 
         $select = [
-            ['title', $title],
+            ['pid', $pid],
             ['content', $content],
-            ['tags', $tags],
-            ['gesture', $gesture],
             ['like', $like],
             ['dislike', $dislike],
             ['ip', $ip],
             ['is_deleted', $is_deleted],
-            ['reply_date', $reply_date],
         ];
 
         $geneRes = '';
@@ -198,7 +162,7 @@ switch ($request_type) {
             $geneRes = substr($geneRes, 0, strlen($geneRes) - 1);
         }
 
-        $sql = "UPDATE apothegm
+        $sql = "UPDATE apo_reply
         SET $geneRes
         WHERE `id`=$id;";
 

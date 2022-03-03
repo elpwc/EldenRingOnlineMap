@@ -135,46 +135,48 @@
   };
 
   const onSearch = () => {
-    isSearch = true;
+    if (searchWord !== '') {
+      isSearch = true;
 
-    axios
-      .get('./map.php', {
-        params: {
-          kword: searchWord,
-        },
-      })
-      .then(res => {
-        console.log(res.data);
-        searchResultMarkers.forEach(marker => {
-          marker.remove();
-        });
-        searchResultMarkers = [];
-        res.data.forEach((m: MapPoint) => {
-          searchResultMarkers.push(L.marker(L.latLng(m.lat, m.lng)));
-          searchResultMarkers.push(
-            L.marker(L.latLng(m.lat, m.lng), {
-              icon: L.divIcon(
-                (
-                  filters.filter(filter => {
-                    return filter?.value === m.type;
-                  })?.[0]?.icon as (title?: string) => {
-                    html: string;
-                    className: string;
-                  }
-                )?.(showPlaceNames ? m.name : '')
-              ),
-            }).on('click', () => {
-              currentClickedMarker = m;
-              console.log(currentClickedMarker);
-              markerInfoVisibility = true;
-            })
-          );
-        });
+      axios
+        .get('./map.php', {
+          params: {
+            kword: searchWord,
+          },
+        })
+        .then(res => {
+          console.log(res.data);
+          searchResultMarkers.forEach(marker => {
+            marker.remove();
+          });
+          searchResultMarkers = [];
+          res.data.forEach((m: MapPoint) => {
+            searchResultMarkers.push(L.marker(L.latLng(m.lat, m.lng)));
+            searchResultMarkers.push(
+              L.marker(L.latLng(m.lat, m.lng), {
+                icon: L.divIcon(
+                  (
+                    filters.filter(filter => {
+                      return filter?.value === m.type;
+                    })?.[0]?.icon as (title?: string) => {
+                      html: string;
+                      className: string;
+                    }
+                  )?.(showPlaceNames ? m.name : '')
+                ),
+              }).on('click', () => {
+                currentClickedMarker = m;
+                console.log(currentClickedMarker);
+                markerInfoVisibility = true;
+              })
+            );
+          });
 
-        searchResultMarkers.forEach(marker => {
-          marker.addTo(map);
+          searchResultMarkers.forEach(marker => {
+            marker.addTo(map);
+          });
         });
-      });
+    }
   };
 
   const onAddButtonClick = () => {
@@ -632,7 +634,6 @@
     color: rgb(208, 200, 181);
     font-family: 'Times New Roman', Times, serif;
     display: flex;
-    width: 200px;
   }
 
   .filterHr {
