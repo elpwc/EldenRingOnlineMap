@@ -47,7 +47,7 @@
 
   let selectAll = false;
 
-  let markers = [];
+  let markers: { marker: L.Marker; id: number }[] = [];
 
   let searchResultMarkers = [];
 
@@ -121,46 +121,88 @@
     mapH = window.innerHeight;
   });
 
-  const loadMarkers = () => {
-    axios
-      .get('./map.php', {
-        params: {
-          type: selectAll ? '' : checkedTypes.join('|'),
-          kword: searchWord,
-          ip: showSelf ? ip : '',
-          under: undergroundStatus,
-        },
-      })
-      .then(res => {
-        console.log(res.data);
-        markers.forEach(marker => {
-          marker.remove();
-        });
-        markers = [];
-        res.data.forEach((m: MapPoint) => {
-          markers.push(
-            L.marker(L.latLng(m.lat, m.lng), {
-              icon: L.divIcon(
-                (
-                  filters.filter(filter => {
-                    return filter?.value === m.type;
-                  })?.[0]?.icon as (title?: string) => {
-                    html: string;
-                    className: string;
-                  }
-                )?.(showPlaceNames ? m.name : '')
-              ),
-            }).on('click', () => {
-              currentClickedMarker = m;
-              markerInfoVisibility = true;
-            })
-          );
-        });
+  const loadMarkers = (id: number = 0) => {
+    if (id > 0) {
+      axios
+        .get('./map.php', {
+          params: { id },
+        })
+        .then(res => {
+          console.log(res.data);
 
-        markers.forEach(marker => {
-          marker.addTo(map);
+          const resMarker: MapPoint = (res.data as MapPoint[])?.[0];
+
+          markers
+            .filter(f => {
+              return f.id === id;
+            })?.[0]
+            .marker.remove();
+          markers.filter(f => {
+            return f.id === id;
+          })[0].marker = L.marker(L.latLng(resMarker.lat, resMarker.lng), {
+            icon: L.divIcon(
+              (
+                filters.filter(filter => {
+                  return filter?.value === resMarker.type;
+                })?.[0]?.icon as (title?: string) => {
+                  html: string;
+                  className: string;
+                }
+              )?.(showPlaceNames ? resMarker.name : '')
+            ),
+          }).on('click', () => {
+            currentClickedMarker = resMarker;
+            markerInfoVisibility = true;
+          });
+
+          markers
+            .filter(f => {
+              return f.id === id;
+            })[0]
+            .marker.addTo(map);
         });
-      });
+    } else {
+      axios
+        .get('./map.php', {
+          params: {
+            type: selectAll ? '' : checkedTypes.join('|'),
+            kword: searchWord,
+            ip: showSelf ? ip : '',
+            under: undergroundStatus,
+          },
+        })
+        .then(res => {
+          console.log(res.data);
+          markers.forEach(marker => {
+            marker.marker.remove();
+          });
+          markers = [];
+          res.data.forEach((m: MapPoint) => {
+            markers.push({
+              marker: L.marker(L.latLng(m.lat, m.lng), {
+                icon: L.divIcon(
+                  (
+                    filters.filter(filter => {
+                      return filter?.value === m.type;
+                    })?.[0]?.icon as (title?: string) => {
+                      html: string;
+                      className: string;
+                    }
+                  )?.(showPlaceNames ? m.name : '')
+                ),
+              }).on('click', () => {
+                currentClickedMarker = m;
+                markerInfoVisibility = true;
+              }),
+              id: m.id,
+            });
+          });
+
+          markers.forEach(marker => {
+            marker.marker.addTo(map);
+          });
+        });
+    }
   };
 
   const onSearch = () => {
@@ -232,7 +274,7 @@
               addedPointName = '';
               addedPointType = MapPointType.Empty;
               addedPointUnderground = false;
-              loadMarkers();
+              loadMarkers(currentClickedMarker?.id);
             });
         } else {
           alert('名字(≤20)/描述(≤1000)太长了~');
@@ -262,7 +304,7 @@
               addedPointType = MapPointType.Empty;
               addedPointUnderground = false;
               tempMarker.remove();
-              loadMarkers();
+              loadMarkers(res.data?.id);
             });
         } else {
           alert('名字(≤20)/描述(≤1000)太长了~');
@@ -294,7 +336,7 @@
       })
       .then(res => {
         currentClickedMarker.like = Number(currentClickedMarker?.like) + 1;
-        loadMarkers();
+        loadMarkers(currentClickedMarker?.id);
       });
   };
 
@@ -306,7 +348,7 @@
       })
       .then(res => {
         currentClickedMarker.dislike = Number(currentClickedMarker?.dislike) + 1;
-        loadMarkers();
+        loadMarkers(currentClickedMarker?.id);
       });
   };
 
@@ -319,14 +361,21 @@
       })
       .then(res => {
         markerInfoVisibility = false;
+        markers
+          .filter(f => {
+            return f.id === currentClickedMarker?.id;
+          })?.[0]
+          ?.marker.remove();
+        markers = markers.filter(f => {
+          return f.id !== currentClickedMarker?.id;
+        });
         currentClickedMarker = undefined;
-        loadMarkers();
       });
   };
 
   const filters = [
-    { name: '我标注的', value: 'self' },
-    { name: '全选', value: 'all' },
+    { name: '我标注的', value: 'self', functional: true },
+    { name: '全选', value: 'all', functional: true },
 
     { name: '地点', hr: true },
     { name: '赐福', value: MapPointType.Cifu, icon: MapIcon.cifu() },
@@ -339,8 +388,8 @@
     { name: '地点', value: MapPointType.Place, icon: MapIcon.yellow() },
 
     { name: '怪', hr: true },
-    { name: '小BOSS', value: MapPointType.LittleBoss, icon: MapIcon.red() },
     { name: 'BOSS', value: MapPointType.Boss, icon: MapIcon.red(15) },
+    { name: '小BOSS', value: MapPointType.LittleBoss, icon: MapIcon.red() },
     { name: '红灵入侵', value: MapPointType.RedSoul, icon: MapIcon.red() },
     { name: '精英怪', value: MapPointType.Jingyingguai, icon: MapIcon.red() },
 
@@ -362,43 +411,6 @@
     { name: '留言', hr: true },
     { name: '说明', value: MapPointType.Text, icon: MapIcon.white() },
     { name: '警示', value: MapPointType.Warn, icon: MapIcon.white() },
-  ];
-
-  const selectTypes = [
-    { name: '留言', hr: true },
-    { name: '说明', value: MapPointType.Text },
-    { name: '警示', value: MapPointType.Warn },
-
-    { name: '地点', hr: true },
-    { name: '赐福', value: MapPointType.Cifu },
-    { name: '捷径', value: MapPointType.Jiejing },
-    { name: '传送门', value: MapPointType.Portal },
-    { name: '刷魂点', value: MapPointType.SoulSite },
-    { name: '商店', value: MapPointType.Shop },
-    { name: 'NPC', value: MapPointType.NPC },
-    { name: '地图碎片', value: MapPointType.Map },
-    { name: '地点', value: MapPointType.Place },
-
-    { name: '怪', hr: true },
-    { name: '小BOSS', value: MapPointType.LittleBoss },
-    { name: 'BOSS', value: MapPointType.Boss },
-    { name: '红灵入侵', value: MapPointType.RedSoul },
-    { name: '精英怪', value: MapPointType.Jingyingguai },
-
-    { name: '道具', hr: true },
-    { name: '锻造石', value: MapPointType.Stone },
-    { name: '黄金种子', value: MapPointType.GoldenSeed },
-    { name: '露滴', value: MapPointType.Ludi },
-    { name: '逃课道具', value: MapPointType.Taoke },
-    { name: '石灰钥匙', value: MapPointType.Key },
-
-    { name: '武器', hr: true },
-    { name: '魔法', value: MapPointType.Magic },
-    { name: '祷告', value: MapPointType.Daogao },
-    { name: '武器', value: MapPointType.Weapon },
-    { name: '装备', value: MapPointType.Clothes },
-    { name: '战灰', value: MapPointType.Zhanhui },
-    { name: '骨灰', value: MapPointType.Guhui },
   ];
 
   const onFilterCheckChange = e => {
@@ -430,8 +442,13 @@
   const onSetLockChecked = e => {
     axios.patch('./map.php', { id: currentClickedMarker?.id, is_lock: e.target.checked ? '1' : '0' }).then(res => {
       currentClickedMarker.is_lock = e.target.checked;
-      loadMarkers();
+      loadMarkers(currentClickedMarker?.id);
     });
+  };
+
+  const onFilterModalClick = (value: string) => {
+    addedPointType = value as MapPointType;
+    selectTypeVisability = false;
   };
 </script>
 
@@ -597,7 +614,8 @@
 
   <Modal
     visible={addPointVisability}
-    top="15%"
+    top="10%"
+    width="85%"
     title={editMode ? '修改 ' + currentClickedMarker?.name : '添加一个地标'}
     zindex={114600}
     showOkButton
@@ -608,14 +626,6 @@
     onCloseButtonClick={onClose}
   >
     <div class="modalInner">
-      <button
-        on:click={() => {
-          selectTypeVisability = true;
-        }}
-        >{selectTypes.filter(type => {
-          return type.value === addedPointType;
-        })?.[0]?.name || '——选择类型——'}</button
-      >
       <div id="underSelector">
         <button
           class={!addedPointUnderground && 'active'}
@@ -629,19 +639,27 @@
           }}>地下</button
         >
       </div>
+      <button
+        on:click={() => {
+          selectTypeVisability = true;
+        }}
+        >{filters.filter(type => {
+          return type.value === addedPointType;
+        })?.[0]?.name || '——选择类型——'}</button
+      >
       <input type="text" placeholder="名称 (1～20)" bind:value={addedPointName} />
       <textarea placeholder="描述 (0～1000)" bind:value={addedPointDesc} />
     </div>
-    <Modal visible={selectTypeVisability} top="10%" title="选择类型" zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
+    <Modal visible={selectTypeVisability} top="5%" title="选择类型" zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
       <div id="selectModalInner">
-        {#each selectTypes as filter}
+        {#each filters as filter}
           {#if filter?.hr}
-            <p class="filterHrInModal"><span>——</span><span>{filter.name}</span><span>——</span></p>
-          {:else}
+            <p class="filterHrInModal"><span>——————</span><span>{filter.name}</span><span>——————</span></p>
+          {:else if !filter?.functional}
             <button
+              class="filterButtonInModal"
               on:click={() => {
-                addedPointType = filter.value;
-                selectTypeVisability = false;
+                onFilterModalClick(filter.value);
               }}>{filter.name}</button
             >
           {/if}
@@ -673,6 +691,13 @@
     align-self: center;
     color: #f5cc95;
     width: -webkit-fill-available;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 5px;
+  }
+  .filterButtonInModal {
+    font-size: 1em;
+    padding: 5px 10px;
   }
   #map {
     height: 1000px;
@@ -772,6 +797,16 @@
     flex-direction: column;
     gap: 10px;
     padding-bottom: 40px;
+  }
+  .modalInner input {
+    font-size: 1.1em;
+    padding: 5px 0;
+  }
+  .modalInner button {
+    font-size: 1.1em;
+    padding: 5px 0;
+  }
+  .modalInner textarea {
   }
   .modalInner p {
     color: rgb(208, 200, 181);

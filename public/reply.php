@@ -30,11 +30,23 @@ switch ($request_type) {
         $sql = 'INSERT 
         INTO apo_reply (`pid`, `content`, `like`, `dislike`, `ip`, `is_deleted`)
         VALUES ("' . anti_inj($pid) . '","' . cator_to_cn_censorship(anti_inj($content)) . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0");
+        SELECT @@IDENTITY;
         ';
 
         $result = mysqli_query($sqllink, $sql);
+        $res = [];
 
-        echo ($result);
+        if ($result->num_rows > 0) {
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                array_push($res, [
+                    'id' => $row['@@identity'],
+                ]);
+                $i++;
+            }
+        }
+
+        echo json_encode($res);
         break;
     case 'GET':
         @$id_ori = $_GET['id'];
@@ -45,6 +57,7 @@ switch ($request_type) {
         @$count_ori = $_GET['count'];
         @$kword_ori = $_GET['kword'];
 
+        $id='';
         $ip = '';
         $pid = 0;
         $count = 0;
@@ -54,6 +67,9 @@ switch ($request_type) {
         }
         if (is_numeric($count_ori)) {
             $count = (int)$count_ori;
+        }
+        if (is_numeric($id_ori)) {
+            $id = (int)$id_ori;
         }
 
         if ($count == 0) {
@@ -68,19 +84,25 @@ switch ($request_type) {
             $kword = trim(anti_inj((string)$kword_ori));
         }
 
-        $select = [
-            'AND',
-            [
-                ['', ['pid', $pid]],
+        $select = [];
+
+        if ($id <= 0) {        
+            $select = [
+                'AND',
                 [
-                    'OR', [
-                        ['LIKE', ['content', $kword]]
-                    ]
-                ],
-                ['', ['ip', $ip]],
-                ['', ['is_deleted', '0']]
-            ]
-        ];
+                    ['', ['pid', $pid]],
+                    [
+                        'OR', [
+                            ['LIKE', ['content', $kword]]
+                        ]
+                    ],
+                    ['', ['ip', $ip]],
+                    ['', ['is_deleted', '0']]
+                ]
+            ];
+        } else{
+            $select =  ['', ['id', $id]];
+        }
 
         $geneRes = get_condition($select);
         if ($geneRes != '') {

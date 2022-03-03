@@ -33,13 +33,27 @@ switch ($request_type) {
         $sql = 'INSERT 
         INTO map (`type`, `name`, `desc`, `lng`, `lat`, `like`, `dislike`, `ip`, `is_deleted`)
         VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0");
+        SELECT @@IDENTITY;
         ';
 
         $result = mysqli_query($sqllink, $sql);
 
-        echo ($result);
+        $res = [];
+
+        if ($result->num_rows > 0) {
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                array_push($res, [
+                    'id' => $row['@@identity'],
+                ]);
+                $i++;
+            }
+        }
+
+        echo json_encode($res);
         break;
     case 'GET':
+        @$id_ori = $_GET['id'];
         /** IP */
         @$ip_ori = $_GET['ip'];
         /** 个数, 不填为全部 */
@@ -48,6 +62,7 @@ switch ($request_type) {
         @$kword_ori = $_GET['kword'];
         @$under_ori = $_GET['under'];
 
+        $id='';
         $ip = '';
         $count = 0;
         $type = '';
@@ -61,6 +76,9 @@ switch ($request_type) {
             $count = '*';
         } else {
             $count = 'TOP ' . $count;
+        }        
+        if (is_numeric($id_ori)) {
+            $id = (int)$id_ori;
         }
         if (is_numeric($under_ori)) {
             switch ($under_ori) {
@@ -99,22 +117,29 @@ switch ($request_type) {
             $kword = trim(anti_inj((string)$kword_ori));
         }
 
+        $select = [];
 
-        $select = [
-            'AND',
-            [
-                ['OR', $typearr],
+        if ($id <= 0) {        
+            $select = [
+                'AND',
                 [
-                    'OR', [
-                        ['LIKE', ['name', $kword]],
-                        ['LIKE', ['desc', $kword]]
-                    ]
-                ],
-                ['', ['ip', $ip]],
-                ['', ['is_underground', $under]],
-                ['', ['is_deleted', '0']]
-            ]
-        ];
+                    ['OR', $typearr],
+                    [
+                        'OR', [
+                            ['LIKE', ['name', $kword]],
+                            ['LIKE', ['desc', $kword]]
+                        ]
+                    ],
+                    ['', ['ip', $ip]],
+                    ['', ['is_underground', $under]],
+                    ['', ['is_deleted', '0']]
+                ]
+            ];
+        } else{
+            $select =  ['', ['id', $id]];
+        }
+
+
 
         $geneRes = get_condition($select);
         if ($geneRes != '') {

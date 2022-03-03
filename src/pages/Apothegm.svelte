@@ -6,7 +6,6 @@
   import axios from 'axios';
   import type { Apothegm } from '../utils/typings';
   import md5 from 'md5';
-  import { identity } from 'svelte/internal';
 
   export let params = { id: null };
 
@@ -62,18 +61,31 @@
     refreshCurrentShowingApoIndex();
   }
 
-  const refreshApo = () => {
-    axios
-      .get('./apothegm.php', {
-        params: {
-          kword: isSearch ? searchWord : '',
-          ip: showSelf ? ip : '',
-        },
-      })
-      .then(res => {
-        console.log(res.data);
-        apothegms = res.data as Apothegm[];
-      });
+  const refreshApo = (id: number = 0) => {
+    if (id > 0) {
+      axios
+        .get('./apothegm.php', {
+          params: { id },
+        })
+        .then(res => {
+          console.log(res.data);
+          apothegms.filter(f => {
+            return f.id === id;
+          })[0] = (res.data as Apothegm[])?.[0];
+        });
+    } else {
+      axios
+        .get('./apothegm.php', {
+          params: {
+            kword: isSearch ? searchWord : '',
+            ip: showSelf ? ip : '',
+          },
+        })
+        .then(res => {
+          console.log(res.data);
+          apothegms = res.data as Apothegm[];
+        });
+    }
   };
 
   const onSearch = () => {
@@ -100,7 +112,7 @@
             postContent = '';
             postTitle = '';
 
-            refreshApo();
+            refreshApo(res.data?.id);
           });
       } else {
         alert('标题(≤20)/内容(≤1000)太长了~');
@@ -140,7 +152,7 @@
               })
               .then(res2 => {
                 console.log(res2);
-                refreshApo();
+                refreshApo(currentShowingApoId);
               });
           });
       } else {
@@ -158,7 +170,7 @@
         like: Number(apothegms?.[currentShowingApoIndex]?.like) + 1,
       })
       .then(res => {
-        refreshApo();
+        refreshApo(currentShowingApoId);
       });
   };
 
@@ -169,7 +181,7 @@
         dislike: Number(apothegms?.[currentShowingApoIndex]?.dislike) + 1,
       })
       .then(res => {
-        refreshApo();
+        refreshApo(currentShowingApoId);
       });
   };
 
@@ -180,7 +192,7 @@
         like: Number(apothegms?.[currentShowingApoIndex]?.replies?.[currentClickedReplyIndex]?.like) + 1,
       })
       .then(res => {
-        refreshApo();
+        refreshApo(currentShowingApoId);
       });
   };
 
@@ -191,7 +203,7 @@
         dislike: Number(apothegms?.[currentShowingApoIndex]?.replies?.[currentClickedReplyIndex]?.dislike) + 1,
       })
       .then(res => {
-        refreshApo();
+        refreshApo(currentShowingApoId);
       });
   };
 
@@ -203,9 +215,11 @@
         },
       })
       .then(res => {
+        apothegms = apothegms.filter(f => {
+          return f.id !== currentShowingApoId;
+        });
         currentShowingApoId = 0;
         currentShowingApoIndex = -1;
-        refreshApo();
       });
   };
 
@@ -217,9 +231,11 @@
         },
       })
       .then(res => {
+        apothegms[currentShowingApoIndex].replies = apothegms[currentShowingApoIndex].replies.filter(f => {
+          return f.id !== currentClickedReplyId;
+        });
         currentClickedReplyId = 0;
         currentClickedReplyIndex = -1;
-        refreshApo();
       });
   };
 </script>
@@ -269,7 +285,7 @@
       on:click={() => {
         showSelf = !showSelf;
       }}
-      class={showSelf ? 'active' : ''}
+      class={showSelf ? 'selfactive' : ''}
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-text-center" viewBox="0 0 16 16">
         <path
@@ -292,13 +308,14 @@
         >
           <div class="title">
             <div class="title-reply"><span class="titlespan">{apo?.title}</span></div>
-            <div class="title-reply">
-              <span class="replyspan">回应 {apo?.replies?.length}</span>
-              <span class="datespan">{apo?.reply_date}</span>
-              <span class="likespan">好评 {apo?.like} 恶评 {apo?.dislike}</span>
-            </div>
           </div>
           <p class="contentp">{apo?.content}</p>
+
+          <div class="title-reply" style="justify-content: space-between; ">
+            <span class="replyspan">回应 {apo?.replies?.length}</span>
+            <span class="datespan">{apo?.reply_date}</span>
+            <span class="likespan">好评 {apo?.like} 恶评 {apo?.dislike}</span>
+          </div>
         </div>
       {/each}
     {/if}
@@ -313,9 +330,13 @@
               on:click={() => {
                 currentShowingApoId = 0;
                 currentShowingApoIndex = -1;
-              }}>返回</button
+              }}
             >
-            <p>{apothegms?.[currentShowingApoIndex]?.title}</p>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+              </svg>
+              返回</button
+            >
           </div>
           <div>
             {#if isAdminMode || apothegms?.[currentShowingApoIndex]?.ip === ip}
@@ -330,21 +351,32 @@
             <button
               on:click={() => {
                 replyModalVisibility = true;
-              }}>回复</button
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots" viewBox="0 0 16 16">
+                <path
+                  d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+                />
+                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+              </svg>
+              回复</button
             >
           </div>
         </div>
+
         <div>
+          <p style="font-size: 1.2em; font-weight: bold; ">{apothegms?.[currentShowingApoIndex]?.title}</p>
+
+          <p>{apothegms?.[currentShowingApoIndex]?.content}</p>
           <div class="title">
             <div class="title-reply">
               <span class="titlespan">{getMD5Id(apothegms?.[currentShowingApoIndex]?.ip)}</span><span class="replyspan">回应 {apothegms?.[currentShowingApoIndex]?.replies?.length}</span>
             </div>
             <span class="datespan">{apothegms?.[currentShowingApoIndex]?.create_date}</span>
-          </div>
-          <p>{apothegms?.[currentShowingApoIndex]?.content}</p>
-          <div>
-            <button on:click={onLikeApo}>好评 {apothegms?.[currentShowingApoIndex]?.like}</button>
-            <button on:click={onDislikeApo}>恶评 {apothegms?.[currentShowingApoIndex]?.dislike}</button>
+            <div>
+              <button on:click={onLikeApo}>好评 {apothegms?.[currentShowingApoIndex]?.like}</button>
+              <button on:click={onDislikeApo}>恶评 {apothegms?.[currentShowingApoIndex]?.dislike}</button>
+            </div>
           </div>
         </div>
       </header>
@@ -395,6 +427,7 @@
 </div>
 <Modal
   visible={postModalVisibility}
+  width="70%"
   title="写下讯息"
   showOkButton
   showCloseButton
@@ -414,6 +447,7 @@
 </Modal>
 <Modal
   visible={replyModalVisibility}
+  width="70%"
   title="写下对讯息的回应"
   showOkButton
   showCloseButton
@@ -474,6 +508,12 @@
     gap: 10px;
     padding-bottom: 40px;
   }
+  .modalInner input {
+    font-size: 1.1em;
+    padding: 5px 0;
+  }
+  .modalInner textarea {
+  }
   textarea {
     height: 100px;
   }
@@ -514,7 +554,7 @@
   }
   .apothegm {
     border-bottom: solid 1px rgb(204, 178, 118);
-    margin: 5px 10px;
+    margin: 0px 10px;
     padding: 5px;
   }
   @media (any-hover: hover) {
@@ -523,7 +563,10 @@
     }
   }
   .apothegm:active {
-    background-color: rgb(30, 30, 26);
+    background-color: rgb(45, 46, 40);
+  }
+  .selfactive {
+    border: solid 1px rgb(204, 178, 118) !important;
   }
   .container {
     display: flex;
@@ -534,7 +577,6 @@
     color: rgb(208, 200, 181);
   }
   #inputDiv {
-    width: 100%;
     height: 35px;
     background-color: rgb(21, 22, 17);
     border: solid 1px rgb(204, 178, 118);
@@ -547,7 +589,7 @@
     width: auto;
     height: fit-content;
     background-color: rgb(21, 22, 17);
-    border: solid 1px rgb(204, 178, 118);
+    border-bottom: solid 2px rgb(204, 178, 118);
     padding: 10px;
     box-shadow: 0 0 5px 0 rgb(204, 178, 118);
   }

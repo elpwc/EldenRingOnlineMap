@@ -29,11 +29,24 @@ switch ($request_type) {
         $sql = 'INSERT 
         INTO apothegm (`title`, `content`, `like`, `dislike`, `ip`, `is_deleted`)
         VALUES ("' . cator_to_cn_censorship(anti_inj($title)) . '","' . cator_to_cn_censorship(anti_inj($content)) . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0");
+        SELECT @@IDENTITY;
         ';
 
         $result = mysqli_query($sqllink, $sql);
 
-        echo ($result);
+        $res = [];
+
+        if ($result->num_rows > 0) {
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                array_push($res, [
+                    'id' => $row['@@identity'],
+                ]);
+                $i++;
+            }
+        }
+
+        echo json_encode($res);
         break;
     case 'GET':
         @$id_ori = $_GET['id'];
@@ -43,19 +56,23 @@ switch ($request_type) {
         @$count_ori = $_GET['count'];
         @$kword_ori = $_GET['kword'];
 
+        $id='';
         $ip = '';
         $count = 0;
-        $type = '';
         $kword = '';
         if (is_numeric($count_ori)) {
             $count = (int)$count_ori;
+        }        
+        if (is_numeric($id_ori)) {
+            $id = (int)$id_ori;
         }
 
         if ($count == 0) {
             $count = '*';
         } else {
             $count = 'TOP ' . $count;
-        }
+        }        
+
         if (isset($ip_ori)) {
             $ip = trim(anti_inj((string)$ip_ori));
         }
@@ -63,7 +80,10 @@ switch ($request_type) {
             $kword = trim(anti_inj((string)$kword_ori));
         }
 
-        $select = [
+        $select = [];
+
+        if ($id <= 0) {        
+            $select = [
             'AND',
             [
                 [
@@ -76,6 +96,10 @@ switch ($request_type) {
                 ['', ['is_deleted', '0']]
             ]
         ];
+        } else{
+            $select =  ['', ['id', $id]];
+        }
+
 
         $geneRes = get_condition($select);
         if ($geneRes != '') {
@@ -85,7 +109,7 @@ switch ($request_type) {
         $sql = "SELECT $count
         FROM apothegm
         $geneRes
-        ORDER BY `update_date` DESC;
+        ORDER BY `reply_date` DESC;
         ";
 
         $result = mysqli_query($sqllink, $sql);
@@ -99,7 +123,7 @@ switch ($request_type) {
                 $sql2 = "SELECT *
                 FROM apo_reply
                 WHERE `pid`='$crtPid' AND `is_deleted`='0'
-                ORDER BY `create_date` DESC;
+                ORDER BY `create_date`;
                 ";
                 $replyResult = mysqli_query($sqllink, $sql2);
 

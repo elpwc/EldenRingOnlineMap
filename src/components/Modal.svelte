@@ -22,7 +22,7 @@
   //export let refreshOnClose: boolean = false;
   export let zindex: number = 0;
   export let backgroundColor = 'black';
-  export let backgroundOpacity = 0.5;
+  export let backgroundOpacity = 0.7;
 </script>
 
 {#if visible}
