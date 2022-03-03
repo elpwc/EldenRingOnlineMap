@@ -1,5 +1,5 @@
 <script lang="ts">
-  import L from 'leaflet';
+  import L, { icon } from 'leaflet';
   import { onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
@@ -51,9 +51,13 @@
 
   let searchResultMarkers = [];
 
+  let collectMarkers = [];
+
   let tempMarker;
 
   let isSearch = false;
+
+  let showCollect = true;
 
   let currentClickedMarker: MapPoint;
   let markerInfoVisibility = false;
@@ -61,6 +65,8 @@
   let deleteConfirmVisibility = false;
 
   let editMode = false;
+
+  let collects = getCookie('collect')?.split('|');
 
   onMount(() => {
     let initZoom = 2;
@@ -112,12 +118,68 @@
     });
 
     loadMarkers();
+
+    if (showCollect) {
+      refreshCollectedMarkers();
+    }
   });
 
   window.addEventListener('resize', e => {
     mapW = window.innerWidth;
     mapH = window.innerHeight;
   });
+
+  const refreshCollectedMarkers = () => {
+    if (showCollect) {
+      if (collects.length > 0) {
+        collectMarkers.forEach(marker => {
+          marker.remove();
+        });
+        collectMarkers = [];
+        collects.forEach(co => {
+          const collectId = Number(co);
+          if (collectId > 0) {
+            axios
+              .get('./map.php', {
+                params: {
+                  id: collectId,
+                },
+              })
+              .then(res => {
+                console.log(res.data);
+                const m = res.data?.[0];
+                collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*/));
+                collectMarkers.push(
+                  L.marker(L.latLng(m.lat, m.lng), {
+                    icon: L.divIcon(
+                      (
+                        filters.filter(filter => {
+                          return filter?.value === m.type;
+                        })?.[0]?.icon as (title?: string) => {
+                          html: string;
+                          className: string;
+                        }
+                      )?.(showPlaceNames ? m.name : '')
+                    ),
+                  }).on('click', () => {
+                    currentClickedMarker = m;
+                    markerInfoVisibility = true;
+                  })
+                );
+
+                collectMarkers[collectMarkers.length - 1].addTo(map);
+                collectMarkers[collectMarkers.length - 2].addTo(map);
+              });
+          }
+        });
+      }
+    } else {
+      collectMarkers.forEach(marker => {
+        marker.remove();
+      });
+      collectMarkers = [];
+    }
+  };
 
   const loadMarkers = (id: number = 0) => {
     if (id > 0) {
@@ -374,6 +436,7 @@
 
   const filters = [
     { name: '我标注的', value: 'self', functional: true },
+    { name: '我的收藏', value: 'collect', functional: true },
     { name: '全选', value: 'all', functional: true },
 
     { name: '地点', hr: true },
@@ -419,6 +482,10 @@
         break;
       case 'all':
         selectAll = e.target.checked;
+        break;
+      case 'collect':
+        showCollect = e.target.checked;
+        refreshCollectedMarkers();
         break;
       default:
         if (e.target.checked) {
@@ -514,6 +581,33 @@
             }}>删除</button
           >
         {/if}
+        <button
+          on:click={() => {
+            if (collects?.includes(String(currentClickedMarker?.id))) {
+              setCookie(
+                'collect',
+                collects
+                  .filter(f => {
+                    return f !== String(currentClickedMarker?.id);
+                  })
+                  .join('|')
+              );
+            } else {
+              collects.push(String(currentClickedMarker?.id));
+              setCookie('collect', collects.join('|'));
+            }
+            collects = getCookie('collect')?.split('|');
+
+            refreshCollectedMarkers();
+          }}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+            <path
+              d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+            />
+          </svg>
+          {collects?.includes(String(currentClickedMarker?.id)) ? '取消收藏' : '收藏'}</button
+        >
         {#if isAdminMode}
           <label style="color: rgb(208, 200, 181);"><input type="checkbox" checked={currentClickedMarker?.is_lock} on:change={onSetLockChecked} />锁定</label>
         {/if}
@@ -534,6 +628,7 @@
               });
               searchWord = '';
               searchResultMarkers = [];
+              loadMarkers();
             }}>清除结果</button
           >
         {/if}
@@ -559,11 +654,32 @@
     <div id="filterDiv" transition:fly={{ x: -160, duration: 300 }}>
       <p style="font-size: 0.6em;">地图上点地标可以查看详细</p>
       <div id="filter" style="max-height: {window.innerHeight - 80}px;">
-        {#each filters as filter (filter.name)}
+        {#each filters as filter}
           {#if filter?.hr}
             <p class="filterHr"><span>——</span><span>{filter.name}</span><span>——</span></p>
           {:else}
-            <label><input class="checkbox" type="checkbox" value={filter.value} checked={checkedTypes.includes(filter.value)} on:change={onFilterCheckChange} />{filter.name} </label>
+            <label
+              ><input
+                class="checkbox"
+                type="checkbox"
+                value={filter.value}
+                checked={filter?.functional
+                  ? (() => {
+                      switch (filter?.value) {
+                        case 'self':
+                          return showSelf;
+                        case 'all':
+                          return selectAll;
+                        case 'collect':
+                          return showCollect;
+                        default:
+                          return false;
+                      }
+                    })()
+                  : checkedTypes.includes(filter.value)}
+                on:change={onFilterCheckChange}
+              />{filter.name}
+            </label>
           {/if}
         {/each}
       </div>
@@ -652,7 +768,7 @@
     </div>
     <Modal visible={selectTypeVisability} top="5%" title="选择类型" zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
       <div id="selectModalInner">
-        {#each filters as filter (filter.name)}
+        {#each filters as filter}
           {#if filter?.hr}
             <p class="filterHrInModal"><span>——————</span><span>{filter.name}</span><span>——————</span></p>
           {:else if !filter?.functional}
