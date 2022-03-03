@@ -18,6 +18,7 @@
 
   let clickTime = 0;
   let inputPasswordVisibility = false;
+  let coffeeVisibility = false;
   let inputPw = '';
 </script>
 
@@ -53,6 +54,19 @@
     }}
   >
     <input style="margin: 20px 0; font-size: 1em;" type="password" bind:value={inputPw} />
+  </Modal>
+  <Modal
+    visible={coffeeVisibility}
+    showOkButton
+    onOKButtonClick={() => {
+      coffeeVisibility = false;
+    }}
+  >
+    <p>工作日连肝了3天开发网站</p>
+    <p>觉得帮到了自己的话，可以请咱喝一杯奶茶嘛..?</p>
+    <div style="display: flex; justify-content: center; padding-bottom: 20px;">
+      <img style="width: 50%;" src="./resource/images/qrcode.jpg" alt="AlipayQRCode" />
+    </div>
   </Modal>
   <p id="title" class="svelte-q01t2y">
     <span class="heads">E</span>lden <span class="heads">R</span>ing <span class="heads">O</span>nline <span class="heads">M</span>ap
@@ -90,6 +104,11 @@
       </sup>
     </a>
   </p>
+  <button
+    on:click={() => {
+      coffeeVisibility = true;
+    }}>请一杯奶茶☕</button
+  >
   <div id="buttonsDiv">
     <button
       on:click={() => {
