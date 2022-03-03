@@ -77,8 +77,6 @@
       initLng = Number(getCookie('centerlng'));
     }
 
-    console.log(initZoom, initLat, initLng);
-
     map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
 
     L.tileLayer('https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg', {
@@ -137,9 +135,11 @@
               return f.id === id;
             })?.[0]
             .marker.remove();
-          markers.filter(f => {
-            return f.id === id;
-          })[0].marker = L.marker(L.latLng(resMarker.lat, resMarker.lng), {
+          markers[
+            markers.findIndex(f => {
+              return f.id === id;
+            })
+          ].marker = L.marker(L.latLng(resMarker.lat, resMarker.lng), {
             icon: L.divIcon(
               (
                 filters.filter(filter => {
@@ -237,7 +237,6 @@
                 ),
               }).on('click', () => {
                 currentClickedMarker = m;
-                console.log(currentClickedMarker);
                 markerInfoVisibility = true;
               })
             );
@@ -304,7 +303,7 @@
               addedPointType = MapPointType.Empty;
               addedPointUnderground = false;
               tempMarker.remove();
-              loadMarkers(res.data?.id);
+              loadMarkers(/*res.data?.id*/);
             });
         } else {
           alert('名字(≤20)/描述(≤1000)太长了~');
@@ -414,7 +413,6 @@
   ];
 
   const onFilterCheckChange = e => {
-    console.log(e.target.value, e.target.checked);
     switch (e.target.value) {
       case 'self':
         showSelf = e.target.checked;

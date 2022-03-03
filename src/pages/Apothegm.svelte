@@ -69,9 +69,11 @@
         })
         .then(res => {
           console.log(res.data);
-          apothegms.filter(f => {
-            return f.id === id;
-          })[0] = (res.data as Apothegm[])?.[0];
+          apothegms[
+            apothegms.findIndex(f => {
+              return f.id === id;
+            })
+          ] = (res.data as Apothegm[])?.[0];
         });
     } else {
       axios
@@ -112,7 +114,7 @@
             postContent = '';
             postTitle = '';
 
-            refreshApo(res.data?.id);
+            refreshApo(/*res.data?.id*/);
           });
       } else {
         alert('标题(≤20)/内容(≤1000)太长了~');

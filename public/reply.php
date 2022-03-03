@@ -15,7 +15,7 @@ $data = json_decode($json);
 
 
 $sqllink = @mysqli_connect(HOST, USER, PASS, DBNAME) or die('数据库连接出错');
-mysqli_set_charset($sqllink, 'utf8');
+mysqli_set_charset($sqllink, 'utf8mb4');
 
 $result = '';
 
@@ -30,23 +30,11 @@ switch ($request_type) {
         $sql = 'INSERT 
         INTO apo_reply (`pid`, `content`, `like`, `dislike`, `ip`, `is_deleted`)
         VALUES ("' . anti_inj($pid) . '","' . cator_to_cn_censorship(anti_inj($content)) . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0");
-        SELECT @@IDENTITY;
         ';
 
         $result = mysqli_query($sqllink, $sql);
-        $res = [];
 
-        if ($result->num_rows > 0) {
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                array_push($res, [
-                    'id' => $row['@@identity'],
-                ]);
-                $i++;
-            }
-        }
-
-        echo json_encode($res);
+        echo json_encode($result);
         break;
     case 'GET':
         @$id_ori = $_GET['id'];

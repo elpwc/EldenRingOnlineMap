@@ -15,7 +15,7 @@ $data = json_decode($json);
 
 
 $sqllink = @mysqli_connect(HOST, USER, PASS, DBNAME) or die('数据库连接出错');
-mysqli_set_charset($sqllink, 'utf8');
+mysqli_set_charset($sqllink, 'utf8mb4');
 
 $result = '';
 
@@ -33,24 +33,13 @@ switch ($request_type) {
         $sql = 'INSERT 
         INTO map (`type`, `name`, `desc`, `lng`, `lat`, `like`, `dislike`, `ip`, `is_deleted`)
         VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0");
-        SELECT @@IDENTITY;
         ';
+
+        echo $sql;
 
         $result = mysqli_query($sqllink, $sql);
 
-        $res = [];
-
-        if ($result->num_rows > 0) {
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                array_push($res, [
-                    'id' => $row['@@identity'],
-                ]);
-                $i++;
-            }
-        }
-
-        echo json_encode($res);
+        echo json_encode($result);
         break;
     case 'GET':
         @$id_ori = $_GET['id'];
