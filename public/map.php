@@ -139,8 +139,8 @@ switch ($request_type) {
                     'type' => $row['type'],
                     'name' => $row['name'],
                     'desc' => $row['desc'],
-                    'lng' => (double)$row['lng'],
-                    'lat' =>  (double)$row['lat'],
+                    'lng' => (float)$row['lng'],
+                    'lat' =>  (float)$row['lat'],
                     'like' =>  (int)$row['like'],
                     'dislike' => (int)$row['dislike'],
                     'ip' => $row['ip'],
@@ -183,30 +183,34 @@ switch ($request_type) {
         @$is_lock = (string)($data->is_lock);
         @$is_underground = (string)($data->is_underground);
 
+        if ($is_deleted == 'false') $is_deleted = "0";
+        if ($is_lock == 'false') $is_lock = "0";
+        if ($is_underground == 'false') $is_underground = "0";
+
         $select = [
             ['type', $type],
-            ['name',$name],
-            ['desc',$desc],
-            ['lng',$lng],
-            ['lat',$lat],
-            ['like',$like],
-            ['dislike',$dislike],
-            ['ip',$ip],
-            ['is_deleted',$is_deleted],
-            ['is_lock',$is_lock],
-            ['is_underground',$is_underground],
+            ['name', $name],
+            ['desc', $desc],
+            ['lng', $lng],
+            ['lat', $lat],
+            ['like', $like],
+            ['dislike', $dislike],
+            ['ip', $ip],
+            ['is_deleted', $is_deleted],
+            ['is_lock', $is_lock],
+            ['is_underground', $is_underground],
         ];
 
         $geneRes = '';
-        for($i = 0; $i < count($select); $i++){
+        for ($i = 0; $i < count($select); $i++) {
             $item = $select[$i];
-            if($item[1] != ''){
+            if ($item[1] != '') {
                 $geneRes .= "`$item[0]` = \"$item[1]\",";
             }
         }
 
-        if(substr($geneRes, -1) == ','){
-            $geneRes = substr($geneRes, 0, strlen($geneRes)-1);
+        if (substr($geneRes, -1) == ',') {
+            $geneRes = substr($geneRes, 0, strlen($geneRes) - 1);
         }
 
         $sql = "UPDATE map

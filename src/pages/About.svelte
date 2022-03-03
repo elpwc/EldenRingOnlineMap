@@ -1,15 +1,69 @@
 <script lang="ts">
+  import axios from 'axios';
+
   import { onMount } from 'svelte';
-  import { currentPageStore } from '../stores';
+  import Modal from '../components/Modal.svelte';
+  import { currentPageStore, isAdminModeStore } from '../stores';
 
   onMount(() => {
     currentPageStore.set('about');
+    clickTime = 0;
   });
+
+  let isAdminMode = false;
+
+  isAdminModeStore.subscribe(v => {
+    isAdminMode = v;
+  });
+
+  let clickTime = 0;
+  let inputPasswordVisibility = false;
+  let inputPw = '';
 </script>
 
 <div class="container">
-  <img src="./resource/images/fire.png" alt="fire" height="50%" />
-  <p id="title" class="svelte-q01t2y"><span class="heads">E</span>lden <span class="heads">R</span>ing <span class="heads">O</span>nline <span class="heads">M</span>ap</p>
+  <img
+    src="./resource/images/fire.png"
+    alt="fire"
+    height="50%"
+    on:click={() => {
+      clickTime++;
+      if (clickTime === 5) {
+        inputPasswordVisibility = true;
+        clickTime = 0;
+      }
+    }}
+  />
+  <Modal
+    visible={inputPasswordVisibility}
+    showOkButton
+    showCloseButton
+    onOKButtonClick={() => {
+      axios.post('./checkAdmin.php', { p: inputPw }).then(res => {
+        if (res.data?.validate) {
+          isAdminModeStore.set(res?.data?.validate);
+          inputPasswordVisibility = false;
+          inputPw = '';
+        }
+      });
+    }}
+    onCloseButtonClick={() => {
+      inputPasswordVisibility = false;
+      inputPw = '';
+    }}
+  >
+    <input style="margin: 20px 0; font-size: 1em;" type="password" bind:value={inputPw} />
+  </Modal>
+  <p id="title" class="svelte-q01t2y">
+    <span class="heads">E</span>lden <span class="heads">R</span>ing <span class="heads">O</span>nline <span class="heads">M</span>ap
+    {#if isAdminMode}
+      <span
+        on:click={() => {
+          isAdminModeStore.set(false);
+        }}>(Admin)</span
+      >
+    {/if}
+  </p>
   <p id="cr">
     build by <a href="https://github.com/elpwc" target="_blank"
       >@elpwc<sup>

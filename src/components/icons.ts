@@ -46,7 +46,7 @@ export const MapIcon = {
       return {
         html: `
         <div class="icon">
-        <div style="width:${size}px; height:${size}px; border-radius:${size}px; position: absolute; background-color: yellow; box-shadow: 0 0 5px 0 black;"></div>
+        <div style="width:${size}px; height:${size}px; border-radius:${size}px; position: absolute; background-color: #ffeb3b; box-shadow: 0 0 5px 0 black;"></div>
         <p style="color: ${fontcolor}; margin-left: ${size + 1}px">${title}</p>
         </div>
     `,

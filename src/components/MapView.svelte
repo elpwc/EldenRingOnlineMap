@@ -5,12 +5,18 @@
   import { fly } from 'svelte/transition';
   import { MapPointType } from '../utils/enum';
   import axios from 'axios';
-  import { ip } from '../stores';
+  import { ip, isAdminModeStore } from '../stores';
   import type { MapPoint } from '../utils/typings';
   import { MapIcon } from './icons';
   import './icons.css';
 
   let map;
+
+  let isAdminMode = false;
+
+  isAdminModeStore.subscribe(v => {
+    isAdminMode = v;
+  });
 
   let mapW = window.innerWidth;
   let mapH = window.innerHeight;
@@ -169,8 +175,6 @@
           marker.addTo(map);
         });
       });
-
-    //loadMarkers();
   };
 
   const onAddButtonClick = () => {
@@ -187,6 +191,7 @@
               type: addedPointType,
               name: addedPointName,
               desc: addedPointDesc,
+              is_underground: addedPointUnderground ? '1' : '0',
             })
             .then(res => {
               console.log(res);
@@ -390,6 +395,13 @@
     }
     loadMarkers();
   };
+
+  const onSetLockChecked = e => {
+    axios.patch('./map.php', { id: currentClickedMarker?.id, is_lock: e.target.checked ? '1' : '0' }).then(res => {
+      currentClickedMarker.is_lock = e.target.checked;
+      loadMarkers();
+    });
+  };
 </script>
 
 <div>
@@ -432,7 +444,7 @@
       </div>
 
       <div>
-        {#if !currentClickedMarker?.is_lock}
+        {#if !currentClickedMarker?.is_lock || isAdminMode}
           <button
             on:click={() => {
               addedPointDesc = currentClickedMarker?.desc;
@@ -447,12 +459,15 @@
           >
         {/if}
 
-        {#if currentClickedMarker?.ip === ip}
+        {#if (!currentClickedMarker?.is_lock && currentClickedMarker?.ip === ip) || isAdminMode}
           <button
             on:click={() => {
               deleteConfirmVisibility = true;
             }}>删除</button
           >
+        {/if}
+        {#if isAdminMode}
+          <label style="color: rgb(208, 200, 181);"><input type="checkbox" checked={currentClickedMarker?.is_lock} on:change={onSetLockChecked} />锁定</label>
         {/if}
       </div>
     </div>
