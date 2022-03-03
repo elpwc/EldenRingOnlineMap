@@ -509,6 +509,7 @@
 
   {#if showfilterDiv}
     <div id="filterDiv" transition:fly={{ x: -160, duration: 300 }}>
+      <p style="font-size: 0.6em;">地图上点地标可以查看详细</p>
       <div id="filter" style="max-height: {window.innerHeight - 80}px;">
         {#each filters as filter}
           {#if filter?.hr}
