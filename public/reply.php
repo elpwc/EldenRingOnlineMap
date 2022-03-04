@@ -145,7 +145,7 @@ switch ($request_type) {
         @$pid = trim((string)($data->pid));
         @$content = trim((string)($data->name));
         @$like = (string)($data->like);
-        @$dislike = ($data->dislike);
+        @$dislike = (string)($data->dislike);
         @$ip = trim((string)($data->ip));
         @$is_deleted = (string)($data->is_deleted);
 

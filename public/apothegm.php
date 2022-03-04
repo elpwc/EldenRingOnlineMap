@@ -180,7 +180,7 @@ switch ($request_type) {
         @$tags = trim((string)($data->desc));
         @$gesture = (string)($data->lng);
         @$like = (string)($data->like);
-        @$dislike = ($data->dislike);
+        @$dislike = (string)($data->dislike);
         @$ip = trim((string)($data->ip));
         @$is_deleted = (string)($data->is_deleted);
         @$reply_date = (string)($data->reply_date);
@@ -196,7 +196,7 @@ switch ($request_type) {
             ['dislike', $dislike],
             ['ip', $ip],
             ['is_deleted', $is_deleted],
-            ['reply_date',  'FROM_UNIXTIME(' . $reply_date . ')', true],
+            ['reply_date', $reply_date != '' ? 'FROM_UNIXTIME(' . $reply_date . ')' : '', true],
         ];
 
         $geneRes = '';
@@ -218,6 +218,8 @@ switch ($request_type) {
         $sql = "UPDATE apothegm
         SET $geneRes
         WHERE `id`=$id;";
+
+        echo $sql;
 
         $result = mysqli_query($sqllink, $sql);
 

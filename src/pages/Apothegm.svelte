@@ -421,7 +421,7 @@
                       on:click={() => {
                         currentClickedReplyId = reply?.id;
                         currentClickedReplyIndex = index;
-                        onDislikeReply;
+                        onDislikeReply();
                       }}>恶评 {reply?.dislike}</button
                     >
                   </span>
