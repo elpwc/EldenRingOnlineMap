@@ -5,7 +5,6 @@
  */
 
 require './private/dbcfg.php';
-require './private/illegal_words_list.php';
 require './utils.php';
 require './sqlgenerator.php';
 

@@ -90,8 +90,10 @@
   <button
     on:click={() => {
       coffeeVisibility = true;
-    }}>请一杯奶茶☕</button
+    }}
   >
+    请一杯奶茶☕
+  </button>
 
   <!--下面的按钮组-->
   <div id="buttonsDiv">
@@ -99,7 +101,8 @@
       on:click={() => {
         window.open('https://github.com/elpwc/EldenRingOnlineMap/issues', '_blank');
       }}
-      >漏洞・意见反馈
+    >
+      漏洞・意见反馈
       <sup>
         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
           <path
@@ -114,7 +117,9 @@
       on:click={() => {
         window.open('https://github.com/elpwc/EldenRingOnlineMap', '_blank');
       }}
-      >GitHub页面<sup>
+    >
+      GitHub页面
+      <sup>
         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
           <path
             fill-rule="evenodd"
@@ -157,7 +162,7 @@
     coffeeVisibility = false;
   }}
 >
-  <p>觉得帮到了自己的话，可以请咱喝一杯奶茶嘛..?</p>
+  <p style="color: rgb(208, 200, 181);">觉得帮到了自己的话，可以请咱喝一杯奶茶当作创作激励(</p>
   <div style="display: flex; justify-content: center; padding-bottom: 20px;">
     <img style="width: 50%;" src="./resource/images/qrcode.jpg" alt="AlipayQRCode" />
   </div>

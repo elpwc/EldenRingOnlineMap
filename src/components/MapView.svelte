@@ -1,5 +1,5 @@
 <script lang="ts">
-  import L, { icon } from 'leaflet';
+  import L from 'leaflet';
   import { onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
@@ -522,7 +522,7 @@
     { name: '地点', value: MapPointType.Place, icon: MapIcon.yellow() },
 
     { name: '怪', hr: true },
-    { name: 'BOSS', value: MapPointType.Boss, icon: MapIcon.red(15) },
+    { name: 'BOSS', value: MapPointType.Boss, icon: MapIcon.red(15, 'yellow') },
     { name: '小BOSS', value: MapPointType.LittleBoss, icon: MapIcon.red() },
     { name: '红灵入侵', value: MapPointType.RedSoul, icon: MapIcon.red() },
     { name: '精英怪', value: MapPointType.Jingyingguai, icon: MapIcon.red() },
