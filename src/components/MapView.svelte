@@ -551,7 +551,7 @@
   >
     <div class="modalInner" style="align-items: center;">
       <p style="min-height: 80px; width: fit-content; max-height: {window.innerHeight * 0.4}px; overflow-y: scroll; text-shadow: 0 0 20px black;">
-        {@html currentClickedMarker?.desc.replaceAll('\n', '<br />')}
+        {@html currentClickedMarker?.desc?.replaceAll('\n', '<br />')}
       </p>
       <div style="display: flex;">
         <button on:click={onLike}>{`给予好评 ${currentClickedMarker?.like}`}</button>

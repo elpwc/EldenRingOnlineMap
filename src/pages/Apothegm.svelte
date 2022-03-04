@@ -150,7 +150,7 @@
             axios
               .patch('./apothegm.php', {
                 id: currentShowingApoId,
-                reply_date: Date.now(),
+                reply_date: Date.now() / 1000, // PHP时间戳少3位（缺少毫秒位
               })
               .then(res2 => {
                 console.log(res2);
@@ -286,6 +286,7 @@
       style="border: none; box-shadow: none;"
       on:click={() => {
         showSelf = !showSelf;
+        refreshApo();
       }}
       class={showSelf ? 'selfactive' : ''}
     >
@@ -311,7 +312,7 @@
           <div class="title">
             <div class="title-reply"><span class="titlespan">{@html apo?.title}</span></div>
           </div>
-          <p class="contentp">{@html apo?.content}</p>
+          <p class="contentp">{@html apo?.content?.replaceAll('\n', '<br />')}</p>
 
           <div class="title-reply" style="justify-content: space-between; ">
             <span class="replyspan">回应 {apo?.replies?.length}</span>
@@ -369,7 +370,7 @@
         <div>
           <p style="font-size: 1.2em; font-weight: bold; ">{@html apothegms?.[currentShowingApoIndex]?.title}</p>
 
-          <p>{@html apothegms?.[currentShowingApoIndex]?.content}</p>
+          <p>{@html apothegms?.[currentShowingApoIndex]?.content?.replaceAll('\n', '<br />')}</p>
           <div class="title">
             <div class="title-reply">
               <span class="titlespan">{getMD5Id(apothegms?.[currentShowingApoIndex]?.ip)}</span><span class="replyspan">回应 {apothegms?.[currentShowingApoIndex]?.replies?.length}</span>
@@ -419,7 +420,7 @@
                   </span>
                 </div>
               </div>
-              <p class="contentp">{@html reply?.content}</p>
+              <p class="contentp">{@html reply?.content?.replaceAll('\n', '<br />')}</p>
             </div>
           {/each}
         {/if}
@@ -532,7 +533,7 @@
     gap: 5px;
   }
   .titlespan {
-    font-size: 1em;
+    font-size: 0.8em;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
@@ -605,6 +606,8 @@
   #apothegmContent main {
     background-color: rgb(21, 22, 17, 0.9);
     height: -webkit-fill-available;
+    margin-bottom: 160px;
+    overflow-y: scroll;
   }
   #inputDiv input {
     width: -webkit-fill-available;

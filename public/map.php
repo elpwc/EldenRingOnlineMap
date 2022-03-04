@@ -51,7 +51,7 @@ switch ($request_type) {
         @$kword_ori = $_GET['kword'];
         @$under_ori = $_GET['under'];
 
-        $id='';
+        $id = '';
         $ip = '';
         $count = 0;
         $type = '';
@@ -65,7 +65,7 @@ switch ($request_type) {
             $count = '*';
         } else {
             $count = 'TOP ' . $count;
-        }        
+        }
         if (is_numeric($id_ori)) {
             $id = (int)$id_ori;
         }
@@ -108,7 +108,7 @@ switch ($request_type) {
 
         $select = [];
 
-        if ($id <= 0) {        
+        if ($id <= 0) {
             $select = [
                 'AND',
                 [
@@ -124,7 +124,7 @@ switch ($request_type) {
                     ['', ['is_deleted', '0']]
                 ]
             ];
-        } else{
+        } else {
             $select =  ['', ['id', $id]];
         }
 
@@ -219,7 +219,11 @@ switch ($request_type) {
         for ($i = 0; $i < count($select); $i++) {
             $item = $select[$i];
             if ($item[1] != '') {
-                $geneRes .= "`$item[0]` = \"$item[1]\",";
+                if (count($item) >= 3 && $item[2]) {
+                    $geneRes .= "`$item[0]` = $item[1],";
+                } else {
+                    $geneRes .= "`$item[0]` = \"$item[1]\",";
+                }
             }
         }
 
