@@ -147,7 +147,7 @@
   /** 发布讯息 */
   const onPost = () => {
     if (postTitle !== '') {
-      if (postTitle.length <= 20 || postContent.length <= 1000) {
+      if (postTitle.length <= 20 && postContent.length <= 1000) {
         axios
           .post('./apothegm.php', {
             title: postTitle,

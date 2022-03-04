@@ -380,8 +380,8 @@
 
   // 添加/编辑地标
   const onAdd = () => {
-    if (addedPointName !== '' || addedPointType !== '') {
-      if (addedPointName.length <= 20 || addedPointDesc.length <= 1000) {
+    if (addedPointName !== '' && addedPointType !== MapPointType.Empty) {
+      if (addedPointName.length <= 20 && addedPointDesc.length <= 1000) {
         //判断是编辑还是新增
         if (editMode) {
           // 编辑
