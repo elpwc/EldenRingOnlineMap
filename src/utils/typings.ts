@@ -1,5 +1,10 @@
+/**
+ * 这个文件用来定义各种类型喵
+ * @author wniko
+ */
 import type { MapPointType } from './enum';
 
+/** 地标 */
 export type MapPoint = {
   id: number;
   type: MapPointType;
@@ -17,6 +22,7 @@ export type MapPoint = {
   update_date: string;
 };
 
+/** 讯息回复 */
 export type Reply = {
   id: number;
   pid: number;
@@ -29,6 +35,7 @@ export type Reply = {
   update_date: string;
 };
 
+/** 讯息 */
 export type Apothegm = {
   id: number;
   title: string;
@@ -42,6 +49,7 @@ export type Apothegm = {
   create_date: string;
   update_date: string;
   reply_date: string;
+  /** 回复 */
   replies: Reply[];
 };
 

@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * 验证管理员密码喵
+ * @author wniko
+ */
+
+// 导入机密文件喵
 require('./private/admin.php');
 
 $request_type = $_SERVER['REQUEST_METHOD']; //请求类型GET POST PUT DELETE

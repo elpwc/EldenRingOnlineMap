@@ -1,0 +1,40 @@
+PUBLIC:
+/private/                   隐私文件，不往git库里扔
+
+/resource/                  图片
+/resource/icons/            图标
+/resource/images/           图片
+
+apothegm.php                讯息后端
+map.php                     地标后端
+reply.php                   回复后端
+searchUpload.php            搜索内容存储
+checkAdmin.php              验证管理员密码
+global.css                  全局css
+favicon.png                 网页图标
+
+
+SRC:
+/components/                组件
+/components/icons.ts        地标图标
+/components/icons.css       图标css
+/components/MapView.svelte  地图
+/components/Modal.svelte    Modal
+
+/pages/                     页面
+/pages/About.svelte         说明页
+/pages/Apothegm.svelte      讯息页
+/pages/Home.svelte          (未使用)
+/pages/Map.svelte           地图页
+
+/router/                    路由文件
+
+/utils/                     其他
+/utils/enum.ts              各个枚举
+/utils/typings.ts           各个类型
+/utils/utils.ts             工具方法
+
+App.svelte                  主页面，导入路由和菜单栏在这里
+config.ts                   全局配置
+stores.ts                   svelte stores和全局变量
+main.ts                     入口文件，获取ip在这里

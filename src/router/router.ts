@@ -1,3 +1,7 @@
+/**
+ * 路由文件喵
+ * @author wniko
+ */
 import Home from '../pages/Home.svelte';
 import About from '../pages/About.svelte';
 import Apothegm from '../pages/Apothegm.svelte';

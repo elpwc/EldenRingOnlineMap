@@ -1,11 +1,10 @@
 <?php
 
 /**
- * 向服务器上传结果
+ * 回复后端
  */
 
 require './private/dbcfg.php';
-require './private/illegal_words_list.php';
 require './utils.php';
 require './sqlgenerator.php';
 
@@ -160,21 +159,7 @@ switch ($request_type) {
             ['is_deleted', $is_deleted],
         ];
 
-        $geneRes = '';
-        for ($i = 0; $i < count($select); $i++) {
-            $item = $select[$i];
-            if ($item[1] != '') {
-                if (count($item) >= 3 && $item[2]) {
-                    $geneRes .= "`$item[0]` = $item[1],";
-                } else {
-                    $geneRes .= "`$item[0]` = \"$item[1]\",";
-                }
-            }
-        }
-
-        if (substr($geneRes, -1) == ',') {
-            $geneRes = substr($geneRes, 0, strlen($geneRes) - 1);
-        }
+        $geneRes = patch_condition($select);
 
         $sql = "UPDATE apo_reply
         SET $geneRes

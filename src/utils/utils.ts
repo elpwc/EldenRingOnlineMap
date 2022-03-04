@@ -1,3 +1,7 @@
+/**
+ * 工具类喵
+ * @author wniko
+ */
 import type { GetIPPositionReturn } from './typings';
 
 /**
@@ -13,6 +17,12 @@ export const get_ip_position = (): GetIPPositionReturn => {
   }
 };
 
+/**
+ * 设置Cookie
+ * @param cname 名
+ * @param cvalue 值
+ * @param exdays 死亡日
+ */
 export const setCookie = (cname: string, cvalue: any, exdays: number = 30) => {
   const d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
@@ -20,6 +30,11 @@ export const setCookie = (cname: string, cvalue: any, exdays: number = 30) => {
   document.cookie = cname + '=' + cvalue + '; ' + expires;
 };
 
+/**
+ * 读取Cookie
+ * @param cname 名
+ * @returns 值
+ */
 export const getCookie = (cname: string): string => {
   const name = cname + '=';
   const ca = document.cookie.split(';');

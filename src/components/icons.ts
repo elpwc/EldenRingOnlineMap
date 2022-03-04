@@ -1,5 +1,7 @@
-import L from 'leaflet';
-
+/**
+ * 自定义地图图标
+ * @description 导出的是生成图标数据的函数，用法：`L.divIcon(iconname(size, fontcolor)(title))`
+ */
 export const MapIcon = {
   default:
     (size: number = 10, fontcolor: string = 'white') =>

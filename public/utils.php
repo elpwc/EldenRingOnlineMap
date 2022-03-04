@@ -5,6 +5,8 @@
  * @author wniko
  */
 
+require('./private/illegal_words_list.php');
+
 /**
  * 防注入
  */

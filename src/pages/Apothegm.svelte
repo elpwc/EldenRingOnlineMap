@@ -1,14 +1,21 @@
 <script lang="ts">
+  /**
+   * 讯息页
+   */
   import { onMount } from 'svelte';
   import Modal from '../components/Modal.svelte';
   import { currentPageStore, ip, isAdminModeStore } from '../stores';
   import { fly } from 'svelte/transition';
   import axios from 'axios';
   import type { Apothegm } from '../utils/typings';
+  // 用来根据ip地址生成匿名用户名
   import md5 from 'md5';
 
+  // 路径参数: 讯息id
+  // 仅用来从外部直接打开讯息，从网页内部打开讯息不使用这个
   export let params = { id: null };
 
+  /** 是否是管理页模式 */
   let isAdminMode = false;
 
   isAdminModeStore.subscribe(v => {
@@ -18,33 +25,56 @@
   onMount(() => {
     currentPageStore.set('apothegm');
 
+    // 加载讯息
     refreshApo();
   });
 
+  /** 发送讯息Modal */
   let postModalVisibility = false;
+  /** 回复Modal */
   let replyModalVisibility = false;
+  /** 分享链接Modal */
   let copyModalVisibility = false;
+  /** 删除讯息确认框 */
   let deleteConfirmVisibility = false;
+
+  /** 搜索框内容 */
   let searchWord = '';
 
-  let deleteReply = false; // apo: true, reply: false
+  /** 删的是讯息的回复还是讯息 apo: true, reply: false */
+  let deleteReply = false;
 
+  /** 当前打开的讯息id */
   let currentShowingApoId = 0;
+  /** 当前打开的讯息index */
   let currentShowingApoIndex = -1;
 
+  /** 当前打开的讯息回复id */
   let currentClickedReplyId = 0;
+  /** 当前打开的讯息回复index */
   let currentClickedReplyIndex = -1;
 
+  /** 要发送的讯息标题 */
   let postTitle = '';
+  /** 要发送的讯息内容 */
   let postContent = '';
+  /** 要发送的讯息的姿态（未使用 */
   let postGesture = '';
+
+  /** 是否显示自己发的讯息 */
   let showSelf = false;
+  /** 要发送的回复内容 */
   let replyContent = '';
 
+  /** 是否处于搜索结果展示模式 */
   let isSearch = false;
 
+  /** 当前拉取的所有讯息 */
   let apothegms: Apothegm[] = [];
 
+  /**
+   * 更新currentShowingApoIndex
+   */
   const refreshCurrentShowingApoIndex = () => {
     let res = -1;
     for (let i = 0; i < apothegms.length; i++) {
@@ -56,19 +86,26 @@
     currentShowingApoIndex = res;
   };
 
+  // 根据url参数跳转到讯息
   if (params?.id) {
     currentShowingApoId = params?.id;
     refreshCurrentShowingApoIndex();
   }
 
+  /**
+   * 根据kword / ip拉取讯息
+   * @param id 指定拉取的id，不输入为拉取符合条件的所有
+   */
   const refreshApo = (id: number = 0) => {
     if (id > 0) {
+      // 拉取指定id
       axios
         .get('./apothegm.php', {
           params: { id },
         })
         .then(res => {
           console.log(res.data);
+          // 更新apothegms中的拉取到的那个
           apothegms[
             apothegms.findIndex(f => {
               return f.id === id;
@@ -76,6 +113,7 @@
           ] = (res.data as Apothegm[])?.[0];
         });
     } else {
+      // 拉取全部
       axios
         .get('./apothegm.php', {
           params: {
@@ -90,10 +128,12 @@
     }
   };
 
+  /** 搜索 */
   const onSearch = () => {
     if (searchWord !== '') {
       isSearch = true;
 
+      // 提交搜索内容，用来日后分析
       axios.post('./searchUpload.php', {
         content: searchWord,
         ip,
@@ -104,6 +144,7 @@
     }
   };
 
+  /** 发布讯息 */
   const onPost = () => {
     if (postTitle !== '') {
       if (postTitle.length <= 20 || postContent.length <= 1000) {
@@ -131,14 +172,20 @@
     }
   };
 
+  /**
+   * 根据ip获取对应的匿名id
+   * @param ip IP
+   */
   const getMD5Id = (ip: string) => {
     return md5(ip).substring(0, 6);
   };
 
+  /** 分享 */
   const onShare = () => {
     copyModalVisibility = true;
   };
 
+  /** 回复 */
   const onReply = () => {
     if (replyContent !== '') {
       if (replyContent.length <= 1000) {
@@ -154,6 +201,8 @@
             console.log(res);
             replyModalVisibility = false;
             replyContent = '';
+
+            // 更新讯息的最新回复日期
             axios
               .patch('./apothegm.php', {
                 id: currentShowingApoId,
@@ -172,6 +221,7 @@
     }
   };
 
+  /** 对讯息好评 */
   const onLikeApo = () => {
     axios
       .patch('./apothegm.php', {
@@ -183,6 +233,7 @@
       });
   };
 
+  /** 对讯息恶评 */
   const onDislikeApo = () => {
     axios
       .patch('./apothegm.php', {
@@ -194,6 +245,7 @@
       });
   };
 
+  /** 对回复好评 */
   const onLikeReply = () => {
     axios
       .patch('./reply.php', {
@@ -205,6 +257,7 @@
       });
   };
 
+  /** 对回复恶评 */
   const onDislikeReply = () => {
     axios
       .patch('./reply.php', {
@@ -216,6 +269,7 @@
       });
   };
 
+  /** 删除讯息 */
   const onDeleteApo = () => {
     axios
       .delete('./apothegm.php', {
@@ -232,6 +286,7 @@
       });
   };
 
+  /** 删除回复 */
   const onDeleteReply = () => {
     axios
       .delete('./reply.php', {
@@ -250,7 +305,7 @@
 </script>
 
 <div class="container">
-  <div id="inputDiv">
+  <header id="inputDiv">
     <div style="display: flex;">
       <div id="searchTextContainer">
         <input type="text" style="border: none; width: 80%; box-shadow: none;" placeholder="搜索讯息" bind:value={searchWord} />
@@ -305,13 +360,15 @@
       </svg>
       我发送的</button
     >
-  </div>
-  <div id="listDiv">
+  </header>
+  <!--讯息列表-->
+  <main id="listDiv">
     {#if apothegms?.length > 0}
       {#each apothegms as apo (apo.id)}
         <div
           class="apothegm"
           on:click={() => {
+            // 点击讯息打开
             currentShowingApoId = apo?.id;
             refreshCurrentShowingApoIndex();
           }}
@@ -319,6 +376,7 @@
           <div class="title">
             <div class="title-reply"><span class="titlespan">{@html apo?.title}</span></div>
           </div>
+          <!--<p>默认把\n处理为空格，所以需要转义为<br />-->
           <p class="contentp">{@html apo?.content?.replaceAll('\n', '<br />')}</p>
 
           <div class="title-reply" style="justify-content: space-between; ">
@@ -329,8 +387,9 @@
         </div>
       {/each}
     {/if}
-  </div>
+  </main>
 
+  <!--讯息详情-->
   {#if currentShowingApoId > 0}
     <div id="apothegmContent" transition:fly={{ x: window.innerWidth, duration: 300 }}>
       <header id="apothegmContentHeader">
@@ -352,6 +411,7 @@
             {#if isAdminMode || apothegms?.[currentShowingApoIndex]?.ip === ip}
               <button
                 on:click={() => {
+                  // 设置删除的是讯息还是回复
                   deleteReply = false;
                   deleteConfirmVisibility = true;
                 }}>删除</button
@@ -391,6 +451,7 @@
         </div>
       </header>
 
+      <!--回复列表-->
       <main>
         {#if apothegms?.[currentShowingApoIndex]?.replies?.length > 0}
           {#each apothegms?.[currentShowingApoIndex]?.replies as reply, index (reply.id)}
@@ -404,6 +465,8 @@
                       on:click={() => {
                         currentClickedReplyId = reply.id;
                         currentClickedReplyIndex = index;
+
+                        // 设置删除的是讯息还是回复
                         deleteReply = true;
                         deleteConfirmVisibility = true;
                       }}>删除</button
@@ -434,7 +497,10 @@
       </main>
     </div>
   {/if}
+  <!--讯息详情结束-->
 </div>
+
+<!--发送讯息Modal-->
 <Modal
   visible={postModalVisibility}
   width="70%"
@@ -455,6 +521,8 @@
     <textarea placeholder="内容 (0～1000)" bind:value={postContent} />
   </div>
 </Modal>
+
+<!--回应讯息Modal-->
 <Modal
   visible={replyModalVisibility}
   width="70%"
@@ -473,6 +541,8 @@
     <textarea placeholder="内容 (0～1000)" bind:value={replyContent} />
   </div>
 </Modal>
+
+<!--分享复制讯息Modal-->
 <Modal
   visible={copyModalVisibility}
   title="请长按复制"
@@ -488,6 +558,8 @@
     </p>
   </div>
 </Modal>
+
+<!--删除讯息或回复Modal-->
 <Modal
   visible={deleteConfirmVisibility}
   top="30%"
@@ -497,6 +569,7 @@
   okButtonText="确认删除"
   closeButtonText="取消"
   onOKButtonClick={() => {
+    // 判断删除的是讯息还是回复
     if (deleteReply) {
       onDeleteReply();
     } else {

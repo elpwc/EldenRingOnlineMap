@@ -1,6 +1,5 @@
 <script lang="ts">
   import axios from 'axios';
-
   import { onMount } from 'svelte';
   import Modal from '../components/Modal.svelte';
   import { currentPageStore, isAdminModeStore } from '../stores';
@@ -10,74 +9,56 @@
     clickTime = 0;
   });
 
+  /** 管理员模式 */
   let isAdminMode = false;
 
   isAdminModeStore.subscribe(v => {
     isAdminMode = v;
   });
 
+  /** 薪火点了几下 */
   let clickTime = 0;
+
+  /** 管理员模式密码Modal */
   let inputPasswordVisibility = false;
+  /** 请一杯奶茶Modal */
   let coffeeVisibility = false;
+
+  /** 输入的密码 */
   let inputPw = '';
 </script>
 
 <div class="container">
+  <!--薪火-->
   <img
     src="./resource/images/fire.png"
     alt="fire"
     height="50%"
     on:click={() => {
       clickTime++;
+      // 点五下出发管理员ModeModal
       if (clickTime === 5) {
         inputPasswordVisibility = true;
         clickTime = 0;
       }
     }}
   />
-  <Modal
-    visible={inputPasswordVisibility}
-    showOkButton
-    showCloseButton
-    onOKButtonClick={() => {
-      axios.post('./checkAdmin.php', { p: inputPw }).then(res => {
-        if (res.data?.validate) {
-          isAdminModeStore.set(res?.data?.validate);
-          inputPasswordVisibility = false;
-          inputPw = '';
-        }
-      });
-    }}
-    onCloseButtonClick={() => {
-      inputPasswordVisibility = false;
-      inputPw = '';
-    }}
-  >
-    <input style="margin: 20px 0; font-size: 1em;" type="password" bind:value={inputPw} />
-  </Modal>
-  <Modal
-    visible={coffeeVisibility}
-    showOkButton
-    onOKButtonClick={() => {
-      coffeeVisibility = false;
-    }}
-  >
-    <p>工作日连肝了3天开发网站</p>
-    <p>觉得帮到了自己的话，可以请咱喝一杯奶茶嘛..?</p>
-    <div style="display: flex; justify-content: center; padding-bottom: 20px;">
-      <img style="width: 50%;" src="./resource/images/qrcode.jpg" alt="AlipayQRCode" />
-    </div>
-  </Modal>
+
+  <!--Elden Ring Online Map-->
   <p id="title" class="svelte-q01t2y">
     <span class="heads">E</span>lden <span class="heads">R</span>ing <span class="heads">O</span>nline <span class="heads">M</span>ap
     {#if isAdminMode}
+      <!--AdminMode显示Admin字样-->
       <span
         on:click={() => {
+          // 点一下退出AdminMode
           isAdminModeStore.set(false);
         }}>(Admin)</span
       >
     {/if}
   </p>
+
+  <!--copyright信息和数据来源-->
   <p id="cr">
     build by <a href="https://github.com/elpwc" target="_blank"
       >@elpwc<sup>
@@ -104,11 +85,15 @@
       </sup>
     </a>
   </p>
+
+  <!--请杯奶茶呜呜呜呜-->
   <button
     on:click={() => {
       coffeeVisibility = true;
     }}>请一杯奶茶☕</button
   >
+
+  <!--下面的按钮组-->
   <div id="buttonsDiv">
     <button
       on:click={() => {
@@ -123,7 +108,9 @@
           />
         </svg>
       </sup>
-    </button><button
+    </button>
+
+    <button
       on:click={() => {
         window.open('https://github.com/elpwc/EldenRingOnlineMap', '_blank');
       }}
@@ -138,6 +125,43 @@
     </button>
   </div>
 </div>
+
+<!--输入管理员密码Modal-->
+<Modal
+  visible={inputPasswordVisibility}
+  showOkButton
+  showCloseButton
+  onOKButtonClick={() => {
+    // 前往后端验证密码
+    axios.post('./checkAdmin.php', { p: inputPw }).then(res => {
+      if (res.data?.validate) {
+        isAdminModeStore.set(res?.data?.validate);
+        inputPasswordVisibility = false;
+        inputPw = '';
+      }
+    });
+  }}
+  onCloseButtonClick={() => {
+    inputPasswordVisibility = false;
+    inputPw = '';
+  }}
+>
+  <input style="margin: 20px 0; font-size: 1em;" type="password" bind:value={inputPw} />
+</Modal>
+
+<!--请一杯奶茶Modal-->
+<Modal
+  visible={coffeeVisibility}
+  showOkButton
+  onOKButtonClick={() => {
+    coffeeVisibility = false;
+  }}
+>
+  <p>觉得帮到了自己的话，可以请咱喝一杯奶茶嘛..?</p>
+  <div style="display: flex; justify-content: center; padding-bottom: 20px;">
+    <img style="width: 50%;" src="./resource/images/qrcode.jpg" alt="AlipayQRCode" />
+  </div>
+</Modal>
 
 <style>
   .container {

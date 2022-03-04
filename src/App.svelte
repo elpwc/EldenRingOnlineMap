@@ -1,3 +1,6 @@
+<!--
+  菜单栏在这喵
+-->
 <script lang="ts">
   import Router from 'svelte-spa-router';
   import { routes } from './router/router';
@@ -5,13 +8,14 @@
   import { fade } from 'svelte/transition';
   import { currentPageStore } from './stores';
 
-  let currentPage: string = 'home';
+  let currentPage: string = 'map';
   currentPageStore.subscribe(v => {
     currentPage = v;
   });
 </script>
 
 <div style="height: 100%; ">
+  <!--菜单栏-->
   <nav class="menu">
     <a href="/" use:link>
       {#if currentPage === 'map'}
@@ -23,14 +27,18 @@
     <a href="/apothegm" use:link>
       {#if currentPage === 'apothegm'}
         <div class="backgroundLight" transition:fade />
-      {/if}<img src="./resource/images/apothegm.png" alt="mapicon" width="40px" /><span>讯息</span></a
-    >
+      {/if}<img src="./resource/images/apothegm.png" alt="mapicon" width="40px" />
+      <span>讯息</span>
+    </a>
     <a href="/about" use:link>
       {#if currentPage === 'about'}
         <div class="backgroundLight" transition:fade />
-      {/if}<img src="./resource/images/about.png" alt="mapicon" width="40px" /><span>说明</span></a
-    >
+      {/if}<img src="./resource/images/about.png" alt="mapicon" width="40px" />
+      <span>说明</span>
+    </a>
   </nav>
+
+  <!--所有页面-->
   <main style="height: calc( 100% - 70px );">
     <Router {routes} />
   </main>

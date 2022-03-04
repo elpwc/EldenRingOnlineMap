@@ -1,13 +1,11 @@
 <?php
 
 /**
- * 向服务器上传结果
+ * 搜索结果上传
  */
 
 require './private/dbcfg.php';
-require './private/illegal_words_list.php';
 require './utils.php';
-require './sqlgenerator.php';
 
 $request_type = $_SERVER['REQUEST_METHOD']; //请求类型GET POST PUT DELETE
 $json = file_get_contents('php://input'); //获取CURL GET POST PUT DELETE 请求的数据

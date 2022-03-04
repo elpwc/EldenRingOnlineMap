@@ -1,3 +1,11 @@
+/**
+ * 这个文件用来存各种enum喵
+ * @author wniko
+ */
+
+/**
+ * 地标类型
+ */
 export enum MapPointType {
   Empty = '',
 

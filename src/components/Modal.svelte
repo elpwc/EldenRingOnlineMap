@@ -15,6 +15,7 @@
   export let closeButtonText = 'Close';
   export let onOKButtonClick: (value?: any) => void = () => {};
   export let onCloseButtonClick: (value?: any) => void = () => {};
+  /** 完全消失后的回调喵 */
   export let onFlyOutEnd: (value?: any) => void = () => {};
   //export let onLoad: (value?: any) => void = () => {};
   export let visible: boolean = false;
@@ -88,5 +89,4 @@
     font-size: 1em;
     padding: 5px 20px;
   }
-  
 </style>
