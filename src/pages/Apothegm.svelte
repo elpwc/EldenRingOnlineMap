@@ -93,6 +93,13 @@
   const onSearch = () => {
     if (searchWord !== '') {
       isSearch = true;
+
+      axios.post('./searchUpload.php', {
+        content: searchWord,
+        ip,
+        position: 'apothegm',
+      });
+
       refreshApo();
     }
   };
