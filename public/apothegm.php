@@ -219,8 +219,6 @@ switch ($request_type) {
         SET $geneRes
         WHERE `id`=$id;";
 
-        echo $sql;
-
         $result = mysqli_query($sqllink, $sql);
 
         echo ($result);
