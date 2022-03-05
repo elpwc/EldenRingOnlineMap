@@ -38,4 +38,5 @@ export enum MapPointType {
 
   Text = 'text',
   Warn = 'warn',
+  Question = 'question',
 }

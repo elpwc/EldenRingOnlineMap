@@ -44,6 +44,7 @@ const filters = [
   { name: '留言', hr: true },
   { name: '说明', value: MapPointType.Text, icon: MapIcon.message() },
   { name: '警示', value: MapPointType.Warn, icon: MapIcon.warning() },
+  { name: '求助', value: MapPointType.Question, icon: MapIcon.question() },
 ];
 
 export default filters;

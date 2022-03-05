@@ -94,6 +94,19 @@ export const MapIcon = {
         className: '',
       };
     },
+  question:
+    (size: number = 15, fontcolor: string = 'white') =>
+    (title?: string) => {
+      return {
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/question.png" width="${size}px" height="${size}px"/>
+        <p style="color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
+      };
+    },
   collect:
     (size: number = 20, fontcolor: string = 'white') =>
     (title?: string) => {
