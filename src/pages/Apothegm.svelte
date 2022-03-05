@@ -640,7 +640,7 @@
   .title {
     display: flex;
     justify-content: space-between;
-    font-size: 1.1em;
+    font-size: 1.3em;
   }
   .title-reply {
     display: flex;
@@ -696,7 +696,7 @@
   #inputDiv {
     height: 35px;
     background-color: rgb(21, 22, 17);
-    border: solid 1px rgb(204, 178, 118);
+    border-bottom: solid 1px rgb(204, 178, 118);
     display: flex;
     padding: 10px;
     box-shadow: 0 0 5px 0 rgb(204, 178, 118);
