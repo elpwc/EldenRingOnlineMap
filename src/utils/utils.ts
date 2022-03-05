@@ -2,6 +2,8 @@
  * 工具类喵
  * @author wniko
  */
+import axios from 'axios';
+import { setIp } from '../stores';
 import type { GetIPPositionReturn } from './typings';
 
 /**
@@ -10,11 +12,30 @@ import type { GetIPPositionReturn } from './typings';
  * @author wniko
  */
 export const get_ip_position = (): GetIPPositionReturn => {
+  // 判断是否可用，如果浏览去开启拦截广告，就不会读取，导致错误
   // @ts-ignore
-  const value = returnCitySN; // 见index.html <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
-  if (value) {
-    return value as GetIPPositionReturn;
+  if (returnCitySN) {
+    // @ts-ignore
+    const value = returnCitySN; // 见index.html <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+    if (value) {
+      return value as GetIPPositionReturn;
+    }
+  } else {
+    return {
+      cip: '',
+      cid: '',
+      cname: '',
+    };
   }
+};
+
+/**
+ * 设置用户ip
+ */
+export const set_client_ip = () => {
+  axios.get('./ipRequest.php').then(res => {
+    setIp(res?.data?.ip);
+  });
 };
 
 /**

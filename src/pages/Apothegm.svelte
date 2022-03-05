@@ -199,7 +199,7 @@
    * @param ip IP
    */
   const getMD5Id = (ip: string) => {
-    return md5(ip).substring(0, 6);
+    return ip === 'unknown' || ip === '' ? '' : md5(ip).substring(0, 6);
   };
 
   /** 分享 */
