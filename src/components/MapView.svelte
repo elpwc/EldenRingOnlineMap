@@ -979,7 +979,7 @@
   #selectModalInner {
     display: flex;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: center;
   }
   #underSelector {
     width: -webkit-fill-available;
