@@ -42,6 +42,7 @@ export type Apothegm = {
   content: string;
   tags: string;
   gesture: number;
+  is_top: boolean;
   like: number;
   dislike: number;
   ip: string;

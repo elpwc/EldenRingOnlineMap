@@ -142,6 +142,7 @@ switch ($request_type) {
                     'content' => $row['content'],
                     'tags' => $row['tags'],
                     'gesture' => (int)$row['gesture'],
+                    'is_top' => (bool)(int)$row['is_top'],
                     'like' =>  (int)$row['like'],
                     'dislike' => (int)$row['dislike'],
                     'ip' => $row['ip'],

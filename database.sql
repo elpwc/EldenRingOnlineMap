@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `apothegm` (
     `content` VARCHAR(1024),
     `tags` VARCHAR(1024),
     `gesture` INT UNSIGNED DEFAULT 0,
+    `is_top` BOOLEAN DEFAULT FALSE,
     `like` INT UNSIGNED DEFAULT 0,
     `dislike` INT UNSIGNED DEFAULT 0,
     `ip` VARCHAR(20),

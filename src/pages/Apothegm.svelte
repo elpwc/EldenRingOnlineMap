@@ -123,7 +123,29 @@
         })
         .then(res => {
           console.log(res.data);
-          apothegms = res.data as Apothegm[];
+
+          const tmpApo = res.data as Apothegm[];
+          // 先判断有没有置顶的，没有的话不操作，更快一些
+          if (
+            tmpApo.filter(f => {
+              return f.is_top === true;
+            }).length > 0
+          ) {
+            // 有置顶的
+            // 把置顶的拉到前面
+            apothegms = tmpApo
+              .filter(f => {
+                return f.is_top === true;
+              })
+              ?.concat(
+                tmpApo.filter(f => {
+                  return f.is_top === false;
+                })
+              );
+          } else {
+            // 没有置顶的
+            apothegms = tmpApo;
+          }
         });
     }
   };
@@ -305,6 +327,7 @@
 </script>
 
 <div class="container">
+  <!--搜索 添加栏-->
   <header id="inputDiv">
     <div style="display: flex;">
       <div id="searchTextContainer">
@@ -361,6 +384,7 @@
       我发送的</button
     >
   </header>
+
   <!--讯息列表-->
   <main id="listDiv">
     {#if apothegms?.length > 0}
@@ -374,7 +398,17 @@
           }}
         >
           <div class="title">
-            <div class="title-reply"><span class="titlespan">{@html apo?.title}</span></div>
+            <div class="title-reply">
+              <span class="titlespan">
+                {#if apo.is_top}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-angle-fill" viewBox="0 0 16 16">
+                    <path
+                      d="M9.828.722a.5.5 0 0 1 .354.146l4.95 4.95a.5.5 0 0 1 0 .707c-.48.48-1.072.588-1.503.588-.177 0-.335-.018-.46-.039l-3.134 3.134a5.927 5.927 0 0 1 .16 1.013c.046.702-.032 1.687-.72 2.375a.5.5 0 0 1-.707 0l-2.829-2.828-3.182 3.182c-.195.195-1.219.902-1.414.707-.195-.195.512-1.22.707-1.414l3.182-3.182-2.828-2.829a.5.5 0 0 1 0-.707c.688-.688 1.673-.767 2.375-.72a5.922 5.922 0 0 1 1.013.16l3.134-3.133a2.772 2.772 0 0 1-.04-.461c0-.43.108-1.022.589-1.503a.5.5 0 0 1 .353-.146z"
+                    />
+                  </svg>[置顶]
+                {/if}{@html apo?.title}</span
+              >
+            </div>
           </div>
           <!--<p>默认把\n处理为空格，所以需要转义为<br />-->
           <p class="contentp">{@html apo?.content?.replaceAll('\n', '<br />')}</p>
