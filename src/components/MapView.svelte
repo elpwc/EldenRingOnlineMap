@@ -114,7 +114,7 @@
       initLng = Number(getCookie('centerlng'));
     }
     if (getCookie('filterBarOpen')) {
-      showfilterDiv = Boolean(getCookie('filterBarOpen'));
+      showfilterDiv = getCookie('filterBarOpen') === '1';
     }
 
     // 创建地图
@@ -456,7 +456,7 @@
   /** 打开筛选框按钮按下时 */
   const onFilterButtonClick = () => {
     showfilterDiv = !showfilterDiv;
-    setCookie('filterBarOpen', String(showfilterDiv));
+    setCookie('filterBarOpen', showfilterDiv ? '1' : '0');
   };
 
   /** 好评 */
