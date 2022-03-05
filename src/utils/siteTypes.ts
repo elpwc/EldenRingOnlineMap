@@ -30,7 +30,7 @@ const filters = [
   { name: '锻造石', value: MapPointType.Stone, icon: MapIcon.blue() },
   { name: '黄金种子', value: MapPointType.GoldenSeed, icon: MapIcon.blue() },
   { name: '露滴', value: MapPointType.Ludi, icon: MapIcon.blue() },
-  { name: '逃课道具', value: MapPointType.Taoke, icon: MapIcon.blue() },
+  { name: '道具', value: MapPointType.Item, icon: MapIcon.blue() },
   { name: '石灰钥匙', value: MapPointType.Key, icon: MapIcon.blue() },
 
   { name: '武器', hr: true },
