@@ -46,7 +46,7 @@
 
   <!--Elden Ring Online Map-->
   <p id="title" class="svelte-q01t2y">
-    <span class="heads">E</span>lden <span class="heads">R</span>ing <span class="heads">O</span>nline <span class="heads">M</span>ap
+    <span class="heads">E</span>LDEN RING ONLINE MA<span class="heads">P</span>
     {#if isAdminMode}
       <!--AdminMode显示Admin字样-->
       <span
@@ -83,7 +83,8 @@
           />
         </svg>
       </sup>
-    </a>
+    </a><br />
+    最近更新: 2020-3-5 19:02
   </p>
 
   <!--请杯奶茶呜呜呜呜-->
