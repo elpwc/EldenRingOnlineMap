@@ -627,6 +627,7 @@
       </div>
       <button
         id="showNameBtn"
+        class={showPlaceNames && 'checked'}
         on:click={() => {
           showPlaceNames = !showPlaceNames;
           loadMarkers();
@@ -634,21 +635,21 @@
       >
       <div id="underSelector" style="padding: 3px; font-size: 0.6em;">
         <button
-          class={undergroundStatus === 0 && 'active'}
+          class={undergroundStatus === 0 && 'checked'}
           on:click={() => {
             undergroundStatus = 0;
             loadMarkers();
           }}>全部</button
         >
         <button
-          class={undergroundStatus === 1 && 'active'}
+          class={undergroundStatus === 1 && 'checked'}
           on:click={() => {
             undergroundStatus = 1;
             loadMarkers();
           }}>地下</button
         >
         <button
-          class={undergroundStatus === 2 && 'active'}
+          class={undergroundStatus === 2 && 'checked'}
           on:click={() => {
             undergroundStatus = 2;
             loadMarkers();
@@ -791,12 +792,12 @@
   <div class="modalInner">
     <div id="underSelector">
       <button
-        class={!addedPointUnderground && 'active'}
+        class={!addedPointUnderground && 'checked'}
         on:click={() => {
           addedPointUnderground = false;
         }}>地面</button
       ><button
-        class={addedPointUnderground && 'active'}
+        class={addedPointUnderground && 'checked'}
         on:click={() => {
           addedPointUnderground = true;
         }}>地下</button

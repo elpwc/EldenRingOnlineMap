@@ -36,6 +36,12 @@ button.active {
   box-shadow: 0 0 5px 1px rgb(208, 200, 181);
 }
 
+button.checked {
+  border: solid 3px rgb(208, 200, 181);
+  box-shadow: 0 0 5px 1px rgb(208, 200, 181);
+  font-weight: bold;
+}
+
 @media (any-hover: hover) {
   button:hover,
   select:hover {
