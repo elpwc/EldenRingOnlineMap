@@ -10,7 +10,7 @@
   import { MapIcon } from './icons';
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
-import filters from '../utils/siteTypes';
+  import filters from '../utils/siteTypes';
 
   /** 本页面！唯一指定！地图对象！ */
   let map;
@@ -37,7 +37,7 @@ import filters from '../utils/siteTypes';
   let isAddPointMode = false;
 
   /** 左侧筛选栏是否打开了 */
-  let showfilterDiv = false;
+  let showfilterDiv = true; // 默认打开
 
   /** 当前按下的点的经纬 */
   let currentClickedlatLng;
@@ -112,6 +112,9 @@ import filters from '../utils/siteTypes';
     }
     if (getCookie('centerlng')) {
       initLng = Number(getCookie('centerlng'));
+    }
+    if (getCookie('filterBarOpen')) {
+      showfilterDiv = Boolean(getCookie('filterBarOpen'));
     }
 
     // 创建地图
@@ -453,6 +456,7 @@ import filters from '../utils/siteTypes';
   /** 打开筛选框按钮按下时 */
   const onFilterButtonClick = () => {
     showfilterDiv = !showfilterDiv;
+    setCookie('filterBarOpen', String(showfilterDiv));
   };
 
   /** 好评 */
