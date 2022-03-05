@@ -29,6 +29,71 @@ export const MapIcon = {
         className: '',
       };
     },
+  boss:
+    (size: number = 30, fontcolor: string = 'yellow') =>
+    (title?: string) => {
+      return {
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/boss.png" width="${size}px" height="${size}px"/>
+        <p style="color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
+      };
+    },
+  littleboss:
+    (size: number = 28, fontcolor: string = 'yellow') =>
+    (title?: string) => {
+      return {
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/littleboss.png" width="${size}px" height="${size}px"/>
+        <p style="color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
+      };
+    },
+  portal:
+    (size: number = 24, fontcolor: string = 'white') =>
+    (title?: string) => {
+      return {
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/portal.png" width="${size}px" height="${size}px"/>
+        <p style="color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
+      };
+    },
+  message:
+    (size: number = 20, fontcolor: string = 'white') =>
+    (title?: string) => {
+      return {
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/message.png" width="${size}px" height="${size}px"/>
+        <p style="color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
+      };
+    },
+  warning:
+    (size: number = 15, fontcolor: string = 'white') =>
+    (title?: string) => {
+      return {
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/warning.png" width="${size}px" height="${size}px"/>
+        <p style="color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
+      };
+    },
   collect:
     (size: number = 20, fontcolor: string = 'white') =>
     (title?: string) => {

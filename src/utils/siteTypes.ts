@@ -13,7 +13,7 @@ const filters = [
   { name: '地点', hr: true },
   { name: '赐福', value: MapPointType.Cifu, icon: MapIcon.cifu() },
   { name: '捷径', value: MapPointType.Jiejing, icon: MapIcon.yellow(15, 'yellow') },
-  { name: '传送门', value: MapPointType.Portal, icon: MapIcon.yellow() },
+  { name: '传送门', value: MapPointType.Portal, icon: MapIcon.portal() },
   { name: '刷魂点', value: MapPointType.SoulSite, icon: MapIcon.yellow() },
   { name: '商店', value: MapPointType.Shop, icon: MapIcon.yellow() },
   { name: 'NPC', value: MapPointType.NPC, icon: MapIcon.yellow() },
@@ -21,8 +21,8 @@ const filters = [
   { name: '地点', value: MapPointType.Place, icon: MapIcon.yellow() },
 
   { name: '怪', hr: true },
-  { name: 'BOSS', value: MapPointType.Boss, icon: MapIcon.red(15, 'yellow') },
-  { name: '小BOSS', value: MapPointType.LittleBoss, icon: MapIcon.red() },
+  { name: 'BOSS', value: MapPointType.Boss, icon: MapIcon.boss() },
+  { name: '小BOSS', value: MapPointType.LittleBoss, icon: MapIcon.littleboss() },
   { name: '红灵入侵', value: MapPointType.RedSoul, icon: MapIcon.red() },
   { name: '精英怪', value: MapPointType.Jingyingguai, icon: MapIcon.red() },
 
@@ -42,8 +42,8 @@ const filters = [
   { name: '骨灰', value: MapPointType.Guhui, icon: MapIcon.purple() },
 
   { name: '留言', hr: true },
-  { name: '说明', value: MapPointType.Text, icon: MapIcon.white() },
-  { name: '警示', value: MapPointType.Warn, icon: MapIcon.white() },
+  { name: '说明', value: MapPointType.Text, icon: MapIcon.message() },
+  { name: '警示', value: MapPointType.Warn, icon: MapIcon.warning() },
 ];
 
 export default filters;
