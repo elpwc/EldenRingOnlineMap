@@ -645,7 +645,14 @@
           >
         {/if}
       </div>
-      <button on:click={onSearch}>搜索</button>
+      <button on:click={onSearch}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+          />
+        </svg>
+        搜索
+      </button>
     {:else}
       <p id="addpointtip">——{isUpdateLnglatMode ? '在地图点击选择新的位置' : '在地图上点击一点添加坐标'}——</p>
     {/if}
@@ -720,8 +727,10 @@
         on:click={() => {
           showPlaceNames = !showPlaceNames;
           loadMarkers();
-        }}>显示地名{showPlaceNames ? ' √' : ''}</button
+        }}
       >
+        显示地名{showPlaceNames ? ' √' : ''}
+      </button>
       <!--input type="text" placeholder="关键词" bind:value={filterString}/-->
     </div>
     <div id="leftDiv2" in:fly={{ x: -165, duration: 300 }} out:fly={{ x: -165, duration: 300 }}>
@@ -797,7 +806,18 @@
             markerInfoVisibility = false;
             editMode = true;
             addPointVisability = true;
-          }}>编辑</button
+          }}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path
+              d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+            />
+          </svg>
+          编辑</button
         >
       {/if}
 
@@ -805,7 +825,14 @@
         <button
           on:click={() => {
             deleteConfirmVisibility = true;
-          }}>删除</button
+          }}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+            <path
+              d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+            />
+          </svg>
+          删除</button
         >
       {/if}
       <button
@@ -864,15 +891,20 @@
           addedPointUnderground = false;
           is_underground = false;
           loadMarkers();
-        }}>地面</button
-      ><button
+        }}
+      >
+        位于地面
+      </button>
+      <button
         class={is_underground && 'checked'}
         on:click={() => {
           addedPointUnderground = true;
           is_underground = true;
           loadMarkers();
-        }}>地下</button
+        }}
       >
+        位于地下
+      </button>
     </div>
     <button
       on:click={() => {
@@ -890,8 +922,14 @@
         isAddPointMode = true;
         addPointVisability = false;
         isUpdateLnglatMode = true;
-      }}>重新选择位置</button
+      }}
     >
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z" />
+        <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z" />
+      </svg>
+      重新选择位置
+    </button>
   </div>
 </Modal>
 
@@ -1075,5 +1113,7 @@
   }
   #undergroundSwitchButton {
     margin: 5px;
+    font-size: 0.9em;
+    width: -webkit-fill-available;
   }
 </style>
