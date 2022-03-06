@@ -185,15 +185,12 @@
       setCookie('centerlat', map?.getCenter().lat);
       setCookie('centerlng', map?.getCenter().lng);
 
-      // 如果是手机再去掉文字减少卡顿，电脑不怕捏
-      if (isMobile) {
-        if (map?.getZoom() <= 3 && lastZoom > 3 && showPlaceNames) {
-          showPlaceNames = false;
-          loadMarkers();
-        } else if (map?.getZoom() > 3 && lastZoom <= 3 && !showPlaceNames) {
-          showPlaceNames = true;
-          loadMarkers();
-        }
+      if (map?.getZoom() <= 3 && lastZoom > 3 && showPlaceNames) {
+        showPlaceNames = false;
+        loadMarkers();
+      } else if (map?.getZoom() > 3 && lastZoom <= 3 && !showPlaceNames) {
+        showPlaceNames = true;
+        loadMarkers();
       }
     });
 
