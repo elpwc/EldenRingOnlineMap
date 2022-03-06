@@ -107,9 +107,11 @@
 
   afterUpdate(() => {
     if (is_underground) {
+      setCookie('underground', '1');
       groundLayer.remove();
       undergroundLayer.addTo(map);
     } else {
+      setCookie('underground', '0');
       undergroundLayer.remove();
       groundLayer.addTo(map);
     }
@@ -133,6 +135,9 @@
     }
     if (getCookie('filterBarOpen')) {
       showfilterDiv = getCookie('filterBarOpen') === '1';
+    }
+    if (getCookie('underground')) {
+      is_underground = getCookie('underground') === '1';
     }
 
     // 创建地图
@@ -905,7 +910,7 @@
   }
   #showNameBtn {
     margin: 4px;
-    font-size: 0.6em;    
+    font-size: 0.6em;
     width: -webkit-fill-available;
   }
   #addPointButton {
@@ -1018,7 +1023,7 @@
   input[type='checkbox']::after {
     background-color: #f5cc95;
   }
-  #undergroundSwitchButton{
+  #undergroundSwitchButton {
     margin: 5px;
   }
 </style>
