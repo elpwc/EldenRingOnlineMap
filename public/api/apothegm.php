@@ -29,9 +29,7 @@ switch ($request_type) {
         INTO apothegm (`title`, `content`, `like`, `dislike`, `ip`, `is_deleted`)
         VALUES ("' . cator_to_cn_censorship(anti_inj($title)) . '","' . cator_to_cn_censorship(anti_inj($content)) . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0");
         ';
-
-        echo $sql;
-
+        
         $result = mysqli_query($sqllink, $sql);
 
         echo json_encode($result);

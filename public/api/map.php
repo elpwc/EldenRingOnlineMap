@@ -28,13 +28,12 @@ switch ($request_type) {
         @$like = ($data->like);
         @$dislike = ($data->dislike);
         @$ip = trim((string)($data->ip));
+        @$is_underground = (string)($data->is_underground);
 
         $sql = 'INSERT 
-        INTO map (`type`, `name`, `desc`, `lng`, `lat`, `like`, `dislike`, `ip`, `is_deleted`)
-        VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0");
+        INTO map (`type`, `name`, `desc`, `lng`, `lat`, `like`, `dislike`, `ip`, `is_deleted`, `is_underground`)
+        VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0", "'.($is_underground == '1' ? '1' : '0').'");
         ';
-
-        echo $sql;
 
         $result = mysqli_query($sqllink, $sql);
 

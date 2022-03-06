@@ -52,8 +52,6 @@
   let addedPointName = '';
   /** 要加的点的描述 */
   let addedPointDesc = '';
-  /** 要加的点在不在地下 */
-  let addedPointUnderground = false;
 
   /** 搜索的词 */
   let searchWord = '';
@@ -458,7 +456,7 @@
                 type: addedPointType,
                 name: addedPointName,
                 desc: addedPointDesc,
-                is_underground: addedPointUnderground ? '1' : '0',
+                is_underground: is_underground ? '1' : '0',
               },
               ...(isUpdateLnglatMode
                 ? {
@@ -477,7 +475,6 @@
               addedPointDesc = '';
               addedPointName = '';
               addedPointType = MapPointType.Empty;
-              addedPointUnderground = false;
               loadMarkers(currentClickedMarker?.id);
             });
         } else {
@@ -489,6 +486,7 @@
               desc: addedPointDesc,
               lng: currentClickedlatLng.lng,
               lat: currentClickedlatLng.lat,
+              is_underground: is_underground ? '1' : '2',
               like: 0,
               dislike: 0,
               ip,
@@ -501,7 +499,6 @@
               addedPointDesc = '';
               addedPointName = '';
               addedPointType = MapPointType.Empty;
-              addedPointUnderground = false;
               tempMarker.remove();
               loadMarkers(/*res.data?.id*/);
             });
@@ -520,7 +517,6 @@
     addedPointDesc = '';
     addedPointName = '';
     addedPointType = MapPointType.Empty;
-    addedPointUnderground = false;
     tempMarker.remove();
   };
 
@@ -801,7 +797,6 @@
             addedPointDesc = currentClickedMarker?.desc;
             addedPointName = currentClickedMarker?.name;
             addedPointType = currentClickedMarker?.type;
-            addedPointUnderground = currentClickedMarker?.is_underground;
 
             markerInfoVisibility = false;
             editMode = true;
@@ -888,7 +883,6 @@
       <button
         class={!is_underground && 'checked'}
         on:click={() => {
-          addedPointUnderground = false;
           is_underground = false;
           loadMarkers();
         }}
@@ -898,7 +892,6 @@
       <button
         class={is_underground && 'checked'}
         on:click={() => {
-          addedPointUnderground = true;
           is_underground = true;
           loadMarkers();
         }}
