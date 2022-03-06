@@ -173,11 +173,25 @@
       }
     });
 
+    /** 上次缩放等级，用来比对是不是2级，是2级的话，就不加载地名了，不然太卡力 */
+    let lastZoom = 3;
+
+    map.on('zoomstart', e => {
+      lastZoom = map?.getZoom();
+    });
+
     // 地图缩放/移动结束后储存状态
     map.on('zoomend', e => {
       setCookie('zoom', map?.getZoom());
       setCookie('centerlat', map?.getCenter().lat);
       setCookie('centerlng', map?.getCenter().lng);
+      if (map?.getZoom() <= 2 && lastZoom > 2 && showPlaceNames) {
+        showPlaceNames = false;
+        loadMarkers();
+      } else if (map?.getZoom() > 2 && lastZoom <= 2 && !showPlaceNames) {
+        showPlaceNames = true;
+        loadMarkers();
+      }
     });
 
     map.on('moveend', e => {
