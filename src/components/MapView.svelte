@@ -654,7 +654,7 @@
         搜索
       </button>
     {:else}
-      <p id="addpointtip">——{isUpdateLnglatMode ? '在地图点击选择新的位置' : '在地图上点击一点添加坐标'}——</p>
+      <p id="addpointtip">{isUpdateLnglatMode ? '在地图点击选择新的位置' : '在地图上点击一点添加坐标'}</p>
     {/if}
 
     <button id="addPointButton" on:click={onAddButtonClick}>
@@ -679,6 +679,7 @@
   {#if showfilterDiv}
     <div id="filterDiv" transition:fly={{ x: -160, duration: 300 }}>
       <button
+        class="active"
         id="undergroundSwitchButton"
         on:click={() => {
           is_underground = !is_underground;
@@ -966,6 +967,7 @@
     color: rgb(208, 200, 181);
     font-family: 'Times New Roman', Times, serif;
     display: flex;
+    margin-left: 5px;
   }
 
   .filterHr {
@@ -1075,6 +1077,7 @@
     border-top: solid 1px rgb(208, 200, 181);
     border-bottom: solid 1px rgb(208, 200, 181);
     padding: 3px 15px;
+    margin-left: 5px;
   }
   .modalInner {
     width: 100%;

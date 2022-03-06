@@ -668,6 +668,7 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
+    margin: 5px 0;
   }
   .apothegm {
     border-bottom: solid 1px rgb(204, 178, 118);
@@ -715,7 +716,7 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 70px;
+    bottom: 50px;
   }
   #apothegmContent main {
     background-color: rgb(21, 22, 17, 0.9);
