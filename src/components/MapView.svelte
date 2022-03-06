@@ -679,7 +679,6 @@
   {#if showfilterDiv}
     <div id="filterDiv" transition:fly={{ x: -160, duration: 300 }}>
       <button
-        class="active"
         id="undergroundSwitchButton"
         on:click={() => {
           is_underground = !is_underground;
