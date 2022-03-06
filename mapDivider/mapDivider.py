@@ -3,6 +3,7 @@ import os
 import math
 from PIL import Image
 
+
 def overlap(box1, box2):
     minx1, miny1, maxx1, maxy1 = box1
     minx2, miny2, maxx2, maxy2 = box2
@@ -15,11 +16,12 @@ def overlap(box1, box2):
     else:
         return True
 
+
 img = Image.open('./underground.jpg')
 print(img.size)
 
-# 基准点：1085, 3142
-# 计算后的全图左上角：1085-6400, 3142-6400 => -5315, -3218
+# 基准点：1085, 2987
+# 计算后的全图左上角：1240-6400, 2987-6400 => -5160, -3413
 # 计算后的全图长宽：12800, 12800
 # 原图长宽：5235, 3278
 
@@ -51,8 +53,8 @@ for level in range(minLevel, maxLevel-1, -1):
     currentH = img.size[1]
 
     # 当前左上角坐标
-    currentTop = math.ceil(-5315 * resizeK)
-    currentLeft = math.ceil(-3218 * resizeK)
+    currentLeft = math.ceil(-5160 * resizeK)
+    currentTop = math.ceil(-3413 * resizeK)
 
     # 当前总图长宽
     currentAllW = math.ceil(12800 * resizeK)
@@ -80,7 +82,10 @@ for level in range(minLevel, maxLevel-1, -1):
                         "./{resultFolder}/{level}/".format(resultFolder=resultFolder, level=level) + str(X))
 
                 # 切！
-                res = img.crop((cutX, cutY, cutX + resW, cutY + resH))
+                res = Image.new('RGB', (resW, resH), (34, 34, 34))
+                res.paste(img, (-cutX, -cutY))
+
+                # res = img.crop((cutX, cutY, cutX + resW, cutY + resH))
                 # 存！
                 res.save("./{resultFolder}/{level}/{X}/{Y}.jpg".format(
                     resultFolder=resultFolder, level=level, X=X, Y=Y))
