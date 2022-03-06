@@ -40,4 +40,5 @@ export enum MapPointType {
   Text = 'text',
   Warn = 'warn',
   Question = 'question',
+  Taoke = 'taoke',
 }

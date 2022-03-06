@@ -12,7 +12,7 @@ const filters = [
 
   { name: '地点', hr: true },
   { name: '赐福', value: MapPointType.Cifu, icon: MapIcon.cifu() },
-  { name: '捷径', value: MapPointType.Jiejing, icon: MapIcon.yellow(15, 'yellow') },
+  { name: '捷径', value: MapPointType.Jiejing, icon: MapIcon.yellow() },
   { name: '传送门', value: MapPointType.Portal, icon: MapIcon.portal() },
   { name: '刷魂点', value: MapPointType.SoulSite, icon: MapIcon.yellow() },
   { name: '商店', value: MapPointType.Shop, icon: MapIcon.yellow() },
@@ -46,6 +46,7 @@ const filters = [
   { name: '说明', value: MapPointType.Text, icon: MapIcon.message() },
   { name: '警示', value: MapPointType.Warn, icon: MapIcon.warning() },
   { name: '求助', value: MapPointType.Question, icon: MapIcon.question() },
+  { name: '逃课', value: MapPointType.Taoke, icon: MapIcon.message() },
 ];
 
 export default filters;
