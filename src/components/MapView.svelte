@@ -439,6 +439,9 @@
     if (isUpdateLnglatMode) {
       isUpdateLnglatMode = false;
     }
+    if(editMode){
+      editMode = false;
+    }
     isAddPointMode = !isAddPointMode;
   };
 
@@ -517,6 +520,7 @@
     addedPointDesc = '';
     addedPointName = '';
     addedPointType = MapPointType.Empty;
+    editMode = false;
     tempMarker.remove();
   };
 
