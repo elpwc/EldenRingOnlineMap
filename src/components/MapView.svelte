@@ -1,6 +1,6 @@
 <script lang="ts">
   import L from 'leaflet';
-  import { onMount } from 'svelte';
+  import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
   import { MapPointType } from '../utils/enum';
@@ -11,6 +11,10 @@
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
   import filters from '../utils/siteTypes';
+
+  // 地图数据
+  const groundMap = 'https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg';
+  const undergroundMap = './resource/maps/underground/{z}/{x}/{y}.jpg';
 
   /** 本页面！唯一指定！地图对象！ */
   let map;
@@ -59,7 +63,7 @@
   /** 是否显示地标名字 */
   let showPlaceNames = true;
   /** 是否显示地下 0 全部显示，1 显示地下，2 显示地表 */
-  let undergroundStatus = 0;
+  let is_underground = false;
   /** 左侧栏筛选文本（未使用 */
   let filterString = '';
   /** 是否显示自己添加的地标 */
@@ -97,6 +101,20 @@
   /** 所有收藏的地标的id */
   let collects = getCookie('collect')?.split('|');
 
+  let groundLayer: L.Layer;
+
+  let undergroundLayer: L.Layer;
+
+  afterUpdate(() => {
+    if (is_underground) {
+      groundLayer.remove();
+      undergroundLayer.addTo(map);
+    } else {
+      undergroundLayer.remove();
+      groundLayer.addTo(map);
+    }
+  });
+
   onMount(() => {
     // 初始化地图参数
     let initZoom = 2;
@@ -120,25 +138,19 @@
     // 创建地图
     map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
 
-    const groundMap = 'https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg';
-    const undergroundMap = './resource/maps/underground/{z}/{x}/{y}.jpg'
-
-    const groundLayer = L.tileLayer(groundMap, {
+    groundLayer = L.tileLayer(groundMap, {
       maxZoom: 7,
       minZoom: 2,
       tileSize: 200,
       zoomOffset: 0,
     });
 
-    const undergroundLayer = L.tileLayer(undergroundMap, {
+    undergroundLayer = L.tileLayer(undergroundMap, {
       maxZoom: 7,
       minZoom: 2,
       tileSize: 200,
       zoomOffset: 0,
     });
-
-    // 获取老头环地图数据
-    groundLayer.addTo(map);
 
     // 把缩放控件加到左下角
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
@@ -300,7 +312,7 @@
             type: selectAll ? '' : checkedTypes.join('|'),
             kword: searchWord,
             ip: showSelf ? ip : '',
-            under: undergroundStatus,
+            under: is_underground ? 1 : 2,
           },
         })
         .then(res => {
@@ -606,6 +618,23 @@
   <!--左侧筛选栏-->
   {#if showfilterDiv}
     <div id="filterDiv" transition:fly={{ x: -160, duration: 300 }}>
+      <button
+        on:click={() => {
+          is_underground = !is_underground;
+          loadMarkers();
+        }}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+          <path
+            d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"
+          />
+          <path
+            fill-rule="evenodd"
+            d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
+          />
+        </svg>
+        切换到{is_underground ? '地面' : '地下'}地图
+      </button>
       <p style="font-size: 0.6em;">地图上点地标可以查看详细</p>
       <div id="filter" style="max-height: {window.innerHeight - 80}px;">
         {#each filters as filter}
@@ -645,29 +674,6 @@
           loadMarkers();
         }}>显示地名{showPlaceNames ? ' √' : ''}</button
       >
-      <div id="underSelector" style="padding: 3px; font-size: 0.6em;">
-        <button
-          class={undergroundStatus === 0 && 'checked'}
-          on:click={() => {
-            undergroundStatus = 0;
-            loadMarkers();
-          }}>全部</button
-        >
-        <button
-          class={undergroundStatus === 1 && 'checked'}
-          on:click={() => {
-            undergroundStatus = 1;
-            loadMarkers();
-          }}>地下</button
-        >
-        <button
-          class={undergroundStatus === 2 && 'checked'}
-          on:click={() => {
-            undergroundStatus = 2;
-            loadMarkers();
-          }}>地面</button
-        >
-      </div>
       <!--input type="text" placeholder="关键词" bind:value={filterString}/-->
     </div>
     <div id="leftDiv2" in:fly={{ x: -165, duration: 300 }} out:fly={{ x: -165, duration: 300 }}>
@@ -707,6 +713,7 @@
 
 <!--地标详细信息-->
 <Modal
+  width="75%"
   visible={markerInfoVisibility}
   top="15%"
   title={filters.filter(filter => {
@@ -804,14 +811,18 @@
   <div class="modalInner">
     <div id="underSelector">
       <button
-        class={!addedPointUnderground && 'checked'}
+        class={!is_underground && 'checked'}
         on:click={() => {
           addedPointUnderground = false;
+          is_underground = false;
+          loadMarkers();
         }}>地面</button
       ><button
-        class={addedPointUnderground && 'checked'}
+        class={is_underground && 'checked'}
         on:click={() => {
           addedPointUnderground = true;
+          is_underground = true;
+          loadMarkers();
         }}>地下</button
       >
     </div>
