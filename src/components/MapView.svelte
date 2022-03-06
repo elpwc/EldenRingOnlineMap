@@ -95,11 +95,14 @@
   /** 删除确认框 */
   let deleteConfirmVisibility = false;
 
-  /** 是否在编辑地标模式 */
+  /** 是否在一个地标的编辑模式,注意：不是添加地标模式(isAddPointMode) */
   let editMode = false;
 
   /** 所有收藏的地标的id */
   let collects = getCookie('collect')?.split('|');
+
+  /** 是否修改了地标位置 */
+  let isUpdateLnglatMode = false;
 
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
@@ -170,6 +173,7 @@
     map.on('click', e => {
       if (isAddPointMode) {
         // 如果在添加地标模式中
+        tempMarker?.remove();
         currentClickedlatLng = e.latlng;
         tempMarker = L.marker(e.latlng, {
           icon: L.divIcon(MapIcon.default()(addedPointName)),
@@ -319,8 +323,11 @@
               )?.(showPlaceNames ? resMarker.name : '')
             ),
           }).on('click', () => {
-            currentClickedMarker = resMarker;
-            markerInfoVisibility = true;
+            // 在添加的时候不能误点了
+            if (!isAddPointMode) {
+              currentClickedMarker = resMarker;
+              markerInfoVisibility = true;
+            }
           });
 
           // 把新的坐标加到地图上
@@ -361,8 +368,10 @@
                   )?.(showPlaceNames ? m.name : '')
                 ),
               }).on('click', () => {
-                currentClickedMarker = m;
-                markerInfoVisibility = true;
+                if (!isAddPointMode) {
+                  currentClickedMarker = m;
+                  markerInfoVisibility = true;
+                }
               }),
               id: m.id,
             });
@@ -429,6 +438,9 @@
 
   // 进入添加地标模式
   const onAddButtonClick = () => {
+    if (isUpdateLnglatMode) {
+      isUpdateLnglatMode = false;
+    }
     isAddPointMode = !isAddPointMode;
   };
 
@@ -441,16 +453,25 @@
           // 编辑
           axios
             .patch('./map.php', {
-              id: currentClickedMarker?.id,
-              type: addedPointType,
-              name: addedPointName,
-              desc: addedPointDesc,
-              is_underground: addedPointUnderground ? '1' : '0',
+              ...{
+                id: currentClickedMarker?.id,
+                type: addedPointType,
+                name: addedPointName,
+                desc: addedPointDesc,
+                is_underground: addedPointUnderground ? '1' : '0',
+              },
+              ...(isUpdateLnglatMode
+                ? {
+                    lng: currentClickedlatLng.lng,
+                    lat: currentClickedlatLng.lat,
+                  }
+                : {}),
             })
             .then(res => {
               console.log(res);
               addPointVisability = false;
               editMode = false;
+              isUpdateLnglatMode = false;
 
               // 清除Modal已输入内容
               addedPointDesc = '';
@@ -626,7 +647,7 @@
       </div>
       <button on:click={onSearch}>搜索</button>
     {:else}
-      <p id="addpointtip">——在地图上点击一点添加坐标——</p>
+      <p id="addpointtip">——{isUpdateLnglatMode ? '在地图点击选择新的位置' : '在地图上点击一点添加坐标'}——</p>
     {/if}
 
     <button id="addPointButton" on:click={onAddButtonClick}>
@@ -662,7 +683,7 @@
         </svg>
         切换到{is_underground ? '地面' : '地下'}地图
       </button>
-      <p style="font-size: 0.6em;">地图上点地标可以查看详细</p>
+      <p style="font-size: 0.6em;">tips:点击地图上的地标可以查看详细</p>
       <div id="filter" style="max-height: {window.innerHeight - 80}px;">
         {#each filters as filter}
           {#if filter?.hr}
@@ -857,12 +878,20 @@
       on:click={() => {
         selectTypeVisability = true;
       }}
-      >{filters.filter(type => {
-        return type.value === addedPointType;
-      })?.[0]?.name || '——选择类型——'}</button
     >
+      {filters.filter(type => {
+        return type.value === addedPointType;
+      })?.[0]?.name || '——选择类型——'}
+    </button>
     <input type="text" placeholder="名称 (1～20)" bind:value={addedPointName} />
     <textarea placeholder="描述 (0～1000)" bind:value={addedPointDesc} />
+    <button
+      on:click={() => {
+        isAddPointMode = true;
+        addPointVisability = false;
+        isUpdateLnglatMode = true;
+      }}>重新选择位置</button
+    >
   </div>
 </Modal>
 
