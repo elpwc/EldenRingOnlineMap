@@ -3,8 +3,8 @@
 
 .DS_Store
 
-/public/private/*
-!/public/private/*.example.*
+/public/api/private/*
+!/public/api/private/*.example.*
 
 /public/resource/maps/
 
