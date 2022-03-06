@@ -17,6 +17,7 @@ export enum MapPointType {
   NPC = 'npc',
   Map = 'map',
   Place = 'place',
+  Lianji = 'lianji',
 
   Boss = 'boss',
   LittleBoss = 'littboss',

@@ -18,6 +18,7 @@ const filters = [
   { name: '商店', value: MapPointType.Shop, icon: MapIcon.yellow() },
   { name: 'NPC', value: MapPointType.NPC, icon: MapIcon.yellow() },
   { name: '地图碎片', value: MapPointType.Map, icon: MapIcon.yellow() },
+  { name: '联机点', value: MapPointType.Lianji, icon: MapIcon.yellow() },
   { name: '地点', value: MapPointType.Place, icon: MapIcon.yellow() },
 
   { name: '怪', hr: true },
