@@ -120,13 +120,25 @@
     // 创建地图
     map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
 
-    // 获取老头环地图数据
-    L.tileLayer('https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg', {
+    const groundMap = 'https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg';
+    const undergroundMap = './resource/maps/underground/{z}/{x}/{y}.jpg'
+
+    const groundLayer = L.tileLayer(groundMap, {
       maxZoom: 7,
       minZoom: 2,
       tileSize: 200,
       zoomOffset: 0,
-    }).addTo(map);
+    });
+
+    const undergroundLayer = L.tileLayer(undergroundMap, {
+      maxZoom: 7,
+      minZoom: 2,
+      tileSize: 200,
+      zoomOffset: 0,
+    });
+
+    // 获取老头环地图数据
+    groundLayer.addTo(map);
 
     // 把缩放控件加到左下角
     L.control.zoom({ position: 'bottomleft' }).addTo(map);

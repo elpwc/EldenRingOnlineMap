@@ -5,3 +5,7 @@
 
 /public/private/*
 !/public/private/*.example.*
+
+/public/resource/maps/
+
+/mapDivider/map/
