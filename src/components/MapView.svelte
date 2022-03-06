@@ -5,7 +5,7 @@
   import { fly } from 'svelte/transition';
   import { MapPointType } from '../utils/enum';
   import axios from 'axios';
-  import { ip, isAdminModeStore } from '../stores';
+  import { ip, isAdminModeStore, isMobile } from '../stores';
   import type { MapPoint } from '../utils/typings';
   import { MapIcon } from './icons';
   import './icons.css';
@@ -102,7 +102,6 @@
   let collects = getCookie('collect')?.split('|');
 
   let groundLayer: L.Layer;
-
   let undergroundLayer: L.Layer;
 
   afterUpdate(() => {
@@ -119,7 +118,7 @@
 
   onMount(() => {
     // 初始化地图参数
-    let initZoom = 2;
+    let initZoom = 3;
     let initLat = 40;
     let initLng = -40;
 
@@ -185,12 +184,16 @@
       setCookie('zoom', map?.getZoom());
       setCookie('centerlat', map?.getCenter().lat);
       setCookie('centerlng', map?.getCenter().lng);
-      if (map?.getZoom() <= 2 && lastZoom > 2 && showPlaceNames) {
-        showPlaceNames = false;
-        loadMarkers();
-      } else if (map?.getZoom() > 2 && lastZoom <= 2 && !showPlaceNames) {
-        showPlaceNames = true;
-        loadMarkers();
+
+      // 如果是手机再去掉文字减少卡顿，电脑不怕捏
+      if (isMobile) {
+        if (map?.getZoom() <= 3 && lastZoom > 3 && showPlaceNames) {
+          showPlaceNames = false;
+          loadMarkers();
+        } else if (map?.getZoom() > 3 && lastZoom <= 3 && !showPlaceNames) {
+          showPlaceNames = true;
+          loadMarkers();
+        }
       }
     });
 

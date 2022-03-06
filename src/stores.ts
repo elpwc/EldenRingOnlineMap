@@ -19,3 +19,6 @@ export let ip = '';
 export const setIp = newip => {
   ip = newip;
 };
+
+/** 是否是便携式设备 */
+export const isMobile: boolean = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
