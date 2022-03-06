@@ -619,6 +619,7 @@
   {#if showfilterDiv}
     <div id="filterDiv" transition:fly={{ x: -160, duration: 300 }}>
       <button
+        id="undergroundSwitchButton"
         on:click={() => {
           is_underground = !is_underground;
           loadMarkers();
@@ -904,7 +905,8 @@
   }
   #showNameBtn {
     margin: 4px;
-    font-size: 0.6em;
+    font-size: 0.6em;    
+    width: -webkit-fill-available;
   }
   #addPointButton {
     margin-left: 5px;
@@ -1015,5 +1017,8 @@
   }
   input[type='checkbox']::after {
     background-color: #f5cc95;
+  }
+  #undergroundSwitchButton{
+    margin: 5px;
   }
 </style>
