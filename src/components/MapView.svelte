@@ -139,6 +139,13 @@
       is_underground = getCookie('underground') === '1';
     }
 
+    // 初始化是否显示地名，zoom过小就不显示了，不然嫩卡
+    if (initZoom > 3) {
+      showPlaceNames = true;
+    } else {
+      showPlaceNames = false;
+    }
+
     // 创建地图
     map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
 
