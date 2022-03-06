@@ -439,7 +439,7 @@
     if (isUpdateLnglatMode) {
       isUpdateLnglatMode = false;
     }
-    if(editMode){
+    if (editMode) {
       editMode = false;
     }
     isAddPointMode = !isAddPointMode;
@@ -877,7 +877,7 @@
 <!--添加/编辑地标Modal-->
 <Modal
   visible={addPointVisability}
-  top="10%"
+  top="0%"
   width="85%"
   title={editMode ? '修改 ' + currentClickedMarker?.name : '添加一个地标'}
   zindex={114600}
@@ -906,7 +906,7 @@
           loadMarkers();
         }}
       >
-        位于地下
+        位于地下(希芙拉河)
       </button>
     </div>
     <button
