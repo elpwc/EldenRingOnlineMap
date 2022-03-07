@@ -775,7 +775,7 @@
       >
         显示地名{showPlaceNames ? ' √' : ''}
       </button>
-      <div id="underSelector">
+      <div id="underSelector" style="margin: 5px; align-items: center;">
         <span style="min-width: fit-content;">字号</span>
         <button
           class={markerFontSize === 0.5 && 'checked'}
@@ -1137,7 +1137,7 @@
   }
   #filterDiv {
     position: absolute;
-    top: 70px;
+    top: 50px;
     left: 0px;
     width: 160px;
     z-index: 114515;
@@ -1146,6 +1146,7 @@
     box-shadow: 0 0 2px 0 white;
     background-color: rgb(21, 22, 17, 0.7);
     color: rgb(208, 200, 181);
+    min-height: max-content;
   }
   #filter {
     font-family: 'Times New Roman', Times, serif;
@@ -1153,7 +1154,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    height: 400px;
+    height: 425px;
   }
   #bottomDiv {
     position: absolute;
