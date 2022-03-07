@@ -174,7 +174,7 @@
 
   /** 发布讯息 */
   const onPost = () => {
-    if (postTitle !== '') {
+    if (postTitle !== '' || postType === ApothegmType.Empty) {
       if (postTitle.length <= 20 && postContent.length <= 1000) {
         axios
           .post('./apothegm.php', {
@@ -190,6 +190,7 @@
             postModalVisibility = false;
             postContent = '';
             postTitle = '';
+            postType = ApothegmType.Empty;
 
             refreshApo(/*res.data?.id*/);
           });
@@ -197,7 +198,7 @@
         alert('标题(≤20)/内容(≤1000)太长了~');
       }
     } else {
-      alert('请填写标题再提交~');
+      alert('请填写标题/类型再提交~');
     }
   };
 
@@ -578,6 +579,7 @@
     postModalVisibility = false;
     postContent = '';
     postTitle = '';
+    postType = ApothegmType.Empty;
   }}
 >
   <div class="modalInner">
