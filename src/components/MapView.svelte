@@ -1,5 +1,5 @@
 <script lang="ts">
-  import L from 'leaflet';
+  import L, { marker } from 'leaflet';
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
@@ -109,6 +109,9 @@
   /** 所有隐藏的地标的id */
   let hidden = getCookie('hidden')?.split('|');
 
+  /** 地图字体大小 */
+  let markerFontSize = 0.8;
+
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
 
@@ -181,7 +184,7 @@
         tempMarker?.remove();
         currentClickedlatLng = e.latlng;
         tempMarker = L.marker(e.latlng, {
-          icon: L.divIcon(MapIcon.default()(addedPointName)),
+          icon: L.divIcon(MapIcon.default()(addedPointName, `${markerFontSize}em`)),
         });
         tempMarker.addTo(map);
         addPointVisability = true;
@@ -260,11 +263,14 @@
                       (
                         filters.filter(filter => {
                           return filter?.value === m.type;
-                        })?.[0]?.icon as (title?: string) => {
+                        })?.[0]?.icon as (
+                          title?: string,
+                          fontSize?: string
+                        ) => {
                           html: string;
                           className: string;
                         }
-                      )?.(showPlaceNames ? m.name : '')
+                      )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
                     ),
                   }).on('click', () => {
                     currentClickedMarker = m;
@@ -321,11 +327,14 @@
               (
                 filters.filter(filter => {
                   return filter?.value === resMarker.type;
-                })?.[0]?.icon as (title?: string) => {
+                })?.[0]?.icon as (
+                  title?: string,
+                  fontSize?: string
+                ) => {
                   html: string;
                   className: string;
                 }
-              )?.(showPlaceNames ? resMarker.name : '')
+              )?.(showPlaceNames ? resMarker.name : '', `${markerFontSize}em`)
             ),
           }).on('click', () => {
             // 在添加的时候不能误点了
@@ -366,11 +375,14 @@
                   (
                     filters.filter(filter => {
                       return filter?.value === m.type;
-                    })?.[0]?.icon as (title?: string) => {
+                    })?.[0]?.icon as (
+                      title?: string,
+                      fontSize?: string
+                    ) => {
                       html: string;
                       className: string;
                     }
-                  )?.(showPlaceNames ? m.name : '')
+                  )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
                 ),
               }).on('click', () => {
                 if (!isAddPointMode) {
@@ -424,11 +436,14 @@
                   (
                     filters.filter(filter => {
                       return filter?.value === m.type;
-                    })?.[0]?.icon as (title?: string) => {
+                    })?.[0]?.icon as (
+                      title?: string,
+                      fontSize?: string
+                    ) => {
                       html: string;
                       className: string;
                     }
-                  )?.(showPlaceNames ? m.name : '')
+                  )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
                 ),
               }).on('click', () => {
                 currentClickedMarker = m;
@@ -760,6 +775,38 @@
       >
         显示地名{showPlaceNames ? ' √' : ''}
       </button>
+      <div id="underSelector">
+        <span style="min-width: fit-content;">字号</span>
+        <button
+          class={markerFontSize === 0.5 && 'checked'}
+          on:click={() => {
+            markerFontSize = 0.5;
+            loadMarkers();
+          }}
+        >
+          小
+        </button>
+
+        <button
+          class={markerFontSize === 0.8 && 'checked'}
+          on:click={() => {
+            markerFontSize = 0.8;
+            loadMarkers();
+          }}
+        >
+          中
+        </button>
+
+        <button
+          class={markerFontSize === 1.3 && 'checked'}
+          on:click={() => {
+            markerFontSize = 1.3;
+            loadMarkers();
+          }}
+        >
+          大
+        </button>
+      </div>
       <!--input type="text" placeholder="关键词" bind:value={filterString}/-->
     </div>
     <div id="leftDiv2" in:fly={{ x: -165, duration: 300 }} out:fly={{ x: -165, duration: 300 }}>
