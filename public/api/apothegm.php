@@ -24,12 +24,13 @@ switch ($request_type) {
         @$like = ($data->like);
         @$dislike = ($data->dislike);
         @$ip = trim((string)($data->ip));
+        @$type = trim((string)($data->type));
 
         $sql = 'INSERT 
-        INTO apothegm (`title`, `content`, `like`, `dislike`, `ip`, `is_deleted`)
-        VALUES ("' . cator_to_cn_censorship(anti_inj($title)) . '","' . cator_to_cn_censorship(anti_inj($content)) . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0");
+        INTO apothegm (`title`, `content`, `like`, `dislike`, `ip`, `is_deleted`, `type`)
+        VALUES ("' . cator_to_cn_censorship(anti_inj($title)) . '","' . cator_to_cn_censorship(anti_inj($content)) . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0", "' . anti_inj($type) . '");
         ';
-        
+
         $result = mysqli_query($sqllink, $sql);
 
         echo json_encode($result);
@@ -41,11 +42,14 @@ switch ($request_type) {
         /** 个数, 不填为全部 */
         @$count_ori = $_GET['count'];
         @$kword_ori = $_GET['kword'];
+        @$type_ori = $_GET['type'];
 
         $id = '';
         $ip = '';
         $count = 0;
         $kword = '';
+        $type = '';
+
         if (is_numeric($count_ori)) {
             $count = (int)$count_ori;
         }
@@ -61,6 +65,9 @@ switch ($request_type) {
 
         if (isset($ip_ori)) {
             $ip = trim(anti_inj((string)$ip_ori));
+        }
+        if (isset($type_ori)) {
+            $type = trim(anti_inj((string)$type_ori));
         }
         if (isset($kword_ori)) {
             $kword = trim(anti_inj((string)$kword_ori));
@@ -79,6 +86,7 @@ switch ($request_type) {
                         ]
                     ],
                     ['', ['ip', $ip]],
+                    ['', ['type', $type]],
                     ['', ['is_deleted', '0']]
                 ]
             ];
@@ -138,7 +146,7 @@ switch ($request_type) {
                     'id' => $row['id'],
                     'title' => $row['title'],
                     'content' => $row['content'],
-                    'tags' => $row['tags'],
+                    'type' => $row['type'],
                     'gesture' => (int)$row['gesture'],
                     'is_top' => (bool)(int)$row['is_top'],
                     'like' =>  (int)$row['like'],
@@ -173,10 +181,10 @@ switch ($request_type) {
         break;
     case 'PATCH':
         @$id = trim((string)($data->id));
-        @$title = trim((string)($data->type));
-        @$content = trim((string)($data->name));
-        @$tags = trim((string)($data->desc));
-        @$gesture = (string)($data->lng);
+        @$title = trim((string)($data->title));
+        @$content = trim((string)($data->content));
+        @$type = trim((string)($data->type));
+        @$gesture = (string)($data->gesture);
         @$like = (string)($data->like);
         @$dislike = (string)($data->dislike);
         @$ip = trim((string)($data->ip));

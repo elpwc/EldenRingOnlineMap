@@ -2,7 +2,7 @@
  * 这个文件用来定义各种类型喵
  * @author wniko
  */
-import type { MapPointType } from './enum';
+import type { ApothegmType, MapPointType } from './enum';
 
 /** 地标 */
 export type MapPoint = {
@@ -40,7 +40,7 @@ export type Apothegm = {
   id: number;
   title: string;
   content: string;
-  tags: string;
+  type: ApothegmType;
   gesture: number;
   is_top: boolean;
   like: number;

@@ -42,3 +42,22 @@ export enum MapPointType {
   Question = 'question',
   Taoke = 'taoke',
 }
+
+/**
+ * 讯息类型
+ */
+export enum ApothegmType {
+  Empty = '',
+
+  Feature = 'feature',
+  Suggest = 'suggest',
+  BugReport = 'bug',
+
+  Strategy = 'strategy',
+  Kokoroe = 'kokoroe',
+  Ask = 'ask',
+
+  Message = 'message',
+
+  Water = 'water',
+}

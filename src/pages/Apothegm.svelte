@@ -10,6 +10,8 @@
   import type { Apothegm } from '../utils/typings';
   // 用来根据ip地址生成匿名用户名
   import md5 from 'md5';
+  import { ApothegmType } from '../utils/enum';
+  import apo_filters from '../utils/apoTypes';
 
   // 路径参数: 讯息id
   // 仅用来从外部直接打开讯息，从网页内部打开讯息不使用这个
@@ -37,6 +39,8 @@
   let copyModalVisibility = false;
   /** 删除讯息确认框 */
   let deleteConfirmVisibility = false;
+  /** 选择地标类型Modal */
+  let selectTypeVisability = false;
 
   /** 搜索框内容 */
   let searchWord = '';
@@ -60,6 +64,8 @@
   let postContent = '';
   /** 要发送的讯息的姿态（未使用 */
   let postGesture = '';
+  /** 要加的点的类型 */
+  let postType: ApothegmType = ApothegmType.Empty;
 
   /** 是否显示自己发的讯息 */
   let showSelf = false;
@@ -176,6 +182,7 @@
             content: postContent,
             like: 0,
             dislike: 0,
+            type: postType,
             ip,
           })
           .then(res => {
@@ -324,6 +331,12 @@
         currentClickedReplyIndex = -1;
       });
   };
+
+  /** 添加地标的选择类型的Modal里的各个类型按钮的事件喵 */
+  const onFilterModalClick = (value: string) => {
+    postType = value as ApothegmType;
+    selectTypeVisability = false;
+  };
 </script>
 
 <div class="container">
@@ -405,9 +418,25 @@
                     <path
                       d="M9.828.722a.5.5 0 0 1 .354.146l4.95 4.95a.5.5 0 0 1 0 .707c-.48.48-1.072.588-1.503.588-.177 0-.335-.018-.46-.039l-3.134 3.134a5.927 5.927 0 0 1 .16 1.013c.046.702-.032 1.687-.72 2.375a.5.5 0 0 1-.707 0l-2.829-2.828-3.182 3.182c-.195.195-1.219.902-1.414.707-.195-.195.512-1.22.707-1.414l3.182-3.182-2.828-2.829a.5.5 0 0 1 0-.707c.688-.688 1.673-.767 2.375-.72a5.922 5.922 0 0 1 1.013.16l3.134-3.133a2.772 2.772 0 0 1-.04-.461c0-.43.108-1.022.589-1.503a.5.5 0 0 1 .353-.146z"
                     />
-                  </svg>[置顶]
-                {/if}{@html apo?.title}</span
-              >
+                  </svg>
+                {/if}
+
+                {#if apo_filters.filter(f => {
+                  return f.value === apo?.type;
+                })?.[0]?.show}
+                  <span
+                    style="color: {apo_filters.filter(f => {
+                      return f.value === apo?.type;
+                    })?.[0]?.color};"
+                  >
+                    [{apo_filters.filter(f => {
+                      return f.value === apo?.type;
+                    })?.[0].name}]
+                  </span>
+                {/if}
+
+                {@html apo?.title}
+              </span>
             </div>
           </div>
           <!--<p>默认把\n处理为空格，所以需要转义为<br />-->
@@ -489,7 +518,7 @@
       <main>
         {#if apothegms?.[currentShowingApoIndex]?.replies?.length > 0}
           {#each apothegms?.[currentShowingApoIndex]?.replies as reply, index (reply.id)}
-            <div class="apothegm" on:click={() => {}}>
+            <div class="apothegm">
               <div class="title">
                 <div class="title-reply"><span class="titlespan">{'#' + String(index + 1) + ' ' + getMD5Id(reply?.ip)}</span></div>
                 <div class="title-reply">
@@ -524,7 +553,7 @@
                   </span>
                 </div>
               </div>
-              <p class="contentp">{@html reply?.content?.replaceAll('\n', '<br />')}</p>
+              <p class="contentp-reply">{@html reply?.content?.replaceAll('\n', '<br />')}</p>
             </div>
           {/each}
         {/if}
@@ -551,6 +580,15 @@
   }}
 >
   <div class="modalInner">
+    <button
+      on:click={() => {
+        selectTypeVisability = true;
+      }}
+    >
+      {apo_filters.filter(type => {
+        return type.value === postType;
+      })?.[0]?.name || '——选择类型——'}
+    </button>
     <input type="text" placeholder="标题 (1～20)" bind:value={postTitle} />
     <textarea placeholder="内容 (0～1000)" bind:value={postContent} />
   </div>
@@ -616,6 +654,24 @@
   }}
 />
 
+<!--添加/编辑Modal里的选择类型Modal-->
+<Modal visible={selectTypeVisability} top="5%" title="选择类型" zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
+  <div id="selectModalInner">
+    {#each apo_filters as filter}
+      {#if filter?.hr}
+        <p class="filterHrInModal"><span>——————</span><span>{filter.name}</span><span>——————</span></p>
+      {:else if !filter?.functional}
+        <button
+          class="filterButtonInModal"
+          on:click={() => {
+            onFilterModalClick(filter.value);
+          }}>{filter.name}</button
+        >
+      {/if}
+    {/each}
+  </div>
+</Modal>
+
 <style>
   .modalInner {
     width: 100%;
@@ -624,6 +680,23 @@
     flex-direction: column;
     gap: 10px;
     padding-bottom: 40px;
+  }
+  .filterHrInModal {
+    align-self: center;
+    color: #f5cc95;
+    width: -webkit-fill-available;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 5px;
+  }
+  .filterButtonInModal {
+    font-size: 1em;
+    padding: 5px 10px;
+  }
+  #selectModalInner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .modalInner input {
     font-size: 1.1em;
@@ -668,6 +741,9 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
+    margin: 5px 0;
+  }
+  .contentp-reply {
     margin: 5px 0;
   }
   .apothegm {
