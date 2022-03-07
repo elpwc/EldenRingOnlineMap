@@ -945,7 +945,7 @@
             // 隐藏
             if (hidden?.includes(String(currentClickedMarker?.id))) {
               setCookie(
-                'hiden',
+                'hidden',
                 hidden
                   .filter(f => {
                     return f !== String(currentClickedMarker?.id);
@@ -954,9 +954,9 @@
               );
             } else {
               hidden.push(String(currentClickedMarker?.id));
-              setCookie('hiden', hidden.join('|'));
+              setCookie('hidden', hidden.join('|'));
             }
-            hidden = getCookie('hiden')?.split('|');
+            hidden = getCookie('hidden')?.split('|');
           }}
         />
         隐藏
