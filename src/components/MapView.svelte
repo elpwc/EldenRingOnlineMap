@@ -621,6 +621,15 @@
   /** 添加地标的选择类型的Modal里的各个类型按钮的事件喵 */
   const onFilterModalClick = (value: string) => {
     addedPointType = value as MapPointType;
+    if (
+      filters.filter(f => {
+        return f.value === (value as MapPointType);
+      })?.[0]?.noname
+    ) {
+      addedPointName = filters.filter(f => {
+        return f.value === (value as MapPointType);
+      })?.[0]?.name;
+    }
     selectTypeVisability = false;
   };
 </script>
