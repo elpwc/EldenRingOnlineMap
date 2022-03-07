@@ -16,7 +16,7 @@
   const groundMap = 'https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg';
   const undergroundMap = './resource/maps/underground/{z}/{x}/{y}.jpg';
 
-  /** 本页面！唯一指定！地图对象！ */
+  /** 本页面！唯一指定！地图对象！喵！ */
   let map;
 
   /** 是否在管理员模式喵 */
