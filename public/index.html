@@ -14,11 +14,6 @@
 	<link rel='stylesheet' href='/build/bundle.css'>
 	<script defer src='/build/bundle.js'></script-->
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-    crossorigin="" />
-
-  
   <!--get ip and position, used in utils.ts-->
   <!--script src="https://pv.sohu.com/cityjson?ie=utf-8"></script-->
 
@@ -30,18 +25,19 @@
     const params = '?ver=' + VERSION + (in_dev && '&dev=' + DEV_CODE); // Parameters after css/js filename
     // set document
     const head = document.getElementsByTagName('head')[0];
+    const script = document.createElement('script');
+    script.setAttribute('defer', 'true');
+    script.setAttribute('src', './build/bundle.js' + params);
     const link1 = document.createElement('link');
     link1.setAttribute('rel', 'stylesheet');
     link1.setAttribute('href', './global.css' + params);
     const link2 = document.createElement('link');
     link2.setAttribute('rel', 'stylesheet');
     link2.setAttribute('href', './build/bundle.css' + params);
-    const script = document.createElement('script');
-    script.setAttribute('defer', 'true');
-    script.setAttribute('src', './build/bundle.js' + params);
+
+    head.appendChild(script);
     head.appendChild(link1);
     head.appendChild(link2);
-    head.appendChild(script);
   </script>
 
   <script>
@@ -63,6 +59,10 @@
 
     gtag('config', 'G-SP07Q8CYM7');
   </script>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
 </head>
 
 <body></body>
