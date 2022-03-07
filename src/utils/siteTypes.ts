@@ -32,7 +32,8 @@ const filters = [
   { name: '黄金种子', value: MapPointType.GoldenSeed, icon: MapIcon.blue() },
   { name: '露滴', value: MapPointType.Ludi, icon: MapIcon.blue() },
   { name: '道具', value: MapPointType.Item, icon: MapIcon.blue() },
-  { name: '石灰钥匙', value: MapPointType.Key, icon: MapIcon.blue() },
+  { name: '石剑钥匙', value: MapPointType.Key, icon: MapIcon.blue() },
+  { name: '死根', value: MapPointType.Sigen, icon: MapIcon.blue() },
 
   { name: '武器', hr: true },
   { name: '魔法', value: MapPointType.Magic, icon: MapIcon.purple() },

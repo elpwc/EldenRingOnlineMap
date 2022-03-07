@@ -29,6 +29,7 @@ export enum MapPointType {
   GoldenSeed = 'goldseed',
   Ludi = 'ludi',
   Key = 'key',
+  Sigen = 'sigen',
 
   Magic = 'magic',
   Weapon = 'weapon',
