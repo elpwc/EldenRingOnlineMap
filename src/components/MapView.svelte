@@ -13,7 +13,9 @@
   import filters from '../utils/siteTypes';
 
   // 地图数据
+  /** 地表地图数据源 */
   const groundMap = 'https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg';
+  /** 地下地图数据源 */
   const undergroundMap = './resource/maps/underground/{z}/{x}/{y}.jpg';
 
   /** 本页面！唯一指定！地图对象！喵！ */
@@ -101,6 +103,11 @@
 
   /** 是否修改了地标位置 */
   let isUpdateLnglatMode = false;
+
+  /** 是否显示隐藏的地标 */
+  let show_hidden = false;
+  /** 所有隐藏的地标的id */
+  let hidden = getCookie('hidden')?.split('|');
 
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
@@ -376,7 +383,10 @@
           });
 
           markers.forEach(marker => {
-            marker.marker.addTo(map);
+            // 过滤掉隐藏的
+            if (show_hidden || !(show_hidden || hidden?.includes(marker.id.toString()))) {
+              marker.marker.addTo(map);
+            }
           });
         });
     }
@@ -591,6 +601,10 @@
       case 'collect':
         showCollect = e.target.checked;
         refreshCollectedMarkers();
+        break;
+      case 'hide':
+        show_hidden = e.target.checked;
+        loadMarkers();
         break;
       default:
         if (e.target.checked) {
@@ -876,6 +890,31 @@
         </svg>
         {collects?.includes(String(currentClickedMarker?.id)) ? '取消收藏' : '收藏'}</button
       >
+      <label style="color: rgb(208, 200, 181);">
+        <input
+          type="checkbox"
+          checked={hidden?.includes(String(currentClickedMarker?.id))}
+          on:change={() => {
+            // 隐藏
+            if (hidden?.includes(String(currentClickedMarker?.id))) {
+              setCookie(
+                'hiden',
+                hidden
+                  .filter(f => {
+                    return f !== String(currentClickedMarker?.id);
+                  })
+                  .join('|')
+              );
+            } else {
+              hidden.push(String(currentClickedMarker?.id));
+              setCookie('hiden', hidden.join('|'));
+            }
+            hidden = getCookie('hiden')?.split('|');
+          }}
+        />
+        隐藏
+      </label>
+
       {#if isAdminMode}
         <label style="color: rgb(208, 200, 181);"><input type="checkbox" checked={currentClickedMarker?.is_lock} on:change={onSetLockChecked} />锁定</label>
       {/if}

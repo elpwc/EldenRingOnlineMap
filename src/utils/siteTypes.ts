@@ -8,6 +8,7 @@ import { MapPointType } from './enum';
 const filters = [
   { name: '我标注的', value: 'self', functional: true },
   { name: '我的收藏', value: 'collect', functional: true },
+  { name: '显示隐藏的', value: 'hide', functional: true },
   { name: '全选', value: 'all', functional: true },
 
   { name: '地点', hr: true },
