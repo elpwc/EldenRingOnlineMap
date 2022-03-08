@@ -11,7 +11,6 @@
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
   import filters from '../utils/siteTypes';
-  import cjkConv from 'cjk-conv';
 
   // 地图数据
   /** 地表地图数据源 */
@@ -420,7 +419,7 @@
       axios
         .get('./map.php', {
           params: {
-            kword: cjkConv.tw2cn(searchWord),
+            kword: searchWord,
           },
         })
         .then(res => {
