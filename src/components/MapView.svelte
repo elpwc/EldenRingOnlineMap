@@ -337,11 +337,11 @@
               )?.(showPlaceNames ? resMarker.name : '', `${markerFontSize}em`)
             ),
           }).on('click', () => {
-            // 在添加的时候不能误点了
-            if (!isAddPointMode) {
+            // 在添加的时候不能误点了(取消了， 因为被太多人反应是个bug乌乌明明不是)
+            //if (!isAddPointMode) {
               currentClickedMarker = resMarker;
               markerInfoVisibility = true;
-            }
+            //}
           });
 
           // 把新的坐标加到地图上
@@ -385,10 +385,10 @@
                   )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
                 ),
               }).on('click', () => {
-                if (!isAddPointMode) {
+                //if (!isAddPointMode) {
                   currentClickedMarker = m;
                   markerInfoVisibility = true;
-                }
+                //}
               }),
               id: m.id,
             });
