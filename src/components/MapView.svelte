@@ -11,6 +11,7 @@
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
   import filters from '../utils/siteTypes';
+  import cjkConv from 'cjk-conv';
 
   // 地图数据
   /** 地表地图数据源 */
@@ -339,8 +340,8 @@
           }).on('click', () => {
             // 在添加的时候不能误点了(取消了， 因为被太多人反应是个bug乌乌明明不是)
             //if (!isAddPointMode) {
-              currentClickedMarker = resMarker;
-              markerInfoVisibility = true;
+            currentClickedMarker = resMarker;
+            markerInfoVisibility = true;
             //}
           });
 
@@ -386,8 +387,8 @@
                 ),
               }).on('click', () => {
                 //if (!isAddPointMode) {
-                  currentClickedMarker = m;
-                  markerInfoVisibility = true;
+                currentClickedMarker = m;
+                markerInfoVisibility = true;
                 //}
               }),
               id: m.id,
@@ -419,7 +420,7 @@
       axios
         .get('./map.php', {
           params: {
-            kword: searchWord,
+            kword: cjkConv.tw2cn(searchWord),
           },
         })
         .then(res => {
