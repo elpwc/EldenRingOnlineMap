@@ -158,7 +158,7 @@
     }
 
     // 创建地图
-    map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
+    map = L.map('map', { renderer: L.canvas(), attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
 
     groundLayer = L.tileLayer(groundMap, {
       maxZoom: 7,
