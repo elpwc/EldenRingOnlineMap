@@ -11,6 +11,8 @@
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
   import filters from '../utils/siteTypes';
+  //import 'leaflet-markers-canvas';
+  import 'leaflet-canvas-marker';
 
   // 地图数据
   /** 地表地图数据源 */
@@ -158,7 +160,24 @@
     }
 
     // 创建地图
-    map = L.map('map', { renderer: L.canvas(), attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
+    map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
+
+    //const markerLayer = new L.MarkersCanvas();
+    //markerLayer.addTo(map);
+
+    const markerLayer = L.canvasIconLayer();
+    markerLayer.addTo(map);
+    markerLayer.addMarker(
+      L.marker([0, 0], {
+        icon: L.icon({
+          iconUrl: './resource/icons/boss.png',
+          iconSize: [50, 50],
+          iconAnchor: [0, 0],
+        }),
+      }),
+      '114514',
+      0
+    );
 
     groundLayer = L.tileLayer(groundMap, {
       maxZoom: 7,
