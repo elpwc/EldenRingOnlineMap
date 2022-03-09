@@ -1,5 +1,5 @@
 <script lang="ts">
-  import L, { marker } from 'leaflet';
+  import L, { CanvasIconLayer, marker } from 'leaflet';
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
@@ -166,7 +166,10 @@
     //markerLayer.addTo(map);
 
     const markerLayer = L.canvasIconLayer();
-    markerLayer.addTo(map);
+    markerLayer.addTo(map).addOnClickListener((e, ret) => {
+      console.log('clicked: ',ret);
+    })
+    
     markerLayer.addMarker(
       L.marker([0, 0], {
         icon: L.icon({
@@ -174,9 +177,18 @@
           iconSize: [50, 50],
           iconAnchor: [0, 0],
         }),
+      }).on('click', () => {
+        alert(114514);
       }),
       '114514',
-      0
+      {
+        normal: {
+          font: '15px',
+          color: 'white',
+          borderColor: 'black',
+          borderWidth: 2
+        }
+      }
     );
 
     groundLayer = L.tileLayer(groundMap, {
