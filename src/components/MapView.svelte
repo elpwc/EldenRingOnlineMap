@@ -338,7 +338,7 @@
           ].marker = tempMarker;
 
           // 把新的坐标加到地图上
-          
+
           markerLayer.addMarker(
             tempMarker,
             showPlaceNames ? resMarker.name : '',
@@ -386,19 +386,21 @@
 
             markers.push({ marker: tempMarker, id: m.id });
 
-            markerLayer.addMarker(
-              tempMarker,
-              showPlaceNames ? m.name : '',
-              {
-                normal: {
-                  font: `normal ${markerFontSize}px Arial`,
-                  color: 'white',
-                  borderColor: 'black',
-                  borderWidth: 2,
+            if (show_hidden || !(show_hidden || hidden?.includes(m.id.toString()))) {
+              markerLayer.addMarker(
+                tempMarker,
+                showPlaceNames ? m.name : '',
+                {
+                  normal: {
+                    font: `normal ${markerFontSize}px Arial`,
+                    color: 'white',
+                    borderColor: 'black',
+                    borderWidth: 2,
+                  },
                 },
-              },
-              m
-            );
+                m
+              );
+            }
           });
         });
     }
@@ -953,6 +955,8 @@
               setCookie('hidden', hidden.join('|'));
             }
             hidden = getCookie('hidden')?.split('|');
+            
+            loadMarkers();
           }}
         />
         隐藏
