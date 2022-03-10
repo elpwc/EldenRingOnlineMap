@@ -11,8 +11,7 @@
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
   import filters from '../utils/siteTypes';
-  //import 'leaflet-markers-canvas';
-  import 'leaflet-canvas-marker';
+  import 'leaflet-canvas-markers-with-title';
 
   // 地图数据
   /** 地表地图数据源 */
@@ -165,11 +164,14 @@
     //const markerLayer = new L.MarkersCanvas();
     //markerLayer.addTo(map);
 
+    
+
     const markerLayer = L.canvasIconLayer();
     markerLayer.addTo(map).addOnClickListener((e, ret) => {
       console.log('clicked: ',ret);
     })
     
+
     markerLayer.addMarker(
       L.marker([0, 0], {
         icon: L.icon({
@@ -188,7 +190,8 @@
           borderColor: 'black',
           borderWidth: 2
         }
-      }
+      },
+      114
     );
 
     groundLayer = L.tileLayer(groundMap, {
