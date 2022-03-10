@@ -7,7 +7,6 @@
   import axios from 'axios';
   import { ip, isAdminModeStore, isMobile } from '../stores';
   import type { MapPoint } from '../utils/typings';
-  import { MapIcon } from './icons';
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
   import filters from '../utils/siteTypes';
@@ -21,6 +20,9 @@
 
   /** 本页面！唯一指定！地图对象！喵！ */
   let map;
+
+  /** 地标所处的marker */
+  let markerLayer;
 
   /** 是否在管理员模式喵 */
   let isAdminMode = false;
@@ -111,7 +113,7 @@
   let hidden = getCookie('hidden')?.split('|');
 
   /** 地图字体大小 */
-  let markerFontSize = 0.8;
+  let markerFontSize = 15;
 
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
@@ -161,38 +163,13 @@
     // 创建地图
     map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
 
-    //const markerLayer = new L.MarkersCanvas();
-    //markerLayer.addTo(map);
-
-    
-
-    const markerLayer = L.canvasIconLayer();
+    markerLayer = L.canvasIconLayer();
     markerLayer.addTo(map).addOnClickListener((e, ret) => {
-      console.log('clicked: ',ret);
-    })
-    
-
-    markerLayer.addMarker(
-      L.marker([0, 0], {
-        icon: L.icon({
-          iconUrl: './resource/icons/boss.png',
-          iconSize: [50, 50],
-          iconAnchor: [0, 0],
-        }),
-      }).on('click', () => {
-        alert(114514);
-      }),
-      '114514',
-      {
-        normal: {
-          font: '15px',
-          color: 'white',
-          borderColor: 'black',
-          borderWidth: 2
-        }
-      },
-      114
-    );
+      if (!isAddPointMode) {
+        currentClickedMarker = ret[0].additional as MapPoint;
+        markerInfoVisibility = true;
+      }
+    });
 
     groundLayer = L.tileLayer(groundMap, {
       maxZoom: 7,
@@ -217,9 +194,7 @@
         // 如果在添加地标模式中
         tempMarker?.remove();
         currentClickedlatLng = e.latlng;
-        tempMarker = L.marker(e.latlng, {
-          icon: L.divIcon(MapIcon.default()(addedPointName, `${markerFontSize}em`)),
-        });
+        tempMarker = L.marker(e.latlng);
         tempMarker.addTo(map);
         addPointVisability = true;
       }
@@ -293,17 +268,11 @@
                 collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*/));
                 collectMarkers.push(
                   L.marker(L.latLng(m.lat, m.lng), {
-                    icon: L.divIcon(
+                    icon: L.icon(
                       (
                         filters.filter(filter => {
                           return filter?.value === m.type;
-                        })?.[0]?.icon as (
-                          title?: string,
-                          fontSize?: string
-                        ) => {
-                          html: string;
-                          className: string;
-                        }
+                        })?.[0]?.icon as (title?: string, fontSize?: string) => any
                       )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
                     ),
                   }).on('click', () => {
@@ -345,47 +314,48 @@
           /** 加载到的坐标数据 */
           const resMarker: MapPoint = (res.data as MapPoint[])?.[0];
           // 从地图上去掉旧的同id坐标
-          markers
-            .filter(f => {
+          markerLayer.removeMarker(
+            markers.filter(f => {
               return f.id === id;
-            })?.[0]
-            .marker.remove();
+            })?.[0].marker
+          );
 
           // 更新同id坐标
+          const tempMarker = L.marker(L.latLng(resMarker.lat, resMarker.lng), {
+            icon: L.icon(
+              (
+                filters.filter(filter => {
+                  return filter?.value === resMarker.type;
+                })?.[0]?.icon as (title?: string, fontSize?: string) => any
+              )?.(showPlaceNames ? resMarker.name : '', `${markerFontSize}em`)
+            ),
+          });
+
           markers[
             markers.findIndex(f => {
               return f.id === id;
             })
-          ].marker = L.marker(L.latLng(resMarker.lat, resMarker.lng), {
-            icon: L.divIcon(
-              (
-                filters.filter(filter => {
-                  return filter?.value === resMarker.type;
-                })?.[0]?.icon as (
-                  title?: string,
-                  fontSize?: string
-                ) => {
-                  html: string;
-                  className: string;
-                }
-              )?.(showPlaceNames ? resMarker.name : '', `${markerFontSize}em`)
-            ),
-          }).on('click', () => {
-            // 在添加的时候不能误点了(取消了， 因为被太多人反应是个bug乌乌明明不是)
-            //if (!isAddPointMode) {
-            currentClickedMarker = resMarker;
-            markerInfoVisibility = true;
-            //}
-          });
+          ].marker = tempMarker;
 
           // 把新的坐标加到地图上
-          markers
-            .filter(f => {
-              return f.id === id;
-            })[0]
-            .marker.addTo(map);
+          
+          markerLayer.addMarker(
+            tempMarker,
+            showPlaceNames ? resMarker.name : '',
+            {
+              normal: {
+                font: `normal ${markerFontSize}px Arial`,
+                color: 'white',
+                borderColor: 'black',
+                borderWidth: 2,
+              },
+            },
+            resMarker
+          );
         });
     } else {
+      markerLayer.clearLayers();
+
       // 加载全部
       axios
         .get('./map.php', {
@@ -402,37 +372,33 @@
             marker.marker.remove();
           });
           markers = [];
-          res.data.forEach((m: MapPoint) => {
-            markers.push({
-              marker: L.marker(L.latLng(m.lat, m.lng), {
-                icon: L.divIcon(
-                  (
-                    filters.filter(filter => {
-                      return filter?.value === m.type;
-                    })?.[0]?.icon as (
-                      title?: string,
-                      fontSize?: string
-                    ) => {
-                      html: string;
-                      className: string;
-                    }
-                  )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
-                ),
-              }).on('click', () => {
-                //if (!isAddPointMode) {
-                currentClickedMarker = m;
-                markerInfoVisibility = true;
-                //}
-              }),
-              id: m.id,
-            });
-          });
 
-          markers.forEach(marker => {
-            // 过滤掉隐藏的
-            if (show_hidden || !(show_hidden || hidden?.includes(marker.id.toString()))) {
-              marker.marker.addTo(map);
-            }
+          res.data.forEach((m: MapPoint) => {
+            const tempMarker = L.marker(L.latLng(m.lat, m.lng), {
+              icon: L.icon(
+                (
+                  filters.filter(filter => {
+                    return filter?.value === m.type;
+                  })?.[0]?.icon as (title?: string, fontSize?: string) => any
+                )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
+              ),
+            });
+
+            markers.push({ marker: tempMarker, id: m.id });
+
+            markerLayer.addMarker(
+              tempMarker,
+              showPlaceNames ? m.name : '',
+              {
+                normal: {
+                  font: `normal ${markerFontSize}px Arial`,
+                  color: 'white',
+                  borderColor: 'black',
+                  borderWidth: 2,
+                },
+              },
+              m
+            );
           });
         });
     }
@@ -466,17 +432,11 @@
             searchResultMarkers.push(L.marker(L.latLng(m.lat, m.lng)));
             searchResultMarkers.push(
               L.marker(L.latLng(m.lat, m.lng), {
-                icon: L.divIcon(
+                icon: L.icon(
                   (
                     filters.filter(filter => {
                       return filter?.value === m.type;
-                    })?.[0]?.icon as (
-                      title?: string,
-                      fontSize?: string
-                    ) => {
-                      html: string;
-                      className: string;
-                    }
+                    })?.[0]?.icon as (title?: string, fontSize?: string) => any
                   )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
                 ),
               }).on('click', () => {
@@ -625,11 +585,13 @@
       })
       .then(res => {
         markerInfoVisibility = false;
-        markers
-          .filter(f => {
+
+        markerLayer.removeMarker(
+          markers.filter(f => {
             return f.id === currentClickedMarker?.id;
-          })?.[0]
-          ?.marker.remove();
+          })?.[0].marker
+        );
+
         markers = markers.filter(f => {
           return f.id !== currentClickedMarker?.id;
         });
@@ -812,9 +774,9 @@
       <div id="underSelector" style="margin: 5px; align-items: center;">
         <span style="min-width: fit-content;">字号</span>
         <button
-          class={markerFontSize === 0.5 && 'checked'}
+          class={markerFontSize === 13 && 'checked'}
           on:click={() => {
-            markerFontSize = 0.5;
+            markerFontSize = 13;
             loadMarkers();
           }}
         >
@@ -822,9 +784,9 @@
         </button>
 
         <button
-          class={markerFontSize === 0.8 && 'checked'}
+          class={markerFontSize === 15 && 'checked'}
           on:click={() => {
-            markerFontSize = 0.8;
+            markerFontSize = 15;
             loadMarkers();
           }}
         >
@@ -832,9 +794,9 @@
         </button>
 
         <button
-          class={markerFontSize === 1.3 && 'checked'}
+          class={markerFontSize === 18 && 'checked'}
           on:click={() => {
-            markerFontSize = 1.3;
+            markerFontSize = 18;
             loadMarkers();
           }}
         >

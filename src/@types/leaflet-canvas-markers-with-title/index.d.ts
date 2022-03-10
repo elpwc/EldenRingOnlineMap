@@ -21,6 +21,7 @@ declare module 'leaflet' {
     getBounds(): LatLngBounds;
     redraw(): void;
     clear(): void;
+    clearLayers() : void;
     removeMarker(marker: Marker): void;
     addOnClickListener: (eventHandler: (listener: any, ret: any) => void) => void;
     addOnHoverListener: (eventHandler: (listener: any, ret: any) => void) => void;

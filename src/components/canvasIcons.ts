@@ -2,7 +2,7 @@
  * 自定义地图图标
  * @description 导出的是生成图标数据的函数，用法：`L.divIcon(iconname(size, fontcolor)(title))`
  */
-export const MapIcon = {
+export const MapCanvasIcon = {
   default:
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
@@ -16,7 +16,7 @@ export const MapIcon = {
     (size: number = 20, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/fireicon.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -34,7 +34,7 @@ export const MapIcon = {
     (size: number = 28, fontcolor: string = 'yellow') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/littleboss.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -43,7 +43,7 @@ export const MapIcon = {
     (size: number = 24, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/portal.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -52,7 +52,7 @@ export const MapIcon = {
     (size: number = 20, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/message.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -61,7 +61,7 @@ export const MapIcon = {
     (size: number = 15, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/warning.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -70,7 +70,7 @@ export const MapIcon = {
     (size: number = 15, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/question.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -79,7 +79,7 @@ export const MapIcon = {
     (size: number = 20, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/collect.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -88,7 +88,7 @@ export const MapIcon = {
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/white.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -97,7 +97,7 @@ export const MapIcon = {
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/yellow.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -106,7 +106,7 @@ export const MapIcon = {
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/green.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -115,7 +115,7 @@ export const MapIcon = {
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/blue.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -124,7 +124,7 @@ export const MapIcon = {
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/red.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
@@ -133,7 +133,7 @@ export const MapIcon = {
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/purple.png',
+        iconUrl: './resource/icons/boss.png',
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       };
