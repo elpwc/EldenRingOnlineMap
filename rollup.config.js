@@ -7,6 +7,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import json from '@rollup/plugin-json';
+import babel from 'rollup-plugin-babel';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -64,6 +65,11 @@ export default {
     typescript({
       sourceMap: !production,
       inlineSources: !production,
+    }),
+    babel({
+      runtimeHelpers: true,
+      exclude: "node_modules/**",
+      externalHelpers: true
     }),
 
     // In dev mode, call `npm run start` once
