@@ -30,6 +30,12 @@
       {/if}<img src="./resource/images/apothegm.png" alt="mapicon" width="40px" />
       <span>讯息</span>
     </a>
+    <a href="/general" use:link>
+      {#if currentPage === 'general'}
+        <div class="backgroundLight" transition:fade />
+      {/if}<img src="./resource/images/apothegm.png" alt="mapicon" width="40px" />
+      <span>我的(开发中)</span>
+    </a>
     <a href="/about" use:link>
       {#if currentPage === 'about'}
         <div class="backgroundLight" transition:fade />
