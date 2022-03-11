@@ -99,7 +99,7 @@
   let editMode = false;
 
   /** 所有收藏的地标的id */
-  let collects = getCookie('collect')?.split('|');
+  let collects = localStorage.getItem('collect')?.split('|');
 
   /** 是否修改了地标位置 */
   let isUpdateLnglatMode = false;
@@ -107,7 +107,7 @@
   /** 是否显示隐藏的地标 */
   let show_hidden = false;
   /** 所有隐藏的地标的id */
-  let hidden = getCookie('hidden')?.split('|');
+  let hidden = localStorage.getItem('hidden')?.split('|');
 
   /** 地图字体大小 */
   let markerFontSize = 0.8;
@@ -132,6 +132,16 @@
     let initZoom = 3;
     let initLat = 40;
     let initLng = -40;
+
+    // 旧cookie导入localStorage
+    if (getCookie('collect') !== '') {
+      localStorage.setItem('collect', getCookie('collect'));
+      setCookie('collect', '', 0);
+    }
+    if (getCookie('hidden') !== '') {
+      localStorage.setItem('hidden', getCookie('hidden'));
+      setCookie('hidden', '', 0);
+    }
 
     // 从cookie读取上次关闭时的地图状态
     if (getCookie('zoom')) {
@@ -943,7 +953,7 @@
       <button
         on:click={() => {
           if (collects?.includes(String(currentClickedMarker?.id))) {
-            setCookie(
+            localStorage.setItem(
               'collect',
               collects
                 .filter(f => {
@@ -953,9 +963,9 @@
             );
           } else {
             collects.push(String(currentClickedMarker?.id));
-            setCookie('collect', collects.join('|'));
+            localStorage.setItem('collect', collects.join('|'));
           }
-          collects = getCookie('collect')?.split('|');
+          collects = localStorage.getItem('collect')?.split('|');
 
           refreshCollectedMarkers();
         }}
@@ -974,7 +984,7 @@
           on:change={() => {
             // 隐藏
             if (hidden?.includes(String(currentClickedMarker?.id))) {
-              setCookie(
+              localStorage.setItem(
                 'hidden',
                 hidden
                   .filter(f => {
@@ -984,9 +994,9 @@
               );
             } else {
               hidden.push(String(currentClickedMarker?.id));
-              setCookie('hidden', hidden.join('|'));
+              localStorage.setItem('hidden', hidden.join('|'));
             }
-            hidden = getCookie('hidden')?.split('|');
+            hidden = localStorage.getItem('hidden')?.split('|');
           }}
         />
         隐藏
