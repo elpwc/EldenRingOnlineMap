@@ -36,7 +36,7 @@
         <p class="title">{title}</p>
         <hr />
       {/if}
-      <div style="padding: 5px;">
+      <div class="content" style="padding: 5px; max-height: {window.innerHeight - 90}px">
         <slot />
         <div style="display:flex; justify-content:space-around;">
           {#if showOkButton}
@@ -88,5 +88,9 @@
   button {
     font-size: 1em;
     padding: 5px 20px;
+  }
+  .content {
+    overflow-y: scroll;
+    overflow-x: none;
   }
 </style>
