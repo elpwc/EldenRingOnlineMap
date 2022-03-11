@@ -1178,7 +1178,7 @@
   #leftDiv2 {
     position: absolute;
     top: 100px;
-    left: 155px;
+    left: 235px;
     z-index: 114514;
     align-self: center;
   }
@@ -1191,7 +1191,7 @@
     align-self: center;
     border: solid 1px rgb(208, 200, 181);
     box-shadow: 0 0 2px 0 white;
-    background-color: rgb(21, 22, 17, 0.7);
+    background-color: rgb(21, 22, 17, 0.85);
     color: rgb(208, 200, 181);
     min-height: max-content;
   }
@@ -1203,8 +1203,8 @@
     flex-wrap: wrap;
     height: 425px;
   }
-  #filter label{
-    margin: 2px 0px !important;  
+  #filter label {
+    margin: 2px 0px !important;
   }
   #bottomDiv {
     position: absolute;
