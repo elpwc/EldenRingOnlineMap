@@ -3,7 +3,7 @@
 }
 
 .icon p {
-  text-shadow: 0 0 2px black;
+  text-shadow: 0 0 4px black;
   min-width: max-content;
   margin: 0;
   display: flex;

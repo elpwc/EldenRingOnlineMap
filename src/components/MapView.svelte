@@ -892,9 +892,9 @@
 
 <!--地标详细信息-->
 <Modal
-  width="75%"
+  width="85%"
   visible={markerInfoVisibility}
-  top="15%"
+  top="5%"
   title={filters.filter(filter => {
     return filter.value === currentClickedMarker?.type;
   })?.[0]?.name +
@@ -1079,7 +1079,7 @@
 </Modal>
 
 <!--添加/编辑Modal里的选择类型Modal-->
-<Modal visible={selectTypeVisability} top="5%" title="选择类型" zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
+<Modal visible={selectTypeVisability} top="0%" title="选择类型" zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
   <div id="selectModalInner">
     {#each filters as filter}
       {#if filter?.hr}
