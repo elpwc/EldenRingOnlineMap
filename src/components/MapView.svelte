@@ -136,12 +136,13 @@
     // 旧cookie导入localStorage
     if (getCookie('collect') !== '') {
       localStorage.setItem('collect', getCookie('collect'));
-      collects = localStorage.getItem('collect')?.split('|') ;
-      
+      collects = localStorage.getItem('collect')?.split('|');
+      setCookie('collect', '', 0);
     }
     if (getCookie('hidden') !== '') {
       localStorage.setItem('hidden', getCookie('hidden'));
-      hidden = localStorage.getItem('hidden')?.split('|') ;
+      hidden = localStorage.getItem('hidden')?.split('|');
+      setCookie('hidden', '', 0);
     }
 
     // 从cookie读取上次关闭时的地图状态
