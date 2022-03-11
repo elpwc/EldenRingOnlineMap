@@ -3,12 +3,13 @@
 }
 
 .icon p {
-  text-shadow: 0 0 5px black;
+  text-shadow: 0 0 2px black;
   min-width: max-content;
   margin: 0;
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  font-family: serif;
 }
 @media (any-hover: hover) {
   .icon p:hover {

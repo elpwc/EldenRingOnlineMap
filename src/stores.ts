@@ -3,6 +3,7 @@
  * @author wniko
  */
 import { writable } from 'svelte/store';
+import type { MapPoint } from './utils/typings';
 
 // Stores
 
@@ -22,3 +23,9 @@ export const setIp = newip => {
 
 /** 是否是便携式设备 */
 export const isMobile: boolean = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
+
+/** 服务端获取到的所有markers */
+export let allMarkers: MapPoint[] = [];
+export let setAllMarkers = (markers: MapPoint[]) => {
+  allMarkers = markers;
+}
