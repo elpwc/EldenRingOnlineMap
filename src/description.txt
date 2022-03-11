@@ -1,10 +1,11 @@
 PUBLIC:
-/private/                   隐私文件，不往git库里扔
 
 /resource/                  图片
 /resource/icons/            图标
 /resource/images/           图片
 
+/api/
+/private/                   隐私文件，不往git库里扔
 apothegm.php                讯息后端
 map.php                     地标后端
 reply.php                   回复后端
@@ -12,6 +13,7 @@ searchUpload.php            搜索内容存储
 checkAdmin.php              验证管理员密码
 global.css                  全局css
 favicon.png                 网页图标
+
 
 
 SRC:
@@ -33,6 +35,8 @@ SRC:
 /utils/enum.ts              各个枚举
 /utils/typings.ts           各个类型
 /utils/utils.ts             工具方法
+/utils/siteTypes.ts         各个地标类型定义
+/utils/apoTypes.ts          各个讯息类型定义
 
 App.svelte                  主页面，导入路由和菜单栏在这里
 config.ts                   全局配置
