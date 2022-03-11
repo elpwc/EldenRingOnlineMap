@@ -7,135 +7,195 @@ export const MapIcon = {
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/boss.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <div style="width:${size}px; height:${size}px; border-radius:${size}px; position: absolute; background-color: white; box-shadow: 0 0 5px 0 black;"></div>
+        <p style="font-size: ${fontSize}; color: ${fontcolor}; margin-left: ${size + 1}px">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   cifu:
     (size: number = 20, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/fireicon.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/fireicon.png" width="${size}px" height="${size}px"/>
+        <p style="font-size: ${fontSize}; color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   boss:
     (size: number = 30, fontcolor: string = 'yellow') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/boss.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/boss.png" width="${size}px" height="${size}px"/>
+        <p style="font-size: ${fontSize}; color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   littleboss:
     (size: number = 28, fontcolor: string = 'yellow') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/littleboss.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/littleboss.png" width="${size}px" height="${size}px"/>
+        <p style="font-size: ${fontSize}; color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   portal:
     (size: number = 24, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/portal.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/portal.png" width="${size}px" height="${size}px"/>
+        <p style="font-size: ${fontSize}; color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   message:
     (size: number = 20, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/message.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/message.png" width="${size}px" height="${size}px"/>
+        <p style="font-size: ${fontSize}; color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   warning:
     (size: number = 15, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/warning.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/warning.png" width="${size}px" height="${size}px"/>
+        <p style="font-size: ${fontSize}; color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   question:
     (size: number = 15, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/question.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/question.png" width="${size}px" height="${size}px"/>
+        <p style="font-size: ${fontSize}; color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   collect:
     (size: number = 20, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/collect.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <img src="./resource/icons/collect.png" width="${size}px" height="${size}px"/>
+        <p style="font-size: ${fontSize}; color: ${fontcolor};">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   white:
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/white.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <div style="width:${size}px; height:${size}px; border-radius:${size}px; position: absolute; background-color: white; box-shadow: 0 0 5px 0 black;"></div>
+        <p style="font-size: ${fontSize}; color: ${fontcolor}; margin-left: ${size + 1}px">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   yellow:
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/yellow.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <div style="width:${size}px; height:${size}px; border-radius:${size}px; position: absolute; background-color: #ffeb3b; box-shadow: 0 0 5px 0 black;"></div>
+        <p style="font-size: ${fontSize}; color: ${fontcolor}; margin-left: ${size + 1}px">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   green:
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/green.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <div style="width:${size}px; height:${size}px; border-radius:${size}px; position: absolute; background-color: #46ce46; box-shadow: 0 0 5px 0 black;"></div>
+        <p style="font-size: ${fontSize}; color: ${fontcolor}; margin-left: ${size + 1}px">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   blue:
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/blue.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <div style="width:${size}px; height:${size}px; border-radius:${size}px; position: absolute; background-color: #38f; box-shadow: 0 0 5px 0 black;"></div>
+        <p style="font-size: ${fontSize}; color: ${fontcolor}; margin-left: ${size + 1}px">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   red:
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/red.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <div style="width:${size}px; height:${size}px; border-radius:${size}px; position: absolute; background-color: #ce1919; box-shadow: 0 0 5px 0 black;"></div>
+        <p style="font-size: ${fontSize}; color: ${fontcolor}; margin-left: ${size + 1}px">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
   purple:
     (size: number = 10, fontcolor: string = 'white') =>
     (title?: string, fontSize: string = '0.8em') => {
       return {
-        iconUrl: './resource/icons/purple.png',
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
+        html: `
+        <div class="icon">
+        <div style="width:${size}px; height:${size}px; border-radius:${size}px; position: absolute; background-color: purple; box-shadow: 0 0 5px 0 black;"></div>
+        <p style="font-size: ${fontSize}; color: ${fontcolor}; margin-left: ${size + 1}px">${title}</p>
+        </div>
+    `,
+        className: '',
       };
     },
 };
