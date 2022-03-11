@@ -99,7 +99,7 @@
   let editMode = false;
 
   /** 所有收藏的地标的id */
-  let collects = localStorage.getItem('collect')?.split('|');
+  let collects: string[] = localStorage.getItem('collect')?.split('|') || [];
 
   /** 是否修改了地标位置 */
   let isUpdateLnglatMode = false;
@@ -107,7 +107,7 @@
   /** 是否显示隐藏的地标 */
   let show_hidden = false;
   /** 所有隐藏的地标的id */
-  let hidden = localStorage.getItem('hidden')?.split('|');
+  let hidden: string[] = localStorage.getItem('hidden')?.split('|') || [];
 
   /** 地图字体大小 */
   let markerFontSize = 0.8;
@@ -391,12 +391,15 @@
         //}
       });
 
-      // 把新的坐标加到地图上
-      markers
-        .filter(f => {
-          return f.id === id;
-        })[0]
-        .marker.addTo(map);
+      // 如果没隐藏的
+      if (show_hidden || !(show_hidden || hidden?.includes(resMarker.id.toString()))) {
+        // 把新的坐标加到地图上
+        markers
+          .filter(f => {
+            return f.id === id;
+          })[0]
+          .marker.addTo(map);
+      } 
     } else {
       // 加载全部
       markers.forEach(marker => {
@@ -993,10 +996,11 @@
                   .join('|')
               );
             } else {
-              hidden.push(String(currentClickedMarker?.id));
+              hidden?.push(String(currentClickedMarker?.id));
               localStorage.setItem('hidden', hidden.join('|'));
             }
             hidden = localStorage.getItem('hidden')?.split('|');
+            updateShowingMarkers(currentClickedMarker?.id);
           }}
         />
         隐藏
