@@ -18,7 +18,12 @@ export enum MapPointType {
   Map = 'map',
   Place = 'place',
   Lianji = 'lianji',
+  Cave = 'cave',
+  Wind = 'wind',
+  Sword = 'sword',
+  Temple = 'temple',
 
+  BigBoss = 'bigboss',
   Boss = 'boss',
   LittleBoss = 'littboss',
   RedSoul = 'redsoul',
@@ -30,6 +35,10 @@ export enum MapPointType {
   Ludi = 'ludi',
   Key = 'key',
   Sigen = 'sigen',
+  Bead = 'bead',
+
+  Paint = 'paint',
+  Gesture = 'gesture',
 
   Magic = 'magic',
   Weapon = 'weapon',

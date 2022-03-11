@@ -785,8 +785,8 @@
           {#if filter?.hr}
             <p class="filterHr"><span>——</span><span>{filter.name}</span><span>——</span></p>
           {:else}
-            <label
-              ><input
+            <label>
+              <input
                 class="checkbox"
                 type="checkbox"
                 value={filter.value}
@@ -805,7 +805,8 @@
                     })()
                   : checkedTypes.includes(filter.value)}
                 on:change={onFilterCheckChange}
-              />{filter.name}
+              />
+              {filter.name}
             </label>
           {/if}
         {/each}
@@ -1185,7 +1186,7 @@
     position: absolute;
     top: 50px;
     left: 0px;
-    width: 160px;
+    width: 240px;
     z-index: 114515;
     align-self: center;
     border: solid 1px rgb(208, 200, 181);
@@ -1201,6 +1202,9 @@
     flex-direction: column;
     flex-wrap: wrap;
     height: 425px;
+  }
+  #filter label{
+    margin: 2px 0px !important;  
   }
   #bottomDiv {
     position: absolute;
