@@ -107,7 +107,6 @@ def currentYCalculator_1(level):
 # 基准点：2461, 2032
 # 计算后的全图左上角：2461-6400, 2032-6400 => -3939, -4368
 # 计算后的全图长宽：12800, 12800
-# 原图长宽：5235, 3278
 
 
 def currentXCalculator_2(level):

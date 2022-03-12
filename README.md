@@ -67,6 +67,49 @@ Elden Ring online map / 老头环在线协作编辑地图
    ```  
    编译后，/public 内就是可以直接扔进服务器跑的东西了  
 7. 关于各个文件的说明在 /src/description.txt
+8. 配置地下地图  
+   地表地图是直接引用的外部源（以后可能换成自己的  
+   地下地图需要手动切割部署，方法见下：  
+   完整的地图分别在 mapDivider 文件夹下，即： 
+
+   - underground.jpg - 希芙拉河
+   - underground2.jpg - 安瑟尔河
+  
+   打开 mapDivider.py，可以看到
+   ```python
+   if __name__ == "__main__":
+      # 希芙拉河
+      '''
+      get_divided_maps(
+         './underground.jpg',
+         -5160, -3412, 'map',
+         currentXCalculator_1,
+         currentYCalculator_1
+      )
+      '''
+
+      # 安瑟尔河
+      get_divided_maps(
+         './underground2.jpg',
+         -4039, -4458, 'map2',
+         currentXCalculator_2,
+         currentYCalculator_2
+      )
+   ```
+
+   去掉需要导出的注释，直接运行，会在同目录下看到 map, map2 两个文件夹  
+
+   在 /public/resource/ 下建立 /maps/underground/ 文件夹，将 map, map2 的**内容**全部放进去，结果会像这样：
+   - maps
+      - underground
+         - 2
+         - 3
+         - 4
+         - ...
+
+   完成
+
+
 
 ## 开源许可
 
