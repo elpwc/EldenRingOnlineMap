@@ -279,11 +279,12 @@
           },
         })
         .then(res => {
-          if (res?.data) {
+          if (res?.data && Array.isArray(res?.data)) {
             setAllMarkers(res?.data);
+            updateShowingMarkers();
+          } else {
+            alert('Map data error, please refresh!');
           }
-
-          updateShowingMarkers();
         });
     }
   };

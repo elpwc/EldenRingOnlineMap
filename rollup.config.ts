@@ -1,3 +1,4 @@
+import { defineConfig } from 'rollup';
 import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
@@ -32,7 +33,7 @@ function serve() {
   };
 }
 
-export default {
+export default defineConfig({
   input: 'src/main.ts',
   output: {
     sourcemap: true,
@@ -58,6 +59,7 @@ export default {
     // consult the documentation for details:
     // https://github.com/rollup/plugins/tree/master/packages/commonjs
     resolve({
+      preferBuiltins: false,
       browser: true,
       dedupe: ['svelte'],
     }),
@@ -66,7 +68,7 @@ export default {
       sourceMap: !production,
       inlineSources: !production,
     }),
-    
+
     // compile to good old IE11 compatible ES5
     babel({
       extensions: [ '.js', '.mjs', '.html', '.svelte' ],
@@ -110,4 +112,4 @@ export default {
   watch: {
     clearScreen: false,
   },
-};
+});
