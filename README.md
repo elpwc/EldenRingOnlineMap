@@ -6,7 +6,7 @@ Elden Ring online map / 老头环在线协作编辑地图
 
 ## 技术栈
 
-- Frontend: Svelte + Leaflet
+- Frontend: Svelte + Leaflet, via TypeScript
 - Backend: PHP + MySQL, based on Apache + nginx, WinServer
 
 一开始只是随手写的个人用的小网站，因为最近一直有在尝鲜 Svelte 框架，就很大胆地使用了  
