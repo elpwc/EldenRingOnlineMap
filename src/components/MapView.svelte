@@ -59,7 +59,8 @@
   let searchWord = '';
 
   /** 选中的筛选栏选项 */
-  let checkedTypes: string[] = [];
+  let checkedTypes: string[] = ['cifu', 'portal', 'soulsite', 'map', 'bigboss', 'boss', 'guhui', 'text', 'warn', 'question', 'taoke'];
+
   /** 是否显示地标名字 */
   let showPlaceNames = true;
   /** 是否显示地下 0 全部显示，1 显示地下，2 显示地表 */
