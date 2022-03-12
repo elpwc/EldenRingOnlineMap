@@ -36,7 +36,7 @@
         <p class="title">{title}</p>
         <hr />
       {/if}
-      <div class="content" style="padding: 5px; max-height: {window.innerHeight - 90}px">
+      <div class="content" style="padding: 5px; max-height: {window.innerHeight * 0.75}px">
         <slot />
         <div style="display:flex; justify-content:space-around;">
           {#if showOkButton}
@@ -91,6 +91,6 @@
   }
   .content {
     overflow-y: scroll;
-    overflow-x: none;
+    overflow-x: hidden;
   }
 </style>

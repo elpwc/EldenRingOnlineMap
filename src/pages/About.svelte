@@ -165,7 +165,7 @@
 >
   <p style="color: rgb(208, 200, 181);">觉得帮到了自己的话，可以请咱喝一杯奶茶当作创作激励(</p>
   <div style="display: flex; justify-content: center; padding-bottom: 20px;">
-    <img style="height: 50%;" src="./resource/images/qrcode.jpg" alt="AlipayQRCode" />
+    <img style="height: 50%; max-width: 50%;" src="./resource/images/qrcode.jpg" alt="AlipayQRCode" />
   </div>
 </Modal>
 
