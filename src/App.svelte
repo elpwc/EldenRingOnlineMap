@@ -4,44 +4,28 @@
 <script lang="ts">
   import Router from 'svelte-spa-router';
   import { routes } from './router/router';
-  import { link } from 'svelte-spa-router';
-  import { fade } from 'svelte/transition';
   import { currentPageStore } from './stores';
+  import MenuItem from './components/MenuItem.svelte';
 
   let currentPage: string = 'map';
   currentPageStore.subscribe(v => {
     currentPage = v;
   });
+
+  const menuItems = [
+    { href: '/', pageName: 'map', text: '地图', imgSrc: './resource/images/map.png' },
+    { href: '/apothegm', pageName: 'apothegm', text: '讯息', imgSrc: '../resource/images/apothegm.png' },
+    { href: '/general', pageName: 'general', text: '我的(开发中)', imgSrc: './resource/images/apothegm.png' },
+    { href: '/about', pageName: 'about', text: '说明', imgSrc: './resource/images/about.png' },
+  ];
 </script>
 
 <div style="height: 100%; ">
   <!--菜单栏-->
   <nav class="menu">
-    <a href="/" use:link>
-      {#if currentPage === 'map'}
-        <div class="backgroundLight" transition:fade />
-      {/if}
-      <img src="./resource/images/map.png" alt="mapicon" width="40px" />
-      <span>地图</span>
-    </a>
-    <a href="/apothegm" use:link>
-      {#if currentPage === 'apothegm'}
-        <div class="backgroundLight" transition:fade />
-      {/if}<img src="./resource/images/apothegm.png" alt="mapicon" width="40px" />
-      <span>讯息</span>
-    </a>
-    <a href="/general" use:link>
-      {#if currentPage === 'general'}
-        <div class="backgroundLight" transition:fade />
-      {/if}<img src="./resource/images/apothegm.png" alt="mapicon" width="40px" />
-      <span>我的(开发中)</span>
-    </a>
-    <a href="/about" use:link>
-      {#if currentPage === 'about'}
-        <div class="backgroundLight" transition:fade />
-      {/if}<img src="./resource/images/about.png" alt="mapicon" width="40px" />
-      <span>说明</span>
-    </a>
+    {#each menuItems as item}
+      <MenuItem {currentPage} {...item} />
+    {/each}
   </nav>
 
   <!--所有页面-->
@@ -51,9 +35,6 @@
 </div>
 
 <style>
-  .backgroundLight {
-    box-shadow: 0px 80px 30px 30px rgb(144 139 123);
-  }
   .menu {
     position: fixed;
     bottom: 0;
@@ -66,30 +47,5 @@
     justify-content: space-around;
     z-index: 600;
     box-shadow: 0 0 30px 0 #54524a;
-  }
-  .menu a {
-    width: -webkit-fill-available;
-    text-align: center;
-    color: rgb(208, 200, 181);
-    text-decoration-line: none;
-    font-family: 'Times New Roman', Times, serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-shadow: 0 0 5px black;
-    user-select: none;
-    transition: all 0.3s;
-  }
-  .menu a img {
-    padding: 0px;
-    user-select: none;
-  }
-  .menu a span {
-    padding: 4px 0;
-  }
-  @media (any-hover: hover) {
-    .menu a:hover {
-      background-color: #1e1e1c;
-    }
   }
 </style>
