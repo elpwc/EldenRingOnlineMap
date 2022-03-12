@@ -1,6 +1,6 @@
 {
   "name": "elden-ring-online-map",
-  "version": "2.1.0.0",
+  "version": "2.1.0.1",
   "private": true,
   "scripts": {
     "build": "rollup -c",
