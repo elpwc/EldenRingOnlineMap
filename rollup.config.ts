@@ -8,7 +8,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import json from '@rollup/plugin-json';
-import babel from 'rollup-plugin-babel';
+import { babel } from '@rollup/plugin-babel';
 import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -76,7 +76,7 @@ export default defineConfig({
     // compile to good old IE11 compatible ES5
     babel({
       extensions: [ '.js', '.mjs', '.html', '.svelte' ],
-      runtimeHelpers: true,
+      babelHelpers: 'runtime',
       exclude: [ 'node_modules/@babel/**' ],
       presets: [
         [
