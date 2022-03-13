@@ -14,15 +14,15 @@
 
   // 地图数据
   /** 地表地图数据源 */
-  const groundMap = 'https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg';
+  const groundMap: string = 'https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg';
   /** 地下地图数据源 */
-  const undergroundMap = './resource/maps/underground/{z}/{x}/{y}.jpg';
+  const undergroundMap: string = './resource/maps/underground/{z}/{x}/{y}.jpg';
 
   /** 本页面！唯一指定！地图对象！喵！ */
-  let map;
+  let map: L.Map;
 
   /** 是否在管理员模式喵 */
-  let isAdminMode = false;
+  let isAdminMode: boolean = false;
 
   isAdminModeStore.subscribe(v => {
     isAdminMode = v;
@@ -30,87 +30,88 @@
 
   // 初始化地图宽高
   /** 地图div宽度 */
-  let mapW = window.innerWidth;
+  let mapW: number = window.innerWidth;
   /** 地图div高度 */
-  let mapH = window.innerHeight;
+  let mapH: number = window.innerHeight;
 
   /** 添加地标Modal */
-  let addPointVisability = false;
+  let addPointVisability: boolean = false;
   /** 选择地标类型Modal */
-  let selectTypeVisability = false;
+  let selectTypeVisability: boolean = false;
 
   /** 是否处于添加地标模式，此模式会显示一个临时的地表点在地图上 */
-  let isAddPointMode = false;
+  let isAddPointMode: boolean = false;
 
   /** 左侧筛选栏是否打开了 */
-  let showfilterDiv = true; // 默认打开
+  let showfilterDiv: boolean = true; // 默认打开
 
   /** 当前按下的点的经纬 */
-  let currentClickedlatLng;
+  let currentClickedlatLng: L.LatLng;
 
   /** 要加的点的类型 */
   let addedPointType: MapPointType = MapPointType.Empty;
   /** 要加的点的名称 */
-  let addedPointName = '';
+  let addedPointName: string = '';
   /** 要加的点的描述 */
-  let addedPointDesc = '';
+  let addedPointDesc: string = '';
 
   /** 搜索的词 */
-  let searchWord = '';
+  let searchWord: string = '';
 
   /** 选中的筛选栏选项 */
-  let checkedTypes: string[] = [];
+  let checkedTypes: string[] = ['cifu', 'portal', 'soulsite', 'map', 'bigboss', 'boss', 'guhui', 'text', 'warn', 'question', 'taoke'];
+
   /** 是否显示地标名字 */
-  let showPlaceNames = true;
+  let showPlaceNames: boolean = true;
   /** 是否显示地下 0 全部显示，1 显示地下，2 显示地表 */
-  let is_underground = false;
+  let is_underground: boolean = false;
   /** 左侧栏筛选文本（未使用 */
-  let filterString = '';
+  let filterString: string = '';
   /** 是否显示自己添加的地标 */
-  let showSelf = false;
+  let showSelf: boolean = false;
 
   /** 是否全选 */
-  let selectAll = false;
+  let selectAll: boolean = false;
 
   /** 所有地标 */
   let markers: { marker: L.Marker; id: number }[] = [];
   /** 搜索到的所有地标 */
-  let searchResultMarkers = [];
+  let searchResultMarkers: L.Marker[] = [];
   /** 收藏的所有地标 */
-  let collectMarkers = [];
+  let collectMarkers: L.Marker[] = [];
   /** 添加地标时显示的临时地标 */
-  let tempMarker;
+  let tempMarker: L.Marker;
 
   /** 是否在搜索模式中 */
-  let isSearch = false;
+  let isSearch: boolean = false;
 
   /** 是否显示收藏 */
-  let showCollect = true;
+  let showCollect: boolean = true;
 
   /** 当前打开的地标 */
   let currentClickedMarker: MapPoint;
   /** 地标详情Modal */
-  let markerInfoVisibility = false;
+  let markerInfoVisibility: boolean = false;
 
   /** 删除确认框 */
-  let deleteConfirmVisibility = false;
+  let deleteConfirmVisibility: boolean = false;
 
   /** 是否在一个地标的编辑模式,注意：不是添加地标模式(isAddPointMode) */
-  let editMode = false;
+  let editMode: boolean = false;
 
   /** 所有收藏的地标的id */
   let collects: string[] = localStorage.getItem('collect')?.split('|') || [];
 
   /** 是否修改了地标位置 */
-  let isUpdateLnglatMode = false;
+  let isUpdateLnglatMode: boolean = false;
 
   /** 是否显示隐藏的地标 */
-  let show_hidden = false;
+  let show_hidden: boolean = false;
   /** 所有隐藏的地标的id */
   let hidden: string[] = localStorage.getItem('hidden')?.split('|') || [];
 
   /** 地图字体大小 */
-  let markerFontSize = 0.8;
+  let markerFontSize: number = 0.8;
 
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
@@ -190,7 +191,7 @@
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
     // 地图点击事件
-    map.on('click', e => {
+    map.on('click', (e: L.LeafletMouseEvent) => {
       if (isAddPointMode) {
         // 如果在添加地标模式中
         tempMarker?.remove();

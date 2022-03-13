@@ -10,22 +10,22 @@
   });
 
   /** 管理员模式 */
-  let isAdminMode = false;
+  let isAdminMode: boolean = false;
 
   isAdminModeStore.subscribe(v => {
     isAdminMode = v;
   });
 
   /** 薪火点了几下 */
-  let clickTime = 0;
+  let clickTime: number = 0;
 
   /** 管理员模式密码Modal */
-  let inputPasswordVisibility = false;
+  let inputPasswordVisibility: boolean = false;
   /** 请一杯奶茶Modal */
-  let coffeeVisibility = false;
+  let coffeeVisibility: boolean = false;
 
   /** 输入的密码 */
-  let inputPw = '';
+  let inputPw: string = '';
 </script>
 
 <div class="container">
@@ -84,7 +84,7 @@
         </svg>
       </sup>
     </a><br />
-    最近更新: 2020-3-12 13:46
+    最近更新: 2020-3-12 23:33
   </p>
 
   <!--请杯奶茶呜呜呜呜-->
@@ -165,7 +165,7 @@
 >
   <p style="color: rgb(208, 200, 181);">觉得帮到了自己的话，可以请咱喝一杯奶茶当作创作激励(</p>
   <div style="display: flex; justify-content: center; padding-bottom: 20px;">
-    <img style="width: 50%;" src="./resource/images/qrcode.jpg" alt="AlipayQRCode" />
+    <img style="height: 50%; max-width: 50%;" src="./resource/images/qrcode.jpg" alt="AlipayQRCode" />
   </div>
 </Modal>
 

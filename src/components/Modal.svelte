@@ -11,8 +11,8 @@
   export let top: string = '20%';
   export let showOkButton: boolean = false;
   export let showCloseButton: boolean = false;
-  export let okButtonText = 'OK';
-  export let closeButtonText = 'Close';
+  export let okButtonText: string = 'OK';
+  export let closeButtonText: string = 'Close';
   export let onOKButtonClick: (value?: any) => void = () => {};
   export let onCloseButtonClick: (value?: any) => void = () => {};
   /** 完全消失后的回调喵 */
@@ -22,8 +22,8 @@
   /** 关闭时强制刷新 */
   //export let refreshOnClose: boolean = false;
   export let zindex: number = 0;
-  export let backgroundColor = 'black';
-  export let backgroundOpacity = 0.7;
+  export let backgroundColor: string = 'black';
+  export let backgroundOpacity: number = 0.7;
 </script>
 
 {#if visible}
@@ -36,7 +36,7 @@
         <p class="title">{title}</p>
         <hr />
       {/if}
-      <div class="content" style="padding: 5px; max-height: {window.innerHeight - 90}px">
+      <div class="content" style="padding: 5px; max-height: {window.innerHeight * 0.75}px">
         <slot />
         <div style="display:flex; justify-content:space-around;">
           {#if showOkButton}
@@ -91,6 +91,6 @@
   }
   .content {
     overflow-y: scroll;
-    overflow-x: none;
+    overflow-x: hidden;
   }
 </style>
