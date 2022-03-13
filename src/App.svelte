@@ -4,7 +4,6 @@
 <script lang="ts">
   import Router from 'svelte-spa-router';
   import { routes } from './router/router';
-  import { currentPageStore } from './stores';
   import MenuItem from './components/MenuItem.svelte';
 </script>
 

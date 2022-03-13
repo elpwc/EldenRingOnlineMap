@@ -10,22 +10,22 @@
   });
 
   /** 管理员模式 */
-  let isAdminMode = false;
+  let isAdminMode: boolean = false;
 
   isAdminModeStore.subscribe(v => {
     isAdminMode = v;
   });
 
   /** 薪火点了几下 */
-  let clickTime = 0;
+  let clickTime: number = 0;
 
   /** 管理员模式密码Modal */
-  let inputPasswordVisibility = false;
+  let inputPasswordVisibility: boolean = false;
   /** 请一杯奶茶Modal */
-  let coffeeVisibility = false;
+  let coffeeVisibility: boolean = false;
 
   /** 输入的密码 */
-  let inputPw = '';
+  let inputPw: string = '';
 </script>
 
 <div class="container">

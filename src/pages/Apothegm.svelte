@@ -17,8 +17,8 @@
   // 仅用来从外部直接打开讯息，从网页内部打开讯息不使用这个
   export let params = { id: null };
 
-  /** 是否是管理页模式 */
-  let isAdminMode = false;
+  /** 是否是管理员模式 */
+  let isAdminMode: boolean = false;
 
   isAdminModeStore.subscribe(v => {
     isAdminMode = v;
@@ -32,48 +32,48 @@
   });
 
   /** 发送讯息Modal */
-  let postModalVisibility = false;
+  let postModalVisibility: boolean = false;
   /** 回复Modal */
-  let replyModalVisibility = false;
+  let replyModalVisibility: boolean = false;
   /** 分享链接Modal */
-  let copyModalVisibility = false;
+  let copyModalVisibility: boolean = false;
   /** 删除讯息确认框 */
-  let deleteConfirmVisibility = false;
+  let deleteConfirmVisibility: boolean = false;
   /** 选择地标类型Modal */
-  let selectTypeVisability = false;
+  let selectTypeVisability: boolean = false;
 
   /** 搜索框内容 */
-  let searchWord = '';
+  let searchWord: string = '';
 
   /** 删的是讯息的回复还是讯息 apo: true, reply: false */
-  let deleteReply = false;
+  let deleteReply: boolean = false;
 
   /** 当前打开的讯息id */
-  let currentShowingApoId = 0;
+  let currentShowingApoId: number = 0;
   /** 当前打开的讯息index */
-  let currentShowingApoIndex = -1;
+  let currentShowingApoIndex: number = -1;
 
   /** 当前打开的讯息回复id */
-  let currentClickedReplyId = 0;
+  let currentClickedReplyId: number = 0;
   /** 当前打开的讯息回复index */
-  let currentClickedReplyIndex = -1;
+  let currentClickedReplyIndex: number = -1;
 
   /** 要发送的讯息标题 */
-  let postTitle = '';
+  let postTitle: string = '';
   /** 要发送的讯息内容 */
-  let postContent = '';
+  let postContent: string = '';
   /** 要发送的讯息的姿态（未使用 */
-  let postGesture = '';
+  let postGesture: string = '';
   /** 要加的点的类型 */
   let postType: ApothegmType = ApothegmType.Empty;
 
   /** 是否显示自己发的讯息 */
-  let showSelf = false;
+  let showSelf: boolean = false;
   /** 要发送的回复内容 */
-  let replyContent = '';
+  let replyContent: string = '';
 
   /** 是否处于搜索结果展示模式 */
-  let isSearch = false;
+  let isSearch: boolean = false;
 
   /** 当前拉取的所有讯息 */
   let apothegms: Apothegm[] = [];
