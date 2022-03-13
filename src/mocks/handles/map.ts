@@ -1,13 +1,13 @@
 import { rest } from 'msw';
-import type { MapPoint } from '../utils/typings';
-import type { MapPointType } from '../utils/enum';
-import mapdateJson from './mapdata.js';
+import type { MapPoint } from '../../utils/typings';
+import type { MapPointType } from '../../utils/enum';
+import mapdata from '../data/map';
 
-let mapdata: MapPoint[] = mapdateJson;
-mapdata = mapdata.sort((a, b) => {
+let map: MapPoint[] = mapdata;
+map = map.sort((a, b) => {
     return a.id - b.id;
 })
-let next_id = mapdata.at(mapdata.length - 1).id;
+let next_id = map.at(map.length - 1).id;
 
 export default [
     rest.get('/api/map.php', (req, res, ctx) => {
@@ -28,11 +28,11 @@ export default [
         let selected_data: MapPoint[];
 
         if (id_para && id >= 0) {
-            selected_data = mapdata.filter(e => {
+            selected_data = map.filter(e => {
                 return e.id == id;
             });
         } else {
-            selected_data = mapdata.filter(e => {
+            selected_data = map.filter(e => {
                 return (!ip_para || e.ip == ip) && (!under_para || e.is_underground == under) && e.is_deleted == false
                     && (!kword_para || e.name.match(kword) || e.desc.match(kword))
                     && (!type_para || types.includes(e.type));
@@ -51,7 +51,7 @@ export default [
     rest.post('/api/map.php', (req, res, ctx) => {
         let date = new Date().toDateString();
 
-        mapdata.push(({
+        map.push(({
             id: next_id++,
             type: (req.body['type'] as string)?.trim() as MapPointType,
             name: (req.body['name'] as string)?.trim(),
@@ -75,7 +75,7 @@ export default [
     rest.delete('/api/map.php', (req, res, ctx) => {
         const id = req.body['id'] as number;
         let result = false;
-        for (let e of mapdata) {
+        for (let e of map) {
             if (e.id == id && !e.is_deleted) {
                 e.is_deleted = true;
                 e.update_date = new Date().toDateString();
@@ -104,20 +104,20 @@ export default [
         const id = Number(id_para);
 
         let result = false;
-        mapdata.every((e, i, array) => {
+        map.every((e) => {
             if (e.id == id) {
-                array[i].type = type_para ? type_para.trim() as MapPointType : e.type;
-                array[i].name = name_para ? name_para.trim() : e.name;
-                array[i].desc = desc_para ? desc_para.trim() : e.desc;
-                array[i].lng = lng_para ? lng_para : e.lng;
-                array[i].lat = lat_para ? lat_para : e.lat;
-                array[i].like = like_para ? like_para : e.like;
-                array[i].dislike = dislike_para ? dislike_para : e.dislike;
-                array[i].ip = ip_para ? ip_para.trim() : e.ip;
-                array[i].is_deleted = is_deleted_para ? is_deleted_para : e.is_deleted;
-                array[i].is_lock = is_lock_para ? is_lock_para : e.is_lock;
-                array[i].is_underground = is_underground_para ? is_underground_para : e.is_underground;
-                array[i].update_date = new Date().toDateString();
+                e.type = type_para ? type_para.trim() as MapPointType : e.type;
+                e.name = name_para ? name_para.trim() : e.name;
+                e.desc = desc_para ? desc_para.trim() : e.desc;
+                e.lng = lng_para ? lng_para : e.lng;
+                e.lat = lat_para ? lat_para : e.lat;
+                e.like = like_para ? like_para : e.like;
+                e.dislike = dislike_para ? dislike_para : e.dislike;
+                e.ip = ip_para ? ip_para.trim() : e.ip;
+                e.is_deleted = is_deleted_para ? is_deleted_para : e.is_deleted;
+                e.is_lock = is_lock_para ? is_lock_para : e.is_lock;
+                e.is_underground = is_underground_para ? is_underground_para : e.is_underground;
+                e.update_date = new Date().toDateString();
                 result = true;
                 return false;
             }
