@@ -5,12 +5,7 @@ import axios from 'axios';
 import App from './App.svelte';
 import Config from './config';
 import { set_client_ip } from './utils/utils';
-
-// 开发时 mock api 进行测试
-// if (process.env.NODE_ENV === 'development') {
-  import { worker } from './mocks/browser';
-  worker.start()
-// }
+import './common';
 
 // 设置api根目录
 axios.defaults.baseURL = Config.APIBaseURL;

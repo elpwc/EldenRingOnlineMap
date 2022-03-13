@@ -9,6 +9,7 @@ import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import json from '@rollup/plugin-json';
 import babel from 'rollup-plugin-babel';
+import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -62,6 +63,9 @@ export default defineConfig({
       preferBuiltins: false,
       browser: true,
       dedupe: ['svelte'],
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'),
     }),
     commonjs(),
     typescript({
