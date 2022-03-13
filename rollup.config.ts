@@ -1,3 +1,4 @@
+import { defineConfig } from 'rollup';
 import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
@@ -7,7 +8,8 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import json from '@rollup/plugin-json';
-import babel from 'rollup-plugin-babel';
+import { babel } from '@rollup/plugin-babel';
+import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -32,7 +34,7 @@ function serve() {
   };
 }
 
-export default {
+export default defineConfig({
   input: 'src/main.ts',
   output: {
     sourcemap: true,
@@ -58,19 +60,23 @@ export default {
     // consult the documentation for details:
     // https://github.com/rollup/plugins/tree/master/packages/commonjs
     resolve({
+      preferBuiltins: false,
       browser: true,
       dedupe: ['svelte'],
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'),
     }),
     commonjs(),
     typescript({
       sourceMap: !production,
       inlineSources: !production,
     }),
-    
+
     // compile to good old IE11 compatible ES5
     babel({
       extensions: [ '.js', '.mjs', '.html', '.svelte' ],
-      runtimeHelpers: true,
+      babelHelpers: 'runtime',
       exclude: [ 'node_modules/@babel/**' ],
       presets: [
         [
@@ -110,4 +116,4 @@ export default {
   watch: {
     clearScreen: false,
   },
-};
+});

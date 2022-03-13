@@ -4,16 +4,28 @@
 <script lang="ts">
   import Router from 'svelte-spa-router';
   import { routes } from './router/router';
+  import { currentPageStore } from './stores';
   import MenuItem from './components/MenuItem.svelte';
+
+  let currentPage: string = 'map';
+  currentPageStore.subscribe(v => {
+    currentPage = v;
+  });
+
+  const menuItems = [
+    { url: '/', pageName: 'map', text: '地图', imgSrc: './resource/images/map.png' },
+    { url: '/apothegm', pageName: 'apothegm', text: '讯息', imgSrc: '../resource/images/apothegm.png' },
+    { url: '/general', pageName: 'general', text: '我的(开发中)', imgSrc: './resource/images/apothegm.png' },
+    { url: '/about', pageName: 'about', text: '说明', imgSrc: './resource/images/about.png' },
+  ];
 </script>
 
 <div style="height: 100%; ">
   <!--菜单栏-->
   <nav class="menu">
-    <MenuItem url="/" pagename="map" icon="./resource/images/map.png">地图</MenuItem>
-    <MenuItem url="/apothegm" pagename="apothegm" icon="./resource/images/apothegm.png">讯息</MenuItem>
-    <MenuItem url="/general" pagename="general" icon="./resource/images/apothegm.png">我的(开发中)</MenuItem>
-    <MenuItem url="/about" pagename="about" icon="./resource/images/about.png">说明</MenuItem>
+    {#each menuItems as item}
+      <MenuItem {currentPage} {...item} />
+    {/each}
   </nav>
 
   <!--所有页面-->

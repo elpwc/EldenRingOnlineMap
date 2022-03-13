@@ -5,6 +5,7 @@ import axios from 'axios';
 import App from './App.svelte';
 import Config from './config';
 import { set_client_ip } from './utils/utils';
+import './common';
 
 // 设置api根目录
 axios.defaults.baseURL = Config.APIBaseURL;

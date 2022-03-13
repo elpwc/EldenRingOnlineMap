@@ -1,23 +1,22 @@
-<script lang="typescript">
+<script lang="ts">
   import { link } from 'svelte-spa-router';
   import { fade } from 'svelte/transition';
-  import { currentPageStore } from '../stores';
 
-  let currentPage: string = 'map';
-  currentPageStore.subscribe(v => {
-    currentPage = v;
-  });
-
-  export let url: string = '';
-  export let pagename: string = '';
-  export let icon: string = '';
+  export let currentPage: string;
+  export let url: string;
+  export let pageName: string;
+  export let text: string;
+  export let width: string = '40px';
+  export let imgSrc: string;
+  export let imgAlt: string = 'mapicon';
 </script>
 
 <a href={url} use:link>
-  {#if currentPage === pagename}
+  {#if currentPage === pageName}
     <div class="backgroundLight" transition:fade />
-  {/if}<img src={icon} alt="mapicon" width="40px" />
-  <span><slot /></span>
+  {/if}
+  <img src={imgSrc} alt={imgAlt} {width} />
+  <span>{text}</span>
 </a>
 
 <style>
