@@ -11,6 +11,7 @@
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
   import filters from '../utils/siteTypes';
+  import Map from '../pages/Map.svelte';
 
   // 地图数据
   /** 地表地图数据源 */
@@ -326,7 +327,7 @@
               })
               .then(res => {
                 console.log(res.data);
-                const m = res.data?.[0];
+                const m: MapPoint = res.data?.[0];
                 collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*/));
                 collectMarkers.push(
                   L.marker(L.latLng(m.lat, m.lng), {
@@ -350,8 +351,10 @@
                 );
 
                 // 把收藏的原始标准，和大一点的显眼标注加进去（正好是倒数两个
-                collectMarkers[collectMarkers.length - 1].addTo(map);
-                collectMarkers[collectMarkers.length - 2].addTo(map);
+                if (m.is_underground === is_underground) {
+                  collectMarkers[collectMarkers.length - 1].addTo(map);
+                  collectMarkers[collectMarkers.length - 2].addTo(map);
+                }
               });
           }
         });
@@ -815,6 +818,7 @@
         on:click={() => {
           is_underground = !is_underground;
           refreshAllMarkers();
+          refreshCollectedMarkers();
         }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
