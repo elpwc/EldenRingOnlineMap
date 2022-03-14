@@ -16,7 +16,7 @@
   /** 地表地图数据源 */
   const groundMap: string = 'https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg';
   /** 地下地图数据源 */
-  const undergroundMap: string = './resource/maps/underground/{z}/{x}/{y}.jpg';
+  const undergroundMap: string = 'https://imgs.ali213.net/picfile/eldenring_dx/{z}/{x}/{y}.png'; // './resource/maps/underground/{z}/{x}/{y}.jpg';
 
   /** 本页面！唯一指定！地图对象！喵！ */
   let map: L.Map;
