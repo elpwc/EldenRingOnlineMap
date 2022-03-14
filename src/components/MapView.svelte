@@ -11,7 +11,6 @@
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
   import filters from '../utils/siteTypes';
-  import Map from '../pages/Map.svelte';
 
   // 地图数据
   /** 地表地图数据源 */
