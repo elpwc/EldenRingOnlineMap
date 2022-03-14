@@ -59,7 +59,8 @@
   let searchWord: string = '';
 
   /** 选中的筛选栏选项 */
-  let checkedTypes: string[] = ['cifu', 'portal', 'soulsite', 'map', 'bigboss', 'boss', 'guhui', 'text', 'warn', 'question', 'taoke'];
+  // let checkedTypes: string[] = ['cifu', 'portal', 'soulsite', 'map', 'bigboss', 'boss', 'guhui', 'text', 'warn', 'question', 'taoke'];
+  let checkedTypes: string[] = [];
 
   /** 是否显示地标名字 */
   let showPlaceNames: boolean = true;
@@ -273,7 +274,7 @@
       axios
         .get('./map.php', {
           params: {
-            type: selectAll ? '' : checkedTypes.join('|'),
+            type: selectAll ? '' : checkedTypes.length === 0 ? 'none' : checkedTypes.join('|'),
             kword: searchWord,
             ip: showSelf ? ip : '',
             under: is_underground ? 1 : 2,
@@ -658,6 +659,14 @@
         break;
       case 'all':
         selectAll = e.target.checked;
+        if (selectAll) {
+          checkedTypes = [];
+          checkedTypes = filters.map(f => {
+            if (!f?.functional && !f?.hr) return f.value;
+          });
+        } else {
+          checkedTypes = [];
+        }
         refreshAllMarkers();
         break;
       case 'collect':
@@ -679,6 +688,17 @@
               return i !== e.target.value;
             });
           }
+        }
+
+        // 更改后更新全选状态
+        if (
+          filters.filter(f => {
+            return !f?.functional && !f?.hr;
+          })?.length === checkedTypes.length
+        ) {
+          selectAll = true;
+        } else {
+          selectAll = false;
         }
 
         refreshAllMarkers();
