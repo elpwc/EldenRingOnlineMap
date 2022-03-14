@@ -1,9 +1,23 @@
-<div style="text-align: center;">
-<img src="./public/resource/images/fire.png" width="200px"/>
-<p style="font-size: 2em; font-weight: bold;">老头环协作编辑地图</p>
-<p  style="font-size: 2em; ">𝐄𝐋𝐃𝐄𝐍 𝐑𝐈𝐍𝐆 𝐎𝐍𝐋𝐈𝐍𝐄 𝐌𝐀𝐏</p>
-<p>地址：<a href="https://www.elpwc.com/eldenringmap/" target="_blank">https://www.elpwc.com/eldenringmap/</a></p>
+
+
+<p align="center" style="font-size: 2em; font-weight: bold;">
+   <img align="center" src="./public/resource/images/fire.png" width="200px"/>
+</p>
+<div align="center">
+ 
+# 老头环协作编辑地图
+ 
+### 𝐄𝐋𝐃𝐄𝐍 𝐑𝐈𝐍𝐆 𝐎𝐍𝐋𝐈𝐍𝐄 𝐌𝐀𝐏
+   
+![alt GithubStars](https://img.shields.io/github/stars/elpwc/EldenRingOnlineMap.svg?style=flat)
+![alt GithubStars](https://img.shields.io/github/forks/elpwc/EldenRingOnlineMap.svg?style=flat)
+![alt license](https://img.shields.io/badge/license-MIT-green)
+   
+ 
+地址：https://www.elpwc.com/eldenringmap/
 </div>
+
+
 <hr/>
 
 ## 技术栈
