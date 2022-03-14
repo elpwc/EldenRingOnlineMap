@@ -14,7 +14,7 @@
 
   const menuItems = [
     { url: '/', pageName: 'map', text: '地图', imgSrc: './resource/images/map.png' },
-    { url: '/apothegm', pageName: 'apothegm', text: '讯息', imgSrc: '../resource/images/apothegm.png' },
+    { url: '/apothegm', pageName: 'apothegm', text: '讯息', imgSrc: './resource/images/apothegm.png' },
     { url: '/general', pageName: 'general', text: '我的(开发中)', imgSrc: './resource/images/apothegm.png' },
     { url: '/about', pageName: 'about', text: '说明', imgSrc: './resource/images/about.png' },
   ];
