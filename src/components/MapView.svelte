@@ -72,10 +72,10 @@
   let showSelf: boolean = false;
 
   /** 是否全选 */
-  let selectAll: boolean = false;
+  let selectAll: boolean = true;
 
   /** 所有地标 */
-  let markers: { marker: L.Marker; id: number }[] = [];
+  let markers: { marker: L.Marker; id: number; ins: MapPoint }[] = [];
   /** 搜索到的所有地标 */
   let searchResultMarkers: L.Marker[] = [];
   /** 收藏的所有地标 */
@@ -113,6 +113,9 @@
 
   /** 地图字体大小 */
   let markerFontSize: number = 0.8;
+
+  /** 隐藏恶评 > 好评的 */
+  let hideBad: boolean = false;
 
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
@@ -163,12 +166,23 @@
     if (getCookie('underground')) {
       is_underground = getCookie('underground') === '1';
     }
+    if (getCookie('hidebad')) {
+      hideBad = getCookie('hidebad') === '1';
+    }
 
     // 初始化是否显示地名，zoom过小就不显示了，不然嫩卡
     if (initZoom > 3) {
       showPlaceNames = true;
     } else {
       showPlaceNames = false;
+    }
+
+    // 初始化全选
+    if (selectAll) {
+      checkedTypes = [];
+      checkedTypes = filters.map(f => {
+        if (!f?.functional && !f?.hr) return f.value;
+      });
     }
 
     // 创建地图
@@ -435,13 +449,18 @@
               //}
             }),
             id: m.id,
+            ins: m,
           });
         }
       });
 
       markers.forEach(marker => {
-        // 过滤掉隐藏的
-        if (show_hidden || !(show_hidden || hidden?.includes(marker.id.toString()))) {
+        if (
+          // 过滤掉隐藏的
+          (show_hidden || !(show_hidden || hidden?.includes(marker.id.toString()))) &&
+          // 过滤掉恶评>好评的
+          ((hideBad && marker.ins.like >= marker.ins.dislike && marker.ins.type !== 'cifu') || !hideBad)
+        ) {
           marker.marker.addTo(map);
         }
       });
@@ -677,6 +696,14 @@
         show_hidden = e.target.checked;
         updateShowingMarkers();
         break;
+      case 'hidebad':
+        hideBad = e.target.checked;
+        if (hideBad) {
+          alert('请注意：此举会隐藏除了赐福外的所有恶评>好评的标注，一些实际上正确的标注也可能被包含在内!');
+        }
+        setCookie('hidebad', hideBad ? '1' : '0');
+        updateShowingMarkers();
+        break;
       default:
         if (e.target.checked) {
           if (!checkedTypes.includes(e.target.value)) {
@@ -814,6 +841,7 @@
                 value={filter.value}
                 checked={filter?.functional
                   ? (() => {
+                      // 这里控制筛选栏checkbox的初始状态
                       switch (filter?.value) {
                         case 'self':
                           return showSelf;
@@ -821,6 +849,10 @@
                           return selectAll;
                         case 'collect':
                           return showCollect;
+                        case 'hide':
+                          return show_hidden;
+                        case 'hidebad':
+                          return hideBad;
                         default:
                           return false;
                       }
