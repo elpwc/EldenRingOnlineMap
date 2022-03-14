@@ -461,7 +461,7 @@
           // 过滤掉隐藏的
           (show_hidden || !(show_hidden || hidden?.includes(marker.id.toString()))) &&
           // 过滤掉恶评>好评的
-          ((hideBad && marker.ins.like >= marker.ins.dislike && marker.ins.type !== 'cifu') || !hideBad)
+          ((hideBad && marker.ins.like >= marker.ins.dislike) || marker.ins.type === 'cifu' || !hideBad)
         ) {
           marker.marker.addTo(map);
         }
