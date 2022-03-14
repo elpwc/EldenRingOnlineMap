@@ -72,7 +72,7 @@
     </a>
     &copy; 2022 wniko, MIT License<br />
 
-    Map Data (Surface) Source:
+    Map Data Source:
     <a href="https://www.ali213.net/zt/eldenring/map/" target="_blank"
       >Youxia
       <sup>
@@ -84,7 +84,7 @@
         </svg>
       </sup>
     </a><br />
-    最近更新: 2020-3-14 13:58
+    最近更新: 2020-3-15 05:39
     <br />
     Contributors:
     <a href="https://github.com/spking11" target="_blank"
