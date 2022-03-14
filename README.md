@@ -1,8 +1,10 @@
-# EldenRingOnlineMap
-
-Elden Ring online map / 老头环在线协作编辑地图
-
-地址：https://www.elpwc.com/eldenringmap/
+<div style="text-align: center;">
+<img src="./public/resource/images/fire.png" width="200px"/>
+<p style="font-size: 2em; font-weight: bold;">老头环协作编辑地图</p>
+<p  style="font-size: 2em; ">𝐄𝐋𝐃𝐄𝐍 𝐑𝐈𝐍𝐆 𝐎𝐍𝐋𝐈𝐍𝐄 𝐌𝐀𝐏</p>
+<p>地址：<a href="https://www.elpwc.com/eldenringmap/" target="_blank">https://www.elpwc.com/eldenringmap/</a></p>
+</div>
+<hr/>
 
 ## 技术栈
 
@@ -13,7 +15,7 @@ Elden Ring online map / 老头环在线协作编辑地图
 选用纯 PHP 写后端接口也是图方便省事的原因
 
 结果没想到一周内使用量暴增....  
-现在真的很想前后端分离再用 React + Nestjs 重写一遍（摸了rua
+现在真的很想前后端分离再用 React + Nestjs 重写一遍（摸了 rua
 
 地图是基于 Leaflet 实现的，现行版本的地标全部使用 DOM 渲染，
 
@@ -50,66 +52,26 @@ Elden Ring online map / 老头环在线协作编辑地图
 2. 后端的话，确保有 php 的运行环境就可以了
 3. 数据库建立参考 `/database.sql`
 4. 数据库配置在 `/public/api/private/` 里  
-   里面有  
-   
-   - dbcfg.example.php  
-   - illegal_words_list.example.php  
-   - admin.example.php  
-  
+   里面有
+
+   - dbcfg.example.php
+   - illegal_words_list.example.php
+   - admin.example.php
+
    三个文件  
    分别是 **数据库配置**，**屏蔽词列表**，**Admin 模式密码**  
    根据里面的内容增添一下，再把文件名里的 `.example` 去掉就可以正常使用了  
-   在前端进入管理员模式的办法可以可以细读 `src/pages/About.svelte` 内容，进入了就可以直接在前端对各个数据删改了(说明页会出现一个（Admin）字样说明已进入 Admin 模式  
+   在前端进入管理员模式的办法可以可以细读 `src/pages/About.svelte` 内容，进入了就可以直接在前端对各个数据删改了(说明页会出现一个（Admin）字样说明已进入 Admin 模式
+
 5. 项目使用的 svelte 框架算是多少有些非主流的框架，结构上类似于 Vue，可以参考 [Svelte 官网](https://svelte.dev/) / [Svelte 中文网](https://www.sveltejs.cn/)
 6. 前端使用
    ```
    npm run build
-   ```  
-   编译后，/public 内就是可以直接扔进服务器跑的东西了  
-7. 关于各个文件的说明在 /src/description.txt
-8. 配置地下地图  
-   地表地图是直接引用的外部源（以后可能换成自己的  
-   地下地图需要手动切割部署，方法见下：  
-   完整的地图分别在 mapDivider 文件夹下，即： 
-
-   - underground.jpg - 希芙拉河
-   - underground2.jpg - 安瑟尔河
-  
-   打开 mapDivider.py，可以看到
-   ```python
-   if __name__ == "__main__":
-      # 希芙拉河
-      '''
-      get_divided_maps(
-         './underground.jpg',
-         -5160, -3412, 'map',
-         currentXCalculator_1,
-         currentYCalculator_1
-      )
-      '''
-
-      # 安瑟尔河
-      get_divided_maps(
-         './underground2.jpg',
-         -4039, -4458, 'map2',
-         currentXCalculator_2,
-         currentYCalculator_2
-      )
    ```
-
-   去掉需要导出的注释，直接运行，会在同目录下看到 map, map2 两个文件夹  
-
-   在 /public/resource/ 下建立 /maps/underground/ 文件夹，将 map, map2 的**内容**全部放进去，结果会像这样：
-   - maps
-      - underground
-         - 2
-         - 3
-         - 4
-         - ...
+   编译后，/public 内就是可以直接扔进服务器跑的东西了
+7. 关于各个文件的说明在 /src/description.txt
 
    完成
-
-
 
 ## 开源许可
 
