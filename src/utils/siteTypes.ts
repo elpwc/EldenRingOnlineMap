@@ -23,7 +23,7 @@ const filters = [
   { name: '联机点', value: MapPointType.Lianji, icon: MapIcon.yellow() },
   { name: '上升气流', value: MapPointType.Wind, icon: MapIcon.yellow() },
   { name: '洞窟', value: MapPointType.Cave, icon: MapIcon.yellow() },
-  { name: '剑冢', value: MapPointType.Sword, icon: MapIcon.yellow() },
+  { name: '封印监牢', value: MapPointType.Sword, icon: MapIcon.yellow() },
   { name: '灵庙', value: MapPointType.Temple, icon: MapIcon.yellow() },
   { name: '地点', value: MapPointType.Place, icon: MapIcon.yellow() },
 
