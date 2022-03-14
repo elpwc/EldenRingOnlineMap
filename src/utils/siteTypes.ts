@@ -36,12 +36,13 @@ const filters = [
 
   { name: '道具', hr: true },
   { name: '锻造石', value: MapPointType.Stone, icon: MapIcon.blue() },
+  { name: '墓地铃兰', value: MapPointType.Orchid, icon: MapIcon.blue() },
   { name: '黄金种子', value: MapPointType.GoldenSeed, icon: MapIcon.blue(), noname: true },
   { name: '露滴', value: MapPointType.Ludi, icon: MapIcon.blue() },
   { name: '铃珠', value: MapPointType.Bead, icon: MapIcon.blue() },
-  { name: '道具', value: MapPointType.Item, icon: MapIcon.blue() },
-  { name: '石剑钥匙', value: MapPointType.Key, icon: MapIcon.blue() , noname: true},
+  { name: '石剑钥匙', value: MapPointType.Key, icon: MapIcon.blue(), noname: true },
   { name: '死根', value: MapPointType.Sigen, icon: MapIcon.blue(), noname: true },
+  { name: '道具', value: MapPointType.Item, icon: MapIcon.blue() },
 
   { name: '收集', hr: true },
   { name: '姿态', value: MapPointType.Gesture, icon: MapIcon.blue() },

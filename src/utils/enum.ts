@@ -36,6 +36,7 @@ export enum MapPointType {
   Key = 'key',
   Sigen = 'sigen',
   Bead = 'bead',
+  Orchid = 'orchid',
 
   Paint = 'paint',
   Gesture = 'gesture',
