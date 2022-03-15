@@ -22,6 +22,7 @@
     "@tsconfig/svelte": "^2.0.0",
     "@types/leaflet": "^1.7.9",
     "@types/md5": "^2.3.2",
+    "@types/qs": "^6.9.7",
     "msw": "^0.39.1",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
@@ -41,6 +42,7 @@
     "leaflet": "^1.7.1",
     "leaflet-canvas-markers-with-title": "^0.8.0",
     "md5": "^2.3.0",
+    "qs": "^6.10.3",
     "sirv-cli": "^2.0.0",
     "svelte-spa-router": "^3.2.0"
   },

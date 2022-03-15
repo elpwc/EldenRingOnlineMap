@@ -1,5 +1,5 @@
 <script lang="ts">
-  import L from 'leaflet';
+  import L, { latLng } from 'leaflet';
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
@@ -11,6 +11,14 @@
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
   import filters from '../utils/siteTypes';
+  import DirectionControl from './DirectionControl.svelte';
+
+  /** 是否禁用拖动而采用方向按钮控制，适用于一些移动app的引用 */
+  export let from: string = '';
+  /** 设备来源 */
+  export let device: string = '';
+
+  console.log(from, device);
 
   // 地图数据
   /** 地表地图数据源 */
@@ -922,7 +930,34 @@
   {/if}
   <!--筛选栏结束-->
 
-  <div id="bottomDiv" />
+  <div id="bottomDiv">
+    {#if from === 'dodo' && device === 'ios'}
+      <DirectionControl
+        style="margin-right: 10px;"
+        onClick={direction => {
+          const currentCenter = map.getCenter();
+          const increment = (10 / map.getZoom()) ** 2.3;
+          console.log(increment);
+          switch (direction) {
+            case 'up':
+              map.setView([currentCenter.lat + increment, currentCenter.lng]);
+              break;
+            case 'bottom':
+              map.setView([currentCenter.lat - increment, currentCenter.lng]);
+              break;
+            case 'left':
+              map.setView([currentCenter.lat, currentCenter.lng - increment]);
+              break;
+            case 'right':
+              map.setView([currentCenter.lat, currentCenter.lng + increment]);
+              break;
+            default:
+              break;
+          }
+        }}
+      />
+    {/if}
+  </div>
 
   <!--地图本体喵-->
   <!--mapH+1是因为....是因为........反正不加的话就会空出一条白线呜！-->
@@ -1266,11 +1301,13 @@
   #bottomDiv {
     position: absolute;
     bottom: 80px;
-    left: 0;
+    left: 50%;
     right: 0;
     z-index: 114514;
     align-self: center;
     margin-top: 20px;
+    display: flex;
+    justify-content: end;
   }
   #addpointtip {
     color: rgb(208, 200, 181);
