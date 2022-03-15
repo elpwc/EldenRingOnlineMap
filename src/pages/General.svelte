@@ -1,10 +1,25 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { currentPageStore } from '../stores';
+  import { currentPageStore, langStore } from '../stores';
+  import { setCookie } from '../utils/utils';
+
+  let currentLang = '';
+  langStore.subscribe(v => {
+    currentLang = v;
+  });
 
   onMount(() => {
     currentPageStore.set('general');
   });
+
+  const switchLang = () => {
+    if (currentLang === 'zhcn') {
+      langStore.set('zhtw');
+    } else {
+      langStore.set('zhcn');
+    }
+    setCookie('lang', currentLang);
+  };
 </script>
 
 <div class="container">
@@ -15,6 +30,7 @@
   <p>1. 收藏/隐藏点一览 导出备份为文件 导入</p>
   <p>2. 个人设置（简繁切换 / 等等）</p>
   <p>更好的建议请写到讯息里</p>
+  <button on:click={switchLang}>切换语言{currentLang}</button>
 </div>
 
 <style>

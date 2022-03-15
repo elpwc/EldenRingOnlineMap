@@ -4,20 +4,41 @@
 <script lang="ts">
   import Router from 'svelte-spa-router';
   import { routes } from './router/router';
-  import { currentPageStore } from './stores';
+  import { currentPageStore, langStore } from './stores';
   import MenuItem from './components/MenuItem.svelte';
+  import { afterUpdate, beforeUpdate, onMount } from 'svelte';
+  import { getCookie } from './utils/utils';
+  import getLang from './utils/lang';
+  import type zhcnLang from './locale/zhcn';
 
   let currentPage: string = 'map';
   currentPageStore.subscribe(v => {
     currentPage = v;
   });
 
-  const menuItems = [
-    { url: '/', pageName: 'map', text: '地图', imgSrc: './resource/images/map.png' },
-    { url: '/apothegm', pageName: 'apothegm', text: '讯息', imgSrc: './resource/images/apothegm.png' },
-    { url: '/general', pageName: 'general', text: '我的(开发中)', imgSrc: './resource/images/apothegm.png' },
-    { url: '/about', pageName: 'about', text: '说明', imgSrc: './resource/images/about.png' },
+  /** 语言 */
+  let Lang: typeof zhcnLang;
+
+  langStore.subscribe(value => {
+    Lang = getLang(value);
+    console.log(Lang);
+  });
+
+  let menuItems = [
+    { url: '/', pageName: 'map', text: Lang.menu.map, imgSrc: './resource/images/map.png' },
+    { url: '/apothegm', pageName: 'apothegm', text: Lang.menu.apo, imgSrc: './resource/images/apothegm.png' },
+    { url: '/general', pageName: 'general', text: Lang.menu.general, imgSrc: './resource/images/apothegm.png' },
+    { url: '/about', pageName: 'about', text: Lang.menu.about, imgSrc: './resource/images/about.png' },
   ];
+
+  afterUpdate(() => {
+    menuItems = [
+      { url: '/', pageName: 'map', text: Lang.menu.map, imgSrc: './resource/images/map.png' },
+      { url: '/apothegm', pageName: 'apothegm', text: Lang.menu.apo, imgSrc: './resource/images/apothegm.png' },
+      { url: '/general', pageName: 'general', text: Lang.menu.general, imgSrc: './resource/images/apothegm.png' },
+      { url: '/about', pageName: 'about', text: Lang.menu.about, imgSrc: './resource/images/about.png' },
+    ];
+  });
 </script>
 
 <div style="height: 100%; ">

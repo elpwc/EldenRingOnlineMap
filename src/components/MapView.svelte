@@ -5,20 +5,28 @@
   import { fly } from 'svelte/transition';
   import { MapPointType } from '../utils/enum';
   import axios from 'axios';
-  import { allMarkers, ip, isAdminModeStore, isMobile, setAllMarkers } from '../stores';
+  import { allMarkers, ip, isAdminModeStore, isMobile, langStore, setAllMarkers } from '../stores';
   import type { MapPoint } from '../utils/typings';
   import { MapIcon } from './icons';
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
   import filters from '../utils/siteTypes';
   import DirectionControl from './DirectionControl.svelte';
+  import getLang from '../utils/lang';
+  import type zhcnLang from '../locale/zhcn';
 
   /** 是否禁用拖动而采用方向按钮控制，适用于一些移动app的引用 */
   export let from: string = '';
   /** 设备来源 */
   export let device: string = '';
 
-  console.log(from, device);
+  /** 语言 */
+  let Lang: typeof zhcnLang;
+
+  langStore.subscribe(value => {
+    Lang = getLang(value);
+    console.log(Lang);
+  });
 
   // 地图数据
   /** 地表地图数据源 */
@@ -709,7 +717,7 @@
       case 'hidebad':
         hideBad = e.target.checked;
         if (hideBad) {
-          alert('请注意：此举会隐藏除了赐福外的所有恶评>好评的标注，一些实际上正确的标注也可能被包含在内!');
+          alert(Lang.map.left.functionalFilters.hideBadTip);
         }
         setCookie('hidebad', hideBad ? '1' : '0');
         updateShowingMarkers();
@@ -771,7 +779,7 @@
   <header id="topDiv">
     {#if !isAddPointMode}
       <div id="searchTextContainer">
-        <input type="text" style="border: none; width: 80%; box-shadow: none;" placeholder="搜索地标" bind:value={searchWord} />
+        <input type="text" style="border: none; width: 80%; box-shadow: none;" placeholder={Lang.map.topright.placeholder} bind:value={searchWord} />
         {#if isSearch}
           <button
             style="border: none; font-size: 0.6em; box-shadow: none;"
@@ -783,8 +791,9 @@
               searchWord = '';
               searchResultMarkers = [];
               refreshAllMarkers();
-            }}>{searchResultMarkers.length / 2}个结果, 点此清除结果</button
-          >
+            }}
+            >{Lang.map.topright.result.replace('{result}', String(searchResultMarkers.length / 2))}
+          </button>
         {/if}
       </div>
       <button on:click={onSearch}>
@@ -793,10 +802,10 @@
             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
           />
         </svg>
-        搜索
+        {Lang.map.topright.search}
       </button>
     {:else}
-      <p id="addpointtip">{isUpdateLnglatMode ? '在地图点击选择新的位置' : '在地图上点击一点添加坐标'}</p>
+      <p id="addpointtip">{isUpdateLnglatMode ? Lang.map.topright.editModeHint : Lang.map.topright.changePositionModeHint}</p>
     {/if}
 
     <button id="addPointButton" on:click={onAddButtonClick}>
@@ -812,7 +821,7 @@
         </svg>
       {/if}
       <p>
-        {isAddPointMode ? '退出编辑' : '添加地标'}
+        {isAddPointMode ? Lang.map.topright.editModeBtn : Lang.map.topright.add}
       </p>
     </button>
   </header>
@@ -837,9 +846,9 @@
             d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
           />
         </svg>
-        切换到{is_underground ? '地面' : '地下'}地图
+        {is_underground ? Lang.map.left.undergroundSwitcher2 : Lang.map.left.undergroundSwitcher1}\
       </button>
-      <p style="font-size: 0.6em;">tips:点击地图上的地标可以查看详细</p>
+      <p style="font-size: 0.6em;">{Lang.map.left.tips}</p>
       <div id="filter" style="max-height: {window.innerHeight - 80}px;">
         {#each filters as filter}
           {#if filter?.hr}
@@ -884,10 +893,10 @@
           updateShowingMarkers();
         }}
       >
-        显示地名{showPlaceNames ? ' √' : ''}
+        {Lang.map.left.showNameButton}{showPlaceNames ? ' √' : ''}
       </button>
       <div id="underSelector" style="margin: 5px; align-items: center;">
-        <span style="min-width: fit-content;">字号</span>
+        <span style="min-width: fit-content;">{Lang.map.left.fontSizeLabel}</span>
         <button
           class={markerFontSize === 0.5 && 'checked'}
           on:click={() => {
@@ -895,7 +904,7 @@
             updateShowingMarkers();
           }}
         >
-          小
+          {Lang.map.left.fontSizeSmall}
         </button>
 
         <button
@@ -905,7 +914,7 @@
             updateShowingMarkers();
           }}
         >
-          中
+          {Lang.map.left.fontSizeMedium}
         </button>
 
         <button
@@ -915,17 +924,17 @@
             updateShowingMarkers();
           }}
         >
-          大
+          {Lang.map.left.fontSizeLarge}
         </button>
       </div>
       <!--input type="text" placeholder="关键词" bind:value={filterString}/-->
     </div>
     <div id="leftDiv2" in:fly={{ x: -165, duration: 300 }} out:fly={{ x: -165, duration: 300 }}>
-      <button id="filterBtn" on:click={onFilterButtonClick}>◀<br />收<br />回</button>
+      <button id="filterBtn" on:click={onFilterButtonClick}>◀<br />{@html Lang.map.left.buttonAfterOpen}</button>
     </div>
   {:else}
     <div id="leftDiv" in:fly={{ x: 165, duration: 300 }} out:fly={{ x: 165, duration: 300 }}>
-      <button id="filterBtn" on:click={onFilterButtonClick}>➤<br />筛<br />选</button>
+      <button id="filterBtn" on:click={onFilterButtonClick}>➤<br />{@html Lang.map.left.buttonBeforeOpen}</button>
     </div>
   {/if}
   <!--筛选栏结束-->

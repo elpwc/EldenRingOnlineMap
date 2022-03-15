@@ -11,6 +11,8 @@ import type { MapPoint } from './utils/typings';
 export let currentPageStore = writable('home');
 /** 是否是管理员Mode的store */
 export let isAdminModeStore = writable(false);
+/** 当前语言 */
+export let langStore = writable('zhcn');
 
 //全局变量
 
