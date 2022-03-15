@@ -931,13 +931,15 @@
   <!--筛选栏结束-->
 
   <div id="bottomDiv">
+    <!--移动控件-->
     {#if from === 'dodo' && device === 'ios'}
       <DirectionControl
         style="margin-right: 10px;"
         onClick={direction => {
+          /** 移动前的中心 */
           const currentCenter = map.getCenter();
+          /** 增量 */
           const increment = (10 / map.getZoom()) ** 2.3;
-          console.log(increment);
           switch (direction) {
             case 'up':
               map.setView([currentCenter.lat + increment, currentCenter.lng]);
