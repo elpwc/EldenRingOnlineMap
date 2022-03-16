@@ -93,7 +93,7 @@
         </svg>
       </sup>
     </a><br />
-    {Lang.about.lastUpdate}: 2020-3-17 00:47
+    {Lang.about.lastUpdate}: 2020-3-17 00:55
     <br />
     Contributors:
     <a href="https://github.com/spking11" target="_blank"
