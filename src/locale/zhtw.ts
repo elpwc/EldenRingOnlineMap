@@ -190,6 +190,7 @@ export default {
       taoke: '逃課',
       importantitem: '重要道具',
       metarial: '材料',
+      ring: '戒指護符',
     },
   },
 

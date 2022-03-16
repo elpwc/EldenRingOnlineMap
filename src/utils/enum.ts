@@ -50,6 +50,7 @@ export enum MapPointType {
   Clothes = 'clothes',
   Zhanhui = 'zhanhui',
   Guhui = 'guhui',
+  Ring = 'ring',
 
   Text = 'text',
   Warn = 'warn',

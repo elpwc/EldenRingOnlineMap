@@ -56,6 +56,7 @@ const getFilters = (Lang: typeof LangZhcn.siteTypes) => [
   { name: Lang.filters.daogao, value: MapPointType.Daogao, icon: MapIcon.purple() },
   { name: Lang.filters.weapon, value: MapPointType.Weapon, icon: MapIcon.purple() },
   { name: Lang.filters.clothes, value: MapPointType.Clothes, icon: MapIcon.purple() },
+  { name: Lang.filters.ring, value: MapPointType.Ring, icon: MapIcon.purple() },
   { name: Lang.filters.zhanhui, value: MapPointType.Zhanhui, icon: MapIcon.purple() },
   { name: Lang.filters.guhui, value: MapPointType.Guhui, icon: MapIcon.purple() },
 
