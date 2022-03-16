@@ -170,6 +170,7 @@ export default {
       orchid: '墓地铃兰',
       goldenseed: '黄金种子',
       ludi: '露滴',
+      shengbeiludi: '圣杯露滴',
       bead: '铃珠',
       key: '石剑钥匙',
       sigen: '死根',

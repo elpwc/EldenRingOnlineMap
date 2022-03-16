@@ -39,6 +39,7 @@ const getFilters = (Lang: typeof LangZhcn.siteTypes) => [
   { name: Lang.filters.orchid, value: MapPointType.Orchid, icon: MapIcon.blue() },
   { name: Lang.filters.goldenseed, value: MapPointType.GoldenSeed, icon: MapIcon.blue(), noname: true },
   { name: Lang.filters.ludi, value: MapPointType.Ludi, icon: MapIcon.blue() },
+  { name: Lang.filters.shengbeiludi, value: MapPointType.ShengbeiLudi, icon: MapIcon.blue() },
   { name: Lang.filters.bead, value: MapPointType.Bead, icon: MapIcon.blue() },
   { name: Lang.filters.key, value: MapPointType.Key, icon: MapIcon.blue(), noname: true },
   { name: Lang.filters.sigen, value: MapPointType.Sigen, icon: MapIcon.blue(), noname: true },

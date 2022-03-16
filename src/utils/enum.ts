@@ -34,6 +34,7 @@ export enum MapPointType {
   Stone = 'stone',
   GoldenSeed = 'goldseed',
   Ludi = 'ludi',
+  ShengbeiLudi = 'sbludi',
   Key = 'key',
   Sigen = 'sigen',
   Bead = 'bead',

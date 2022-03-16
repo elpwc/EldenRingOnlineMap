@@ -171,6 +171,7 @@ export default {
       orchid: '墓地鈴蘭',
       goldenseed: '黃金種子',
       ludi: '露滴',
+      shengbeiludi: '聖杯露滴',
       bead: '鈴珠',
       key: '石劍鑰匙',
       sigen: '死根',
