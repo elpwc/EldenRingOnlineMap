@@ -43,6 +43,7 @@ const getFilters = (Lang: typeof LangZhcn.siteTypes) => [
   { name: Lang.filters.bead, value: MapPointType.Bead, icon: MapIcon.blue() },
   { name: Lang.filters.key, value: MapPointType.Key, icon: MapIcon.blue(), noname: true },
   { name: Lang.filters.sigen, value: MapPointType.Sigen, icon: MapIcon.blue(), noname: true },
+  { name: Lang.filters.metarial, value: MapPointType.Material, icon: MapIcon.blue() },
   { name: Lang.filters.importantitem, value: MapPointType.ImportantItem, icon: MapIcon.blue() },
   { name: Lang.filters.item, value: MapPointType.Item, icon: MapIcon.blue() },
 

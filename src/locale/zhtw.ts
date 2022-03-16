@@ -189,6 +189,7 @@ export default {
       question: '求助',
       taoke: '逃課',
       importantitem: '重要道具',
+      metarial: '材料',
     },
   },
 
