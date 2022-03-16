@@ -3,9 +3,16 @@
   import { currentPageStore, langStore } from '../stores';
   import { setCookie } from '../utils/utils';
 
+  import getLang from '../utils/lang';
+  import type zhcnLang from '../locale/zhcn';
+
+  /** 语言 */
+  let Lang: typeof zhcnLang;
+
   let currentLang = '';
   langStore.subscribe(v => {
     currentLang = v;
+    Lang = getLang(v);
   });
 
   onMount(() => {

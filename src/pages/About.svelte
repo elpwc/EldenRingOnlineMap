@@ -2,7 +2,16 @@
   import axios from 'axios';
   import { onMount } from 'svelte';
   import Modal from '../components/Modal.svelte';
-  import { currentPageStore, isAdminModeStore } from '../stores';
+  import { currentPageStore, isAdminModeStore, langStore } from '../stores';
+  import getLang from '../utils/lang';
+  import type zhcnLang from '../locale/zhcn';
+
+  /** 语言 */
+  let Lang: typeof zhcnLang;
+
+  langStore.subscribe(value => {
+    Lang = getLang(value);
+  });
 
   onMount(() => {
     currentPageStore.set('about');
@@ -84,7 +93,7 @@
         </svg>
       </sup>
     </a><br />
-    最近更新: 2020-3-15 13:44
+    {Lang.about.lastUpdate}: 2020-3-15 13:44
     <br />
     Contributors:
     <a href="https://github.com/spking11" target="_blank"
@@ -106,7 +115,7 @@
       coffeeVisibility = true;
     }}
   >
-    请一杯奶茶☕
+    {Lang.about.coffee}
   </button>
 
   <!--下面的按钮组-->
@@ -116,7 +125,7 @@
         window.open('https://github.com/elpwc/EldenRingOnlineMap/issues', '_blank');
       }}
     >
-      漏洞・意见反馈
+      {Lang.about.feedback}
       <sup>
         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
           <path
@@ -132,7 +141,7 @@
         window.open('https://github.com/elpwc/EldenRingOnlineMap', '_blank');
       }}
     >
-      GitHub页面
+      {Lang.about.github}
       <sup>
         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
           <path
@@ -176,9 +185,9 @@
     coffeeVisibility = false;
   }}
 >
-  <p style="color: rgb(208, 200, 181);">觉得帮到了自己的话，可以请咱喝一杯奶茶当作创作激励(</p>
+  <p style="color: rgb(208, 200, 181);">{Lang.about.modals.coffee.text}</p>
   <div style="display: flex; justify-content: center; padding-bottom: 20px;">
-    <img style="height: 50%; max-width: 50%;" src="./resource/images/qrcode.jpg" alt="AlipayQRCode" />
+    <img style="height: 50%; max-width: 50%;" src={Lang.about.modals.coffee.urlLink} alt="QRCode" />
   </div>
 </Modal>
 

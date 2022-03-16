@@ -717,7 +717,7 @@
       case 'hidebad':
         hideBad = e.target.checked;
         if (hideBad) {
-          alert(Lang.map.left.functionalFilters.hideBadTip);
+          alert(Lang.siteTypes.functionalFilters.hideBadTip);
         }
         setCookie('hidebad', hideBad ? '1' : '0');
         updateShowingMarkers();
@@ -846,7 +846,7 @@
             d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
           />
         </svg>
-        {is_underground ? Lang.map.left.undergroundSwitcher2 : Lang.map.left.undergroundSwitcher1}\
+        {is_underground ? Lang.map.left.undergroundSwitcher2 : Lang.map.left.undergroundSwitcher1}
       </button>
       <p style="font-size: 0.6em;">{Lang.map.left.tips}</p>
       <div id="filter" style="max-height: {window.innerHeight - 80}px;">
@@ -982,8 +982,8 @@
   zindex={114700}
   showOkButton
   showCloseButton
-  okButtonText="确认删除"
-  closeButtonText="取消"
+  okButtonText={Lang.map.modals.delete.btn1}
+  closeButtonText={Lang.map.modals.delete.btn2}
   onOKButtonClick={() => {
     onDelete();
     deleteConfirmVisibility = false;
@@ -1005,7 +1005,7 @@
     currentClickedMarker?.name}
   zindex={114600}
   showOkButton
-  okButtonText="关闭"
+  okButtonText={Lang.map.modals.info.btn1}
   onOKButtonClick={() => {
     markerInfoVisibility = false;
   }}
@@ -1015,12 +1015,13 @@
       {@html currentClickedMarker?.desc?.replaceAll('\n', '<br />')}
     </p>
     <div style="display: flex;">
-      <button on:click={onLike}>{`给予好评 ${currentClickedMarker?.like}`}</button>
-      <button on:click={onDislike}>{`给予恶评 ${currentClickedMarker?.dislike}`}</button>
+      <button on:click={onLike}>{Lang.map.modals.info.like + currentClickedMarker?.like}</button>
+      <button on:click={onDislike}>{Lang.map.modals.info.dislike + currentClickedMarker?.dislike}</button>
     </div>
 
     <div>
       {#if !currentClickedMarker?.is_lock || isAdminMode}
+        <!--编辑按钮-->
         <button
           on:click={() => {
             addedPointDesc = currentClickedMarker?.desc;
@@ -1041,11 +1042,12 @@
               d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
             />
           </svg>
-          编辑</button
-        >
+          {Lang.map.modals.info.edit}
+        </button>
       {/if}
 
       {#if (!currentClickedMarker?.is_lock && currentClickedMarker?.ip === ip) || isAdminMode}
+        <!--删除按钮-->
         <button
           on:click={() => {
             deleteConfirmVisibility = true;
@@ -1056,9 +1058,10 @@
               d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
             />
           </svg>
-          删除</button
-        >
+          {Lang.map.modals.info.delete}
+        </button>
       {/if}
+      <!--收藏 / 取消收藏-->
       <button
         on:click={() => {
           if (collects?.includes(String(currentClickedMarker?.id))) {
@@ -1084,7 +1087,7 @@
             d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
           />
         </svg>
-        {collects?.includes(String(currentClickedMarker?.id)) ? '取消收藏' : '收藏'}</button
+        {collects?.includes(String(currentClickedMarker?.id)) ? Lang.map.modals.info.collect : Lang.map.modals.info.uncollect}</button
       >
       <label style="color: rgb(208, 200, 181);">
         <input
@@ -1109,11 +1112,12 @@
             updateShowingMarkers(currentClickedMarker?.id);
           }}
         />
-        隐藏
+        {Lang.map.modals.info.hide}
       </label>
 
       {#if isAdminMode}
-        <label style="color: rgb(208, 200, 181);"><input type="checkbox" checked={currentClickedMarker?.is_lock} on:change={onSetLockChecked} />锁定</label>
+        <!--锁定-->
+        <label style="color: rgb(208, 200, 181);"><input type="checkbox" checked={currentClickedMarker?.is_lock} on:change={onSetLockChecked} />{Lang.map.modals.info.lock}</label>
       {/if}
     </div>
   </div>
@@ -1124,12 +1128,12 @@
   visible={addPointVisability}
   top="0%"
   width="85%"
-  title={editMode ? '修改 ' + currentClickedMarker?.name : '添加一个地标'}
+  title={editMode ? Lang.map.modals.add.editModeTitle.replace('{title}', currentClickedMarker?.name) : Lang.map.modals.add.title}
   zindex={114600}
   showOkButton
   showCloseButton
-  okButtonText={editMode ? '修改' : '添加'}
-  closeButtonText="取消"
+  okButtonText={editMode ? Lang.map.modals.add.btn1EditMode : Lang.map.modals.add.btn1}
+  closeButtonText={Lang.map.modals.add.btn2}
   onOKButtonClick={onAdd}
   onCloseButtonClick={onClose}
 >
@@ -1142,7 +1146,7 @@
           refreshAllMarkers();
         }}
       >
-        位于地面
+        {Lang.map.modals.add.surface}
       </button>
       <button
         class={is_underground && 'checked'}
@@ -1151,7 +1155,7 @@
           refreshAllMarkers();
         }}
       >
-        位于地下(希芙拉河)
+        {Lang.map.modals.add.underground}
       </button>
     </div>
     <button
@@ -1161,10 +1165,10 @@
     >
       {filters.filter(type => {
         return type.value === addedPointType;
-      })?.[0]?.name || '——选择类型——'}
+      })?.[0]?.name || `——${Lang.map.modals.add.selector}——`}
     </button>
-    <input type="text" placeholder="名称 (1～20)" bind:value={addedPointName} />
-    <textarea placeholder="描述 (0～1000)" bind:value={addedPointDesc} />
+    <input type="text" placeholder="{Lang.map.modals.add.namePlaceHolder} (1～20)" bind:value={addedPointName} />
+    <textarea placeholder="{Lang.map.modals.add.descPlaceHolder} (0～1000)" bind:value={addedPointDesc} />
     <button
       on:click={() => {
         isAddPointMode = true;
@@ -1176,13 +1180,13 @@
         <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z" />
         <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z" />
       </svg>
-      重新选择位置
+      {Lang.map.modals.add.reposition}
     </button>
   </div>
 </Modal>
 
 <!--添加/编辑Modal里的选择类型Modal-->
-<Modal visible={selectTypeVisability} top="0%" title="选择类型" zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
+<Modal visible={selectTypeVisability} top="0%" title={Lang.map.modals.add.selector} zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
   <div id="selectModalInner">
     {#each filters as filter}
       {#if filter?.hr}

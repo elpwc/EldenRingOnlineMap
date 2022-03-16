@@ -4,7 +4,7 @@
    */
   import { onMount } from 'svelte';
   import Modal from '../components/Modal.svelte';
-  import { currentPageStore, ip, isAdminModeStore } from '../stores';
+  import { currentPageStore, ip, isAdminModeStore, langStore } from '../stores';
   import { fly } from 'svelte/transition';
   import axios from 'axios';
   import type { Apothegm } from '../utils/typings';
@@ -12,6 +12,16 @@
   import md5 from 'md5';
   import { ApothegmType } from '../utils/enum';
   import apo_filters from '../utils/apoTypes';
+
+  import getLang from '../utils/lang';
+  import type zhcnLang from '../locale/zhcn';
+
+  /** 语言 */
+  let Lang: typeof zhcnLang;
+
+  langStore.subscribe(value => {
+    Lang = getLang(value);
+  });
 
   // 路径参数: 讯息id
   // 仅用来从外部直接打开讯息，从网页内部打开讯息不使用这个
@@ -345,7 +355,7 @@
   <header id="inputDiv">
     <div style="display: flex;">
       <div id="searchTextContainer">
-        <input type="text" style="border: none; width: 80%; box-shadow: none;" placeholder="搜索讯息" bind:value={searchWord} />
+        <input type="text" style="border: none; width: 80%; box-shadow: none;" placeholder={Lang.apothegm.header.placeholder} bind:value={searchWord} />
         {#if isSearch}
           <button
             style="border: none; font-size: 0.6em; box-shadow: none;"
@@ -353,8 +363,10 @@
               isSearch = false;
               searchWord = '';
               refreshApo();
-            }}>清除结果</button
+            }}
           >
+            {Lang.apothegm.header.result}
+          </button>
         {/if}
       </div>
       <button on:click={onSearch}
@@ -362,7 +374,7 @@
           <path
             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
           />
-        </svg>搜索</button
+        </svg>{Lang.apothegm.header.search}</button
       >
     </div>
     <button
@@ -379,7 +391,8 @@
           fill-rule="evenodd"
           d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
         />
-      </svg>写下讯息
+      </svg>
+      {Lang.apothegm.header.write}
     </button>
     <button
       style="border: none; box-shadow: none;"
@@ -395,8 +408,8 @@
           d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
         />
       </svg>
-      我发送的</button
-    >
+      {Lang.apothegm.header.my}
+    </button>
   </header>
 
   <!--讯息列表-->
@@ -444,9 +457,9 @@
           <p class="contentp">{@html apo?.content?.replaceAll('\n', '<br />')}</p>
 
           <div class="title-reply" style="justify-content: space-between; ">
-            <span class="replyspan">回应 {apo?.replies?.length}</span>
+            <span class="replyspan">{Lang.apothegm.list.replies} {apo?.replies?.length}</span>
             <span class="datespan">{apo?.reply_date}</span>
-            <span class="likespan">好评 {apo?.like} 恶评 {apo?.dislike}</span>
+            <span class="likespan">{Lang.apothegm.list.like} {apo?.like} {Lang.apothegm.list.dislike} {apo?.dislike}</span>
           </div>
         </div>
       {/each}
@@ -468,8 +481,8 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                 <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
               </svg>
-              返回</button
-            >
+              {Lang.apothegm.reply.return}
+            </button>
           </div>
           <div>
             {#if isAdminMode || apothegms?.[currentShowingApoIndex]?.ip === ip}
@@ -478,10 +491,14 @@
                   // 设置删除的是讯息还是回复
                   deleteReply = false;
                   deleteConfirmVisibility = true;
-                }}>删除</button
+                }}
               >
+                {Lang.apothegm.reply.delete}
+              </button>
             {/if}
-            <button on:click={onShare}>分享</button>
+            <button on:click={onShare}>
+              {Lang.apothegm.reply.share}
+            </button>
             <button
               on:click={() => {
                 replyModalVisibility = true;
@@ -493,8 +510,8 @@
                 />
                 <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
               </svg>
-              回复</button
-            >
+              {Lang.apothegm.reply.reply}
+            </button>
           </div>
         </div>
 
@@ -504,12 +521,14 @@
           <p>{@html apothegms?.[currentShowingApoIndex]?.content?.replaceAll('\n', '<br />')}</p>
           <div class="title">
             <div class="title-reply">
-              <span class="titlespan">{getMD5Id(apothegms?.[currentShowingApoIndex]?.ip)}</span><span class="replyspan">回应 {apothegms?.[currentShowingApoIndex]?.replies?.length}</span>
+              <span class="titlespan">{getMD5Id(apothegms?.[currentShowingApoIndex]?.ip)}</span><span class="replyspan"
+                >{Lang.apothegm.list.replies} {apothegms?.[currentShowingApoIndex]?.replies?.length}</span
+              >
             </div>
             <span class="datespan">{apothegms?.[currentShowingApoIndex]?.create_date}</span>
             <div>
-              <button on:click={onLikeApo}>好评 {apothegms?.[currentShowingApoIndex]?.like}</button>
-              <button on:click={onDislikeApo}>恶评 {apothegms?.[currentShowingApoIndex]?.dislike}</button>
+              <button on:click={onLikeApo}>{Lang.apothegm.list.like} {apothegms?.[currentShowingApoIndex]?.like}</button>
+              <button on:click={onDislikeApo}>{Lang.apothegm.list.dislike} {apothegms?.[currentShowingApoIndex]?.dislike}</button>
             </div>
           </div>
         </div>
@@ -533,8 +552,10 @@
                         // 设置删除的是讯息还是回复
                         deleteReply = true;
                         deleteConfirmVisibility = true;
-                      }}>删除</button
+                      }}
                     >
+                      {Lang.apothegm.reply.delete}
+                    </button>
                   {/if}
                   <span class="likespan">
                     <button
@@ -542,14 +563,14 @@
                         currentClickedReplyId = reply?.id;
                         currentClickedReplyIndex = index;
                         onLikeReply();
-                      }}>好评 {reply?.like}</button
+                      }}>{Lang.apothegm.list.like} {reply?.like}</button
                     >
                     <button
                       on:click={() => {
                         currentClickedReplyId = reply?.id;
                         currentClickedReplyIndex = index;
                         onDislikeReply();
-                      }}>恶评 {reply?.dislike}</button
+                      }}>{Lang.apothegm.list.dislike} {reply?.dislike}</button
                     >
                   </span>
                 </div>
@@ -569,11 +590,11 @@
   visible={postModalVisibility}
   zindex={114514}
   width="70%"
-  title="写下讯息"
+  title={Lang.apothegm.modals.add.title}
   showOkButton
   showCloseButton
-  okButtonText="写下讯息"
-  closeButtonText="收回褪色者手指"
+  okButtonText={Lang.apothegm.modals.add.btn1}
+  closeButtonText={Lang.apothegm.modals.add.btn2}
   onOKButtonClick={onPost}
   onCloseButtonClick={() => {
     postModalVisibility = false;
@@ -590,10 +611,10 @@
     >
       {apo_filters.filter(type => {
         return type.value === postType;
-      })?.[0]?.name || '——选择类型——'}
+      })?.[0]?.name || `——${Lang.apothegm.modals.add.selector}——`}
     </button>
-    <input type="text" placeholder="标题 (1～20)" bind:value={postTitle} />
-    <textarea placeholder="内容 (0～1000)" bind:value={postContent} />
+    <input type="text" placeholder="{Lang.apothegm.modals.add.titlePlaceHolder} (1～20)" bind:value={postTitle} />
+    <textarea placeholder="{Lang.apothegm.modals.add.contentPlaceHolder} (0～1000)" bind:value={postContent} />
   </div>
 </Modal>
 
@@ -602,11 +623,11 @@
   visible={replyModalVisibility}
   zindex={114514}
   width="70%"
-  title="写下对讯息的回应"
+  title={Lang.apothegm.modals.reply.title}
   showOkButton
   showCloseButton
-  okButtonText="回应"
-  closeButtonText="收回褪色者手指"
+  okButtonText={Lang.apothegm.modals.reply.btn1}
+  closeButtonText={Lang.apothegm.modals.reply.btn2}
   onOKButtonClick={onReply}
   onCloseButtonClick={() => {
     replyModalVisibility = false;
@@ -614,7 +635,7 @@
   }}
 >
   <div class="modalInner">
-    <textarea placeholder="内容 (0～1000)" bind:value={replyContent} />
+    <textarea placeholder="{Lang.apothegm.modals.reply.contentPlaceHolder} (0～1000)" bind:value={replyContent} />
   </div>
 </Modal>
 
@@ -622,9 +643,9 @@
 <Modal
   zindex={114514}
   visible={copyModalVisibility}
-  title="请长按复制"
+  title={Lang.apothegm.modals.share.title}
   showOkButton
-  okButtonText="返回"
+  okButtonText={Lang.apothegm.modals.share.btn1}
   onOKButtonClick={() => {
     copyModalVisibility = false;
   }}
@@ -643,8 +664,8 @@
   zindex={114700}
   showOkButton
   showCloseButton
-  okButtonText="确认删除"
-  closeButtonText="取消"
+  okButtonText={Lang.map.modals.delete.btn1}
+  closeButtonText={Lang.map.modals.delete.btn2}
   onOKButtonClick={() => {
     // 判断删除的是讯息还是回复
     if (deleteReply) {
@@ -660,7 +681,7 @@
 />
 
 <!--添加/编辑Modal里的选择类型Modal-->
-<Modal visible={selectTypeVisability} top="5%" title="选择类型" zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
+<Modal visible={selectTypeVisability} top="5%" title={Lang.apothegm.modals.add.selector} zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
   <div id="selectModalInner">
     {#each apo_filters as filter}
       {#if filter?.hr}
