@@ -529,7 +529,7 @@
       axios
         .get('./map.php', {
           params: {
-            kword: searchWord,
+            kword: zhConvertor.t2s(searchWord) + '|' + zhConvertor.s2t(searchWord),
           },
         })
         .then(res => {

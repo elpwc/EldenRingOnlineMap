@@ -21,7 +21,6 @@
 
   langStore.subscribe(value => {
     Lang = getLang(value);
-    console.log(Lang);
   });
 
   let menuItems = [

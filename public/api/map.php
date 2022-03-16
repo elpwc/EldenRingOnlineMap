@@ -32,7 +32,7 @@ switch ($request_type) {
 
         $sql = 'INSERT 
         INTO map (`type`, `name`, `desc`, `lng`, `lat`, `like`, `dislike`, `ip`, `is_deleted`, `is_underground`)
-        VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0", "'.($is_underground == '1' ? '1' : '0').'");
+        VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0", "' . ($is_underground == '1' ? '1' : '0') . '");
         ';
 
         $result = mysqli_query($sqllink, $sql);
@@ -46,7 +46,7 @@ switch ($request_type) {
         /** 个数, 不填为全部 */
         @$count_ori = $_GET['count'];
         @$type_ori = $_GET['type'];
-        @$kword_ori = $_GET['kword'];
+        @$kword_ori = $_GET['kword']; // | 隔开
         @$under_ori = $_GET['under'];
 
         $id = '';
@@ -100,9 +100,33 @@ switch ($request_type) {
                 }
             }
         }
+
+        $kwordarr = [];
         if (isset($kword_ori)) {
             $kword = trim(anti_inj((string)$kword_ori));
+            if ($kword != '') {
+                $kwords = explode('|', $kword);
+                if (is_string($kwords)) {
+                    $kwords = [[
+                        'OR', [
+                            ['LIKE', ['name', $kword]],
+                            ['LIKE', ['desc', $kword]]
+                        ]
+                    ]];
+                }
+                if (count($kwords) > 0) {
+                    for ($i = 0; $i < count($kwords); $i++) {
+                        array_push($kwordarr, [
+                            'OR', [
+                                ['LIKE', ['name', $kwords[$i]]],
+                                ['LIKE', ['desc', $kwords[$i]]]
+                            ]
+                        ]);
+                    }
+                }
+            }
         }
+
 
         $select = [];
 
@@ -111,12 +135,7 @@ switch ($request_type) {
                 'AND',
                 [
                     ['OR', $typearr],
-                    [
-                        'OR', [
-                            ['LIKE', ['name', $kword]],
-                            ['LIKE', ['desc', $kword]]
-                        ]
-                    ],
+                    ['OR', $kwordarr],
                     ['', ['ip', $ip]],
                     ['', ['is_underground', $under]],
                     ['', ['is_deleted', '0']]
