@@ -14,8 +14,7 @@
   import DirectionControl from './DirectionControl.svelte';
   import getLang from '../utils/lang';
   import type zhcnLang from '../locale/zhcn';
-  import zhConvertor from 'zhconvertor';
-  import { ConvertType } from 'zhconvertor/dist/zhConvertor';
+  import zhConvertor, { ConvertType } from 'zhconvertor';
 
   /** 是否禁用拖动而采用方向按钮控制，适用于一些移动app的引用 */
   export let from: string = '';
