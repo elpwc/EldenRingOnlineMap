@@ -38,6 +38,10 @@ SRC:
 /utils/siteTypes.ts         各个地标类型定义
 /utils/apoTypes.ts          各个讯息类型定义
 
+/locale/                    i18n
+
+/mocks/                     mocks测试
+
 App.svelte                  主页面，导入路由和菜单栏在这里
 config.ts                   全局配置
 stores.ts                   svelte stores和全局变量

@@ -21,6 +21,9 @@ try {
 if (getCookie('lang')) {
   langStore.set(getCookie('lang'));
 }
+if (getCookie('langContent')) {
+  langStore.set(getCookie('langContent'));
+}
 
 const app = new App({
   target: document.body,

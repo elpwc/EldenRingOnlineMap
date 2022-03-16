@@ -1,4 +1,6 @@
 export default {
+  name: '简体中文',
+  code: 'zhcn',
   title: '老头环地图 EldenRing Map',
   menu: {
     map: '地图',
@@ -105,7 +107,12 @@ export default {
       },
     },
   },
-  general: {},
+  general: {
+    menulang: '菜单语言',
+    maplang: '地图语言',
+    dontConvert: '不转换',
+  },
+
   about: {
     lastUpdate: '最近更新',
     coffee: '请一杯奶茶☕',

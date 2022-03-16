@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { currentPageStore, langStore } from '../stores';
+  import { currentPageStore, langContentStore, langStore } from '../stores';
   import { setCookie } from '../utils/utils';
 
   import getLang from '../utils/lang';
@@ -10,9 +10,13 @@
   let Lang: typeof zhcnLang;
 
   let currentLang = '';
+  let currentContentLang = '';
   langStore.subscribe(v => {
     currentLang = v;
     Lang = getLang(v);
+  });
+  langContentStore.subscribe(v => {
+    currentContentLang = v;
   });
 
   onMount(() => {
@@ -27,25 +31,86 @@
     }
     setCookie('lang', currentLang);
   };
+
+  const switchContentLang = () => {
+    if (currentContentLang === 'zhcn') {
+      langContentStore.set('zhtw');
+    } else {
+      langContentStore.set('zhcn');
+    }
+    setCookie('langContent', currentContentLang);
+  };
 </script>
 
 <div class="container">
-  <p>《个人页》</p>
-  <p>大概下周开发</p>
-  <p>先放个空白页在这免得下周又懒得做了()</p>
-  <p>预计功能：</p>
-  <p>1. 收藏/隐藏点一览 导出备份为文件 导入</p>
-  <p>2. 个人设置（简繁切换 / 等等）</p>
-  <p>更好的建议请写到讯息里</p>
-  <button on:click={switchLang}>切换语言{currentLang}</button>
+  <div class="btnContainer">
+    <p>{Lang.general.menulang}</p>
+    <button
+      class={currentLang === 'zhcn' && 'active'}
+      on:click={() => {
+        langStore.set('zhcn');
+        setCookie('lang', currentLang);
+      }}>简体</button
+    >
+    <button
+      class={currentLang === 'zhtw' && 'active'}
+      on:click={() => {
+        langStore.set('zhtw');
+        setCookie('lang', currentLang);
+      }}>正體</button
+    >
+  </div>
+
+  <br />
+
+  <div class="btnContainer">
+    <p>{Lang.general.maplang}</p>
+    <button
+      class={currentContentLang === 'zhcn' && 'active'}
+      on:click={() => {
+        langContentStore.set('zhcn');
+        setCookie('langContent', currentLang);
+      }}>简体</button
+    >
+    <button
+      class={currentContentLang === 'zhtw' && 'active'}
+      on:click={() => {
+        langContentStore.set('zhtw');
+        setCookie('langContent', currentLang);
+      }}>正體</button
+    >
+    <button
+      class={currentContentLang === '' && 'active'}
+      on:click={() => {
+        langContentStore.set('');
+        setCookie('langContent', currentLang);
+      }}>{Lang.general.dontConvert}</button
+    >
+  </div>
+
+  <br />
+  <p>后续功能开发中</p>
 </div>
 
 <style>
   .container {
     height: 100%;
     width: 100%;
+    padding: 5px;
   }
   .container p {
     color: rgb(208, 200, 181);
+    min-width: fit-content;
+    margin-right: 10px;
+  }
+  .btnContainer {
+    display: flex;
+    width: 90%;
+    padding: 0 10px;
+  }
+  button {
+    width: 100%;
+    height: 35px;
+    font-size: 1em;
   }
 </style>

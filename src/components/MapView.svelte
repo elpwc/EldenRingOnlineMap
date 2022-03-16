@@ -5,7 +5,7 @@
   import { fly } from 'svelte/transition';
   import { MapPointType } from '../utils/enum';
   import axios from 'axios';
-  import { allMarkers, ip, isAdminModeStore, isMobile, langStore, setAllMarkers } from '../stores';
+  import { allMarkers, ip, isAdminModeStore, isMobile, langContentStore, langStore, setAllMarkers } from '../stores';
   import type { MapPoint } from '../utils/typings';
   import { MapIcon } from './icons';
   import './icons.css';
@@ -14,6 +14,8 @@
   import DirectionControl from './DirectionControl.svelte';
   import getLang from '../utils/lang';
   import type zhcnLang from '../locale/zhcn';
+  import zhConvertor from 'zhconvertor';
+  import { ConvertType } from 'zhconvertor/dist/zhConvertor';
 
   /** 是否禁用拖动而采用方向按钮控制，适用于一些移动app的引用 */
   export let from: string = '';
@@ -23,12 +25,37 @@
   /** 语言 */
   let Lang: typeof zhcnLang = getLang('zhcn');
 
+  let contentLang: string = '';
+
   let filters = getFilters(Lang.siteTypes);
+
+  langContentStore.subscribe(value => {
+    contentLang = value;
+  });
 
   langStore.subscribe(value => {
     Lang = getLang(value);
     filters = getFilters(Lang.siteTypes);
   });
+
+  /** 获取繁简转换后的文本 */
+  const getConvertedText = (str: string) => {
+    return zhConvertor.convert(
+      str,
+      (() => {
+        switch (contentLang) {
+          case 'zhcn':
+            return ConvertType.t2s;
+          case 'zhtw':
+            return ConvertType.s2t;
+          case '':
+            return ConvertType.dont;
+          default:
+            return ConvertType.dont;
+        }
+      })()
+    );
+  };
 
   // 地图数据
   /** 地表地图数据源 */
@@ -359,7 +386,7 @@
                           html: string;
                           className: string;
                         }
-                      )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
+                      )?.(showPlaceNames ? getConvertedText(m.name) : '', `${markerFontSize}em`)
                     ),
                   }).on('click', () => {
                     currentClickedMarker = m;
@@ -420,7 +447,7 @@
               html: string;
               className: string;
             }
-          )?.(showPlaceNames ? resMarker.name : '', `${markerFontSize}em`)
+          )?.(showPlaceNames ? getConvertedText(resMarker.name) : '', `${markerFontSize}em`)
         ),
       }).on('click', () => {
         // 在添加的时候不能误点了(取消了， 因为被太多人反应是个bug乌乌明明不是)
@@ -460,7 +487,7 @@
                     html: string;
                     className: string;
                   }
-                )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
+                )?.(showPlaceNames ? getConvertedText(m.name) : '', `${markerFontSize}em`)
               ),
             }).on('click', () => {
               //if (!isAddPointMode) {
@@ -526,7 +553,7 @@
                       html: string;
                       className: string;
                     }
-                  )?.(showPlaceNames ? m.name : '', `${markerFontSize}em`)
+                  )?.(showPlaceNames ? getConvertedText(m.name) : '', `${markerFontSize}em`)
                 ),
               }).on('click', () => {
                 currentClickedMarker = m;
@@ -1004,7 +1031,7 @@
     return filter.value === currentClickedMarker?.type;
   })?.[0]?.name +
     ': ' +
-    currentClickedMarker?.name}
+    getConvertedText(currentClickedMarker?.name)}
   zindex={114600}
   showOkButton
   okButtonText={Lang.map.modals.info.btn1}
@@ -1014,7 +1041,7 @@
 >
   <div class="modalInner" style="align-items: center;">
     <p style="min-height: 80px; width: fit-content; max-height: {window.innerHeight * 0.4}px; overflow-y: scroll; text-shadow: 0 0 20px black;">
-      {@html currentClickedMarker?.desc?.replaceAll('\n', '<br />')}
+      {@html getConvertedText(currentClickedMarker?.desc?.replaceAll('\n', '<br />'))}
     </p>
     <div style="display: flex;">
       <button on:click={onLike}>{Lang.map.modals.info.like + currentClickedMarker?.like}</button>
