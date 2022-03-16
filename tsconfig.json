@@ -1,6 +1,17 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
-
-  "include": ["src/**/*", "rollup.config.ts"],
-  "exclude": ["node_modules/*", "__sapper__/*", "public/*"]
+  "compilerOptions": {
+    "declarationDir": "dist/types",
+    "outDir": "dist",
+    "declaration": true,
+    "target": "esnext",
+    "module": "esnext",
+    "strict": false
+  },
+  "include": [
+    "src/**/*",
+    "rollup.config.ts"
+  ],
+  "exclude": [
+  ]
 }
