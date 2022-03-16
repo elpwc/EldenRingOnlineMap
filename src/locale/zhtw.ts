@@ -5,7 +5,7 @@ export default {
   menu: {
     map: '地圖',
     apo: '訊息',
-    general: '我的(開發中)',
+    general: '設定',
     about: '說明',
   },
 
