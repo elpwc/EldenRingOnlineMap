@@ -11,16 +11,19 @@
   // 用来根据ip地址生成匿名用户名
   import md5 from 'md5';
   import { ApothegmType } from '../utils/enum';
-  import apo_filters from '../utils/apoTypes';
+  import getApoFilters from '../utils/apoTypes';
 
   import getLang from '../utils/lang';
   import type zhcnLang from '../locale/zhcn';
 
   /** 语言 */
-  let Lang: typeof zhcnLang;
+  let Lang: typeof zhcnLang = getLang('zhcn');
+
+  let apo_filters = getApoFilters(Lang.apoTypes);
 
   langStore.subscribe(value => {
     Lang = getLang(value);
+    apo_filters = getApoFilters(Lang.apoTypes);
   });
 
   // 路径参数: 讯息id

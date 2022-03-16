@@ -10,7 +10,7 @@
   import { MapIcon } from './icons';
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
-  import filters from '../utils/siteTypes';
+  import getFilters from '../utils/siteTypes';
   import DirectionControl from './DirectionControl.svelte';
   import getLang from '../utils/lang';
   import type zhcnLang from '../locale/zhcn';
@@ -21,11 +21,13 @@
   export let device: string = '';
 
   /** 语言 */
-  let Lang: typeof zhcnLang;
+  let Lang: typeof zhcnLang = getLang('zhcn');
+
+  let filters = getFilters(Lang.siteTypes);
 
   langStore.subscribe(value => {
     Lang = getLang(value);
-    console.log(Lang);
+    filters = getFilters(Lang.siteTypes);
   });
 
   // 地图数据
