@@ -157,7 +157,7 @@ export default {
       npc: 'NPC',
       map: '地圖碎片',
       lianji: '聯機點',
-      wind: '上升氣流',
+      wind: '靈魂氣流',
       cave: '洞窟',
       sword: '封印監牢',
       temple: '靈廟',
