@@ -1339,7 +1339,7 @@
     height: 425px;
   }
   #filter label {
-    margin: 2px 0px !important;
+    margin: 1px 0px !important;
   }
   #bottomDiv {
     position: absolute;
