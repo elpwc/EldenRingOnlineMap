@@ -5,7 +5,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
-import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import json from '@rollup/plugin-json';
 import { babel } from '@rollup/plugin-babel';
@@ -33,6 +32,7 @@ function serve() {
     },
   };
 }
+const extensions = ['.js', '.ts', '.svelte']
 
 export default defineConfig({
   input: 'src/main.ts',
@@ -60,6 +60,7 @@ export default defineConfig({
     // consult the documentation for details:
     // https://github.com/rollup/plugins/tree/master/packages/commonjs
     resolve({
+      extensions,
       preferBuiltins: false,
       browser: true,
       dedupe: ['svelte'],
@@ -68,35 +69,12 @@ export default defineConfig({
       'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'),
     }),
     commonjs(),
-    typescript({
-      sourceMap: !production,
-      inlineSources: !production,
-    }),
 
     // compile to good old IE11 compatible ES5
     babel({
-      extensions: [ '.js', '.mjs', '.html', '.svelte' ],
+      extensions,
       babelHelpers: 'runtime',
-      exclude: [ 'node_modules/@babel/**' ],
-      presets: [
-        [
-          '@babel/preset-env',
-          {
-            targets: '> 0.25%, not dead',
-            useBuiltIns: 'usage',
-            corejs: 3
-          }
-        ]
-      ],
-      plugins: [
-        '@babel/plugin-syntax-dynamic-import',
-        [
-          '@babel/plugin-transform-runtime',
-          {
-            useESModules: true
-          }
-        ]
-      ]
+      exclude: ['node_modules/**'],
     }),
 
     // In dev mode, call `npm run start` once
