@@ -69,21 +69,21 @@
       class={currentContentLang === 'zhcn' && 'active'}
       on:click={() => {
         langContentStore.set('zhcn');
-        setCookie('langContent', currentLang);
+        setCookie('langContent', currentContentLang);
       }}>简体</button
     >
     <button
       class={currentContentLang === 'zhtw' && 'active'}
       on:click={() => {
         langContentStore.set('zhtw');
-        setCookie('langContent', currentLang);
+        setCookie('langContent', currentContentLang);
       }}>正體</button
     >
     <button
       class={currentContentLang === '' && 'active'}
       on:click={() => {
         langContentStore.set('');
-        setCookie('langContent', currentLang);
+        setCookie('langContent', currentContentLang);
       }}>{Lang.general.dontConvert}</button
     >
   </div>
