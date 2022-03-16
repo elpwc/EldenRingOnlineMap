@@ -135,7 +135,7 @@ export default {
       myCollect: '我的收藏',
       showHidden: '顯示隱藏的',
       hideBad: '隱藏惡評',
-      selectAll: '全選',
+      selectAll: '全選/全不選',
       hideBadTip: '請註意：此舉會隱藏除了賜福外的所有惡評>好評的標註，一些實際上正確的標註也可能被包含在內!',
     },
 
