@@ -173,7 +173,7 @@ export default {
       bead: '铃珠',
       key: '石剑钥匙',
       sigen: '死根',
-      item: '道具',
+      item: '一般道具',
       gesture: '姿态',
       paint: '画',
       magic: '魔法',
@@ -186,6 +186,7 @@ export default {
       warn: '警示',
       question: '求助',
       taoke: '逃课',
+      importantitem: '重要道具',
     },
   },
 
