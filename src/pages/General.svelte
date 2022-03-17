@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { currentPageStore, langContentStore, langStore } from '../stores';
+  import { langContentStore, langStore } from '../stores';
   import { setCookie } from '../utils/utils';
 
   import getLang from '../utils/lang';
@@ -17,10 +17,6 @@
   });
   langContentStore.subscribe(v => {
     currentContentLang = v;
-  });
-
-  onMount(() => {
-    currentPageStore.set('general');
   });
 
   const switchLang = () => {

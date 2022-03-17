@@ -4,7 +4,7 @@
    */
   import { onMount } from 'svelte';
   import Modal from '../components/Modal.svelte';
-  import { currentPageStore, ip, isAdminModeStore, langStore } from '../stores';
+  import { ip, isAdminModeStore, langStore } from '../stores';
   import { fly } from 'svelte/transition';
   import axios from 'axios';
   import type { Apothegm } from '../utils/typings';
@@ -38,8 +38,6 @@
   });
 
   onMount(() => {
-    currentPageStore.set('apothegm');
-
     // 加载讯息
     refreshApo();
   });

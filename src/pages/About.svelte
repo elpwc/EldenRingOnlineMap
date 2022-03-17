@@ -2,7 +2,7 @@
   import axios from 'axios';
   import { onMount } from 'svelte';
   import Modal from '../components/Modal.svelte';
-  import { currentPageStore, isAdminModeStore, langStore } from '../stores';
+  import { isAdminModeStore, langStore } from '../stores';
   import getLang from '../utils/lang';
   import type zhcnLang from '../locale/zhcn';
 
@@ -14,7 +14,6 @@
   });
 
   onMount(() => {
-    currentPageStore.set('about');
     clickTime = 0;
   });
 

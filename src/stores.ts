@@ -7,8 +7,6 @@ import type { MapPoint } from './utils/typings';
 
 // Stores
 
-/** 当前页面的store */
-export let currentPageStore = writable('home');
 /** 是否是管理员Mode的store */
 export let isAdminModeStore = writable(false);
 /** 当前界面语言 */
