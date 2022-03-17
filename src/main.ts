@@ -4,9 +4,10 @@
 import axios from 'axios';
 import App from './App.svelte';
 import Config from './config';
-import { getCookie, set_client_ip } from './utils/utils';
+import { set_client_ip } from './utils/utils';
 import './common';
-import { langContentStore, langStore } from './stores';
+import { setupI18n } from './locale'
+import { setUpConvertor } from './utils/convertor';
 
 // 设置api根目录
 axios.defaults.baseURL = Config.APIBaseURL;
@@ -18,12 +19,8 @@ try {
   console.log(e);
 }
 
-if (getCookie('lang')) {
-  langStore.set(getCookie('lang'));
-}
-if (getCookie('langContent')) {
-  langContentStore.set(getCookie('langContent'));
-}
+setupI18n();
+setUpConvertor();
 
 const app = new App({
   target: document.body,

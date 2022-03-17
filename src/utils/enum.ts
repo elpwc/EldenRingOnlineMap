@@ -76,3 +76,14 @@ export enum ApothegmType {
 
   Water = 'water',
 }
+
+export enum SupportedLang {
+  zhCN = 'zh-CN',
+  zhTW = 'zh-TW'
+}
+
+export enum TranslateTargetLang {
+  zhCN = 'zh-CN',
+  zhTW = 'zh-TW',
+  
+}

@@ -2,53 +2,37 @@
   菜单栏在这喵
 -->
 <script lang="ts">
-  import Router from 'svelte-spa-router';
+  import Router, { location } from 'svelte-spa-router';
   import { routes } from './router/router';
-  import { langStore } from './stores';
-  import { location } from 'svelte-spa-router';
   import MenuItem from './components/MenuItem.svelte';
-  import { afterUpdate, beforeUpdate, onMount } from 'svelte';
-  import { getCookie } from './utils/utils';
-  import getLang from './utils/lang';
-  import type zhcnLang from './locale/zhcn';
+  import { t, isLoading } from 'svelte-i18n';
 
   /** 语言 */
-  let Lang: typeof zhcnLang;
-
-  langStore.subscribe(value => {
-    Lang = getLang(value);
-  });
-
-  let menuItems = [
-    { path: '/', text: Lang.menu.map, imgSrc: './resource/images/map.png' },
-    { path: '/apothegm', text: Lang.menu.apo, imgSrc: './resource/images/apothegm.png' },
-    { path: '/general', text: Lang.menu.general, imgSrc: './resource/images/general.png' },
-    { path: '/about', text: Lang.menu.about, imgSrc: './resource/images/about.png' },
+  $: menuItems = [
+    { path: '/', text: $t('menu.map'), imgSrc: './resource/images/map.png' },
+    { path: '/apothegm', text: $t('menu.apo'), imgSrc: './resource/images/apothegm.png' },
+    { path: '/general', text: $t('menu.general'), imgSrc: './resource/images/general.png' },
+    { path: '/about', text: $t('menu.about'), imgSrc: './resource/images/about.png' },
   ];
-
-  afterUpdate(() => {
-    menuItems = [
-      { path: '/', text: Lang.menu.map, imgSrc: './resource/images/map.png' },
-      { path: '/apothegm', text: Lang.menu.apo, imgSrc: './resource/images/apothegm.png' },
-      { path: '/general', text: Lang.menu.general, imgSrc: './resource/images/general.png' },
-      { path: '/about', text: Lang.menu.about, imgSrc: './resource/images/about.png' },
-    ];
-  });
 </script>
 
-<div style="height: 100%; ">
-  <!--菜单栏-->
-  <nav class="menu">
-    {#each menuItems as item}
-      <MenuItem currentPath={$location} {...item} />
-    {/each}
-  </nav>
+{#if $isLoading}
+  Loading...
+{:else}
+  <div style="height: 100%; ">
+    <!--菜单栏-->
+    <nav class="menu">
+      {#each menuItems as item}
+        <MenuItem currentPath={$location} {...item} />
+      {/each}
+    </nav>
 
-  <!--所有页面-->
-  <main style="height: calc( 100% - 70px );">
-    <Router {routes} />
-  </main>
-</div>
+    <!--所有页面-->
+    <main style="height: calc( 100% - 70px );">
+      <Router {routes} />
+    </main>
+  </div>
+{/if}
 
 <style>
   .menu {

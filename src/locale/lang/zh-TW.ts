@@ -1,6 +1,6 @@
-export default {
+import type { langType } from '../../utils/typings';
+const lang: langType = {
   name: '正體中文',
-  code: 'zhtw',
   title: '老頭環地圖 EldenRing Map',
   menu: {
     map: '地圖',
@@ -8,7 +8,6 @@ export default {
     general: '設定',
     about: '說明',
   },
-
   map: {
     topright: {
       search: '搜索',
@@ -22,14 +21,10 @@ export default {
     left: {
       buttonBeforeOpen: '篩<br />選',
       buttonAfterOpen: '收<br />回',
-
       undergroundSwitcher1: '切換到地下地圖',
       undergroundSwitcher2: '切換到地面地圖',
-
       tips: 'tips:點擊地圖上的地標可以查看詳細ㄛ~',
-
       showNameButton: '顯示地名',
-
       fontSizeLabel: '字號',
       fontSizeSmall: '小',
       fontSizeMedium: '中',
@@ -65,6 +60,10 @@ export default {
         btn2: '取消',
       },
     },
+    alert:{
+      exceeded: '名字(≤20)/描述(≤1000)太長了~',
+      empty: '請填寫名字/選擇類型再提交~',
+    },
   },
   apothegm: {
     header: {
@@ -85,7 +84,6 @@ export default {
       share: '分享',
       reply: '留言',
     },
-
     modals: {
       add: {
         title: '寫下訊息',
@@ -106,20 +104,24 @@ export default {
         btn1: '返回',
       },
     },
+    alert: {
+      titleExceeded: '標題(≤20)/內容(≤1000)太長了~',
+      titleEmpty: '請填寫標題/類型再提交~',
+      contentExceeded: '內容(≤1000)太長了~',
+      contentEmpty: '請填寫內容再提交~',
+    },
   },
-
   general: {
     menulang: '菜單語言',
-    maplang: '地圖語言',
+    maplang: '地圖語言轉換',
     dontConvert: '不轉換',
+    developing: '後續功能開發中',
   },
-
   about: {
     lastUpdate: '最近更新',
     coffee: '請一杯奶茶☕',
     feedback: '漏洞・意見反饋',
     github: 'GitHub頁面',
-
     modals: {
       coffee: {
         text: '覺得幫到了自己的話，可以請咱喝一杯奶茶當作創作激勵(',
@@ -128,7 +130,6 @@ export default {
       },
     },
   },
-
   siteTypes: {
     functionalFilters: {
       myPoints: '我標註的',
@@ -138,7 +139,6 @@ export default {
       selectAll: '全選/全不選',
       hideBadTip: '請註意：此舉會隱藏除了賜福外的所有惡評>好評的標註，一些實際上正確的標註也可能被包含在內!',
     },
-
     filterGroupNames: {
       sites: '地點',
       enemy: '敵人',
@@ -147,7 +147,6 @@ export default {
       weapons: '武器',
       message: '留言',
     },
-
     filters: {
       cifu: '賜福',
       jiejing: '捷徑',
@@ -193,13 +192,11 @@ export default {
       ring: '戒指護符',
     },
   },
-
   apoTypes: {
     functionalFilters: {
       all: '全部',
       my: '我的',
     },
-
     filterGroupNames: {
       website: '網站相關',
       game: '遊戲相關',
@@ -217,3 +214,4 @@ export default {
     },
   },
 };
+export default lang;

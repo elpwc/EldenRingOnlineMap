@@ -4,16 +4,16 @@
  */
 import { writable } from 'svelte/store';
 import type { MapPoint } from './utils/typings';
+import type { ConvertType } from 'zhconvertor';
 
 // Stores
 
 /** 是否是管理员Mode的store */
 export let isAdminModeStore = writable(false);
-/** 当前界面语言 */
-export let langStore = writable('zhcn');
+
 /** 当前内容语言 */
 // 空：不转换
-export let langContentStore = writable('');
+export let convertTargetStore = writable<ConvertType>();
 
 //全局变量
 

@@ -1,6 +1,5 @@
-export default {
+const lang = {
   name: '简体中文',
-  code: 'zhcn',
   title: '老头环地图 EldenRing Map',
   menu: {
     map: '地图',
@@ -8,7 +7,6 @@ export default {
     general: '设置',
     about: '说明',
   },
-
   map: {
     topright: {
       search: '搜索',
@@ -22,14 +20,10 @@ export default {
     left: {
       buttonBeforeOpen: '筛<br />选',
       buttonAfterOpen: '收<br />回',
-
       undergroundSwitcher1: '切换到地下地图',
       undergroundSwitcher2: '切换到地面地图',
-
       tips: 'tips:点击地图上的地标可以查看详细',
-
       showNameButton: '显示地名',
-
       fontSizeLabel: '字号',
       fontSizeSmall: '小',
       fontSizeMedium: '中',
@@ -65,6 +59,10 @@ export default {
         btn2: '取消',
       },
     },
+    alert:{
+      exceeded: '名字(≤20)/描述(≤1000)太长了~',
+      empty: '请填写名字/选择类型再提交~',
+    },
   },
   apothegm: {
     header: {
@@ -85,7 +83,6 @@ export default {
       share: '分享',
       reply: '回复',
     },
-
     modals: {
       add: {
         title: '写下讯息',
@@ -106,19 +103,24 @@ export default {
         btn1: '返回',
       },
     },
+    alert:{
+      titleExceeded: '标题(≤20)/内容(≤1000)太长了~',
+      titleEmpty: '请填写标题/类型再提交~',
+      contentExceeded: '内容(≤1000)太长了~',
+      contentEmpty: '请填写内容再提交~',
+    }
   },
   general: {
     menulang: '菜单语言',
-    maplang: '地图语言',
+    maplang: '地图语言转换',
     dontConvert: '不转换',
+    developing: '后续功能开发中',
   },
-
   about: {
     lastUpdate: '最近更新',
     coffee: '请一杯奶茶☕',
     feedback: '漏洞・意见反馈',
     github: 'GitHub页面',
-
     modals: {
       coffee: {
         text: '觉得帮到了自己的话，可以请咱喝一杯奶茶当作创作激励(',
@@ -127,7 +129,6 @@ export default {
       },
     },
   },
-
   siteTypes: {
     functionalFilters: {
       myPoints: '我标注的',
@@ -137,7 +138,6 @@ export default {
       selectAll: '全选/全不选',
       hideBadTip: '请注意：此举会隐藏除了赐福外的所有恶评>好评的标注，一些实际上正确的标注也可能被包含在内!',
     },
-
     filterGroupNames: {
       sites: '地点',
       enemy: '敌人',
@@ -146,7 +146,6 @@ export default {
       weapons: '武器',
       message: '留言',
     },
-
     filters: {
       cifu: '赐福',
       jiejing: '捷径',
@@ -192,13 +191,11 @@ export default {
       ring: '戒指护符',
     },
   },
-
   apoTypes: {
     functionalFilters: {
       all: '全部',
       my: '我的',
     },
-
     filterGroupNames: {
       website: '网站相关',
       game: '游戏相关',
@@ -216,3 +213,5 @@ export default {
     },
   },
 };
+export default lang;
+export type langType = typeof lang;

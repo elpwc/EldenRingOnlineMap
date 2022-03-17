@@ -1,91 +1,29 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { langContentStore, langStore } from '../stores';
-  import { setCookie } from '../utils/utils';
-
-  import getLang from '../utils/lang';
-  import type zhcnLang from '../locale/zhcn';
-
-  /** 语言 */
-  let Lang: typeof zhcnLang;
-
-  let currentLang = '';
-  let currentContentLang = '';
-  langStore.subscribe(v => {
-    currentLang = v;
-    Lang = getLang(v);
-  });
-  langContentStore.subscribe(v => {
-    currentContentLang = v;
-  });
-
-  const switchLang = () => {
-    if (currentLang === 'zhcn') {
-      langStore.set('zhtw');
-    } else {
-      langStore.set('zhcn');
-    }
-    setCookie('lang', currentLang);
-  };
-
-  const switchContentLang = () => {
-    if (currentContentLang === 'zhcn') {
-      langContentStore.set('zhtw');
-    } else {
-      langContentStore.set('zhcn');
-    }
-    setCookie('langContent', currentContentLang);
-  };
+  import LangButton from '../components/button/LangButton.svelte';
+  import { SupportedLang } from '../utils/enum';
+  import { t } from 'svelte-i18n';
+  import { changeLang, lang } from '../locale';
+  import { changeConvertTarget, ConvertType } from '../utils/convertor';
+  import { convertTargetStore } from '../stores';
 </script>
 
 <div class="container">
   <div class="btnContainer">
-    <p>{Lang.general.menulang}</p>
-    <button
-      class={currentLang === 'zhcn' && 'active'}
-      on:click={() => {
-        langStore.set('zhcn');
-        setCookie('lang', currentLang);
-      }}>简体</button
-    >
-    <button
-      class={currentLang === 'zhtw' && 'active'}
-      on:click={() => {
-        langStore.set('zhtw');
-        setCookie('lang', currentLang);
-      }}>正體</button
-    >
+    <p>{$t('general.menulang')}</p>
+    <LangButton buttonLang={SupportedLang.zhCN} buttonText="简体" currentLang={$lang} on:click={(event)=>changeLang(event.detail.lang)} />
+    <LangButton buttonLang={SupportedLang.zhTW} buttonText="正體" currentLang={$lang} on:click={(event)=>changeLang(event.detail.lang)} />
   </div>
 
   <br />
-
   <div class="btnContainer">
-    <p>{Lang.general.maplang}</p>
-    <button
-      class={currentContentLang === 'zhcn' && 'active'}
-      on:click={() => {
-        langContentStore.set('zhcn');
-        setCookie('langContent', currentContentLang);
-      }}>简体</button
-    >
-    <button
-      class={currentContentLang === 'zhtw' && 'active'}
-      on:click={() => {
-        langContentStore.set('zhtw');
-        setCookie('langContent', currentContentLang);
-      }}>正體</button
-    >
-    <button
-      class={currentContentLang === '' && 'active'}
-      on:click={() => {
-        langContentStore.set('');
-        setCookie('langContent', currentContentLang);
-      }}>{Lang.general.dontConvert}</button
-    >
+    <p>{$t('general.maplang')}</p>
+    <LangButton buttonLang={ConvertType.s2t} buttonText="简转繁" currentLang={$convertTargetStore} on:click={(event)=>changeConvertTarget(event.detail.lang)} />
+    <LangButton buttonLang={ConvertType.t2s} buttonText="繁轉簡" currentLang={$convertTargetStore} on:click={(event)=>changeConvertTarget(event.detail.lang)} />
+    <LangButton buttonLang={ConvertType.dont} buttonText={$t('general.dontConvert')} currentLang={$convertTargetStore} on:click={(event)=>changeConvertTarget(event.detail.lang)} />
   </div>
 
   <br />
-  <p>后续功能开发中</p>
+  <p>{$t('general.developing')}</p>
 </div>
 
 <style>
@@ -103,10 +41,5 @@
     display: flex;
     width: 90%;
     padding: 0 10px;
-  }
-  button {
-    width: 100%;
-    height: 35px;
-    font-size: 1em;
   }
 </style>

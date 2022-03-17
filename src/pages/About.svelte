@@ -2,16 +2,8 @@
   import axios from 'axios';
   import { onMount } from 'svelte';
   import Modal from '../components/Modal.svelte';
-  import { isAdminModeStore, langStore } from '../stores';
-  import getLang from '../utils/lang';
-  import type zhcnLang from '../locale/zhcn';
-
-  /** 语言 */
-  let Lang: typeof zhcnLang;
-
-  langStore.subscribe(value => {
-    Lang = getLang(value);
-  });
+  import { isAdminModeStore } from '../stores';
+  import { t } from 'svelte-i18n';
 
   onMount(() => {
     clickTime = 0;
@@ -92,7 +84,7 @@
         </svg>
       </sup>
     </a><br />
-    {Lang.about.lastUpdate}: 2020-3-17 00:55
+    {$t('about.lastUpdate')}: 2020-3-17 00:55
     <br />
     Contributors:
     <a href="https://github.com/spking11" target="_blank"
@@ -114,7 +106,7 @@
       coffeeVisibility = true;
     }}
   >
-    {Lang.about.coffee}
+    {$t('about.coffee')}
   </button>
 
   <!--下面的按钮组-->
@@ -124,7 +116,7 @@
         window.open('https://github.com/elpwc/EldenRingOnlineMap/issues', '_blank');
       }}
     >
-      {Lang.about.feedback}
+      {$t('about.feedback')}
       <sup>
         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
           <path
@@ -140,7 +132,7 @@
         window.open('https://github.com/elpwc/EldenRingOnlineMap', '_blank');
       }}
     >
-      {Lang.about.github}
+      {$t('about.github')}
       <sup>
         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
           <path
@@ -184,9 +176,9 @@
     coffeeVisibility = false;
   }}
 >
-  <p style="color: rgb(208, 200, 181);">{Lang.about.modals.coffee.text}</p>
+  <p style="color: rgb(208, 200, 181);">{$t('about.modals.coffee.text')}</p>
   <div style="display: flex; justify-content: center; padding-bottom: 20px;">
-    <img style="height: 50%; max-width: 50%;" src={Lang.about.modals.coffee.urlLink} alt="QRCode" />
+    <img style="height: 50%; max-width: 50%;" src={$t('about.modals.coffee.urlLink')} alt="QRCode" />
   </div>
 </Modal>
 
