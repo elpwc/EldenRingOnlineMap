@@ -335,7 +335,6 @@
     }
   };
 
-
   /** 从服务器根据收藏的坐标的id读取数据 */
   const refreshCollectedMarkers = () => {
     if (showCollect) {
@@ -515,7 +514,7 @@
       axios
         .get('./map.php', {
           params: {
-            kword: zhConvertor.t2s(searchWord) + '|' + zhConvertor.s2t(searchWord),
+            kword: getKeywordText(searchWord),
             queryType: 0,
           },
         })
