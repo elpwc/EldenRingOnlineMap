@@ -43,27 +43,38 @@ switch ($request_type) {
         @$id_ori = $_GET['id'];
         /** IP */
         @$ip_ori = $_GET['ip'];
-        /** 个数, 不填为全部 */
-        @$count_ori = $_GET['count'];
         @$type_ori = $_GET['type'];
         @$kword_ori = $_GET['kword']; // | 隔开
         @$under_ori = $_GET['under'];
+        /** 获取的属性，不填为全部 */
+        @$queryType_ori = $_GET['queryType'];
 
         $id = '';
         $ip = '';
-        $count = 0;
         $type = '';
         $kword = '';
         $under = 0; //0 全部，1 地下， 2 地面
-        if (is_numeric($count_ori)) {
-            $count = (int)$count_ori;
+        $queryType = '';
+        $count = '';
+
+
+        if (is_numeric($queryType_ori)) {
+            $queryType = (int)$queryType_ori;
+
+            switch ($queryType) {
+                case 0:
+                    $count = '*';
+                    break;
+                case 1:
+                    $count = '(`id`,`name`,`type`,`lng`,`lat`,`like`,`dislike`,`delete_request`)';
+                    break;
+                default:
+                    $count = '*';
+                    break;
+            }
         }
 
-        if ($count == 0) {
-            $count = '*';
-        } else {
-            $count = 'TOP ' . $count;
-        }
+
         if (is_numeric($id_ori)) {
             $id = (int)$id_ori;
         }
@@ -152,8 +163,7 @@ switch ($request_type) {
 
         $sql = "SELECT $count
         FROM map
-        $geneRes
-        ORDER BY `like` DESC;
+        $geneRes;
         ";
 
         $result = mysqli_query($sqllink, $sql);
@@ -172,6 +182,7 @@ switch ($request_type) {
                     'lat' =>  (float)$row['lat'],
                     'like' =>  (int)$row['like'],
                     'dislike' => (int)$row['dislike'],
+                    'delete_request' => (int)$row['delete_request'],
                     'ip' => $row['ip'],
                     'is_deleted' => (bool)(int)$row['is_deleted'],
                     'is_underground' => (bool)(int)$row['is_underground'],
@@ -207,6 +218,7 @@ switch ($request_type) {
         @$lat = (string)($data->lat);
         @$like = (string)($data->like);
         @$dislike = ($data->dislike);
+        @$delete_request = (string)($data->delete_request);
         @$ip = trim((string)($data->ip));
         @$is_deleted = (string)($data->is_deleted);
         @$is_lock = (string)($data->is_lock);
@@ -224,6 +236,7 @@ switch ($request_type) {
             ['lat', $lat],
             ['like', $like],
             ['dislike', $dislike],
+            ['delete_request', $delete_request],
             ['ip', $ip],
             ['is_deleted', $is_deleted],
             ['is_lock', $is_lock],

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import L, { latLng } from 'leaflet';
+  import L from 'leaflet';
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
@@ -214,7 +214,10 @@
     // 把缩放控件加到左下角
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
-    L.control.attribution({ position: 'bottomright', prefix: `
+    L.control
+      .attribution({
+        position: 'bottomright',
+        prefix: `
     <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-lightbulb-fill" viewBox="0 0 16 16">
       <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13h-5a.5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm3 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1-.5-.5z"/>
     </svg>
@@ -227,7 +230,9 @@
       </svg>
       Donate
     </a>
-    ` }).addTo(map);
+    `,
+      })
+      .addTo(map);
 
     // 地图点击事件
     map.on('click', (e: L.LeafletMouseEvent) => {
@@ -294,7 +299,7 @@
       // 加载指定id
       axios
         .get('./map.php', {
-          params: { id },
+          params: { id, queryType: 0 },
         })
         .then(res => {
           const index = allMarkers.findIndex(i => {
@@ -316,6 +321,7 @@
             kword: searchWord,
             ip: showSelf ? ip : '',
             under: is_underground ? 1 : 2,
+            queryType: 0,
           },
         })
         .then(res => {
@@ -328,6 +334,7 @@
         });
     }
   };
+
 
   /** 从服务器根据收藏的坐标的id读取数据 */
   const refreshCollectedMarkers = () => {
@@ -508,7 +515,8 @@
       axios
         .get('./map.php', {
           params: {
-            kword: getKeywordText(searchWord),
+            kword: zhConvertor.t2s(searchWord) + '|' + zhConvertor.s2t(searchWord),
+            queryType: 0,
           },
         })
         .then(res => {
