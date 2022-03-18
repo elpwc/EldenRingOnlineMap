@@ -51,7 +51,7 @@
   </nav>
 
   <!--所有页面-->
-  <main style="height: calc( 100% - 70px );">
+  <main style="height: calc( 100% - 60px );">
     <Router {routes} />
   </main>
 </div>
@@ -62,7 +62,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 70px;
+    height: 60px;
     background-color: #171715;
     display: flex;
     flex-direction: row;

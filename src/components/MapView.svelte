@@ -1015,7 +1015,7 @@
 
   <!--地图本体喵-->
   <!--mapH+1是因为....是因为........反正不加的话就会空出一条白线呜！-->
-  <div id="map" style="width: {mapW}px; height: {mapH - 70 + 1}px; background-color: #222222;" />
+  <div id="map" style="width: {mapW}px; height: {mapH - 60 + 1}px; background-color: #222222;" />
 </div>
 
 <!--删除确认Modal-->
