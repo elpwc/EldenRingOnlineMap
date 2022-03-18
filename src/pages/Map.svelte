@@ -6,15 +6,12 @@
    */
   import MapView from '../components/MapView.svelte';
   import { onMount } from 'svelte';
-  import { currentPageStore } from '../stores';
   import { querystring } from 'svelte-spa-router';
   import qs from 'qs';
 
   let params;
 
   onMount(() => {
-    currentPageStore.set('map');
-
     querystring.subscribe(v => {
       // 路径参数：是否禁用拖动而采用方向按钮控制，适用于一些移动app的引用
       params = qs.parse(v);

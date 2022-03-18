@@ -2,17 +2,16 @@
   import { link } from 'svelte-spa-router';
   import { fade } from 'svelte/transition';
 
-  export let currentPage: string;
-  export let url: string;
-  export let pageName: string;
+  export let currentPath: string;
+  export let path: string;
   export let text: string;
   export let width: string = '30px';
   export let imgSrc: string;
   export let imgAlt: string = 'mapicon';
 </script>
 
-<a href={url} use:link>
-  {#if currentPage === pageName}
+<a href={path} use:link>
+  {#if currentPath === path}
     <div class="backgroundLight" transition:fade />
   {/if}
   <img src={imgSrc} alt={imgAlt} {width} />

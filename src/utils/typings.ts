@@ -3,6 +3,7 @@
  * @author wniko
  */
 import type { ApothegmType, MapPointType } from './enum';
+export type { langType } from '../locale/lang/zh-CN';
 
 /** 地标 */
 export type MapPoint = {

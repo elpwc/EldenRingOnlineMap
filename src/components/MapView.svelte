@@ -5,56 +5,21 @@
   import { fly } from 'svelte/transition';
   import { MapPointType } from '../utils/enum';
   import axios from 'axios';
-  import { allMarkers, ip, isAdminModeStore, isMobile, langContentStore, langStore, setAllMarkers } from '../stores';
+  import { allMarkers, ip, isAdminModeStore, isMobile, setAllMarkers } from '../stores';
   import type { MapPoint } from '../utils/typings';
   import { MapIcon } from './icons';
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
-  import getFilters from '../utils/siteTypes';
   import DirectionControl from './DirectionControl.svelte';
-  import getLang from '../utils/lang';
-  import type zhcnLang from '../locale/zhcn';
-  import zhConvertor, { ConvertType } from 'zhconvertor';
-
+  import { getConvertedText, getKeywordText } from '../utils/convertor';
+  import { t } from 'svelte-i18n';
+  import { getSiteTypeFilters } from '../utils/filters';
   /** 是否禁用拖动而采用方向按钮控制，适用于一些移动app的引用 */
   export let from: string = '';
   /** 设备来源 */
   export let device: string = '';
 
-  /** 语言 */
-  let Lang: typeof zhcnLang = getLang('zhcn');
-
-  let contentLang: string = '';
-
-  let filters = getFilters(Lang.siteTypes);
-
-  langContentStore.subscribe(value => {
-    contentLang = value;
-  });
-
-  langStore.subscribe(value => {
-    Lang = getLang(value);
-    filters = getFilters(Lang.siteTypes);
-  });
-
-  /** 获取繁简转换后的文本 */
-  const getConvertedText = (str: string) => {
-    return zhConvertor.convert(
-      str,
-      (() => {
-        switch (contentLang) {
-          case 'zhcn':
-            return ConvertType.t2s;
-          case 'zhtw':
-            return ConvertType.s2t;
-          case '':
-            return ConvertType.dont;
-          default:
-            return ConvertType.dont;
-        }
-      })()
-    );
-  };
+  let filters = getSiteTypeFilters($t);
 
   // 地图数据
   /** 地表地图数据源 */
@@ -665,10 +630,10 @@
             });
         }
       } else {
-        alert('名字(≤20)/描述(≤1000)太长了~');
+        alert($t('map.alert.exceeded'));
       }
     } else {
-      alert('请填写名字/选择类型再提交~');
+      alert($t('map.alert.exceeded'));
     }
   };
 
@@ -768,7 +733,7 @@
       case 'hidebad':
         hideBad = e.target.checked;
         if (hideBad) {
-          alert(Lang.siteTypes.functionalFilters.hideBadTip);
+          alert($t('siteTypes.functionalFilters.hideBadTip'));
         }
         setCookie('hidebad', hideBad ? '1' : '0');
         updateShowingMarkers();
@@ -830,7 +795,7 @@
   <header id="topDiv">
     {#if !isAddPointMode}
       <div id="searchTextContainer">
-        <input type="text" style="border: none; width: 80%; box-shadow: none;" placeholder={Lang.map.topright.placeholder} bind:value={searchWord} />
+        <input type="text" style="border: none; width: 80%; box-shadow: none;" placeholder={$t('map.topright.placeholder')} bind:value={searchWord} />
         {#if isSearch}
           <button
             style="border: none; font-size: 0.6em; box-shadow: none;"
@@ -843,7 +808,7 @@
               searchResultMarkers = [];
               refreshAllMarkers();
             }}
-            >{Lang.map.topright.result.replace('{result}', String(searchResultMarkers.length / 2))}
+            >{$t('map.topright.result').replace('{result}', String(searchResultMarkers.length / 2))}
           </button>
         {/if}
       </div>
@@ -853,10 +818,10 @@
             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
           />
         </svg>
-        {Lang.map.topright.search}
+        {$t('map.topright.search')}
       </button>
     {:else}
-      <p id="addpointtip">{isUpdateLnglatMode ? Lang.map.topright.editModeHint : Lang.map.topright.changePositionModeHint}</p>
+      <p id="addpointtip">{isUpdateLnglatMode ? $t('map.topright.editModeHint') : $t('map.topright.changePositionModeHint')}</p>
     {/if}
 
     <button id="addPointButton" on:click={onAddButtonClick}>
@@ -872,7 +837,7 @@
         </svg>
       {/if}
       <p>
-        {isAddPointMode ? Lang.map.topright.editModeBtn : Lang.map.topright.add}
+        {isAddPointMode ? $t('map.topright.editModeBtn') : $t('map.topright.add')}
       </p>
     </button>
   </header>
@@ -897,9 +862,9 @@
             d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
           />
         </svg>
-        {is_underground ? Lang.map.left.undergroundSwitcher2 : Lang.map.left.undergroundSwitcher1}
+        {is_underground ? $t('map.left.undergroundSwitcher2') : $t('map.left.undergroundSwitcher1')}
       </button>
-      <p style="font-size: 0.6em;">{Lang.map.left.tips}</p>
+      <p style="font-size: 0.6em;">{$t('map.left.tips')}</p>
       <div id="filter" style="max-height: {window.innerHeight - 80}px;">
         {#each filters as filter}
           {#if filter?.hr}
@@ -944,10 +909,10 @@
           updateShowingMarkers();
         }}
       >
-        {Lang.map.left.showNameButton}{showPlaceNames ? ' √' : ''}
+        {$t('map.left.showNameButton')}{showPlaceNames ? ' √' : ''}
       </button>
       <div id="underSelector" style="margin: 5px; align-items: center;">
-        <span style="min-width: fit-content;">{Lang.map.left.fontSizeLabel}</span>
+        <span style="min-width: fit-content;">{$t('map.left.fontSizeLabel')}</span>
         <button
           class={markerFontSize === 0.5 && 'checked'}
           on:click={() => {
@@ -955,7 +920,7 @@
             updateShowingMarkers();
           }}
         >
-          {Lang.map.left.fontSizeSmall}
+          {$t('map.left.fontSizeSmall')}
         </button>
 
         <button
@@ -965,7 +930,7 @@
             updateShowingMarkers();
           }}
         >
-          {Lang.map.left.fontSizeMedium}
+          {$t('map.left.fontSizeMedium')}
         </button>
 
         <button
@@ -975,17 +940,17 @@
             updateShowingMarkers();
           }}
         >
-          {Lang.map.left.fontSizeLarge}
+          {$t('map.left.fontSizeLarge')}
         </button>
       </div>
       <!--input type="text" placeholder="关键词" bind:value={filterString}/-->
     </div>
     <div id="leftDiv2" in:fly={{ x: -165, duration: 300 }} out:fly={{ x: -165, duration: 300 }}>
-      <button id="filterBtn" on:click={onFilterButtonClick}>◀<br />{@html Lang.map.left.buttonAfterOpen}</button>
+      <button id="filterBtn" on:click={onFilterButtonClick}>◀<br />{@html $t('map.left.buttonAfterOpen')}</button>
     </div>
   {:else}
     <div id="leftDiv" in:fly={{ x: 165, duration: 300 }} out:fly={{ x: 165, duration: 300 }}>
-      <button id="filterBtn" on:click={onFilterButtonClick}>➤<br />{@html Lang.map.left.buttonBeforeOpen}</button>
+      <button id="filterBtn" on:click={onFilterButtonClick}>➤<br />{@html $t('map.left.buttonBeforeOpen')}</button>
     </div>
   {/if}
   <!--筛选栏结束-->
@@ -1033,8 +998,8 @@
   zindex={114700}
   showOkButton
   showCloseButton
-  okButtonText={Lang.map.modals.delete.btn1}
-  closeButtonText={Lang.map.modals.delete.btn2}
+  okButtonText={$t('map.modals.delete.btn1')}
+  closeButtonText={$t('map.modals.delete.btn2')}
   onOKButtonClick={() => {
     onDelete();
     deleteConfirmVisibility = false;
@@ -1056,7 +1021,7 @@
     getConvertedText(currentClickedMarker?.name)}
   zindex={114600}
   showOkButton
-  okButtonText={Lang.map.modals.info.btn1}
+  okButtonText={$t('map.modals.info.btn1')}
   onOKButtonClick={() => {
     markerInfoVisibility = false;
   }}
@@ -1066,8 +1031,8 @@
       {@html getConvertedText(currentClickedMarker?.desc?.replaceAll('\n', '<br />'))}
     </p>
     <div style="display: flex;">
-      <button on:click={onLike}>{Lang.map.modals.info.like + currentClickedMarker?.like}</button>
-      <button on:click={onDislike}>{Lang.map.modals.info.dislike + currentClickedMarker?.dislike}</button>
+      <button on:click={onLike}>{$t('map.modals.info.like') + currentClickedMarker?.like}</button>
+      <button on:click={onDislike}>{$t('map.modals.info.dislike') + currentClickedMarker?.dislike}</button>
     </div>
 
     <div>
@@ -1093,7 +1058,7 @@
               d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
             />
           </svg>
-          {Lang.map.modals.info.edit}
+          {$t('map.modals.info.edit')}
         </button>
       {/if}
 
@@ -1109,7 +1074,7 @@
               d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
             />
           </svg>
-          {Lang.map.modals.info.delete}
+          {$t('map.modals.info.delete')}
         </button>
       {/if}
       <!--收藏 / 取消收藏-->
@@ -1138,7 +1103,7 @@
             d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
           />
         </svg>
-        {collects?.includes(String(currentClickedMarker?.id)) ? Lang.map.modals.info.uncollect : Lang.map.modals.info.collect}
+        {collects?.includes(String(currentClickedMarker?.id)) ? $t('map.modals.info.uncollect') : $t('map.modals.info.collect')}
       </button>
       <label style="color: rgb(208, 200, 181);">
         <input
@@ -1163,12 +1128,12 @@
             updateShowingMarkers(currentClickedMarker?.id);
           }}
         />
-        {Lang.map.modals.info.hide}
+        {$t('map.modals.info.hide')}
       </label>
 
       {#if isAdminMode}
         <!--锁定-->
-        <label style="color: rgb(208, 200, 181);"><input type="checkbox" checked={currentClickedMarker?.is_lock} on:change={onSetLockChecked} />{Lang.map.modals.info.lock}</label>
+        <label style="color: rgb(208, 200, 181);"><input type="checkbox" checked={currentClickedMarker?.is_lock} on:change={onSetLockChecked} />{$t('map.modals.info.lock')}</label>
       {/if}
     </div>
   </div>
@@ -1179,12 +1144,12 @@
   visible={addPointVisability}
   top="0%"
   width="85%"
-  title={editMode ? Lang.map.modals.add.editModeTitle.replace('{title}', currentClickedMarker?.name) : Lang.map.modals.add.title}
+  title={editMode ? $t('map.modals.add.editModeTitle').replace('{title}', currentClickedMarker?.name) : $t('map.modals.add.title')}
   zindex={114600}
   showOkButton
   showCloseButton
-  okButtonText={editMode ? Lang.map.modals.add.btn1EditMode : Lang.map.modals.add.btn1}
-  closeButtonText={Lang.map.modals.add.btn2}
+  okButtonText={editMode ? $t('map.modals.add.btn1EditMode') : $t('map.modals.add.btn1')}
+  closeButtonText={$t('map.modals.add.btn2')}
   onOKButtonClick={onAdd}
   onCloseButtonClick={onClose}
 >
@@ -1197,7 +1162,7 @@
           refreshAllMarkers();
         }}
       >
-        {Lang.map.modals.add.surface}
+        {$t('map.modals.add.surface')}
       </button>
       <button
         class={is_underground && 'checked'}
@@ -1206,7 +1171,7 @@
           refreshAllMarkers();
         }}
       >
-        {Lang.map.modals.add.underground}
+        {$t('map.modals.add.underground')}
       </button>
     </div>
     <button
@@ -1216,10 +1181,10 @@
     >
       {filters.filter(type => {
         return type.value === addedPointType;
-      })?.[0]?.name || `——${Lang.map.modals.add.selector}——`}
+      })?.[0]?.name || `——${$t('map.modals.add.selector')}——`}
     </button>
-    <input type="text" placeholder="{Lang.map.modals.add.namePlaceHolder} (1～20)" bind:value={addedPointName} />
-    <textarea placeholder="{Lang.map.modals.add.descPlaceHolder} (0～1000)" bind:value={addedPointDesc} />
+    <input type="text" placeholder="{$t('map.modals.add.namePlaceHolder')} (1～20)" bind:value={addedPointName} />
+    <textarea placeholder="{$t('map.modals.add.descPlaceHolder')} (0～1000)" bind:value={addedPointDesc} />
     <button
       on:click={() => {
         isAddPointMode = true;
@@ -1231,13 +1196,13 @@
         <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z" />
         <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z" />
       </svg>
-      {Lang.map.modals.add.reposition}
+      {$t('map.modals.add.reposition')}
     </button>
   </div>
 </Modal>
 
 <!--添加/编辑Modal里的选择类型Modal-->
-<Modal visible={selectTypeVisability} top="0%" title={Lang.map.modals.add.selector} zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
+<Modal visible={selectTypeVisability} top="0%" title={$t('map.modals.add.selector')} zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
   <div id="selectModalInner">
     {#each filters as filter}
       {#if filter?.hr}

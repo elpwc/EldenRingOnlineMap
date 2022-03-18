@@ -42,6 +42,7 @@
     "md5": "^2.3.0",
     "qs": "^6.10.3",
     "sirv-cli": "^2.0.0",
+    "svelte-i18n": "^3.3.13",
     "svelte-spa-router": "^3.2.0",
     "zhconvertor": "^2.0.0"
   },

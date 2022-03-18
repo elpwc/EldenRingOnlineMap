@@ -1,0 +1,15 @@
+{
+    "i18n-ally.localesPaths": [
+        "src/locale/lang"
+    ],
+    "i18n-ally.enabledFrameworks": [
+        "svelte"
+    ],
+    "i18n-ally.enabledParsers": [
+        "ts"
+    ],
+    "i18n-ally.extract.autoDetect": true,
+    "i18n-ally.sourceLanguage": "zh-CN",
+    "i18n-ally.keystyle": "nested",
+    "i18n-ally.fullReloadOnChanged": true,
+}

@@ -4,27 +4,18 @@
    */
   import { onMount } from 'svelte';
   import Modal from '../components/Modal.svelte';
-  import { currentPageStore, ip, isAdminModeStore, langStore } from '../stores';
+  import { ip, isAdminModeStore } from '../stores';
   import { fly } from 'svelte/transition';
   import axios from 'axios';
   import type { Apothegm } from '../utils/typings';
   // 用来根据ip地址生成匿名用户名
   import md5 from 'md5';
   import { ApothegmType } from '../utils/enum';
-  import getApoFilters from '../utils/apoTypes';
 
-  import getLang from '../utils/lang';
-  import type zhcnLang from '../locale/zhcn';
+  import { t } from 'svelte-i18n';
+  import { getApoFilters } from '../utils/filters';
 
-  /** 语言 */
-  let Lang: typeof zhcnLang = getLang('zhcn');
-
-  let apo_filters = getApoFilters(Lang.apoTypes);
-
-  langStore.subscribe(value => {
-    Lang = getLang(value);
-    apo_filters = getApoFilters(Lang.apoTypes);
-  });
+  let apo_filters = getApoFilters($t);
 
   // 路径参数: 讯息id
   // 仅用来从外部直接打开讯息，从网页内部打开讯息不使用这个
@@ -38,8 +29,6 @@
   });
 
   onMount(() => {
-    currentPageStore.set('apothegm');
-
     // 加载讯息
     refreshApo();
   });
@@ -208,10 +197,10 @@
             refreshApo(/*res.data?.id*/);
           });
       } else {
-        alert('标题(≤20)/内容(≤1000)太长了~');
+        alert($t('apothegm.alert.titleExceeded'));
       }
     } else {
-      alert('请填写标题/类型再提交~');
+      alert($t('apothegm.alert.titleEmpty'));
     }
   };
 
@@ -257,10 +246,10 @@
               });
           });
       } else {
-        alert('内容(≤1000)太长了~');
+        alert($t('apothegm.alert.contentExceeded'));
       }
     } else {
-      alert('请填写内容再提交~');
+      alert($t('apothegm.alert.contentEmpty'));
     }
   };
 
@@ -358,7 +347,7 @@
   <header id="inputDiv">
     <div style="display: flex;">
       <div id="searchTextContainer">
-        <input type="text" style="border: none; width: 80%; box-shadow: none;" placeholder={Lang.apothegm.header.placeholder} bind:value={searchWord} />
+        <input type="text" style="border: none; width: 80%; box-shadow: none;" placeholder={$t('apothegm.header.placeholder')} bind:value={searchWord} />
         {#if isSearch}
           <button
             style="border: none; font-size: 0.6em; box-shadow: none;"
@@ -368,7 +357,7 @@
               refreshApo();
             }}
           >
-            {Lang.apothegm.header.result}
+            {$t('apothegm.header.result')}
           </button>
         {/if}
       </div>
@@ -377,7 +366,7 @@
           <path
             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
           />
-        </svg>{Lang.apothegm.header.search}</button
+        </svg>{$t('apothegm.header.search')}</button
       >
     </div>
     <button
@@ -395,7 +384,7 @@
           d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
         />
       </svg>
-      {Lang.apothegm.header.write}
+      {$t('apothegm.header.write')}
     </button>
     <button
       style="border: none; box-shadow: none;"
@@ -411,7 +400,7 @@
           d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
         />
       </svg>
-      {Lang.apothegm.header.my}
+      {$t('apothegm.header.my')}
     </button>
   </header>
 
@@ -460,9 +449,9 @@
           <p class="contentp">{@html apo?.content?.replaceAll('\n', '<br />')}</p>
 
           <div class="title-reply" style="justify-content: space-between; ">
-            <span class="replyspan">{Lang.apothegm.list.replies} {apo?.replies?.length}</span>
+            <span class="replyspan">{$t('apothegm.list.replies')} {apo?.replies?.length}</span>
             <span class="datespan">{apo?.reply_date}</span>
-            <span class="likespan">{Lang.apothegm.list.like} {apo?.like} {Lang.apothegm.list.dislike} {apo?.dislike}</span>
+            <span class="likespan">{$t('apothegm.list.like')} {apo?.like} {$t('apothegm.list.dislike')} {apo?.dislike}</span>
           </div>
         </div>
       {/each}
@@ -484,7 +473,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                 <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
               </svg>
-              {Lang.apothegm.reply.return}
+              {$t('apothegm.reply.return')}
             </button>
           </div>
           <div>
@@ -496,11 +485,11 @@
                   deleteConfirmVisibility = true;
                 }}
               >
-                {Lang.apothegm.reply.delete}
+                {$t('apothegm.reply.delete')}
               </button>
             {/if}
             <button on:click={onShare}>
-              {Lang.apothegm.reply.share}
+              {$t('apothegm.reply.share')}
             </button>
             <button
               on:click={() => {
@@ -513,7 +502,7 @@
                 />
                 <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
               </svg>
-              {Lang.apothegm.reply.reply}
+              {$t('apothegm.reply.reply')}
             </button>
           </div>
         </div>
@@ -525,13 +514,13 @@
           <div class="title">
             <div class="title-reply">
               <span class="titlespan">{getMD5Id(apothegms?.[currentShowingApoIndex]?.ip)}</span><span class="replyspan"
-                >{Lang.apothegm.list.replies} {apothegms?.[currentShowingApoIndex]?.replies?.length}</span
+                >{$t('apothegm.list.replies')} {apothegms?.[currentShowingApoIndex]?.replies?.length}</span
               >
             </div>
             <span class="datespan">{apothegms?.[currentShowingApoIndex]?.create_date}</span>
             <div>
-              <button on:click={onLikeApo}>{Lang.apothegm.list.like} {apothegms?.[currentShowingApoIndex]?.like}</button>
-              <button on:click={onDislikeApo}>{Lang.apothegm.list.dislike} {apothegms?.[currentShowingApoIndex]?.dislike}</button>
+              <button on:click={onLikeApo}>{$t('apothegm.list.like')} {apothegms?.[currentShowingApoIndex]?.like}</button>
+              <button on:click={onDislikeApo}>{$t('apothegm.list.dislike')} {apothegms?.[currentShowingApoIndex]?.dislike}</button>
             </div>
           </div>
         </div>
@@ -557,7 +546,7 @@
                         deleteConfirmVisibility = true;
                       }}
                     >
-                      {Lang.apothegm.reply.delete}
+                      {$t('apothegm.reply.delete')}
                     </button>
                   {/if}
                   <span class="likespan">
@@ -566,14 +555,14 @@
                         currentClickedReplyId = reply?.id;
                         currentClickedReplyIndex = index;
                         onLikeReply();
-                      }}>{Lang.apothegm.list.like} {reply?.like}</button
+                      }}>{$t('apothegm.list.like')} {reply?.like}</button
                     >
                     <button
                       on:click={() => {
                         currentClickedReplyId = reply?.id;
                         currentClickedReplyIndex = index;
                         onDislikeReply();
-                      }}>{Lang.apothegm.list.dislike} {reply?.dislike}</button
+                      }}>{$t('apothegm.list.dislike')} {reply?.dislike}</button
                     >
                   </span>
                 </div>
@@ -593,11 +582,11 @@
   visible={postModalVisibility}
   zindex={114514}
   width="70%"
-  title={Lang.apothegm.modals.add.title}
+  title={$t('apothegm.modals.add.title')}
   showOkButton
   showCloseButton
-  okButtonText={Lang.apothegm.modals.add.btn1}
-  closeButtonText={Lang.apothegm.modals.add.btn2}
+  okButtonText={$t('apothegm.modals.add.btn1')}
+  closeButtonText={$t('apothegm.modals.add.btn2')}
   onOKButtonClick={onPost}
   onCloseButtonClick={() => {
     postModalVisibility = false;
@@ -614,10 +603,10 @@
     >
       {apo_filters.filter(type => {
         return type.value === postType;
-      })?.[0]?.name || `——${Lang.apothegm.modals.add.selector}——`}
+      })?.[0]?.name || `——${$t('apothegm.modals.add.selector')}——`}
     </button>
-    <input type="text" placeholder="{Lang.apothegm.modals.add.titlePlaceHolder} (1～20)" bind:value={postTitle} />
-    <textarea placeholder="{Lang.apothegm.modals.add.contentPlaceHolder} (0～1000)" bind:value={postContent} />
+    <input type="text" placeholder="{$t('apothegm.modals.add.titlePlaceHolder')} (1～20)" bind:value={postTitle} />
+    <textarea placeholder="{$t('apothegm.modals.add.contentPlaceHolder')} (0～1000)" bind:value={postContent} />
   </div>
 </Modal>
 
@@ -626,11 +615,11 @@
   visible={replyModalVisibility}
   zindex={114514}
   width="70%"
-  title={Lang.apothegm.modals.reply.title}
+  title={$t('apothegm.modals.reply.title')}
   showOkButton
   showCloseButton
-  okButtonText={Lang.apothegm.modals.reply.btn1}
-  closeButtonText={Lang.apothegm.modals.reply.btn2}
+  okButtonText={$t('apothegm.modals.reply.btn1')}
+  closeButtonText={$t('apothegm.modals.reply.btn2')}
   onOKButtonClick={onReply}
   onCloseButtonClick={() => {
     replyModalVisibility = false;
@@ -638,7 +627,7 @@
   }}
 >
   <div class="modalInner">
-    <textarea placeholder="{Lang.apothegm.modals.reply.contentPlaceHolder} (0～1000)" bind:value={replyContent} />
+    <textarea placeholder="{$t('apothegm.modals.reply.contentPlaceHolder')} (0～1000)" bind:value={replyContent} />
   </div>
 </Modal>
 
@@ -646,9 +635,9 @@
 <Modal
   zindex={114514}
   visible={copyModalVisibility}
-  title={Lang.apothegm.modals.share.title}
+  title={$t('apothegm.modals.share.title')}
   showOkButton
-  okButtonText={Lang.apothegm.modals.share.btn1}
+  okButtonText={$t('apothegm.modals.share.btn1')}
   onOKButtonClick={() => {
     copyModalVisibility = false;
   }}
@@ -667,8 +656,8 @@
   zindex={114700}
   showOkButton
   showCloseButton
-  okButtonText={Lang.map.modals.delete.btn1}
-  closeButtonText={Lang.map.modals.delete.btn2}
+  okButtonText={$t('map.modals.delete.btn1')}
+  closeButtonText={$t('map.modals.delete.btn2')}
   onOKButtonClick={() => {
     // 判断删除的是讯息还是回复
     if (deleteReply) {
@@ -684,7 +673,7 @@
 />
 
 <!--添加/编辑Modal里的选择类型Modal-->
-<Modal visible={selectTypeVisability} top="5%" title={Lang.apothegm.modals.add.selector} zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
+<Modal visible={selectTypeVisability} top="5%" title={$t('apothegm.modals.add.selector')} zindex={1919810} width="{window.innerWidth * 0.8}px " backgroundOpacity={0.8}>
   <div id="selectModalInner">
     {#each apo_filters as filter}
       {#if filter?.hr}
