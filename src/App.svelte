@@ -26,6 +26,7 @@
   let menuItems = [
     { url: '/', pageName: 'map', text: Lang.menu.map, imgSrc: './resource/images/map.png' },
     { url: '/apothegm', pageName: 'apothegm', text: Lang.menu.apo, imgSrc: './resource/images/apothegm.png' },
+    { url: '/routes', pageName: 'routes', text: Lang.menu.general, imgSrc: './resource/images/apothegm.png' },
     { url: '/general', pageName: 'general', text: Lang.menu.general, imgSrc: './resource/images/general.png' },
     { url: '/about', pageName: 'about', text: Lang.menu.about, imgSrc: './resource/images/about.png' },
   ];
@@ -34,6 +35,7 @@
     menuItems = [
       { url: '/', pageName: 'map', text: Lang.menu.map, imgSrc: './resource/images/map.png' },
       { url: '/apothegm', pageName: 'apothegm', text: Lang.menu.apo, imgSrc: './resource/images/apothegm.png' },
+      { url: '/routes', pageName: 'routes', text: Lang.menu.general, imgSrc: './resource/images/apothegm.png' },
       { url: '/general', pageName: 'general', text: Lang.menu.general, imgSrc: './resource/images/general.png' },
       { url: '/about', pageName: 'about', text: Lang.menu.about, imgSrc: './resource/images/about.png' },
     ];
