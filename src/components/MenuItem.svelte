@@ -5,7 +5,7 @@
   export let currentPath: string;
   export let path: string;
   export let text: string;
-  export let width: string = '40px';
+  export let width: string = '30px';
   export let imgSrc: string;
   export let imgAlt: string = 'mapicon';
 </script>
@@ -38,6 +38,7 @@
   }
   a span {
     padding: 4px 0;
+    font-size: 0.8em;
   }
   @media (any-hover: hover) {
     a:hover {
