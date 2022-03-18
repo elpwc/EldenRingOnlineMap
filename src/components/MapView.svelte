@@ -10,7 +10,7 @@
   import { MapIcon } from './icons';
   import './icons.css';
   import { getCookie, setCookie } from '../utils/utils';
-  import DirectionControl from './DirectionControl.svelte';
+  import DirectionControl from './MapViewComponents/DirectionControl.svelte';
   import { getConvertedText, getKeywordText } from '../utils/convertor';
   import { t } from 'svelte-i18n';
   import { getSiteTypeFilters } from '../utils/filters';
