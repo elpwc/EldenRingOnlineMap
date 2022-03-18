@@ -293,7 +293,16 @@
     mapH = window.innerHeight;
   });
 
-  /** 从服务端更新markers, 只在启动时执行一次 */
+  /** 从本地的Marker中删除一个Marker */
+  const delFromLoadedMarkers = (id: number) => {
+    setAllMarkers(
+      allMarkers.filter(f => {
+        return f.id !== id;
+      })
+    );
+  };
+
+  /** 从服务端更新markers, 只在启动时全部读取一次，之后只通过id更新单个 */
   const refreshAllMarkers = (id?: number) => {
     if (id && id > 0) {
       // 加载指定id
@@ -308,6 +317,8 @@
 
           if (index > -1) {
             allMarkers[index] = res?.data?.[0];
+          } else {
+            allMarkers.push(res?.data?.[0]);
           }
 
           updateShowingMarkers(id);
@@ -600,7 +611,7 @@
               addedPointName = '';
               addedPointType = MapPointType.Empty;
               tempMarker?.remove();
-              refreshAllMarkers();
+              refreshAllMarkers(res.data?.id);
             });
         } else {
           // 添加
@@ -625,7 +636,7 @@
               addedPointName = '';
               addedPointType = MapPointType.Empty;
               tempMarker.remove();
-              refreshAllMarkers(/*res.data?.id*/);
+              refreshAllMarkers(res.data?.id);
             });
         }
       } else {
@@ -697,7 +708,8 @@
           return f.id !== currentClickedMarker?.id;
         });
         currentClickedMarker = undefined;
-        refreshAllMarkers();
+        delFromLoadedMarkers(currentClickedMarker?.id);
+        updateShowingMarkers();
       });
   };
 
@@ -719,7 +731,6 @@
         } else {
           checkedTypes = [];
         }
-        refreshAllMarkers();
         break;
       case 'collect':
         showCollect = e.target.checked;
@@ -761,7 +772,7 @@
           selectAll = false;
         }
 
-        refreshAllMarkers();
+        //refreshAllMarkers();
         break;
     }
   };
@@ -848,7 +859,7 @@
         id="undergroundSwitchButton"
         on:click={() => {
           is_underground = !is_underground;
-          refreshAllMarkers();
+          //refreshAllMarkers();
           refreshCollectedMarkers();
         }}
       >
