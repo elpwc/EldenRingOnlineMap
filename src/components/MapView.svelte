@@ -338,10 +338,11 @@
         });
     } else {
       // 加载全部
+      console.log(114514, selectAll, checkedTypes);
       axios
         .get('./map.php', {
           params: {
-            type: selectAll ? '' : checkedTypes.length === 0 ? 'none' : checkedTypes.join('|'),
+            type: selectAll ? '' : checkedTypes.length === 0 || (checkedTypes.length === 1 && checkedTypes[0] === '') ? 'none' : checkedTypes.join('|'),
             kword: searchWord,
             ip: showSelf ? ip : '',
             under: is_underground ? 1 : 2,
