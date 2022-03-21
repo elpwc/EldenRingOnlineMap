@@ -15,6 +15,8 @@
   import { t } from 'svelte-i18n';
   import { getSiteTypeFilters } from '../utils/filters';
   import zhConvertor from 'zhconvertor';
+  import jQuery from 'jquery';
+
   /** 是否禁用拖动而采用方向按钮控制，适用于一些移动app的引用 */
   export let from: string = '';
   /** 设备来源 */
@@ -127,6 +129,8 @@
   /** 隐藏恶评 > 好评的 */
   let hideBad: boolean = false;
 
+  let filterBarWidth = '';
+
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
 
@@ -153,6 +157,11 @@
     } else {
       selectAll = false;
     }
+  };
+
+  /** 获取筛选栏自适应宽度 */
+  const getFilterBarWidth = () => {
+    filterBarWidth = jQuery('#filterDiv').css('width');
   };
 
   afterUpdate(() => {
@@ -316,7 +325,10 @@
 
     // 加载坐标
     refreshAllMarkers();
+
+    getFilterBarWidth();
   });
+  // onMount 结束=============================================================
 
   // 地图大小随窗口变化
   window.addEventListener('resize', e => {
@@ -965,7 +977,7 @@
       </div>
       <!--input type="text" placeholder="关键词" bind:value={filterString}/-->
     </div>
-    <div id="leftDiv2" in:fly={{ x: -165, duration: 300 }} out:fly={{ x: -165, duration: 300 }}>
+    <div id="leftDiv2" style="left: {filterBarWidth};" in:fly={{ x: -165, duration: 300 }} out:fly={{ x: -165, duration: 300 }}>
       <button id="filterBtn" on:click={onFilterButtonClick}>◀<br />{@html $t('map.left.buttonAfterOpen')}</button>
     </div>
   {:else}
@@ -1298,7 +1310,8 @@
     min-width: fit-content;
   }
   #filterBtn {
-    border-radius: 5px;
+    border-radius: 0 5px 5px 0;
+    border-left: none !important;
     padding-bottom: 10px;
     background-color: rgb(21, 22, 17, 0.7);
   }
@@ -1315,14 +1328,13 @@
   #leftDiv {
     position: absolute;
     top: 100px;
-    left: -5px;
+    left: 0px;
     z-index: 114514;
     align-self: center;
   }
   #leftDiv2 {
     position: absolute;
     top: 100px;
-    left: 235px;
     z-index: 114514;
     align-self: center;
   }
