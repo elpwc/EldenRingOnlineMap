@@ -48,8 +48,6 @@
 
 ![alt screenshot](./images/ss1.png)
 ![alt screenshot](./images/ss2.png)
-![alt screenshot](./images/ss3.png)
-![alt screenshot](./images/ss4.png)
 
 ## 部署
 
