@@ -741,9 +741,9 @@
         markers = markers.filter(f => {
           return f.id !== currentClickedMarker?.id;
         });
-        currentClickedMarker = undefined;
         delFromLoadedMarkers(currentClickedMarker?.id);
         updateShowingMarkers();
+        currentClickedMarker = undefined;
       });
   };
 

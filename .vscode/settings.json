@@ -18,4 +18,7 @@
             " {\n      const hiddens = localStorage.getItem('hidden')?.split('|');\n      if (hiddens.length === 0) {\n        alert($t('general.theresNoHiddenPointByNow'));\n      } else {\n        const r = confirm($t('general.therereSomeHiddenPoints').replace('{count}', hiddens.length.toString()));\n        if (r === true) {\n          localStorage.setItem('hidden', '');\n          alert($t('general.hiddenPointYattaze'));\n        }\n      }\n    }}>⚠{$t('general.clearHiddenPointButton')}⚠"
         ]
     },
+    "i18n-ally.extract.ignored": [
+        " {\n          is_underground = !is_underground;\n          //refreshAllMarkers();\n          refreshCollectedMarkers();\n        }}\n      >\n        "
+    ],
 }
