@@ -205,7 +205,11 @@
       hideBad = getCookie('hidebad') === '1';
     }
     if (getCookie('checkedTypes') !== undefined) {
-      checkedTypes = getCookie('checkedTypes').split('|');
+      checkedTypes = getCookie('checkedTypes')
+        .split('|')
+        .filter(f => {
+          return f !== '' && f !== undefined;
+        });
     }
 
     // 初始化是否显示地名，zoom过小就不显示了，不然嫩卡
