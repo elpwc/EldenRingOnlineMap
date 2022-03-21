@@ -130,6 +130,18 @@
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
 
+  // 全选
+  const freshSelectAll = () => {
+    checkedTypes = [];
+    checkedTypes = filters
+      .filter(f => {
+        return f.functional === undefined && f.hr === undefined;
+      })
+      .map(f => {
+        return f.value;
+      });
+  };
+
   afterUpdate(() => {
     if (is_underground) {
       setCookie('underground', '1');
@@ -192,10 +204,7 @@
 
     // 初始化全选
     if (selectAll) {
-      checkedTypes = [];
-      checkedTypes = filters.map(f => {
-        if (!f?.functional && !f?.hr) return f.value;
-      });
+      freshSelectAll();
     }
 
     // 创建地图
@@ -712,10 +721,7 @@
       case 'all':
         selectAll = e.target.checked;
         if (selectAll) {
-          checkedTypes = [];
-          checkedTypes = filters.map(f => {
-            if (!f?.functional && !f?.hr) return f.value;
-          });
+          freshSelectAll();
         } else {
           checkedTypes = [];
         }
@@ -751,6 +757,7 @@
             });
           }
         }
+        console.log(checkedTypes);
         refreshAllMarkers();
 
         // 儲存cookie
@@ -759,7 +766,7 @@
         // 更改后更新全选状态
         if (
           filters.filter(f => {
-            return !f?.functional && !f?.hr;
+            return f.functional === undefined && f.hr === undefined;
           })?.length === checkedTypes.length
         ) {
           selectAll = true;
