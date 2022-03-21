@@ -1253,6 +1253,7 @@
   .filterHr {
     align-self: center;
     color: #f5cc95;
+    writing-mode: horizontal-tb;
   }
   .filterHrInModal {
     align-self: center;
@@ -1325,7 +1326,7 @@
     position: absolute;
     top: 50px;
     left: 0px;
-    width: 240px;
+    width: fit-content;
     z-index: 114515;
     align-self: center;
     border: solid 1px rgb(208, 200, 181);
@@ -1338,12 +1339,13 @@
     font-family: 'Times New Roman', Times, serif;
     font-size: 0.7em;
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
-    height: 425px;
+    height: 400px;
+    writing-mode: vertical-lr;
   }
   #filter label {
     margin: 1px 0px !important;
+    writing-mode: horizontal-tb;
   }
   #bottomDiv {
     position: absolute;
