@@ -116,7 +116,11 @@ const lang: langType = {
     menulang: '菜單語言',
     maplang: '地圖語言轉換',
     dontConvert: '不轉換',
-    developing: '後續功能開發中',
+    theresNoHiddenPointByNow: '目前沒有隱藏點捏',
+    therereSomeHiddenPoints: '目前有{count}個隱藏點，確定要清空嗎?',
+    hiddenPointYattaze: '清空了',
+    clearHiddenPointButton: '清除所有已隱藏點',
+    developping: '後續功能開發中',
   },
   about: {
     lastUpdate: '最近更新',

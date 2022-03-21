@@ -115,7 +115,11 @@ const lang = {
     menulang: '菜单语言',
     maplang: '地图语言转换',
     dontConvert: '不转换',
-    developing: '后续功能开发中',
+    theresNoHiddenPointByNow: '目前没有隐藏点捏',
+    therereSomeHiddenPoints: '目前有{count}个隐藏点，确定要清空吗?',
+    hiddenPointYattaze: '清空了',
+    clearHiddenPointButton: '清除所有已隐藏点',
+    developping: '后续功能开发中',
   },
   about: {
     lastUpdate: '最近更新',
