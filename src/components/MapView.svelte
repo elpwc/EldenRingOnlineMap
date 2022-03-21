@@ -644,7 +644,7 @@
 
           let confirmres = false;
           if (existflag) {
-            confirmres = confirm('已经有了同名的地标了，请点"取消"返回去检查一下捏，记得左边筛选栏打开全选（）\r\n※ 如果要补充信息请编辑原有地标的说明 \r\n※ 如果是这里判断错了，请点"确定"继续添加');
+            confirmres = confirm($t('map.alert.repeat'));
           }
           if (!existflag || (existflag && confirmres)) {
             // 添加
