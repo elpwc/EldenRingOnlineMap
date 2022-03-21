@@ -69,8 +69,8 @@
   let searchWord: string = '';
 
   /** 选中的筛选栏选项 */
-  // let checkedTypes: string[] = ['cifu', 'portal', 'soulsite', 'map', 'bigboss', 'boss', 'guhui', 'text', 'warn', 'question', 'taoke'];
-  let checkedTypes: string[] = [];
+  let checkedTypes: string[] = ['cifu', 'portal', 'soulsite', 'map', 'bigboss', 'boss', 'guhui', 'text', 'warn', 'question', 'taoke'];
+  // let checkedTypes: string[] = [];
 
   /** 是否显示地标名字 */
   let showPlaceNames: boolean = true;
@@ -82,7 +82,7 @@
   let showSelf: boolean = false;
 
   /** 是否全选 */
-  let selectAll: boolean = true;
+  let selectAll: boolean = false;
 
   /** 所有地标 */
   let markers: { marker: L.Marker; id: number; ins: MapPoint }[] = [];
@@ -178,6 +178,9 @@
     }
     if (getCookie('hidebad')) {
       hideBad = getCookie('hidebad') === '1';
+    }
+    if (getCookie('checkedTypes') !== undefined) {
+      checkedTypes = getCookie('checkedTypes').split('|');
     }
 
     // 初始化是否显示地名，zoom过小就不显示了，不然嫩卡
@@ -765,6 +768,9 @@
         } else {
           checkedTypes = [];
         }
+        refreshAllMarkers();
+        // 储存选中状态
+        setCookie('checkedTypes', checkedTypes.join('|'));
         break;
       case 'collect':
         showCollect = e.target.checked;
@@ -794,6 +800,10 @@
             });
           }
         }
+        refreshAllMarkers();
+
+        // 儲存cookie
+        setCookie('checkedTypes', checkedTypes.join('|'));
 
         // 更改后更新全选状态
         if (
@@ -806,7 +816,6 @@
           selectAll = false;
         }
 
-        //refreshAllMarkers();
         break;
     }
   };
