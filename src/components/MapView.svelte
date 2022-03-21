@@ -130,7 +130,7 @@
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
 
-  // 全选
+  /** 全选所有筛选选项 */
   const freshSelectAll = () => {
     checkedTypes = [];
     checkedTypes = filters
@@ -140,6 +140,19 @@
       .map(f => {
         return f.value;
       });
+  };
+
+  /** 根据选中情况更新全选状态 */
+  const freshSelectAllStatus = () => {
+    if (
+      filters.filter(f => {
+        return f.functional === undefined && f.hr === undefined;
+      })?.length === checkedTypes.length
+    ) {
+      selectAll = true;
+    } else {
+      selectAll = false;
+    }
   };
 
   afterUpdate(() => {
@@ -206,6 +219,7 @@
     if (selectAll) {
       freshSelectAll();
     }
+    freshSelectAllStatus();
 
     // 创建地图
     map = L.map('map', { attributionControl: false, zoomControl: false, maxBounds: L.latLngBounds(L.latLng(-100, -200), L.latLng(100, 100)) }).setView([initLat, initLng], initZoom);
@@ -338,7 +352,6 @@
         });
     } else {
       // 加载全部
-      console.log(114514, selectAll, checkedTypes);
       axios
         .get('./map.php', {
           params: {
@@ -380,7 +393,7 @@
                 },
               })
               .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 const m: MapPoint = res.data?.[0];
                 collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*/));
                 collectMarkers.push(getMarker(m));
@@ -515,7 +528,7 @@
           },
         })
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           searchResultMarkers.forEach(marker => {
             marker.remove();
           });
@@ -625,7 +638,7 @@
                 ip,
               })
               .then(res => {
-                console.log(res);
+                // console.log(res);
                 addPointVisability = false;
 
                 // 清除Modal已输入内容
@@ -758,22 +771,13 @@
             });
           }
         }
-        console.log(checkedTypes);
         refreshAllMarkers();
 
         // 儲存cookie
         setCookie('checkedTypes', checkedTypes.join('|'));
 
         // 更改后更新全选状态
-        if (
-          filters.filter(f => {
-            return f.functional === undefined && f.hr === undefined;
-          })?.length === checkedTypes.length
-        ) {
-          selectAll = true;
-        } else {
-          selectAll = false;
-        }
+        freshSelectAllStatus();
 
         break;
     }
