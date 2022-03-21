@@ -853,7 +853,7 @@
         id="undergroundSwitchButton"
         on:click={() => {
           is_underground = !is_underground;
-          //refreshAllMarkers();
+          refreshAllMarkers();
           refreshCollectedMarkers();
         }}
       >
