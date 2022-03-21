@@ -768,6 +768,7 @@
     border-bottom: solid 1px rgb(204, 178, 118);
     margin: 0px 10px;
     padding: 5px;
+    cursor: pointer;
   }
   @media (any-hover: hover) {
     .apothegm:hover {
