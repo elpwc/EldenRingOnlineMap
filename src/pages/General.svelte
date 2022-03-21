@@ -27,10 +27,10 @@
   <button class="settingbutton"
     on:click={() => {
       const hiddens = localStorage.getItem('hidden')?.split('|');
-      if (hiddens.length === 0) {
+      if (!hiddens || hiddens.length === 0) {
         alert($t('general.theresNoHiddenPointByNow'));
       } else {
-        const r = confirm($t('general.therereSomeHiddenPoints').replace('{count}', hiddens.length.toString()));
+        const r = confirm($t('general.therereSomeHiddenPoints').replace('{count}', (hiddens.length-1).toString()));
         if (r === true) {
           localStorage.setItem('hidden', '');
           alert($t('general.hiddenPointYattaze'));
