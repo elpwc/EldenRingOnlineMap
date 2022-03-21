@@ -84,7 +84,7 @@
         </svg>
       </sup>
     </a><br />
-    {$t('about.lastUpdate')}: 2022-3-21 15:23
+    {$t('about.lastUpdate')}: 2022-3-21 19:22
     <br />
     Contributors:
     <a href="https://github.com/spking11" target="_blank"
