@@ -373,26 +373,7 @@
                 console.log(res.data);
                 const m: MapPoint = res.data?.[0];
                 collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*/));
-                collectMarkers.push(
-                  L.marker(L.latLng(m.lat, m.lng), {
-                    icon: L.divIcon(
-                      (
-                        filters.filter(filter => {
-                          return filter?.value === m.type;
-                        })?.[0]?.icon as (
-                          title?: string,
-                          fontSize?: string
-                        ) => {
-                          html: string;
-                          className: string;
-                        }
-                      )?.(showPlaceNames ? getConvertedText(m.name) : '', `${markerFontSize}em`)
-                    ),
-                  }).on('click', () => {
-                    currentClickedMarker = m;
-                    markerInfoVisibility = true;
-                  })
-                );
+                collectMarkers.push(getMarker(m));
 
                 // 把收藏的原始标准，和大一点的显眼标注加进去（正好是倒数两个
                 if (m.is_underground === is_underground) {
@@ -410,6 +391,35 @@
       });
       collectMarkers = [];
     }
+  };
+
+  /**
+   * 根据服务器返回的MapPoint获取L.Marker
+   * @param marker
+   */
+  const getMarker = (marker: MapPoint) => {
+    const typeInfo = filters.filter(filter => {
+      return filter?.value === marker.type;
+    })?.[0];
+    return L.marker(L.latLng(marker.lat, marker.lng), {
+      icon: L.divIcon(
+        (
+          typeInfo?.icon as (
+            title?: string,
+            fontSize?: string
+          ) => {
+            html: string;
+            className: string;
+          }
+        )?.((typeInfo.emoji === undefined ? '' : typeInfo.emoji) + (showPlaceNames ? getConvertedText(marker.name) : ''), `${markerFontSize}em`)
+      ),
+    }).on('click', () => {
+      // 在添加的时候不能误点了(取消了， 因为被太多人反应是个bug乌乌明明不是)
+      //if (!isAddPointMode) {
+      currentClickedMarker = marker;
+      markerInfoVisibility = true;
+      //}
+    });
   };
 
   /**
@@ -435,27 +445,7 @@
         markers.findIndex(f => {
           return f.id === id;
         })
-      ].marker = L.marker(L.latLng(resMarker.lat, resMarker.lng), {
-        icon: L.divIcon(
-          (
-            filters.filter(filter => {
-              return filter?.value === resMarker.type;
-            })?.[0]?.icon as (
-              title?: string,
-              fontSize?: string
-            ) => {
-              html: string;
-              className: string;
-            }
-          )?.(showPlaceNames ? getConvertedText(resMarker.name) : '', `${markerFontSize}em`)
-        ),
-      }).on('click', () => {
-        // 在添加的时候不能误点了(取消了， 因为被太多人反应是个bug乌乌明明不是)
-        //if (!isAddPointMode) {
-        currentClickedMarker = resMarker;
-        markerInfoVisibility = true;
-        //}
-      });
+      ].marker = getMarker(resMarker);
 
       // 如果没隐藏的
       if (show_hidden || !(show_hidden || hidden?.includes(resMarker.id.toString()))) {
@@ -475,26 +465,7 @@
       allMarkers.forEach((m: MapPoint) => {
         if ((map as L.Map).getBounds().contains(L.latLng(m.lat, m.lng))) {
           markers.push({
-            marker: L.marker(L.latLng(m.lat, m.lng), {
-              icon: L.divIcon(
-                (
-                  filters.filter(filter => {
-                    return filter?.value === m.type;
-                  })?.[0]?.icon as (
-                    title?: string,
-                    fontSize?: string
-                  ) => {
-                    html: string;
-                    className: string;
-                  }
-                )?.(showPlaceNames ? getConvertedText(m.name) : '', `${markerFontSize}em`)
-              ),
-            }).on('click', () => {
-              //if (!isAddPointMode) {
-              currentClickedMarker = m;
-              markerInfoVisibility = true;
-              //}
-            }),
+            marker: getMarker(m),
             id: m.id,
             ins: m,
           });
@@ -541,26 +512,7 @@
           searchResultMarkers = [];
           res.data.forEach((m: MapPoint) => {
             searchResultMarkers.push(L.marker(L.latLng(m.lat, m.lng)));
-            searchResultMarkers.push(
-              L.marker(L.latLng(m.lat, m.lng), {
-                icon: L.divIcon(
-                  (
-                    filters.filter(filter => {
-                      return filter?.value === m.type;
-                    })?.[0]?.icon as (
-                      title?: string,
-                      fontSize?: string
-                    ) => {
-                      html: string;
-                      className: string;
-                    }
-                  )?.(showPlaceNames ? getConvertedText(m.name) : '', `${markerFontSize}em`)
-                ),
-              }).on('click', () => {
-                currentClickedMarker = m;
-                markerInfoVisibility = true;
-              })
-            );
+            searchResultMarkers.push(getMarker(m));
           });
 
           searchResultMarkers.forEach(marker => {
@@ -605,7 +557,6 @@
                 : {}),
             })
             .then(res => {
-              console.log(res);
               addPointVisability = false;
               editMode = false;
               isUpdateLnglatMode = false;
