@@ -60,9 +60,10 @@ const lang = {
         btn2: '取消',
       },
     },
-    alert:{
+    alert: {
       exceeded: '名字(≤20)/描述(≤1000)太长了~',
       empty: '请填写名字/选择类型再提交~',
+      repeat: '已经有了同名的地标了，请点"取消"返回去检查一下捏，记得左边筛选栏打开全选（）\r\n※ 如果要补充信息请编辑原有地标的说明 \r\n※ 如果是这里判断错了，请点"确定"继续添加',
     },
   },
   apothegm: {
@@ -104,12 +105,12 @@ const lang = {
         btn1: '返回',
       },
     },
-    alert:{
+    alert: {
       titleExceeded: '标题(≤20)/内容(≤1000)太长了~',
       titleEmpty: '请填写标题/类型再提交~',
       contentExceeded: '内容(≤1000)太长了~',
       contentEmpty: '请填写内容再提交~',
-    }
+    },
   },
   general: {
     menulang: '菜单语言',

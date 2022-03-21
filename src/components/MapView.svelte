@@ -14,6 +14,7 @@
   import { getConvertedText, getKeywordText } from '../utils/convertor';
   import { t } from 'svelte-i18n';
   import { getSiteTypeFilters } from '../utils/filters';
+  import zhConvertor from 'zhconvertor';
   /** 是否禁用拖动而采用方向按钮控制，适用于一些移动app的引用 */
   export let from: string = '';
   /** 设备来源 */
@@ -614,30 +615,63 @@
               refreshAllMarkers(res.data?.id);
             });
         } else {
-          // 添加
-          axios
-            .post('./map.php', {
-              type: addedPointType,
-              name: addedPointName,
-              desc: addedPointDesc,
-              lng: currentClickedlatLng.lng,
-              lat: currentClickedlatLng.lat,
-              is_underground: is_underground ? '1' : '2',
-              like: 0,
-              dislike: 0,
-              ip,
-            })
-            .then(res => {
-              console.log(res);
-              addPointVisability = false;
+          // 名字可以重复的地表类型
+          const repeatableTypes = [
+            MapPointType.GoldenSeed,
+            MapPointType.ImportantItem,
+            MapPointType.Item,
+            MapPointType.Key,
+            MapPointType.Wind,
+            MapPointType.Temple,
+            MapPointType.Stone,
+            MapPointType.ShengbeiLudi,
+            MapPointType.Map,
+            MapPointType.Material,
+            MapPointType.Orchid,
+            MapPointType.Text,
+            MapPointType.Warn,
+            MapPointType.Taoke,
+            MapPointType.Question,
+          ];
+          // 判断是否重复
+          let existflag = false;
+          for (let i = 0; i < allMarkers.length; i++) {
+            if (zhConvertor.t2s(allMarkers[i].name) === zhConvertor.t2s(addedPointName) && !repeatableTypes.includes(addedPointType)) {
+              existflag = true;
+              break;
+            }
+          }
 
-              // 清除Modal已输入内容
-              addedPointDesc = '';
-              addedPointName = '';
-              addedPointType = MapPointType.Empty;
-              tempMarker.remove();
-              refreshAllMarkers(res.data?.id);
-            });
+          let confirmres = false;
+          if (existflag) {
+            confirmres = confirm('已经有了同名的地标了，请点"取消"返回去检查一下捏，记得左边筛选栏打开全选（）\r\n※ 如果要补充信息请编辑原有地标的说明 \r\n※ 如果是这里判断错了，请点"确定"继续添加');
+          }
+          if (!existflag || (existflag && confirmres)) {
+            // 添加
+            axios
+              .post('./map.php', {
+                type: addedPointType,
+                name: addedPointName,
+                desc: addedPointDesc,
+                lng: currentClickedlatLng.lng,
+                lat: currentClickedlatLng.lat,
+                is_underground: is_underground ? '1' : '2',
+                like: 0,
+                dislike: 0,
+                ip,
+              })
+              .then(res => {
+                console.log(res);
+                addPointVisability = false;
+
+                // 清除Modal已输入内容
+                addedPointDesc = '';
+                addedPointName = '';
+                addedPointType = MapPointType.Empty;
+                tempMarker.remove();
+                refreshAllMarkers(res.data?.id);
+              });
+          }
         }
       } else {
         alert($t('map.alert.exceeded'));
