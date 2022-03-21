@@ -39,7 +39,7 @@
     }}>⚠ {$t('general.clearHiddenPointButton')} ⚠</button
   >
 
-  <p>{$t('general.developping')}</p>
+  <p>{$t('general.developing')}</p>
 </div>
 
 <style>

@@ -30,6 +30,10 @@ const lang = {
       fontSizeMedium: '中',
       fontSizeLarge: '大',
     },
+    bottom: {
+      developerAndProvider: '开发&提供',
+      donate: '请一杯奶茶',
+    },
     modals: {
       add: {
         title: '添加一个地标',
@@ -120,7 +124,7 @@ const lang = {
     therereSomeHiddenPoints: '目前有{count}个隐藏点，确定要清除隐藏状态，全部显示吗?',
     hiddenPointYattaze: '显示了',
     clearHiddenPointButton: '显示所有隐藏点',
-    developping: '后续功能开发中',
+    developing: '后续功能开发中',
   },
   about: {
     lastUpdate: '最近更新',
@@ -129,7 +133,7 @@ const lang = {
     github: 'GitHub页面',
     modals: {
       coffee: {
-        text: '觉得帮到了自己的话，可以请咱喝一杯奶茶当作创作激励(',
+        text: '觉得帮到了自己的话，可以请咱喝一杯奶茶当作创作激励(和服务器费用',
         urlLink: './resource/images/qrcode.jpg',
         btn1: 'OK',
       },
