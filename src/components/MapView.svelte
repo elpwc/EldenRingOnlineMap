@@ -1349,13 +1349,13 @@
     position: absolute;
     top: 100px;
     left: 0px;
-    z-index: 114514;
+    z-index: 114516;
     align-self: center;
   }
   #leftDiv2 {
     position: absolute;
     top: 100px;
-    z-index: 114514;
+    z-index: 114516;
     align-self: center;
   }
   #filterDiv {
