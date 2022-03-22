@@ -387,7 +387,7 @@
 
             onGet?.();
           } else {
-            alert('Map data error, please refresh!');
+            alert($t('map.alert.maperror'));
           }
         });
     }
