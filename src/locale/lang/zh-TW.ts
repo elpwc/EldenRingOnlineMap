@@ -122,7 +122,7 @@ const lang: langType = {
     menulang: '菜單語言',
     maplang: '地圖語言轉換',
     dontConvert: '不轉換',
-    theresNoHiddenPointByNow: '目前沒有隱藏點捏',
+    theresNoHiddenPointByNow: '目前沒有隱藏點捏，點開地標後在下面可以隱藏這個地標，篩選欄裡可以切換是否顯示~',
     therereSomeHiddenPoints: '目前有{count}個隱藏點，確定要清除隱藏狀態，全部重置嗎?',
     hiddenPointYattaze: '重置了',
     clearHiddenPointButton: '重置所有隱藏點',
