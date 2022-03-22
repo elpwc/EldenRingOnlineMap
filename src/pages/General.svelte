@@ -21,8 +21,8 @@
   <div class="settingItem">
     <p>{$t('general.maplang')}</p>
     <div class="btnContainer">
-      <LangButton buttonLang={ConvertType.s2t} buttonText="简转繁" currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
-      <LangButton buttonLang={ConvertType.t2s} buttonText="繁轉簡" currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
+      <LangButton buttonLang={ConvertType.s2t} buttonText="轉為正體" currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
+      <LangButton buttonLang={ConvertType.t2s} buttonText="转为简体" currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
       <LangButton buttonLang={ConvertType.dont} buttonText={$t('general.dontConvert')} currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
     </div>
   </div>
