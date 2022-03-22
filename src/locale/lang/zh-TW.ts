@@ -48,6 +48,8 @@ const lang: langType = {
         btn1EditMode: '修改',
         btn2: '取消',
         editModeTitle: '修改 {title}',
+        addTip1: '添加前請仔細確認是否已經有人添加過了,沒有找到可能是因爲篩選沒有選擇()',
+        addTip2: '若要補充信息請編輯原有地標的説明，不要另外添加同名地標~'
       },
       info: {
         like: '給予好評',

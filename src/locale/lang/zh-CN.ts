@@ -47,6 +47,8 @@ const lang = {
         btn1EditMode: '修改',
         btn2: '取消',
         editModeTitle: '修改 {title}',
+        addTip1: '添加前请仔细确认是否已经有人添加过了,没有找到可能是因为筛选没有选择()',
+        addTip2: '若要补充信息请编辑原有地标的说明，不要另外添加同名地标~'
       },
       info: {
         like: '给予好评',
