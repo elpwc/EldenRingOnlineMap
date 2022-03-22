@@ -690,7 +690,7 @@
         alert($t('map.alert.exceeded'));
       }
     } else {
-      alert($t('map.alert.exceeded'));
+      alert($t('map.alert.empty'));
     }
   };
 
@@ -1251,8 +1251,8 @@
       {$t('map.modals.add.reposition')}
     </button>
     {#if !editMode}
-    <p>※{$t('map.modals.add.addTip1')}</p>
-    <p>※{$t('map.modals.add.addTip2')}</p>
+      <p>※{$t('map.modals.add.addTip1')}</p>
+      <p>※{$t('map.modals.add.addTip2')}</p>
     {/if}
   </div>
 </Modal>
