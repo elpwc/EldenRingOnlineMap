@@ -185,14 +185,15 @@
     // 旧cookie导入localStorage
     if (getCookie('collect') !== '') {
       localStorage.setItem('collect', getCookie('collect'));
-      collects = localStorage.getItem('collect')?.split('|');
       setCookie('collect', '', 0);
     }
+    collects = localStorage.getItem('collect')?.split('|');
+
     if (getCookie('hidden') !== '') {
       localStorage.setItem('hidden', getCookie('hidden'));
-      hidden = localStorage.getItem('hidden')?.split('|');
       setCookie('hidden', '', 0);
     }
+    hidden = localStorage.getItem('hidden')?.split('|');
 
     // 从cookie读取上次关闭时的地图状态
     if (getCookie('zoom')) {
@@ -318,13 +319,14 @@
       updateShowingMarkers();
     });
 
-    // 如果默认选择了显示收藏，在这里加载
-    if (showCollect) {
-      refreshCollectedMarkers();
-    }
-
     // 加载坐标
-    refreshAllMarkers();
+    refreshAllMarkers(0, () => {
+      // 如果默认选择了显示收藏，在这里加载
+      // 先加载坐标，再加载收藏
+      if (showCollect) {
+        refreshCollectedMarkers();
+      }
+    });
 
     getFilterBarWidth();
   });
@@ -346,7 +348,7 @@
   };
 
   /** 从服务端更新markers, 只在启动时全部读取一次，之后只通过id更新单个 */
-  const refreshAllMarkers = (id?: number) => {
+  const refreshAllMarkers = (id?: number, onGet?: () => void) => {
     if (id && id > 0) {
       // 加载指定id
       axios
@@ -382,6 +384,8 @@
           if (res?.data && Array.isArray(res?.data)) {
             setAllMarkers(res?.data);
             updateShowingMarkers();
+
+            onGet?.();
           } else {
             alert('Map data error, please refresh!');
           }
@@ -402,6 +406,21 @@
         collects.forEach(co => {
           const collectId = Number(co);
           if (collectId > 0) {
+            const m = allMarkers.find(f => {
+              return Number(f.id) === Number(collectId);
+            });
+            if (m) {
+              collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*/));
+              collectMarkers.push(getMarker(m));
+
+              // 把收藏的原始标准，和大一点的显眼标注加进去（正好是倒数两个
+              if (m.is_underground === is_underground) {
+                collectMarkers[collectMarkers.length - 1].addTo(map);
+                collectMarkers[collectMarkers.length - 2].addTo(map);
+              }
+            }
+
+            /*
             axios
               .get('./map.php', {
                 params: {
@@ -411,7 +430,7 @@
               .then(res => {
                 // console.log(res.data);
                 const m: MapPoint = res.data?.[0];
-                collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*/));
+                collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*));
                 collectMarkers.push(getMarker(m));
 
                 // 把收藏的原始标准，和大一点的显眼标注加进去（正好是倒数两个
@@ -420,6 +439,7 @@
                   collectMarkers[collectMarkers.length - 2].addTo(map);
                 }
               });
+              */
           }
         });
       }
