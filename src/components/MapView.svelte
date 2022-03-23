@@ -873,7 +873,7 @@
         {$t('map.topright.search')}
       </button>
     {:else}
-      <p id="addpointtip">{isUpdateLnglatMode ? $t('map.topright.editModeHint') : $t('map.topright.changePositionModeHint')}</p>
+      <p id="addpointtip">{isUpdateLnglatMode ? $t('map.topright.changePositionModeHint') : $t('map.topright.editModeHint')}</p>
     {/if}
 
     <button id="addPointButton" on:click={onAddButtonClick}>
@@ -1100,7 +1100,7 @@
             editMode = true;
 
             // 在改变地点时点开别的编辑就退出改变地点模式
-            if(isUpdateLnglatMode){
+            if (isUpdateLnglatMode) {
               isUpdateLnglatMode = false;
             }
 
