@@ -2,7 +2,7 @@
  * 这个文件用来定义各种类型喵
  * @author wniko
  */
-import type { ApothegmType, MapPointType } from './enum';
+import type { ApothegmType, MapPointType, PointPosition } from './enum';
 export type { langType } from '../locale/lang/zh-CN';
 
 /** 地标 */
@@ -20,6 +20,7 @@ export type MapPoint = {
   is_deleted: boolean;
   is_lock: boolean;
   is_underground: boolean;
+  position: PointPosition;
   create_date: string;
   update_date: string;
 };

@@ -79,11 +79,20 @@ export enum ApothegmType {
 
 export enum SupportedLang {
   zhCN = 'zh-CN',
-  zhTW = 'zh-TW'
+  zhTW = 'zh-TW',
 }
 
 export enum TranslateTargetLang {
   zhCN = 'zh-CN',
   zhTW = 'zh-TW',
-  
+}
+
+/** 地表地标所处位置 */
+export enum PointPosition {
+  /** 地面 */
+  Surface = 0,
+  /** 洞窟墓穴下水道 */
+  Cave = 1,
+  /** 灰城 */
+  AfterBurning = 2,
 }

@@ -31,7 +31,7 @@ function get_condition($condition)
         if (@$condition[1][1] != '') {
             $res .= '`' . $condition[1][0] . '`' . '="' . $condition[1][1] . '"';
         }
-    } else if ($condition[0] == 'LIKE') {
+    } else if ($condition[0] === 'LIKE') {
         if ($condition[1][1] != '') {
             $res .= '`' . $condition[1][0] . '`' . ' LIKE "%' . $condition[1][1] . '%"';
         }
@@ -42,17 +42,17 @@ function get_condition($condition)
             for ($i = 0; $i < count($condition[1]); $i++) {
                 $tres =  get_condition($condition[1][$i]);
                 $res .= $tres;
-                if ($i < count($condition[1]) - 1 && $tres != '') {
+                if ($i < count($condition[1]) - 1 && $tres !== '') {
                     $res .= " $condition[0] ";
                 }
                 $tres = '';
             }
             $res .= ')';
-            if ($res == '()') {
+            if ($res === '()') {
                 $res = '';
             }
         } else {
-            @$res .= get_condition($condition[1][0]);
+            $res .= @get_condition($condition[1][0]);
         }
     }
     return $res;
@@ -98,7 +98,7 @@ function patch_condition($condition)
         }
     }
 
-    if (substr($geneRes, -1) == ',') {
+    if (substr($geneRes, -1) === ',') {
         $geneRes = substr($geneRes, 0, strlen($geneRes) - 1);
     }
     return $geneRes;

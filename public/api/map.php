@@ -29,10 +29,11 @@ switch ($request_type) {
         @$dislike = ($data->dislike);
         @$ip = trim((string)($data->ip));
         @$is_underground = (string)($data->is_underground);
+        @$position = (string)($data->position);
 
         $sql = 'INSERT 
-        INTO map (`type`, `name`, `desc`, `lng`, `lat`, `like`, `dislike`, `ip`, `is_deleted`, `is_underground`)
-        VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0", "' . ($is_underground == '1' ? '1' : '0') . '");
+        INTO map (`type`, `name`, `desc`, `lng`, `lat`, `like`, `dislike`, `ip`, `is_deleted`, `is_underground`, `position`)
+        VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0", "' . ($is_underground == '1' ? '1' : '0')  . '","' . $position . '");
         ';
 
         $result = mysqli_query($sqllink, $sql);
@@ -48,6 +49,8 @@ switch ($request_type) {
         @$under_ori = $_GET['under'];
         /** 获取的属性，不填为全部 */
         @$queryType_ori = $_GET['queryType'];
+        /** 获取的地表类型，不填为全部 */
+        @$queryPosition_ori = $_GET['queryPosition'];
 
         $id = '';
         $ip = '';
@@ -55,6 +58,7 @@ switch ($request_type) {
         $kword = '';
         $under = 0; //0 全部，1 地下， 2 地面
         $queryType = '';
+        $queryPosition = '';
         $count = '';
 
 
@@ -73,7 +77,6 @@ switch ($request_type) {
                     break;
             }
         }
-
 
         if (is_numeric($id_ori)) {
             $id = (int)$id_ori;
@@ -112,6 +115,25 @@ switch ($request_type) {
             }
         }
 
+        $positionarr = [];
+        if (isset($queryPosition_ori)) {
+            $queryPosition = trim(anti_inj((string)$queryPosition_ori));
+            if ($queryPosition != '') {
+                $positions = explode('|', $queryPosition);
+                if (is_string($positions)) {
+                    $positions = [$queryPosition];
+                }
+                if (count($positions) > 0) {
+                    for ($i = 0; $i < count($positions); $i++) {
+                        if ($positions[$i] === 'true') {
+                            array_push($positionarr, ['', ['position', (string)$i]]);
+                        }
+                    }
+                }
+            }
+        }
+
+
         $kwordarr = [];
         if (isset($kword_ori)) {
             $kword = trim(anti_inj((string)$kword_ori));
@@ -147,6 +169,7 @@ switch ($request_type) {
                 [
                     ['OR', $typearr],
                     ['OR', $kwordarr],
+                    ['OR', $positionarr],
                     ['', ['ip', $ip]],
                     ['', ['is_underground', $under]],
                     ['', ['is_deleted', '0']]
@@ -187,6 +210,7 @@ switch ($request_type) {
                     'is_deleted' => (bool)(int)$row['is_deleted'],
                     'is_underground' => (bool)(int)$row['is_underground'],
                     'is_lock' => (bool)(int)$row['is_lock'],
+                    'position' => (int)$row['position'],
                     'create_date' => $row['create_date'],
                     'update_date' => $row['update_date'],
                 ]);
@@ -223,6 +247,7 @@ switch ($request_type) {
         @$is_deleted = property_exists($data, 'is_deleted') ? (string)($data->is_deleted) : null;
         @$is_lock = property_exists($data, 'is_lock') ? (string)($data->is_lock) : null;
         @$is_underground = property_exists($data, 'is_underground') ? (string)($data->is_underground) : null;
+        @$position = property_exists($data, 'position') ? (string)($data->position) : null;
 
         if ($is_deleted == 'false') $is_deleted = "0";
         if ($is_lock == 'false') $is_lock = "0";
@@ -241,6 +266,7 @@ switch ($request_type) {
             ['is_deleted', $is_deleted, true],
             ['is_lock', $is_lock, true],
             ['is_underground', $is_underground, true],
+            ['position', $position, true],
         ];
 
         $geneRes = patch_condition($select);

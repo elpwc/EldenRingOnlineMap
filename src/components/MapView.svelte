@@ -3,7 +3,7 @@
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
-  import { MapPointType } from '../utils/enum';
+  import { MapPointType, PointPosition } from '../utils/enum';
   import axios from 'axios';
   import { allMarkers, ip, isAdminModeStore, isMobile, setAllMarkers } from '../stores';
   import type { MapPoint } from '../utils/typings';
@@ -66,6 +66,8 @@
   let addedPointName: string = '';
   /** 要加的点的描述 */
   let addedPointDesc: string = '';
+  /** 要加的点的地表位置 */
+  let addedPointPosition: PointPosition = PointPosition.Surface;
 
   /** 搜索的词 */
   let searchWord: string = '';
@@ -78,6 +80,8 @@
   let showPlaceNames: boolean = true;
   /** 是否显示地下 0 全部显示，1 显示地下，2 显示地表 */
   let is_underground: boolean = false;
+  /** 地表显示模式 [地表, 洞穴, 灰城] */
+  let current_position: [boolean, boolean, boolean] = [true, true, false];
   /** 左侧栏筛选文本（未使用 */
   let filterString: string = '';
   /** 是否显示自己添加的地标 */
@@ -381,6 +385,7 @@
             kword: searchWord,
             ip: showSelf ? ip : '',
             under: is_underground ? 1 : 2,
+            queryPosition: current_position.join('|'),
             queryType: 0,
           },
         })
@@ -610,6 +615,7 @@
                 type: addedPointType,
                 name: addedPointName,
                 desc: addedPointDesc,
+                position: addedPointPosition,
                 is_underground: is_underground ? '1' : '0',
               },
               ...(isUpdateLnglatMode
@@ -670,6 +676,7 @@
                 type: addedPointType,
                 name: addedPointName,
                 desc: addedPointDesc,
+                position: addedPointPosition,
                 lng: currentClickedlatLng.lng,
                 lat: currentClickedlatLng.lat,
                 is_underground: is_underground ? '1' : '2',
@@ -920,7 +927,42 @@
         </svg>
         {is_underground ? $t('map.left.undergroundSwitcher2') : $t('map.left.undergroundSwitcher1')}
       </button>
+
+      <!--地表切换显示-->
+      {#if !is_underground}
+        <div id="underSelector" style="font-size: 0.9em; margin: 5px; align-items: center;">
+          <button
+            on:click={() => {
+              current_position[0] = !current_position[0];
+              refreshAllMarkers();
+            }}
+          >
+            {current_position[0] ? '☑ ' : '☐ '}
+            {$t('map.left.surface')}
+          </button>
+          <button
+            on:click={() => {
+              current_position[1] = !current_position[1];
+              refreshAllMarkers();
+            }}
+          >
+            {current_position[1] ? '☑ ' : '☐ '}
+            {$t('map.left.cave')}
+          </button>
+          <button
+            on:click={() => {
+              current_position[2] = !current_position[2];
+              refreshAllMarkers();
+            }}
+          >
+            {current_position[2] ? '☑ ' : '☐ '}
+            {$t('map.left.afterBurning')}
+          </button>
+        </div>
+      {/if}
+
       <p style="font-size: 0.6em;">{$t('map.left.tips')}</p>
+
       <div id="filter" style="min-height: {mapH * 0.4}px;max-height: {mapH}px; height: {mapH - 300}px;">
         {#each filters as filter}
           {#if filter?.hr}
@@ -1237,6 +1279,42 @@
         {$t('map.modals.add.underground')}
       </button>
     </div>
+
+    <!--选择地面-洞穴-灰城按钮组-->
+    {#if !is_underground}
+      <div id="underSelector">
+        <button
+          on:click={() => {
+            addedPointPosition = PointPosition.Surface;
+          }}
+          class={addedPointPosition === PointPosition.Surface && 'active'}
+        >
+          {addedPointPosition === PointPosition.Surface ? '☑ ' : '☐ '}
+          {$t('map.left.surface')}
+        </button>
+
+        <button
+          on:click={() => {
+            addedPointPosition = PointPosition.Cave;
+          }}
+          class={addedPointPosition === PointPosition.Cave && 'active'}
+        >
+          {addedPointPosition === PointPosition.Cave ? '☑ ' : '☐ '}
+          {$t('map.left.cave')}
+        </button>
+
+        <button
+          on:click={() => {
+            addedPointPosition = PointPosition.AfterBurning;
+          }}
+          class={addedPointPosition === PointPosition.AfterBurning && 'active'}
+        >
+          {addedPointPosition === PointPosition.AfterBurning ? '☑ ' : '☐ '}
+          {$t('map.left.afterBurning')}
+        </button>
+      </div>
+    {/if}
+
     <button
       on:click={() => {
         selectTypeVisability = true;
@@ -1246,8 +1324,11 @@
         return type.value === addedPointType;
       })?.[0]?.name || `——${$t('map.modals.add.selector')}——`}
     </button>
+
     <input type="text" placeholder="{$t('map.modals.add.namePlaceHolder')} (1～20)" bind:value={addedPointName} />
+
     <textarea placeholder="{$t('map.modals.add.descPlaceHolder')} (0～1000)" bind:value={addedPointDesc} />
+
     <button
       on:click={() => {
         isAddPointMode = true;
@@ -1261,6 +1342,7 @@
       </svg>
       {$t('map.modals.add.reposition')}
     </button>
+
     {#if !editMode}
       <p>※{$t('map.modals.add.addTip1')}</p>
       <p>※{$t('map.modals.add.addTip2')}</p>

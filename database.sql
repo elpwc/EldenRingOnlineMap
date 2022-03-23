@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `map`(
     `lng` DOUBLE NOT NULL,
     `lat` DOUBLE NOT NULL,
     `is_underground` BOOLEAN DEFAULT FALSE,
+    `position` INT UNSIGNED DEFAULT 0,
     `delete_request` INT UNSIGNED DEFAULT 0,
     `like` INT UNSIGNED DEFAULT 0,
     `dislike` INT UNSIGNED DEFAULT 0,
