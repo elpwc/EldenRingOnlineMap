@@ -58,6 +58,9 @@
   /** 左侧筛选栏是否打开了 */
   let showfilterDiv: boolean = true; // 默认打开
 
+  /** 当前左侧栏tip */
+  let leftBarTipIndex: number = 0;
+
   /** 当前按下的点的经纬 */
   let currentClickedlatLng: L.LatLng;
 
@@ -148,6 +151,11 @@
 
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
+
+  /** 刷新左侧栏tip */
+  const refreshLeftBarTipIndex = () => {
+    leftBarTipIndex = Math.floor(Math.random() * $t('map.left.tips').split('|').length);
+  };
 
   /** 全选所有筛选选项 */
   const freshSelectAll = () => {
@@ -352,6 +360,8 @@
     });
 
     getFilterBarWidth();
+
+    refreshLeftBarTipIndex();
   });
   // onMount 结束=============================================================
 
@@ -753,6 +763,8 @@
 
   /** 打开筛选框按钮按下时 */
   const onFilterButtonClick = () => {
+    refreshLeftBarTipIndex();
+
     showfilterDiv = !showfilterDiv;
     setCookie('filterBarOpen', showfilterDiv ? '1' : '0');
   };
@@ -809,6 +821,9 @@
 
   /** 筛选栏的checkbox更改后 */
   const onFilterCheckChange = e => {
+    // 变一下tip
+    refreshLeftBarTipIndex();
+
     // 判断更改的value，如果是functional的话，单独拎出来处理
     switch (e.target.value) {
       case 'self':
@@ -1028,6 +1043,9 @@
       <button
         id="undergroundSwitchButton"
         on:click={() => {
+          // 变一下tip
+          refreshLeftBarTipIndex();
+
           is_underground = !is_underground;
           refreshAllMarkers();
           refreshCollectedMarkers();
@@ -1078,7 +1096,7 @@
         </div>
       {/if}
 
-      <p style="font-size: 0.6em;">{$t('map.left.tips')}</p>
+      <p style="font-size: 0.6em;">tips: {$t('map.left.tips').split('|')[leftBarTipIndex]}</p>
 
       <div id="filter" style="min-height: {mapH * 0.4}px;max-height: {mapH}px; height: {mapH - 300}px;">
         {#each filters as filter}
