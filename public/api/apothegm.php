@@ -180,29 +180,29 @@ switch ($request_type) {
 
         break;
     case 'PATCH':
-        @$id = trim((string)($data->id));
-        @$title = trim((string)($data->title));
-        @$content = trim((string)($data->content));
-        @$type = trim((string)($data->type));
-        @$gesture = (string)($data->gesture);
-        @$like = (string)($data->like);
-        @$dislike = (string)($data->dislike);
-        @$ip = trim((string)($data->ip));
-        @$is_deleted = (string)($data->is_deleted);
-        @$reply_date = (string)($data->reply_date);
+        @$id = property_exists($data, 'id') ? trim((string)($data->id)) : null;
+        @$title = property_exists($data, 'title') ? trim((string)($data->title)) : null;
+        @$content = property_exists($data, 'content') ? trim((string)($data->content)) : null;
+        @$type = property_exists($data, 'type') ? trim((string)($data->type)) : null;
+        @$gesture = property_exists($data, 'gesture') ? (string)($data->gesture) : null;
+        @$like = property_exists($data, 'like') ?  (string)($data->like) : null;
+        @$dislike = property_exists($data, 'dislike') ?  (string)($data->dislike) : null;
+        @$ip = property_exists($data, 'ip') ? trim((string)($data->ip)) : null;
+        @$is_deleted = property_exists($data, 'is_deleted') ?  (string)($data->is_deleted) : null;
+        @$reply_date = property_exists($data, 'reply_date') ? (string)($data->reply_date) : null;
 
         if ($is_deleted == 'false') $is_deleted = "0";
 
         $select = [
             ['title', $title],
             ['content', $content],
-            ['tags', $tags],
-            ['gesture', $gesture],
-            ['like', $like],
-            ['dislike', $dislike],
+            ['type', $type],
+            ['gesture', $gesture, true],
+            ['like', $like, true, 'increment'],
+            ['dislike', $dislike, true, 'increment'],
             ['ip', $ip],
-            ['is_deleted', $is_deleted],
-            ['reply_date', $reply_date != '' ? 'FROM_UNIXTIME(' . $reply_date . ')' : '', true],
+            ['is_deleted', $is_deleted, true],
+            ['reply_date', $reply_date !== null ? 'FROM_UNIXTIME(' . $reply_date . ')' : null, true],
         ];
 
         $geneRes = patch_condition($select);
@@ -212,6 +212,8 @@ switch ($request_type) {
         WHERE `id`=$id;";
 
         $result = mysqli_query($sqllink, $sql);
+
+        echo $sql;
 
         echo ($result);
         break;

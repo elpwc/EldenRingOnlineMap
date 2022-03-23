@@ -64,7 +64,7 @@ function get_condition($condition)
  * 
  * condition格式:
  * [
- *  [列名, 值, 是否不加引号?],
+ *  [列名, 值, 是否不加引号?: bool, 递增递减?: 'increment'|'decrement'],
  *  ....
  * ]
  */
@@ -74,8 +74,24 @@ function patch_condition($condition)
     for ($i = 0; $i < count($condition); $i++) {
         $item = $condition[$i];
         if ($item[1] !== null) {
+            // 引号
             if (count($item) >= 3 && $item[2]) {
-                $geneRes .= "`$item[0]` = $item[1],";
+                // 递增递减
+                if (count($item) >= 4 && $item[3]) {
+                    switch ($item[3]) {
+                        case 'increment':
+                            $geneRes .= "`$item[0]` = `$item[0]` + 1,";
+                            break;
+                        case 'decrement':
+                            $geneRes .= "`$item[0]` = `$item[0]` - 1,";
+                            break;
+                        default:
+                            $geneRes .= "`$item[0]` = $item[1],";
+                            break;
+                    }
+                } else {
+                    $geneRes .= "`$item[0]` = $item[1],";
+                }
             } else {
                 $geneRes .= "`$item[0]` = \"$item[1]\",";
             }

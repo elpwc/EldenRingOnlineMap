@@ -719,7 +719,7 @@
     axios
       .patch('./map.php', {
         id: currentClickedMarker?.id,
-        like: Number(currentClickedMarker?.like) + 1,
+        like: 0,
       })
       .then(res => {
         currentClickedMarker.like = Number(currentClickedMarker?.like) + 1;
@@ -732,7 +732,7 @@
     axios
       .patch('./map.php', {
         id: currentClickedMarker?.id,
-        dislike: Number(currentClickedMarker?.dislike) + 1,
+        dislike: 0,
       })
       .then(res => {
         currentClickedMarker.dislike = Number(currentClickedMarker?.dislike) + 1;

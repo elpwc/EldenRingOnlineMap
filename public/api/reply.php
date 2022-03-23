@@ -140,23 +140,23 @@ switch ($request_type) {
 
         break;
     case 'PATCH':
-        @$id = trim((string)($data->id));
-        @$pid = trim((string)($data->pid));
-        @$content = trim((string)($data->name));
-        @$like = (string)($data->like);
-        @$dislike = (string)($data->dislike);
-        @$ip = trim((string)($data->ip));
-        @$is_deleted = (string)($data->is_deleted);
+        @$id =property_exists($data, 'id') ?  trim((string)($data->id)): null;
+        @$pid =property_exists($data, 'pid') ?  trim((string)($data->pid)): null;
+        @$content = property_exists($data, 'content') ? trim((string)($data->name)): null;
+        @$like =property_exists($data, 'like') ?  (string)($data->like): null;
+        @$dislike =property_exists($data, 'dislike') ?  (string)($data->dislike): null;
+        @$ip =property_exists($data, 'ip') ?  trim((string)($data->ip)): null;
+        @$is_deleted = property_exists($data, 'is_deleted') ? (string)($data->is_deleted): null;
 
         if ($is_deleted == 'false') $is_deleted = "0";
 
         $select = [
             ['pid', $pid],
             ['content', $content],
-            ['like', $like],
-            ['dislike', $dislike],
+            ['like', $like, true, 'increment'],
+            ['dislike', $dislike, true, 'increment'],
             ['ip', $ip],
-            ['is_deleted', $is_deleted],
+            ['is_deleted', $is_deleted, true],
         ];
 
         $geneRes = patch_condition($select);

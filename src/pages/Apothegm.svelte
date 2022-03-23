@@ -258,7 +258,7 @@
     axios
       .patch('./apothegm.php', {
         id: currentShowingApoId,
-        like: Number(apothegms?.[currentShowingApoIndex]?.like) + 1,
+        like: 0,
       })
       .then(res => {
         refreshApo(currentShowingApoId);
@@ -270,7 +270,7 @@
     axios
       .patch('./apothegm.php', {
         id: currentShowingApoId,
-        dislike: Number(apothegms?.[currentShowingApoIndex]?.dislike) + 1,
+        dislike: 0,
       })
       .then(res => {
         refreshApo(currentShowingApoId);
@@ -282,7 +282,7 @@
     axios
       .patch('./reply.php', {
         id: currentClickedReplyId,
-        like: Number(apothegms?.[currentShowingApoIndex]?.replies?.[currentClickedReplyIndex]?.like) + 1,
+        like: 0,
       })
       .then(res => {
         refreshApo(currentShowingApoId);
@@ -294,7 +294,7 @@
     axios
       .patch('./reply.php', {
         id: currentClickedReplyId,
-        dislike: Number(apothegms?.[currentShowingApoIndex]?.replies?.[currentClickedReplyIndex]?.dislike) + 1,
+        dislike: 0,
       })
       .then(res => {
         refreshApo(currentShowingApoId);
