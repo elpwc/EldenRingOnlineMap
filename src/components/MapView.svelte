@@ -129,6 +129,7 @@
   /** 隐藏恶评 > 好评的 */
   let hideBad: boolean = false;
 
+  /** 筛选栏宽度 */
   let filterBarWidth = '';
 
   let groundLayer: L.Layer;
@@ -174,6 +175,9 @@
       undergroundLayer.remove();
       groundLayer.addTo(map);
     }
+
+    // 若窗口方向转换，更新filterbar宽度，以让按钮位置匹配
+    getFilterBarWidth();
   });
 
   onMount(() => {
@@ -917,7 +921,7 @@
         {is_underground ? $t('map.left.undergroundSwitcher2') : $t('map.left.undergroundSwitcher1')}
       </button>
       <p style="font-size: 0.6em;">{$t('map.left.tips')}</p>
-      <div id="filter" style="max-height: {window.innerHeight - 80}px;">
+      <div id="filter" style="min-height: {mapH * 0.4}px;max-height: {mapH}px; height: {mapH - 300}px;">
         {#each filters as filter}
           {#if filter?.hr}
             <p class="filterHr"><span>——</span><span>{filter.name}</span><span>——</span></p>
@@ -1360,13 +1364,13 @@
     position: absolute;
     top: 100px;
     left: 0px;
-    z-index: 114516;
+    z-index: 114514;
     align-self: center;
   }
   #leftDiv2 {
     position: absolute;
     top: 100px;
-    z-index: 114516;
+    z-index: 114514;
     align-self: center;
   }
   #filterDiv {
@@ -1387,7 +1391,6 @@
     font-size: 0.7em;
     display: flex;
     flex-wrap: wrap;
-    height: 400px;
     writing-mode: vertical-lr;
   }
   #filter label {
