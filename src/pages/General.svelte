@@ -34,7 +34,7 @@
       class="settingbutton"
       on:click={() => {
         const hiddens = localStorage.getItem('hidden')?.split('|');
-        if (!hiddens || hiddens.length - 1 >= 0) {
+        if (!hiddens || hiddens.length - 1 <= 0) {
           alert($t('general.theresNoHiddenPointByNow'));
         } else {
           const r = confirm($t('general.therereSomeHiddenPoints').replace('{count}', (hiddens.length - 1).toString()));
