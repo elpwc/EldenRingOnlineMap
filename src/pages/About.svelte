@@ -84,7 +84,7 @@
         </svg>
       </sup>
     </a><br />
-    {$t('about.lastUpdate')}: 2022-3-22 11:31
+    {$t('about.lastUpdate')}: 2022-3-23 15:59
     <br />
     Contributors:
     <a href="https://github.com/spking11" target="_blank"
@@ -176,9 +176,15 @@
     coffeeVisibility = false;
   }}
 >
-  <p style="color: rgb(208, 200, 181);">{$t('about.modals.coffee.text')}</p>
-  <div style="display: flex; justify-content: center; padding-bottom: 20px;">
-    <img style="height: 50%; max-width: 50%;" src={$t('about.modals.coffee.urlLink')} alt="QRCode" />
+  <div id="modalContainer">
+    <p style="color: rgb(208, 200, 181);">{$t('about.modals.coffee.text')}</p>
+    <div style="display: flex; flex-direction:column; align-items:center; justify-content: center; padding-bottom: 20px;">
+      <img style="height: 50%; max-width: 50%;" src="./resource/images/qrcode.jpg" alt="QRCode" />
+      <p>{$t('about.modals.coffee.or')}</p>
+      <a href="https://www.buymeacoffee.com/elpwc" target="_blank">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 130px !important;" />
+      </a>
+    </div>
   </div>
 </Modal>
 
@@ -215,5 +221,15 @@
   button {
     font-size: 1em;
     padding: 5px 20px;
+  }
+  #modalContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #modalContainer p {
+    color: rgb(208, 200, 181);
+    margin: 10px 0;
   }
 </style>

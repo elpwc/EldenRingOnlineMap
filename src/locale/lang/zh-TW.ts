@@ -49,7 +49,7 @@ const lang: langType = {
         btn2: '取消',
         editModeTitle: '修改 {title}',
         addTip1: '添加前請仔細確認是否已經有人添加過了,沒有找到可能是因爲篩選沒有選擇()',
-        addTip2: '若要補充信息請編輯原有地標的説明，不要另外添加同名地標~'
+        addTip2: '若要補充信息請編輯原有地標的説明，不要另外添加同名地標~',
       },
       info: {
         like: '給予好評',
@@ -137,8 +137,8 @@ const lang: langType = {
     github: 'GitHub頁面',
     modals: {
       coffee: {
-        text: '覺得幫到了自己的話，可以請咱喝一杯奶茶當作創作激勵(和伺服器費用',
-        urlLink: './resource/images/qrcode.jpg',
+        text: '覺得幫到了自己的話，可以請咱喝一杯奶茶當作創作激勵(以及伺服器費用',
+        or: '或者...',
         btn1: 'OK',
       },
     },

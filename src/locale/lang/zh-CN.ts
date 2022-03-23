@@ -48,7 +48,7 @@ const lang = {
         btn2: '取消',
         editModeTitle: '修改 {title}',
         addTip1: '添加前请仔细确认是否已经有人添加过了,没有找到可能是因为筛选没有选择()',
-        addTip2: '若要补充信息请编辑原有地标的说明，不要另外添加同名地标~'
+        addTip2: '若要补充信息请编辑原有地标的说明，不要另外添加同名地标~',
       },
       info: {
         like: '给予好评',
@@ -136,8 +136,8 @@ const lang = {
     github: 'GitHub页面',
     modals: {
       coffee: {
-        text: '觉得帮到了自己的话，可以请咱喝一杯奶茶当作创作激励(和服务器费用',
-        urlLink: './resource/images/qrcode.jpg',
+        text: '觉得帮到了自己的话，可以请咱喝一杯奶茶当作创作激励(以及服务器费用',
+        or: '或者...',
         btn1: 'OK',
       },
     },
