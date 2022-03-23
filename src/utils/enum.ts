@@ -19,6 +19,7 @@ export enum MapPointType {
   Place = 'place',
   Lianji = 'lianji',
   Cave = 'cave',
+  Cemetery = 'cemetery',
   Wind = 'wind',
   Sword = 'sword',
   Temple = 'temple',
@@ -40,6 +41,7 @@ export enum MapPointType {
   Bead = 'bead',
   Orchid = 'orchid',
   Material = 'material',
+  Tear = 'tear',
 
   Paint = 'paint',
   Gesture = 'gesture',

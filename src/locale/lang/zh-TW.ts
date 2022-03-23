@@ -174,6 +174,7 @@ const lang: langType = {
       lianji: '聯機點',
       wind: '靈魂氣流',
       cave: '洞窟',
+      cemetery: '地下墓穴',
       sword: '封印監牢',
       temple: '靈廟',
       place: '地點',
@@ -206,6 +207,7 @@ const lang: langType = {
       importantitem: '重要道具',
       metarial: '材料',
       ring: '戒指護符',
+      tear: '淚滴幼體',
     },
   },
   apoTypes: {
