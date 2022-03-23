@@ -1098,6 +1098,12 @@
 
             markerInfoVisibility = false;
             editMode = true;
+
+            // 在改变地点时点开别的编辑就退出改变地点模式
+            if(isUpdateLnglatMode){
+              isUpdateLnglatMode = false;
+            }
+
             addPointVisability = true;
           }}
         >
