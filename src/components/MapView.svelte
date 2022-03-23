@@ -187,13 +187,13 @@
       localStorage.setItem('collect', getCookie('collect'));
       setCookie('collect', '', 0);
     }
-    collects = localStorage.getItem('collect')?.split('|');
+    collects = localStorage.getItem('collect')?.split('|') ?? [];
 
     if (getCookie('hidden') !== '') {
       localStorage.setItem('hidden', getCookie('hidden'));
       setCookie('hidden', '', 0);
     }
-    hidden = localStorage.getItem('hidden')?.split('|');
+    hidden = localStorage.getItem('hidden')?.split('|') ?? [];
 
     // 从cookie读取上次关闭时的地图状态
     if (getCookie('zoom')) {
@@ -1180,6 +1180,7 @@
               );
             } else {
               hidden?.push(String(currentClickedMarker?.id));
+              console.log(114, hidden, currentClickedMarker);
               localStorage.setItem('hidden', hidden.join('|'));
             }
             hidden = localStorage.getItem('hidden')?.split('|');
