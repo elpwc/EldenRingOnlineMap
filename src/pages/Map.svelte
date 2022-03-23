@@ -6,7 +6,7 @@
    */
   import MapView from '../components/MapView.svelte';
   import { onMount } from 'svelte';
-  import { querystring } from 'svelte-spa-router';
+  import { querystring, location } from 'svelte-spa-router';
   import qs from 'qs';
 
   let params;
@@ -17,6 +17,13 @@
       params = qs.parse(v);
     });
   });
+
+  // 去掉地图页原始右键菜单
+  document.oncontextmenu = function () {
+    if ($location === '/') {
+      return false;
+    }
+  };
 </script>
 
 <div class="container">

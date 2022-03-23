@@ -1,5 +1,5 @@
 <script lang="ts">
-  import L from 'leaflet';
+  import L, { LeafletMouseEvent } from 'leaflet';
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
@@ -16,6 +16,7 @@
   import { getSiteTypeFilters } from '../utils/filters';
   import zhConvertor from 'zhconvertor';
   import jQuery from 'jquery';
+  import RightMenu from './MapViewComponents/RightMenu.svelte';
 
   /** 是否禁用拖动而采用方向按钮控制，适用于一些移动app的引用 */
   export let from: string = '';
@@ -109,6 +110,15 @@
   let currentClickedMarker: MapPoint;
   /** 地标详情Modal */
   let markerInfoVisibility: boolean = false;
+
+  /** 当前右键菜单的地标 */
+  let currentMenuedMarker: MapPoint;
+  /** 是否展示右键菜单 */
+  let showMenu: boolean = false;
+  /** 右键菜单X */
+  let clientX = 0;
+  /** 右键菜单Y */
+  let clientY = 0;
 
   /** 删除确认框 */
   let deleteConfirmVisibility: boolean = false;
@@ -297,6 +307,11 @@
       }
     });
 
+    map.on('mousedown', () => {
+      // 其他地方点击时 关闭右键菜单
+      showMenu = false;
+    });
+
     /** 上次缩放等级，用来比对是不是2级，是2级的话，就不加载地名了，不然太卡力 */
     let lastZoom = 3;
 
@@ -344,6 +359,14 @@
   window.addEventListener('resize', e => {
     mapW = window.innerWidth;
     mapH = window.innerHeight;
+  });
+
+  // 鼠标位置
+  window.addEventListener('mousedown', e => {
+    if (e.button === 2) {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
   });
 
   /** 从本地的Marker中删除一个Marker */
@@ -481,13 +504,22 @@
           }
         )?.((typeInfo.emoji === undefined ? '' : typeInfo.emoji) + (showPlaceNames ? getConvertedText(marker.name) : ''), `${markerFontSize}em`)
       ),
-    }).on('click', () => {
-      // 在添加的时候不能误点了(取消了， 因为被太多人反应是个bug乌乌明明不是)
-      //if (!isAddPointMode) {
-      currentClickedMarker = marker;
-      markerInfoVisibility = true;
-      //}
-    });
+    })
+      .on('click', () => {
+        // 在添加的时候不能误点了(取消了， 因为被太多人反应是个bug乌乌明明不是)
+        //if (!isAddPointMode) {
+        currentClickedMarker = marker;
+        markerInfoVisibility = true;
+        //}
+      })
+      .on('contextmenu', (e: LeafletMouseEvent) => {
+        // 右键菜单
+        console.log(e);
+        currentMenuedMarker = marker;
+        clientX = e.originalEvent.clientX;
+        clientY = e.originalEvent.clientY;
+        showMenu = true;
+      });
   };
 
   /**
@@ -634,6 +666,7 @@
               addedPointDesc = '';
               addedPointName = '';
               addedPointType = MapPointType.Empty;
+              addedPointPosition = PointPosition.Surface;
               tempMarker?.remove();
               refreshAllMarkers(res.data?.id);
             });
@@ -692,6 +725,8 @@
                 addedPointDesc = '';
                 addedPointName = '';
                 addedPointType = MapPointType.Empty;
+
+                addedPointPosition = PointPosition.Surface;
                 tempMarker.remove();
                 refreshAllMarkers(res.data?.id);
               });
@@ -711,6 +746,7 @@
     addedPointDesc = '';
     addedPointName = '';
     addedPointType = MapPointType.Empty;
+    addedPointPosition = PointPosition.Surface;
     editMode = false;
     tempMarker.remove();
   };
@@ -852,7 +888,88 @@
     }
     selectTypeVisability = false;
   };
+
+  /**
+   * 隐藏一个地标
+   * @param id
+   */
+  const hideMarker = (id: number) => {
+    if (hidden?.includes(String(id))) {
+      localStorage.setItem(
+        'hidden',
+        hidden
+          .filter(f => {
+            return f !== String(id);
+          })
+          .join('|')
+      );
+    } else {
+      hidden?.push(String(id));
+      localStorage.setItem('hidden', hidden.join('|'));
+    }
+    hidden = localStorage.getItem('hidden')?.split('|');
+    updateShowingMarkers(id);
+  };
+
+  const collectMarker = (id: number) => {
+    if (collects?.includes(String(id))) {
+      localStorage.setItem(
+        'collect',
+        collects
+          .filter(f => {
+            return f !== String(id);
+          })
+          .join('|')
+      );
+    } else {
+      collects.push(String(id));
+      localStorage.setItem('collect', collects.join('|'));
+    }
+    collects = localStorage.getItem('collect')?.split('|');
+
+    refreshCollectedMarkers();
+  };
+
+  const showEditModal = (currentClickedMarker: MapPoint) => {
+    addedPointDesc = currentClickedMarker?.desc;
+    addedPointName = currentClickedMarker?.name;
+    addedPointType = currentClickedMarker?.type;
+    addedPointPosition = currentClickedMarker?.position;
+
+    markerInfoVisibility = false;
+    editMode = true;
+
+    // 在改变地点时点开别的编辑就退出改变地点模式
+    if (isUpdateLnglatMode) {
+      isUpdateLnglatMode = false;
+    }
+
+    addPointVisability = true;
+  };
 </script>
+
+<!--右键菜单-->
+{#if showMenu}
+  <RightMenu
+    x={clientX}
+    y={clientY}
+    title={currentMenuedMarker.name}
+    onHide={() => {
+      hideMarker(currentMenuedMarker.id);
+      showMenu = false;
+    }}
+    onCollect={() => {
+      collectMarker(currentMenuedMarker.id);
+      showMenu = false;
+    }}
+    onEdit={() => {
+      showEditModal(currentMenuedMarker);
+      showMenu = false;
+    }}
+    isHidden={hidden?.includes(String(currentMenuedMarker.id))}
+    isCollected={collects?.includes(String(currentMenuedMarker.id))}
+  />
+{/if}
 
 <div>
   <header id="topDiv">
@@ -1138,19 +1255,7 @@
         <!--编辑按钮-->
         <button
           on:click={() => {
-            addedPointDesc = currentClickedMarker?.desc;
-            addedPointName = currentClickedMarker?.name;
-            addedPointType = currentClickedMarker?.type;
-
-            markerInfoVisibility = false;
-            editMode = true;
-
-            // 在改变地点时点开别的编辑就退出改变地点模式
-            if (isUpdateLnglatMode) {
-              isUpdateLnglatMode = false;
-            }
-
-            addPointVisability = true;
+            showEditModal(currentClickedMarker);
           }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -1184,22 +1289,7 @@
       <!--收藏 / 取消收藏-->
       <button
         on:click={() => {
-          if (collects?.includes(String(currentClickedMarker?.id))) {
-            localStorage.setItem(
-              'collect',
-              collects
-                .filter(f => {
-                  return f !== String(currentClickedMarker?.id);
-                })
-                .join('|')
-            );
-          } else {
-            collects.push(String(currentClickedMarker?.id));
-            localStorage.setItem('collect', collects.join('|'));
-          }
-          collects = localStorage.getItem('collect')?.split('|');
-
-          refreshCollectedMarkers();
+          collectMarker(currentClickedMarker?.id);
         }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
@@ -1215,22 +1305,7 @@
           checked={hidden?.includes(String(currentClickedMarker?.id))}
           on:change={() => {
             // 隐藏
-            if (hidden?.includes(String(currentClickedMarker?.id))) {
-              localStorage.setItem(
-                'hidden',
-                hidden
-                  .filter(f => {
-                    return f !== String(currentClickedMarker?.id);
-                  })
-                  .join('|')
-              );
-            } else {
-              hidden?.push(String(currentClickedMarker?.id));
-              console.log(114, hidden, currentClickedMarker);
-              localStorage.setItem('hidden', hidden.join('|'));
-            }
-            hidden = localStorage.getItem('hidden')?.split('|');
-            updateShowingMarkers(currentClickedMarker?.id);
+            hideMarker(currentClickedMarker?.id);
           }}
         />
         {$t('map.modals.info.hide')}

@@ -61,6 +61,7 @@ const lang = {
         collect: '收藏',
         uncollect: '取消收藏',
         hide: '隐藏',
+        unhide: '取消隐藏',
         lock: '锁定',
         btn1: '关闭',
       },

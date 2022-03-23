@@ -62,6 +62,7 @@ const lang: langType = {
         collect: '收藏',
         uncollect: '取消收藏',
         hide: '隱藏',
+        unhide: '取消隱藏',
         lock: '鎖定',
         btn1: '關閉',
       },
