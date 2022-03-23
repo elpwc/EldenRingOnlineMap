@@ -64,7 +64,7 @@ function get_condition($condition)
  * 
  * condition格式:
  * [
- *  [列名, 值, 是否加引号?],
+ *  [列名, 值, 是否不加引号?],
  *  ....
  * ]
  */
@@ -73,7 +73,7 @@ function patch_condition($condition)
     $geneRes = '';
     for ($i = 0; $i < count($condition); $i++) {
         $item = $condition[$i];
-        if ($item[1] != '') {
+        if ($item[1] !== null) {
             if (count($item) >= 3 && $item[2]) {
                 $geneRes .= "`$item[0]` = $item[1],";
             } else {

@@ -210,19 +210,19 @@ switch ($request_type) {
 
         break;
     case 'PATCH':
-        @$id = trim((string)($data->id));
-        @$type = trim((string)($data->type));
-        @$name = trim((string)($data->name));
-        @$desc = trim((string)($data->desc));
-        @$lng = (string)($data->lng);
-        @$lat = (string)($data->lat);
-        @$like = (string)($data->like);
-        @$dislike = ($data->dislike);
-        @$delete_request = (string)($data->delete_request);
-        @$ip = trim((string)($data->ip));
-        @$is_deleted = (string)($data->is_deleted);
-        @$is_lock = (string)($data->is_lock);
-        @$is_underground = (string)($data->is_underground);
+        @$id = property_exists($data, 'id') ? trim((string)($data->id)) : null;
+        @$type = property_exists($data, 'type') ? trim((string)($data->type)) : null;
+        @$name = property_exists($data, 'name') ? trim((string)($data->name)) : null;
+        @$desc = property_exists($data, 'desc') ? trim((string)($data->desc)) : null;
+        @$lng = property_exists($data, 'lng') ? (string)($data->lng) : null;
+        @$lat = property_exists($data, 'lat') ? (string)($data->lat) : null;
+        @$like = property_exists($data, 'like') ? (string)($data->like) : null;
+        @$dislike = property_exists($data, 'dislike') ? ($data->dislike) : null;
+        @$delete_request = property_exists($data, 'delete_request') ? (string)($data->delete_request) : null;
+        @$ip = property_exists($data, 'ip') ? trim((string)($data->ip)) : null;
+        @$is_deleted = property_exists($data, 'is_deleted') ? (string)($data->is_deleted) : null;
+        @$is_lock = property_exists($data, 'is_lock') ? (string)($data->is_lock) : null;
+        @$is_underground = property_exists($data, 'is_underground') ? (string)($data->is_underground) : null;
 
         if ($is_deleted == 'false') $is_deleted = "0";
         if ($is_lock == 'false') $is_lock = "0";
@@ -232,15 +232,15 @@ switch ($request_type) {
             ['type', $type],
             ['name', $name],
             ['desc', $desc],
-            ['lng', $lng],
-            ['lat', $lat],
-            ['like', $like],
-            ['dislike', $dislike],
-            ['delete_request', $delete_request],
+            ['lng', $lng, true],
+            ['lat', $lat, true],
+            ['like', $like, true],
+            ['dislike', $dislike, true],
+            ['delete_request', $delete_request, true],
             ['ip', $ip],
-            ['is_deleted', $is_deleted],
-            ['is_lock', $is_lock],
-            ['is_underground', $is_underground],
+            ['is_deleted', $is_deleted, true],
+            ['is_lock', $is_lock, true],
+            ['is_underground', $is_underground, true],
         ];
 
         $geneRes = patch_condition($select);
