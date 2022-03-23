@@ -1365,7 +1365,7 @@
           class={addedPointPosition === PointPosition.Surface && 'active'}
         >
           {addedPointPosition === PointPosition.Surface ? '☑ ' : '☐ '}
-          {$t('map.left.surface')}
+          {$t('map.modals.add.surfaceItem')}
         </button>
 
         <button
@@ -1375,7 +1375,7 @@
           class={addedPointPosition === PointPosition.Cave && 'active'}
         >
           {addedPointPosition === PointPosition.Cave ? '☑ ' : '☐ '}
-          {$t('map.left.cave')}
+          {$t('map.modals.add.cave')}
         </button>
 
         <button
@@ -1385,7 +1385,7 @@
           class={addedPointPosition === PointPosition.AfterBurning && 'active'}
         >
           {addedPointPosition === PointPosition.AfterBurning ? '☑ ' : '☐ '}
-          {$t('map.left.afterBurning')}
+          {$t('map.modals.add.afterBurning')}
         </button>
       </div>
     {/if}
