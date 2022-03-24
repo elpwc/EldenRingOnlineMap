@@ -57,6 +57,20 @@ export type Apothegm = {
   replies: Reply[];
 };
 
+/** 统计数据 */
+export type Statistics = {
+  markerCount: number;
+  markerCountWithoutDeleted: number;
+  mostSearched: {
+    word: string;
+    count: number;
+  }[];
+  types: {
+    word: string;
+    count: number;
+  }[];
+};
+
 /**
  * 获取IP/地址结果
  */

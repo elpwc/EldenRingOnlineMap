@@ -142,6 +142,35 @@ const lang: langType = {
     coffee: '請一杯奶茶☕',
     feedback: '漏洞・意見反饋',
     github: 'GitHub頁面',
+    statistics: {
+      title: '統計喵',
+      days: '已經為褪色者們服務了',
+      daysData: '{days} 天',
+      markers: '地標總計',
+      markersData: '{count} 個',
+      markersWithoutDeleted: '地標總計(不計入已刪除地標)',
+      markersWithoutDeletedData: '{count} 個',
+
+      weeklyUpdate: '訪問情況(1周更新1次)',
+
+      view: '訪問量總計',
+      viewData: '{count} 次',
+      ip: '訪問IP總計',
+      ipData: '{count} 個',
+      dayView: '日均訪問量(統計7天)',
+      dayViewData: '{count} 次',
+      dayIp: '日均訪問IP(統計7天)',
+      dayIpData: '{count} 個',
+
+      mostOrigin: '最大來源URL',
+      mostRegion: '最大來源地區',
+
+      mostSearched: '搜索詞排行(前10)',
+
+      types: '各個類型統計',
+      
+      end: '到此為止了喔!',
+    },
     modals: {
       coffee: {
         text: '覺得幫到了自己的話，可以請咱喝一杯奶茶當作創作激勵(以及伺服器費用',
