@@ -461,52 +461,52 @@
   <!--讯息详情-->
   {#if currentShowingApoId > 0}
     <div id="apothegmContent" transition:fly={{ x: window.innerWidth, duration: 300 }}>
-      <header id="apothegmContentHeader">
-        <div class="apothegmContentHeadertitlebar">
-          <div>
-            <button
-              on:click={() => {
-                currentShowingApoId = 0;
-                currentShowingApoIndex = -1;
-              }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
-                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
-              </svg>
-              {$t('apothegm.reply.return')}
-            </button>
-          </div>
-          <div>
-            {#if isAdminMode || apothegms?.[currentShowingApoIndex]?.ip === ip}
-              <button
-                on:click={() => {
-                  // 设置删除的是讯息还是回复
-                  deleteReply = false;
-                  deleteConfirmVisibility = true;
-                }}
-              >
-                {$t('apothegm.reply.delete')}
-              </button>
-            {/if}
-            <button on:click={onShare}>
-              {$t('apothegm.reply.share')}
-            </button>
-            <button
-              on:click={() => {
-                replyModalVisibility = true;
-              }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots" viewBox="0 0 16 16">
-                <path
-                  d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                />
-                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-              </svg>
-              {$t('apothegm.reply.reply')}
-            </button>
-          </div>
+      <div class="apothegmContentHeadertitlebar">
+        <div>
+          <button
+            on:click={() => {
+              currentShowingApoId = 0;
+              currentShowingApoIndex = -1;
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+              <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+            </svg>
+            {$t('apothegm.reply.return')}
+          </button>
         </div>
+        <div>
+          {#if isAdminMode || apothegms?.[currentShowingApoIndex]?.ip === ip}
+            <button
+              on:click={() => {
+                // 设置删除的是讯息还是回复
+                deleteReply = false;
+                deleteConfirmVisibility = true;
+              }}
+            >
+              {$t('apothegm.reply.delete')}
+            </button>
+          {/if}
+          <button on:click={onShare}>
+            {$t('apothegm.reply.share')}
+          </button>
+          <button
+            on:click={() => {
+              replyModalVisibility = true;
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots" viewBox="0 0 16 16">
+              <path
+                d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+              />
+              <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+            </svg>
+            {$t('apothegm.reply.reply')}
+          </button>
+        </div>
+      </div>
 
+      <header id="apothegmContentHeader">
         <div>
           <p style="font-size: 1.2em; font-weight: bold; ">{@html apothegms?.[currentShowingApoIndex]?.title}</p>
 
@@ -805,6 +805,7 @@
     border-bottom: solid 2px rgb(204, 178, 118);
     padding: 10px;
     box-shadow: 0 0 5px 0 rgb(204, 178, 118);
+    top: 60px;
   }
   #apothegmContent {
     position: fixed;
@@ -812,12 +813,11 @@
     left: 0;
     right: 0;
     bottom: 80px;
+    overflow-y: scroll;
   }
   #apothegmContent main {
     background-color: rgb(21, 22, 17, 0.9);
-    height: -webkit-fill-available;
-    margin-bottom: 160px;
-    overflow-y: scroll;
+    height: fit-content;
   }
   #inputDiv input {
     width: -webkit-fill-available;
@@ -832,6 +832,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: rgb(21, 22, 17);
+    padding: 5px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
   }
   .apothegmContentHeadertitlebar button {
     font-size: 1em;
