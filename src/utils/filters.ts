@@ -43,7 +43,7 @@ export const getSiteTypeFilters = $t => [
   { name: $t('siteTypes.filters.shengbeiludi'), value: MapPointType.ShengbeiLudi, icon: MapIcon.blue(), noname: true, emoji: '🍷' },
   { name: $t('siteTypes.filters.bead'), value: MapPointType.Bead, icon: MapIcon.blue(), emoji: '🏐' },
   { name: $t('siteTypes.filters.key'), value: MapPointType.Key, icon: MapIcon.blue(), noname: true, emoji: '🔑' },
-  { name: $t('siteTypes.filters.sigen'), value: MapPointType.Sigen, icon: MapIcon.blue(true), noname: true },
+  { name: $t('siteTypes.filters.sigen'), value: MapPointType.Sigen, icon: MapIcon.blue(), noname: true, emoji: '🌰' },
   { name: $t('siteTypes.filters.tear'), value: MapPointType.Tear, icon: MapIcon.blue(), noname: true, emoji: '🥚' },
   { name: $t('siteTypes.filters.metarial'), value: MapPointType.Material, icon: MapIcon.white(true, 6) },
   { name: $t('siteTypes.filters.importantitem'), value: MapPointType.ImportantItem, icon: MapIcon.purple(true) },
@@ -63,9 +63,9 @@ export const getSiteTypeFilters = $t => [
   { name: $t('siteTypes.filters.guhui'), value: MapPointType.Guhui, icon: MapIcon.purple(), emoji: '🔔' },
 
   { name: $t('siteTypes.filterGroupNames.message'), hr: true },
-  { name: $t('siteTypes.filters.text'), value: MapPointType.Text, icon: MapIcon.message(true) },
+  { name: $t('siteTypes.filters.text'), value: MapPointType.Text, icon: MapIcon.message(), emoji: '💬' },
   { name: $t('siteTypes.filters.warn'), value: MapPointType.Warn, icon: MapIcon.warning(true) },
-  { name: $t('siteTypes.filters.question'), value: MapPointType.Question, icon: MapIcon.question(true) },
+  { name: $t('siteTypes.filters.question'), value: MapPointType.Question, icon: MapIcon.question(), emoji: '❔' },
   { name: $t('siteTypes.filters.taoke'), value: MapPointType.Taoke, icon: MapIcon.message(), emoji: '🚀' },
 ];
 
