@@ -322,8 +322,7 @@
   }
   .hr {
     width: 100%;
-    text-align: center;
-    font-size: 0.9em;
+    font-size: 0.9em !important;
   }
   a {
     color: rgb(208, 200, 181);
