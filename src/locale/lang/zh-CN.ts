@@ -84,7 +84,7 @@ const lang = {
     header: {
       placeholder: '搜索讯息',
       search: '搜索',
-      result: '清楚结果',
+      result: '清除结果',
       write: '写下讯息',
       my: '我发送的',
     },

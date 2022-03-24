@@ -85,7 +85,7 @@ const lang: langType = {
     header: {
       placeholder: '搜索訊息',
       search: '搜索',
-      result: '清楚結果',
+      result: '清除結果',
       write: '寫下訊息',
       my: '我發送的',
     },
