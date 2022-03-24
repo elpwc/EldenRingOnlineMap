@@ -968,7 +968,7 @@
   <RightMenu
     x={clientX}
     y={clientY}
-    title={currentMenuedMarker.name}
+    title={getConvertedText(currentMenuedMarker.name)}
     onHide={() => {
       hideMarker(currentMenuedMarker.id);
       showMenu = false;
