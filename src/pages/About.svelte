@@ -110,7 +110,7 @@
       </a>
       <br />
 
-      {$t('about.lastUpdate')}: 2022-3-24 14:33
+      {$t('about.lastUpdate')}: 2022-3-24 15:02
       <br />
 
       Contributors:
