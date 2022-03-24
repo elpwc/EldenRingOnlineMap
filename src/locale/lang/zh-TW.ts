@@ -168,6 +168,7 @@ const lang: langType = {
       mostSearched: '搜索詞排行(前10)',
 
       types: '各個類型統計',
+      testMarker: '早期測試用例',
       
       end: '到此為止了喔!',
     },

@@ -167,6 +167,7 @@ const lang = {
       mostSearched: '搜索词排行(前10)',
 
       types: '各个类型统计',
+      testMarker: '早期测试用例',
 
       end: '到此为止了喔!',
     },

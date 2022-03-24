@@ -219,7 +219,7 @@
           <span>
             {getSiteTypeFilters($t).filter(f => {
               return String(f.value) === type.word;
-            })?.[0].name}
+            })?.[0]?.name ?? $t('about.statistics.testMarker')}
           </span>
           <span>{type.count}</span>
         </div>
