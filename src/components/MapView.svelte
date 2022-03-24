@@ -524,7 +524,6 @@
       })
       .on('contextmenu', (e: LeafletMouseEvent) => {
         // 右键菜单
-        console.log(e);
         currentMenuedMarker = marker;
         clientX = e.originalEvent.clientX;
         clientY = e.originalEvent.clientY;
@@ -905,7 +904,7 @@
   };
 
   /**
-   * 隐藏一个地标
+   * 隐藏/取消隐藏一个地标
    * @param id
    */
   const hideMarker = (id: number) => {
@@ -926,6 +925,7 @@
     updateShowingMarkers(id);
   };
 
+  /** 收藏/取消收藏一个地标 */
   const collectMarker = (id: number) => {
     if (collects?.includes(String(id))) {
       localStorage.setItem(
@@ -945,6 +945,7 @@
     refreshCollectedMarkers();
   };
 
+  /** 打开一个地标的编辑窗口 */
   const showEditModal = (currentClickedMarker: MapPoint) => {
     addedPointDesc = currentClickedMarker?.desc;
     addedPointName = currentClickedMarker?.name;
