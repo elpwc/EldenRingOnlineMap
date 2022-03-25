@@ -183,7 +183,7 @@
         >
       </div>
       <div>
-        <span>{$t('about.statistics.markers')}</span><span> {$t('about.statistics.viewData').replace('{count}', String(statisticsData.markerCount))}</span>
+        <span>{$t('about.statistics.markers')}</span><span> {$t('about.statistics.markersData').replace('{count}', String(statisticsData.markerCount))}</span>
       </div>
       <div>
         <span>{$t('about.statistics.markersWithoutDeleted')}</span><span> {$t('about.statistics.ipData').replace('{count}', String(statisticsData.markerCountWithoutDeleted))}</span>

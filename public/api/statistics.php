@@ -20,14 +20,6 @@ $result = '';
 switch ($request_type) {
     case 'GET':
         // @$content = trim((string)($data->content));
-
-        $sql = 'SELECT COUNT(*) AS "count" 
-        FROM `map` 
-        WHERE `is_deleted`=0;
-        ';
-
-        $result = mysqli_query($sqllink, $sql);
-
         $res = [
             'markerCount' => 0,
             'markerCountWithoutDeleted' => 0,
@@ -35,17 +27,9 @@ switch ($request_type) {
             'types' => []
         ];
 
-        if ($result->num_rows > 0) {
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                $res['markerCount'] = $row['count'];
-                $i++;
-            }
-        }
-
-        
         $sql = 'SELECT COUNT(*) AS "count" 
         FROM `map` 
+        WHERE `is_deleted`=0;
         ';
 
         $result = mysqli_query($sqllink, $sql);
@@ -58,7 +42,22 @@ switch ($request_type) {
             }
         }
 
-                
+
+        $sql = 'SELECT COUNT(*) AS "count" 
+        FROM `map` 
+        ';
+
+        $result = mysqli_query($sqllink, $sql);
+
+        if ($result->num_rows > 0) {
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                $res['markerCount'] = $row['count'];
+                $i++;
+            }
+        }
+
+
         $sql = 'SELECT content, COUNT(*) as count from search where `position`="map" group by content order by count desc limit 10; 
         ';
 
@@ -74,9 +73,9 @@ switch ($request_type) {
                 $i++;
             }
         }
-        
-                
-        $sql = 'SELECT `type`, COUNT(*) as count from map group by `type` order by count desc;
+
+
+        $sql = 'SELECT `type`, COUNT(*) as count from map where `is_deleted`=0 group by `type` order by count desc;
         ';
 
         $result = mysqli_query($sqllink, $sql);
