@@ -128,6 +128,7 @@ const lang: langType = {
     },
   },
   general: {
+    title: '設定之類的',
     menulang: '菜單語言',
     maplang: '地圖語言轉換',
     dontConvert: '不轉換',

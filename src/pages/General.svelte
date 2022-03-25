@@ -7,6 +7,9 @@
   import { convertTargetStore, isMobile } from '../stores';
 </script>
 
+<header>
+  {$t('general.title')}
+</header>
 <div class="container" style="width: {isMobile ? '100%' : '50%'};">
   <div class="settingItem">
     <p>{$t('general.menulang')}</p>
@@ -51,6 +54,16 @@
 </div>
 
 <style>
+  header {
+    width: 100%;
+    height: 20px;
+    background-color: rgb(50, 51, 45);
+    color: rgb(208, 200, 181);
+    font-size: large;
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: 0 0 10px 0 black;
+  }
   .container {
     height: 100%;
     padding: 5px;

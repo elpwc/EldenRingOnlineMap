@@ -127,6 +127,7 @@ const lang = {
     },
   },
   general: {
+    title: '设置之类的',
     menulang: '菜单语言',
     maplang: '地图语言转换',
     dontConvert: '不转换',
