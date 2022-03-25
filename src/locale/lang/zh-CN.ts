@@ -25,7 +25,7 @@ const lang = {
       undergroundSwitcher2: '切换到地面地图',
       surface: '在地表的',
       cave: '在洞穴的',
-      afterBurning: '烧树后的',
+      afterBurning: '灰城的',
       tips: '点击地图上的地标可以查看详细|右键or长按地标可以快速隐藏/收藏|可以在"编辑"里移动地标|在设置里可以繁简切换|遇到bug请反馈到讯息里捏|"隐藏恶评"可以不显示恶评较多的地标',
       showNameButton: '显示地名',
       fontSizeLabel: '字号',
@@ -41,7 +41,7 @@ const lang = {
       add: {
         title: '添加一个地标',
         surface: '位于地面',
-        underground: '位于地下',
+        underground: '位于地底(希芙拉河等)',
         selector: '选择类型',
         namePlaceHolder: '名称',
         descPlaceHolder: '描述',

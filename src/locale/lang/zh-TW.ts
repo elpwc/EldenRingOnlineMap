@@ -26,7 +26,7 @@ const lang: langType = {
       undergroundSwitcher2: '切換到地面地圖',
       surface: '在地表的',
       cave: '在洞穴的',
-      afterBurning: '燒樹後的',
+      afterBurning: '灰城的',
       tips: '點擊地圖上的地標可以查看詳細ㄛ~|右鍵or長按地標可以快速隱藏/收藏|可以在"編輯"裡移動地標|在設置裡可以繁簡切換|遇到bug請反饋到訊息裡捏|"隱藏惡評"可以不顯示惡評較多的地標',
       showNameButton: '顯示地名',
       fontSizeLabel: '字號',
@@ -42,7 +42,7 @@ const lang: langType = {
       add: {
         title: '添加一個地標',
         surface: '位於地面',
-        underground: '位於地下',
+        underground: '位於地底(希芙拉河等)',
         selector: '選擇類型',
         namePlaceHolder: '名稱',
         descPlaceHolder: '描述',
@@ -170,7 +170,7 @@ const lang: langType = {
 
       types: '各個類型統計',
       testMarker: '早期測試用例',
-      
+
       end: '到此為止了喔!',
     },
     modals: {
