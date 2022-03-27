@@ -149,6 +149,9 @@
   /** 筛选栏宽度 */
   let filterBarWidth = '';
 
+  /** 等待响应 */
+  let isWaitingForResponse = false;
+
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
 
@@ -644,108 +647,121 @@
 
   // 添加/编辑地标
   const onAdd = () => {
-    if (addedPointName !== '' && addedPointType !== MapPointType.Empty) {
-      if (addedPointName.length <= 20 && addedPointDesc.length <= 1000) {
-        //判断是编辑还是新增
-        if (editMode) {
-          // 编辑
-          axios
-            .patch('./map.php', {
-              ...{
-                id: currentClickedMarker?.id,
-                type: addedPointType,
-                name: addedPointName,
-                desc: addedPointDesc,
-                position: addedPointPosition,
-                is_underground: is_underground ? '1' : '0',
-              },
-              ...(isUpdateLnglatMode
-                ? {
-                    lng: currentClickedlatLng.lng,
-                    lat: currentClickedlatLng.lat,
-                  }
-                : {}),
-            })
-            .then(res => {
-              addPointVisability = false;
-              editMode = false;
-              isUpdateLnglatMode = false;
-
-              // 清除Modal已输入内容
-              addedPointDesc = '';
-              addedPointName = '';
-              addedPointType = MapPointType.Empty;
-              addedPointPosition = PointPosition.Surface;
-              tempMarker?.remove();
-              refreshAllMarkers(res.data?.id);
-            });
-        } else {
-          // 名字可以重复的地表类型
-          const repeatableTypes = [
-            MapPointType.GoldenSeed,
-            MapPointType.ImportantItem,
-            MapPointType.Item,
-            MapPointType.Key,
-            MapPointType.Wind,
-            MapPointType.Temple,
-            MapPointType.Stone,
-            MapPointType.ShengbeiLudi,
-            MapPointType.Map,
-            MapPointType.Material,
-            MapPointType.Orchid,
-            MapPointType.Text,
-            MapPointType.Warn,
-            MapPointType.Taoke,
-            MapPointType.Question,
-          ];
-          // 判断是否重复
-          let existflag = false;
-          for (let i = 0; i < allMarkers.length; i++) {
-            if (zhConvertor.t2s(allMarkers[i].name) === zhConvertor.t2s(addedPointName) && !repeatableTypes.includes(addedPointType)) {
-              existflag = true;
-              break;
-            }
-          }
-
-          let confirmres = false;
-          if (existflag) {
-            confirmres = confirm($t('map.alert.repeat'));
-          }
-          if (!existflag || (existflag && confirmres)) {
-            // 添加
+    // 判断是否在等待响应
+    if (isWaitingForResponse) {
+      alert($t('map.alert.uploading'));
+    } else {
+      if (addedPointName !== '' && addedPointType !== MapPointType.Empty) {
+        if (addedPointName.length <= 20 && addedPointDesc.length <= 1000) {
+          //判断是编辑还是新增
+          if (editMode) {
+            isWaitingForResponse = true;
+            // 编辑
             axios
-              .post('./map.php', {
-                type: addedPointType,
-                name: addedPointName,
-                desc: addedPointDesc,
-                position: addedPointPosition,
-                lng: currentClickedlatLng.lng,
-                lat: currentClickedlatLng.lat,
-                is_underground: is_underground ? '1' : '2',
-                like: 0,
-                dislike: 0,
-                ip,
+              .patch('./map.php', {
+                ...{
+                  id: currentClickedMarker?.id,
+                  type: addedPointType,
+                  name: addedPointName,
+                  desc: addedPointDesc,
+                  position: addedPointPosition,
+                  is_underground: is_underground ? '1' : '0',
+                },
+                ...(isUpdateLnglatMode
+                  ? {
+                      lng: currentClickedlatLng.lng,
+                      lat: currentClickedlatLng.lat,
+                    }
+                  : {}),
               })
               .then(res => {
-                // console.log(res);
                 addPointVisability = false;
+                editMode = false;
+                isUpdateLnglatMode = false;
 
                 // 清除Modal已输入内容
                 addedPointDesc = '';
                 addedPointName = '';
                 addedPointType = MapPointType.Empty;
-
                 addedPointPosition = PointPosition.Surface;
-                tempMarker.remove();
+                tempMarker?.remove();
                 refreshAllMarkers(res.data?.id);
+              })
+              .finally(() => {
+                isWaitingForResponse = false;
               });
+          } else {
+            // 名字可以重复的地表类型
+            const repeatableTypes = [
+              MapPointType.GoldenSeed,
+              MapPointType.ImportantItem,
+              MapPointType.Item,
+              MapPointType.Key,
+              MapPointType.Wind,
+              MapPointType.Temple,
+              MapPointType.Stone,
+              MapPointType.ShengbeiLudi,
+              MapPointType.Map,
+              MapPointType.Material,
+              MapPointType.Orchid,
+              MapPointType.Text,
+              MapPointType.Warn,
+              MapPointType.Taoke,
+              MapPointType.Question,
+            ];
+            // 判断是否重复
+            let existflag = false;
+            for (let i = 0; i < allMarkers.length; i++) {
+              if (zhConvertor.t2s(allMarkers[i].name) === zhConvertor.t2s(addedPointName) && !repeatableTypes.includes(addedPointType)) {
+                existflag = true;
+                break;
+              }
+            }
+
+            let confirmres = false;
+            if (existflag) {
+              confirmres = confirm($t('map.alert.repeat'));
+            }
+            if (!existflag || (existflag && confirmres)) {
+              isWaitingForResponse = true;
+              // 添加
+              axios
+                .post('./map.php', {
+                  type: addedPointType,
+                  name: addedPointName,
+                  desc: addedPointDesc,
+                  position: addedPointPosition,
+                  lng: currentClickedlatLng.lng,
+                  lat: currentClickedlatLng.lat,
+                  is_underground: is_underground ? '1' : '2',
+                  like: 0,
+                  dislike: 0,
+                  ip,
+                })
+                .then(res => {
+                  // console.log(res);
+                  addPointVisability = false;
+
+                  // 清除Modal已输入内容
+                  addedPointDesc = '';
+                  addedPointName = '';
+                  addedPointType = MapPointType.Empty;
+
+                  addedPointPosition = PointPosition.Surface;
+                  tempMarker.remove();
+                  refreshAllMarkers(res.data?.id);
+                })
+                .finally(() => {
+                  isWaitingForResponse = false;
+                });
+            }
           }
+        } else {
+          alert($t('map.alert.exceeded'));
         }
       } else {
-        alert($t('map.alert.exceeded'));
+        alert($t('map.alert.empty'));
       }
-    } else {
-      alert($t('map.alert.empty'));
     }
   };
 
@@ -1357,7 +1373,7 @@
   zindex={114600}
   showOkButton
   showCloseButton
-  okButtonText={editMode ? $t('map.modals.add.btn1EditMode') : $t('map.modals.add.btn1')}
+  okButtonText={isWaitingForResponse ? $t('map.modals.add.btn1Uploading') : editMode ? $t('map.modals.add.btn1EditMode') : $t('map.modals.add.btn1')}
   closeButtonText={$t('map.modals.add.btn2')}
   onOKButtonClick={onAdd}
   onCloseButtonClick={onClose}
@@ -1660,7 +1676,7 @@
   }
   @media (any-hover: hover) {
     #leftInnerCloseButton:hover {
-    transform: rotate(45deg);
+      transform: rotate(45deg);
     }
   }
 

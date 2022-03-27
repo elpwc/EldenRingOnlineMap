@@ -49,6 +49,7 @@ const lang: langType = {
         reposition: '重新選擇位置',
         btn1: '添加',
         btn1EditMode: '修改',
+        btn1Uploading: '上傳中',
         btn2: '取消',
         editModeTitle: '修改 {title}',
         addTip1: '添加前請仔細確認是否已經有人添加過了,沒有找到可能是因爲篩選沒有選擇()',
@@ -79,6 +80,7 @@ const lang: langType = {
       empty: '請填寫名字/選擇類型再提交~',
       repeat: '已經有了同名的地標了，請點"取消"返回去檢查一下捏，記得左邊篩選欄打開全選（）\r\n※ 如果要補充信息請編輯原有地標的説明 \r\n※ 如果是這裡判斷錯了，請點"確定"繼續添加',
       maperror: 'Oops! 從伺服器獲取數據失敗ㄌ(っ °Д °;)っ \r\n 如果刷新一下還不行的話恐怕是程式bug, 去訊息反饋一下吧orz',
+      uploading: '正在發送至伺服器喵，一直發送(20s以上)停不下來的話大概是伺服器/瀏覽器LAG了，刷新一下試試',
     },
   },
   apothegm: {
