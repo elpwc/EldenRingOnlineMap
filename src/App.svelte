@@ -20,7 +20,7 @@
 {#if $isLoading}
   Loading...
 {:else}
-  <div style="height: 100%; ">
+  <div style="height: 100%;{$location=='/' && '-webkit-user-select: none;user-select: auto;'}">
     <!--菜单栏-->
     <nav class="menu">
       {#each menuItems as item}
