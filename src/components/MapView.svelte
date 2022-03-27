@@ -1287,7 +1287,7 @@
   }}
 >
   <div class="modalInner" style="align-items: center;">
-    <p style="min-height: 80px; width: fit-content; max-height: {window.innerHeight * 0.4}px; overflow-y: scroll; text-shadow: 0 0 20px black;">
+    <p style="min-height: 80px; width: fit-content; max-height: {window.innerHeight * 0.4}px; overflow-y: scroll; text-shadow: 0 0 20px black; overflow-wrap: anywhere;">
       {@html getConvertedText(currentClickedMarker?.desc?.replaceAll('\n', '<br />'))}
     </p>
     <div style="display: flex;">
