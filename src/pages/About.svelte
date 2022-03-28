@@ -188,24 +188,24 @@
       <div>
         <span>{$t('about.statistics.markersWithoutDeleted')}</span><span> {$t('about.statistics.ipData').replace('{count}', String(statisticsData.markerCountWithoutDeleted))}</span>
       </div>
-      <p class="hr">——————{$t('about.statistics.weeklyUpdate')} (2022-3-4 13:00)</p>
+      <p class="hr">——————{$t('about.statistics.weeklyUpdate')} (2022-3-28 12:53)</p>
       <div>
-        <span>{$t('about.statistics.view')}</span><span>{$t('about.statistics.viewData').replace('{count}', '517080')}</span>
+        <span>{$t('about.statistics.view')}</span><span>{$t('about.statistics.viewData').replace('{count}', '623010')}</span>
       </div>
       <div>
-        <span>{$t('about.statistics.ip')}</span><span>{$t('about.statistics.ipData').replace('{count}', '267645')}</span>
+        <span>{$t('about.statistics.ip')}</span><span>{$t('about.statistics.ipData').replace('{count}', '323481')}</span>
       </div>
       <div>
-        <span>{$t('about.statistics.dayView')}</span><span>{$t('about.statistics.dayViewData').replace('{count}', '30625')}</span>
+        <span>{$t('about.statistics.dayView')}</span><span>{$t('about.statistics.dayViewData').replace('{count}', '27013')}</span>
       </div>
       <div>
-        <span>{$t('about.statistics.dayIp')}</span><span>{$t('about.statistics.dayIpData').replace('{count}', '15242')}</span>
+        <span>{$t('about.statistics.dayIp')}</span><span>{$t('about.statistics.dayIpData').replace('{count}', '14189')}</span>
       </div>
       <div>
         <span>{$t('about.statistics.mostOrigin')}</span><span>ref.gamer.com.tw</span>
       </div>
       <div>
-        <span>{$t('about.statistics.mostRegion')}</span><span>广东省(12.5%)</span>
+        <span>{$t('about.statistics.mostRegion')}</span><span>广东省(12.58%)</span>
       </div>
       <p class="hr">——————{$t('about.statistics.mostSearched')}——————</p>
       {#each statisticsData.mostSearched as search}
