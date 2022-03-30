@@ -1,0 +1,1 @@
+update `map` SET `name`=replace(`name`, "🪦", "") where `name` like "🪦%";
