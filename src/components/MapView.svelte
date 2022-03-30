@@ -514,6 +514,8 @@
           ) => {
             html: string;
             className: string;
+            iconSize: L.Point;
+            iconArchor: L.Point;
           }
         )?.((typeInfo.emoji === undefined ? '' : typeInfo.emoji) + (showPlaceNames ? getConvertedText(marker.name) : ''), `${markerFontSize}em`)
       ),
