@@ -1603,6 +1603,8 @@
   #filter label {
     margin: 1px 0px !important;
     writing-mode: horizontal-tb;
+    width: max-content;
+    height: min-content;
   }
   #bottomDiv {
     position: absolute;
