@@ -9,6 +9,7 @@ import css from 'rollup-plugin-css-only';
 import json from '@rollup/plugin-json';
 import { babel } from '@rollup/plugin-babel';
 import replace from '@rollup/plugin-replace';
+import copy from 'rollup-plugin-copy';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -49,6 +50,9 @@ export default defineConfig({
         // enable run-time checks when not in production
         dev: !production,
       },
+    }),
+    copy({
+      targets: [{ src: 'node_modules/leaflet/dist/images', dest: 'public/build/' }],
     }),
     // we'll extract any component CSS out into
     // a separate file - better for performance

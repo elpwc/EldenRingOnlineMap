@@ -1,4 +1,6 @@
 <script lang="ts">
+  import "../../node_modules/leaflet/dist/leaflet.css";
+
   import L, { LeafletMouseEvent } from 'leaflet';
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
