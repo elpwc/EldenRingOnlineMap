@@ -2,6 +2,8 @@
  * 自定义地图图标
  * @description 导出的是生成图标数据的函数，用法：`L.divIcon(iconname(size, fontcolor)(title))`
  */
+
+import L from 'leaflet';
 export const MapIcon = {
   default:
     (showImage: boolean = false, size: number = 10, fontcolor: string = 'white') =>
@@ -15,6 +17,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   cifu:
@@ -29,6 +33,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   boss:
@@ -43,6 +49,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   littleboss:
@@ -57,6 +65,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   portal:
@@ -71,6 +81,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   message:
@@ -85,6 +97,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   warning:
@@ -99,6 +113,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   question:
@@ -113,6 +129,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   collect:
@@ -127,6 +145,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   white:
@@ -141,6 +161,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   yellow:
@@ -155,6 +177,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   green:
@@ -169,6 +193,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   blue:
@@ -183,6 +209,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   red:
@@ -197,6 +225,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
   purple:
@@ -211,6 +241,8 @@ export const MapIcon = {
         </div>
     `,
         className: '',
+        iconSize: L.point(size, size),
+        iconArchor: L.point(size / 2, size / 2),
       };
     },
 };

@@ -1,0 +1,1 @@
+SELECT * FROM eldenringmap.map WHERE (is_deleted = 0) ORDER BY (CAST(`dislike` AS SIGNED) - CAST(`like` AS SIGNED)) ASC;

@@ -514,6 +514,8 @@
           ) => {
             html: string;
             className: string;
+            iconSize: L.Point;
+            iconArchor: L.Point;
           }
         )?.((typeInfo.emoji === undefined ? '' : typeInfo.emoji) + (showPlaceNames ? getConvertedText(marker.name) : ''), `${markerFontSize}em`)
       ),
@@ -1601,6 +1603,8 @@
   #filter label {
     margin: 1px 0px !important;
     writing-mode: horizontal-tb;
+    width: max-content;
+    height: min-content;
   }
   #bottomDiv {
     position: absolute;

@@ -1,0 +1,1 @@
+update `map` set `is_deleted` = 1 where `name` like "%重复%" and `is_deleted` = 0;
