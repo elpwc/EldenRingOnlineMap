@@ -1,78 +1,78 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="author" content="elpwc@hotmail.com" />
+    <meta name="description" content="艾尔登法环在线协作多人编辑地图" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="author" content="elpwc@hotmail.com" />
-  <meta name="description" content="艾尔登法环在线协作多人编辑地图" />
+    <title>老头环地图 - Elden Ring Online Map</title>
 
-  <title>老头环地图 - Elden Ring Online Map</title>
-
-  <link rel="icon" type="image/png" href="./favicon.png?v=2" />
-  <!--link rel='stylesheet' href='/global.css'>
+    <link rel="icon" type="image/png" href="./favicon.png?v=2" />
+    <!--link rel='stylesheet' href='/global.css'>
 	<link rel='stylesheet' href='/build/bundle.css'>
 	<script defer src='/build/bundle.js'></script-->
 
-  <!--get ip and position, used in utils.ts-->
-  <!--script src="https://pv.sohu.com/cityjson?ie=utf-8"></script-->
+    <!--get ip and position, used in utils.ts-->
+    <!--script src="https://pv.sohu.com/cityjson?ie=utf-8"></script-->
 
-  <script type="text/javascript">
-    // refresh cashed js/css.
-    const VERSION = '3.1.3.1'; // current version, !!! update this in EVERY PUBLISH when js/css contents has been changed !!!
-    const in_dev = false; // is in dev
-    const DEV_CODE = ~~(10000000 * Math.random()); // devCode which updates when page reloads while in_dev is true
-    const params = '?ver=' + VERSION + (in_dev && '&dev=' + DEV_CODE); // Parameters after css/js filename
-    // set document
-    const head = document.getElementsByTagName('head')[0];
-    const script = document.createElement('script');
-    script.setAttribute('defer', 'true');
-    script.setAttribute('src', './build/bundle.js' + params);
-    const link1 = document.createElement('link');
-    link1.setAttribute('rel', 'stylesheet');
-    link1.setAttribute('href', './global.css' + params);
-    const link2 = document.createElement('link');
-    link2.setAttribute('rel', 'stylesheet');
-    link2.setAttribute('href', './build/bundle.css' + params);
+    <script type="text/javascript">
+      // refresh cashed js/css.
+      const VERSION = '3.1.3.2'; // current version, !!! update this in EVERY PUBLISH when js/css contents has been changed !!!
+      const in_dev = false; // is in dev
+      const DEV_CODE = ~~(10000000 * Math.random()); // devCode which updates when page reloads while in_dev is true
+      const params = '?ver=' + VERSION + (in_dev && '&dev=' + DEV_CODE); // Parameters after css/js filename
+      // set document
+      const head = document.getElementsByTagName('head')[0];
+      const script = document.createElement('script');
+      script.setAttribute('defer', 'true');
+      script.setAttribute('src', './build/bundle.js' + params);
+      const link1 = document.createElement('link');
+      link1.setAttribute('rel', 'stylesheet');
+      link1.setAttribute('href', './global.css' + params);
+      const link2 = document.createElement('link');
+      link2.setAttribute('rel', 'stylesheet');
+      link2.setAttribute('href', './build/bundle.css' + params);
 
-    head.appendChild(script);
-    head.appendChild(link1);
-    head.appendChild(link2);
-  </script>
+      head.appendChild(script);
+      head.appendChild(link1);
+      head.appendChild(link2);
+    </script>
 
-  <script>
-    var _hmt = _hmt || [];
-    (function () {
-      var hm = document.createElement('script');
-      hm.src = 'https://hm.baidu.com/hm.js?36c2817b0416712d9807ee55315eaf4f';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?36c2817b0416712d9807ee55315eaf4f';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SP07Q8CYM7"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SP07Q8CYM7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
+      function gtag() {
+        dataLayer.push(arguments);
+      }
 
-    gtag('js', new Date());
+      gtag('js', new Date());
 
-    gtag('config', 'G-SP07Q8CYM7');
-  </script>
+      gtag('config', 'G-SP07Q8CYM7');
+    </script>
 
-  <!--Google AdSense-->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1195280671714046"
-    crossorigin="anonymous"></script>
+    <!--Google AdSense-->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1195280671714046" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-    crossorigin="" />
-</head>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.zhimg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+  </head>
 
-<body></body>
-
+  <body></body>
 </html>
