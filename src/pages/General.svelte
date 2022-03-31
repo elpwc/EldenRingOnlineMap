@@ -1,5 +1,8 @@
 <script lang="ts">
   import LangButton from '../components/button/LangButton.svelte';
+  import ImportButton from '../components/button/ImportButton.svelte';
+  import ExportButton from '../components/button/ExportButton.svelte';
+
   import { SupportedLang } from '../utils/enum';
   import { t } from 'svelte-i18n';
   import { changeLang, lang } from '../locale';
@@ -27,6 +30,16 @@
       <LangButton buttonLang={ConvertType.s2t} buttonText="轉為正體" currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
       <LangButton buttonLang={ConvertType.t2s} buttonText="转为简体" currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
       <LangButton buttonLang={ConvertType.dont} buttonText={$t('general.dontConvert')} currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
+    </div>
+  </div>
+
+  <br />
+
+  <div class="settingItem">
+    <p>本地数据管理</p>
+    <div class="btnContainer">
+      <ExportButton buttonText="导出" />
+      <ImportButton buttonText="导入" />
     </div>
   </div>
 
