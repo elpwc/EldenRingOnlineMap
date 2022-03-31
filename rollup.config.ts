@@ -51,6 +51,8 @@ export default defineConfig({
         dev: !production,
       },
     }),
+
+    // leaflet.css 里含有路径来引用图标，将其静态资源拷贝到 bundle.css 的生成路径下
     copy({
       targets: [{ src: 'node_modules/leaflet/dist/images', dest: 'public/build/' }],
     }),
