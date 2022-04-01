@@ -56,7 +56,6 @@
       <p>{$t('general.april.title')}</p>
       <hr />
       <p>{$t('general.april.content')}</p>
-      <p>R.I.P.</p>
       <button
         on:click={() => {
           window.open('https://pro-video.xiaoheiban.cn/xls/67a483e3-0998-4ff0-b98a-d17159552604.mp4', '_blank');
