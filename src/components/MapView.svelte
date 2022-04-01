@@ -1,4 +1,7 @@
 <script lang="ts">
+  // leaflet 需要 leaflet.css， 这里通过 rollup-plugin-css-only 将其打包到 bundle.css
+  import "../../node_modules/leaflet/dist/leaflet.css";
+
   import L, { LeafletMouseEvent } from 'leaflet';
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
