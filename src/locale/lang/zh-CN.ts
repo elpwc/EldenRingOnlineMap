@@ -138,6 +138,12 @@ const lang = {
     hiddenPointYattaze: '重置了',
     clearHiddenPointButton: '重置所有隐藏点',
     developing: '后续功能开发中',
+    april: {
+      title: '紧急通知',
+      content: '因为突然收到了Fr〇mS〇ftware株式会社的侵权律师函，在此很遗憾地通知各位使用此地图的玩家，本互动地图站将在今天内删库跑路，感谢这一个月间大家的支持和厚爱。（）',
+      button: '查看详情',
+      footer: '-wniko- 2022 年 4 月 1 日',
+    },
   },
   about: {
     lastUpdate: '最近更新',

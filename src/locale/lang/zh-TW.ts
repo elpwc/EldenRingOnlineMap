@@ -139,6 +139,12 @@ const lang: langType = {
     hiddenPointYattaze: '重置了',
     clearHiddenPointButton: '重置所有隱藏點',
     developing: '後續功能開發中',
+    april: {
+      title: '緊急通知',
+      content: '因爲突然收到了Fr〇mS〇ftware株式會社的侵權律師函，在此很遺憾地通知各位使用此此圖的玩家，本互动地圖站將在今天内刪庫跑路，感謝這一個月閒大家的支持和厚愛。（）',
+      button: '查看詳情',
+      footer: '-wniko- 2022 年 4 月 1 日',
+    },
   },
   about: {
     lastUpdate: '最近更新',

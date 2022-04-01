@@ -50,6 +50,23 @@
     >
   </div>
 
+  <!--april fool!-->
+  {#if new Date().getMonth() === 3 && new Date().getDate() === 1}
+    <div class="aprilfool">
+      <p>{$t('general.april.title')}</p>
+      <hr />
+      <p>{$t('general.april.content')}</p>
+      <p>R.I.P.</p>
+      <button
+        on:click={() => {
+          window.open('https://pro-video.xiaoheiban.cn/xls/67a483e3-0998-4ff0-b98a-d17159552604.mp4', '_blank');
+        }}
+        style="font-size: large;">👉{$t('general.april.button')}👈</button
+      >
+      <date><p>{$t('general.april.footer')}</p></date>
+    </div>
+  {/if}
+
   <p>{$t('general.developing')}</p>
 </div>
 
@@ -89,5 +106,13 @@
     width: 100%;
     padding: 10px;
     font-size: 1em;
+  }
+  .aprilfool {
+    margin-top: 10px;
+    border: solid 1px white;
+    border-radius: 8px;
+    padding: 5px;
+    color: white;
+    text-align: center;
   }
 </style>
