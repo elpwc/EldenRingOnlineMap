@@ -4,9 +4,10 @@
 import axios from 'axios';
 import App from './App.svelte';
 import Config from './config';
-import { getCookie, setCookie, set_client_ip } from './utils/utils';
+import { set_client_ip } from './utils/utils';
 import './common';
 import { setupI18n } from './locale';
+import { transferOldStorage } from './stores';
 
 // 设置api根目录
 axios.defaults.baseURL = Config.APIBaseURL;
@@ -18,11 +19,8 @@ try {
   console.log(e);
 }
 
-// 旧cookie中的lang导入localStorage
-if (getCookie('lang') !== '') {
-  localStorage.setItem('lang', getCookie('lang'));
-  setCookie('lang', '', 0);
-}
+// 转移之前的storage
+transferOldStorage();
 
 // 设置语言
 setupI18n();

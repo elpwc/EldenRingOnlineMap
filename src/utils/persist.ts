@@ -61,7 +61,7 @@ export const StorageSerializers: Record<'boolean' | 'object' | 'number' | 'any' 
   },
   set: {
     read: (v: string) => new Set(JSON.parse(v)),
-    write: (v: any) => JSON.stringify(Array.from((v as Set<any>).entries())),
+    write: (v: any) => JSON.stringify(Array.from(v as Set<any>)),
   },
   date: {
     read: (v: string) => new Date(v),

@@ -5,7 +5,7 @@
   import { fly } from 'svelte/transition';
   import { MapPointType, PointPosition } from '../utils/enum';
   import axios from 'axios';
-  import { allMarkers, ip, isAdminModeStore, isMobile, setAllMarkers } from '../stores';
+  import { allMarkers, collectionSet, hiddenSet, ip, isAdminModeStore, isMobile, setAllMarkers } from '../stores';
   import type { MapPoint } from '../utils/typings';
   import { MapIcon } from './icons';
   import './icons.css';
@@ -123,15 +123,16 @@
   let editMode: boolean = false;
 
   /** 所有收藏的地标的id */
-  let collects: string[] = localStorage.getItem('collect')?.split('|') || [];
+  let collections = collectionSet.getStore();
 
   /** 是否修改了地标位置 */
   let isUpdateLnglatMode: boolean = false;
 
   /** 是否显示隐藏的地标 */
   let show_hidden: boolean = false;
+
   /** 所有隐藏的地标的id */
-  let hidden: string[] = localStorage.getItem('hidden')?.split('|') || [];
+  let hiddens = hiddenSet.getStore();
 
   /** 地图字体大小 */
   let markerFontSize: number = 0.8;
@@ -203,19 +204,6 @@
     let initZoom = 3;
     let initLat = 40;
     let initLng = -40;
-
-    // 旧cookie导入localStorage
-    if (getCookie('collect') !== '') {
-      localStorage.setItem('collect', getCookie('collect'));
-      setCookie('collect', '', 0);
-    }
-    collects = localStorage.getItem('collect')?.split('|') ?? [];
-
-    if (getCookie('hidden') !== '') {
-      localStorage.setItem('hidden', getCookie('hidden'));
-      setCookie('hidden', '', 0);
-    }
-    hidden = localStorage.getItem('hidden')?.split('|') ?? [];
 
     // 从cookie读取上次关闭时的地图状态
     if (getCookie('zoom')) {
@@ -435,17 +423,15 @@
   const refreshCollectedMarkers = () => {
     if (showCollect) {
       // 如果要显示收藏
-      if (collects.length > 0) {
-        // 是否cookie里有收藏
+      if ($collections.size > 0) {
         collectMarkers.forEach(marker => {
           marker.remove();
         });
         collectMarkers = [];
-        collects.forEach(co => {
-          const collectId = Number(co);
-          if (collectId > 0) {
+        $collections.forEach(id => {
+          if (id > 0) {
             const m = allMarkers.find(f => {
-              return Number(f.id) === Number(collectId);
+              return f.id === id;
             });
             if (m) {
               collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*/));
@@ -555,7 +541,7 @@
       ].marker = getMarker(resMarker);
 
       // 如果没隐藏的
-      if (show_hidden || !(show_hidden || hidden?.includes(resMarker.id.toString()))) {
+      if (show_hidden || !(show_hidden || $hiddens.has(resMarker.id))) {
         // 把新的坐标加到地图上
         markers
           .filter(f => {
@@ -582,7 +568,7 @@
       markers.forEach(marker => {
         if (
           // 过滤掉隐藏的
-          (show_hidden || !(show_hidden || hidden?.includes(marker.id.toString()))) &&
+          (show_hidden || !(show_hidden || $hiddens.has(marker.id))) &&
           // 过滤掉恶评>好评的
           ((hideBad && marker.ins.like >= marker.ins.dislike) || marker.ins.type === 'cifu' || !hideBad)
         ) {
@@ -919,40 +905,21 @@
    * @param id
    */
   const hideMarker = (id: number) => {
-    if (hidden?.includes(String(id))) {
-      localStorage.setItem(
-        'hidden',
-        hidden
-          .filter(f => {
-            return f !== String(id);
-          })
-          .join('|')
-      );
+    if ($hiddens.has(id)) {
+      hiddens.removePoint(id);
     } else {
-      hidden?.push(String(id));
-      localStorage.setItem('hidden', hidden.join('|'));
+      hiddens.addPoint(id);
     }
-    hidden = localStorage.getItem('hidden')?.split('|');
     updateShowingMarkers(id);
   };
 
   /** 收藏/取消收藏一个地标 */
   const collectMarker = (id: number) => {
-    if (collects?.includes(String(id))) {
-      localStorage.setItem(
-        'collect',
-        collects
-          .filter(f => {
-            return f !== String(id);
-          })
-          .join('|')
-      );
+    if ($collections.has(id)) {
+      collections.removePoint(id);
     } else {
-      collects.push(String(id));
-      localStorage.setItem('collect', collects.join('|'));
+      collections.addPoint(id);
     }
-    collects = localStorage.getItem('collect')?.split('|');
-
     refreshCollectedMarkers();
   };
 
@@ -993,8 +960,8 @@
       showEditModal(currentMenuedMarker);
       showMenu = false;
     }}
-    isHidden={hidden?.includes(String(currentMenuedMarker.id))}
-    isCollected={collects?.includes(String(currentMenuedMarker.id))}
+    isHidden={$hiddens.has(currentMenuedMarker.id)}
+    isCollected={$collections.has(currentMenuedMarker.id)}
   />
 {/if}
 
@@ -1337,12 +1304,12 @@
             d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
           />
         </svg>
-        {collects?.includes(String(currentClickedMarker?.id)) ? $t('map.modals.info.uncollect') : $t('map.modals.info.collect')}
+        {$collections.has(currentClickedMarker?.id) ? $t('map.modals.info.uncollect') : $t('map.modals.info.collect')}
       </button>
       <label style="color: rgb(208, 200, 181);">
         <input
           type="checkbox"
-          checked={hidden?.includes(String(currentClickedMarker?.id))}
+          checked={$hiddens.has(currentClickedMarker?.id)}
           on:change={() => {
             // 隐藏
             hideMarker(currentClickedMarker?.id);
