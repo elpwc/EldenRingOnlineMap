@@ -3,10 +3,6 @@ import { convertTargetStore } from '../stores';
 import { get } from 'svelte/store';
 export { ConvertType } from 'zhconvertor';
 
-export const changeConvertTarget = (target: ConvertType) => {
-    convertTargetStore.set(target);
-};
-
 export const getConvertedText = (str: string) => {
   return zhConvertor.convert(str, get(convertTargetStore));
 };

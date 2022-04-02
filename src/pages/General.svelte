@@ -5,8 +5,8 @@
 
   import { SupportedLang } from '../utils/enum';
   import { t } from 'svelte-i18n';
-  import { changeLang, lang } from '../locale';
-  import { changeConvertTarget, ConvertType } from '../utils/convertor';
+  import { lang } from '../stores';
+  import { ConvertType } from '../utils/convertor';
   import { convertTargetStore, isMobile } from '../stores';
 </script>
 
@@ -17,8 +17,8 @@
   <div class="settingItem">
     <p>{$t('general.menulang')}</p>
     <div class="btnContainer">
-      <LangButton buttonLang={SupportedLang.zhCN} buttonText="简体" currentLang={$lang} on:click={event => changeLang(event.detail.lang)} />
-      <LangButton buttonLang={SupportedLang.zhTW} buttonText="正體" currentLang={$lang} on:click={event => changeLang(event.detail.lang)} />
+      <LangButton buttonLang={SupportedLang.zhCN} buttonText="简体" currentLang={$lang} on:click={event => lang.set(event.detail.lang)} />
+      <LangButton buttonLang={SupportedLang.zhTW} buttonText="正體" currentLang={$lang} on:click={event => lang.set(event.detail.lang)} />
     </div>
   </div>
 
@@ -27,9 +27,9 @@
   <div class="settingItem">
     <p>{$t('general.maplang')}</p>
     <div class="btnContainer">
-      <LangButton buttonLang={ConvertType.s2t} buttonText="轉為正體" currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
-      <LangButton buttonLang={ConvertType.t2s} buttonText="转为简体" currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
-      <LangButton buttonLang={ConvertType.dont} buttonText={$t('general.dontConvert')} currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
+      <LangButton buttonLang={ConvertType.s2t} buttonText="轉為正體" currentLang={$convertTargetStore} on:click={event => convertTargetStore.set(event.detail.lang)} />
+      <LangButton buttonLang={ConvertType.t2s} buttonText="转为简体" currentLang={$convertTargetStore} on:click={event => convertTargetStore.set(event.detail.lang)} />
+      <LangButton buttonLang={ConvertType.dont} buttonText={$t('general.dontConvert')} currentLang={$convertTargetStore} on:click={event => convertTargetStore.set(event.detail.lang)} />
     </div>
   </div>
 
