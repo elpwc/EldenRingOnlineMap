@@ -34,13 +34,6 @@
   /** 本页面！唯一指定！地图对象！喵！ */
   let map: L.Map;
 
-  /** 是否在管理员模式喵 */
-  let isAdminMode: boolean = false;
-
-  isAdminModeStore.subscribe(v => {
-    isAdminMode = v;
-  });
-
   // 初始化地图宽高
   /** 地图div宽度 */
   let mapW: number = window.innerWidth;
@@ -1298,7 +1291,7 @@
     </div>
 
     <div>
-      {#if !currentClickedMarker?.is_lock || isAdminMode}
+      {#if !currentClickedMarker?.is_lock || $isAdminModeStore}
         <!--编辑按钮-->
         <button
           on:click={() => {
@@ -1318,7 +1311,7 @@
         </button>
       {/if}
 
-      {#if (!currentClickedMarker?.is_lock && currentClickedMarker?.ip === ip) || isAdminMode}
+      {#if (!currentClickedMarker?.is_lock && currentClickedMarker?.ip === ip) || $isAdminModeStore}
         <!--删除按钮-->
         <button
           on:click={() => {
@@ -1358,7 +1351,7 @@
         {$t('map.modals.info.hide')}
       </label>
 
-      {#if isAdminMode}
+      {#if $isAdminModeStore}
         <!--锁定-->
         <label style="color: rgb(208, 200, 181);"><input type="checkbox" checked={currentClickedMarker?.is_lock} on:change={onSetLockChecked} />{$t('map.modals.info.lock')}</label>
       {/if}
