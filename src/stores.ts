@@ -4,7 +4,8 @@
  */
 import { writable } from 'svelte/store';
 import type { MapPoint } from './utils/typings';
-import type { ConvertType } from 'zhconvertor';
+import { ConvertType } from 'zhconvertor';
+import { persist } from './utils/persist';
 
 // Stores
 
@@ -13,7 +14,7 @@ export let isAdminModeStore = writable(false);
 
 /** 当前内容语言 */
 // 空：不转换
-export let convertTargetStore = writable<ConvertType>();
+export let convertTargetStore = persist(writable<ConvertType>(ConvertType.dont), 'convertTarget');
 
 //全局变量
 

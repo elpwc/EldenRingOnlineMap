@@ -7,7 +7,6 @@ import Config from './config';
 import { getCookie, setCookie, set_client_ip } from './utils/utils';
 import './common';
 import { setupI18n } from './locale';
-import { setUpConvertor } from './utils/convertor';
 
 // 设置api根目录
 axios.defaults.baseURL = Config.APIBaseURL;
@@ -27,7 +26,6 @@ if (getCookie('lang') !== '') {
 
 // 设置语言
 setupI18n();
-setUpConvertor();
 
 // 启动
 const app = new App({
