@@ -70,6 +70,22 @@
     >
   </div>
 
+  <!--april fool!-->
+  {#if new Date().getMonth() === 3 && new Date().getDate() === 1}
+    <div class="aprilfool">
+      <p>{$t('general.april.title')}</p>
+      <hr />
+      <p>{$t('general.april.content')}</p>
+      <button
+        on:click={() => {
+          window.open('https://pro-video.xiaoheiban.cn/xls/67a483e3-0998-4ff0-b98a-d17159552604.mp4', '_blank');
+        }}
+        style="font-size: large;">👉{$t('general.april.button')}👈</button
+      >
+      <date><p>{$t('general.april.footer')}</p></date>
+    </div>
+  {/if}
+
   <p>{$t('general.developing')}</p>
 </div>
 
@@ -111,13 +127,11 @@
     font-size: 1em;
   }
 
-  /* Tooltip container */
+  /* Tooltip */
   .tooltip {
     position: relative;
     display: inline-block;
   }
-
-  /* Tooltip text */
   .tooltip .tooltiptext {
     width: 120px;
     bottom: 100%;
@@ -132,7 +146,6 @@
     position: absolute;
     z-index: 1;
   }
-
   .tooltip .tooltiptext::after {
     content: ' ';
     position: absolute;
@@ -143,9 +156,16 @@
     border-style: solid;
     border-color: #d0c8b5 transparent transparent transparent;
   }
-
-  /* Show the tooltip text when you mouse over the tooltip container */
   .tooltip:hover .tooltiptext {
     visibility: visible;
+  }
+  
+  .aprilfool {
+    margin-top: 10px;
+    border: solid 1px white;
+    border-radius: 8px;
+    padding: 5px;
+    color: white;
+    text-align: center;
   }
 </style>

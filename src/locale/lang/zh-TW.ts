@@ -148,7 +148,14 @@ const lang: langType = {
       importError: '導入錯誤',
       exportError: '導出錯誤',
       importInfo: '從 {files} 個文件中導入了 {collections} 個收藏點，{hiddens} 個隱藏點',
-    }
+    },
+    april: {
+      title: '重要通知',
+      content:
+        '本地圖站一直受到大家厚愛，日訪問量連續一個月保持在25萬以上，近日更是收到了來自Fr〇mS〇ftware會社的合作郵件：使用本地圖的玩家，皆可通過下面按鈕申請領取来自FS社送给各位的艾爾登法環-官方設定集一份~ 今後也恳請大家多多支持——',
+      button: '查看詳情',
+      footer: '-wniko- 2022 年 4 月 1 日',
+    },
   },
   about: {
     lastUpdate: '最近更新',

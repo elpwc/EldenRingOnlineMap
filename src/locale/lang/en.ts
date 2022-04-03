@@ -148,7 +148,14 @@ const lang: langType = {
       importError: 'Import Error',
       exportError: 'Export Error',
       importInfo: 'Import {collections} collections and {hiddens} hiddens from {files} files',
-    }
+    },
+    april: {
+      title: '重要通知',
+      content:
+        '本地图站一直受到大家厚爱，日访问量连续一个月保持在25万以上，近日更是收到了来自Fr〇mS〇ftware会社的合作邮件：使用本地图的玩家，皆可通过下面按钮申请领取来自FS社送给各位的艾尔登法环-官方设定集一份~ 今后也恳请大家多多支持——',
+      button: '查看详情',
+      footer: '-wniko- 2022 年 4 月 1 日',
+    },
   },
   about: {
     lastUpdate: '最近更新',
