@@ -39,6 +39,7 @@
     "@babel/runtime-corejs3": "^7.17.7",
     "@rollup/plugin-json": "^4.1.0",
     "axios": "0.21.1",
+    "dayjs": "^1.11.0",
     "file-saver": "^2.0.5",
     "jquery": "^3.6.0",
     "leaflet": "^1.7.1",

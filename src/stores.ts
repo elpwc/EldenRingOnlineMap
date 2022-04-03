@@ -37,8 +37,8 @@ class pointSet {
     const addPoint = (p: number) => {
       setPoints(getPoints().add(p));
     }
-    const addPoints = (ps: number[]) => {
-      ps.forEach((p) => {
+    const addPoints = (ps: number[] | Set<number>) => {
+      ps.forEach((p: number) => {
         getPoints().add(p);
       });
       setPoints(getPoints());

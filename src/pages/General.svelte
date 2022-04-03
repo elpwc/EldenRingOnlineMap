@@ -36,7 +36,14 @@
   <br />
 
   <div class="settingItem">
-    <p>本地数据管理</p>
+    <p style="margin-right: 0px;">本地数据管理</p>
+    <div class="tooltip">
+      <span class="tooltiptext">当前导入/导出功能只读取/保存收藏点与隐藏点的id</span>
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="35" height="35" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"
+        ><circle cx="12" cy="19" r="2" fill="#d0c8b5" /><path fill="#d0c8b5" d="M10 3h4v12h-4z" /></svg
+      >
+    </div>
+  
     <div class="btnContainer">
       <ExportButton buttonText="导出" />
       <ImportButton buttonText="导入" />
@@ -102,5 +109,43 @@
     width: 100%;
     padding: 10px;
     font-size: 1em;
+  }
+
+  /* Tooltip container */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    width: 120px;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+    visibility: hidden;
+    background-color: #d0c8b5;
+    color: black;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .tooltip .tooltiptext::after {
+    content: ' ';
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #d0c8b5 transparent transparent transparent;
+  }
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
   }
 </style>
