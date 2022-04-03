@@ -1,4 +1,5 @@
-const lang = {
+import type { langType } from '../../utils/typings';
+const lang: langType = {
   name: 'English',
   title: 'EldenRing Map',
   menu: {
@@ -138,6 +139,16 @@ const lang = {
     hiddenPointYattaze: '重置了',
     clearHiddenPointButton: '重置所有隐藏点',
     developing: '后续功能开发中',
+    localData: {
+      title: 'Local Data Management',
+      import: 'import',
+      export: 'export',
+      tooltip: 'Current import/export only focus on the id of collections and hiddens',
+      importing: 'importing...',
+      importError: 'Import Error',
+      exportError: 'Export Error',
+      importInfo: 'Import {collections} collections and {hiddens} hiddens from {files} files',
+    }
   },
   about: {
     lastUpdate: '最近更新',
@@ -269,4 +280,3 @@ const lang = {
   },
 };
 export default lang;
-export type langType = typeof lang;

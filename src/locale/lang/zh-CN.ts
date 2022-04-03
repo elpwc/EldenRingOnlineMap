@@ -138,6 +138,16 @@ const lang = {
     hiddenPointYattaze: '重置了',
     clearHiddenPointButton: '重置所有隐藏点',
     developing: '后续功能开发中',
+    localData: {
+      title: '本地数据管理',
+      import: '导入',
+      export: '导出',
+      tooltip: '当前导入/导出功能只读取/保存收藏点与隐藏点的id',
+      importing: '正在导入...',
+      importError: '导入错误',
+      exportError: '导出错误',
+      importInfo: '从 {files} 个文件中导入了 {collections} 个收藏点，{hiddens} 个隐藏点',
+    }
   },
   about: {
     lastUpdate: '最近更新',

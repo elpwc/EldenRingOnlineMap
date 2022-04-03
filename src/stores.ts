@@ -64,10 +64,9 @@ export let collectionSet = new pointSet('collections');
 export let hiddenSet = new pointSet('hiddens');
 
 // 检查旧的本地存储是否转移完毕
-let no_old = persist(writable(false), 'no_old');
+let version = persist(writable(''), 'version');
 export function transferOldStorage() {
-  if (!get(no_old)) {
-
+  if (!get(version)) {
     if (getCookie('lang') !== '') {
       localStorage.setItem('lang', getCookie('lang'));
       setCookie('lang', '', 0);
@@ -108,7 +107,7 @@ export function transferOldStorage() {
     }
 
     // 转移完毕
-    no_old.set(true);
+    version.set('3.1.3.2');
   }
 }
 

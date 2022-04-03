@@ -36,17 +36,17 @@
   <br />
 
   <div class="settingItem">
-    <p style="margin-right: 0px;">本地数据管理</p>
+    <p style="margin-right: 0px;">{$t('general.localData.title')}</p>
     <div class="tooltip">
-      <span class="tooltiptext">当前导入/导出功能只读取/保存收藏点与隐藏点的id</span>
+      <span class="tooltiptext">{$t('general.localData.tooltip')}</span>
       <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="35" height="35" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"
         ><circle cx="12" cy="19" r="2" fill="#d0c8b5" /><path fill="#d0c8b5" d="M10 3h4v12h-4z" /></svg
       >
     </div>
-  
+
     <div class="btnContainer">
-      <ExportButton buttonText="导出" />
-      <ImportButton buttonText="导入" />
+      <ExportButton buttonText={$t('general.localData.export')} />
+      <ImportButton buttonText={$t('general.localData.import')} />
     </div>
   </div>
 

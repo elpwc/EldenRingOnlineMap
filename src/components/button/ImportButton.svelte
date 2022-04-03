@@ -1,20 +1,25 @@
 <script lang="ts">
   import { hiddenSet, collectionSet } from '../../stores';
   import { StorageSerializers, Serializer } from '../../utils/persist';
+  import { t } from 'svelte-i18n';
+  import { get } from 'svelte/store';
+
+  export let buttonText: string;
+  export let fileType: string = '.json';
 
   let fileinput: HTMLInputElement;
   let files: FileList | undefined;
   let isImporting = false;
 
-  export let buttonText: string;
-  export let fileType: string = '.json';
-
   const serializer: Serializer<Set<number>> = StorageSerializers['set'];
-
   const importJson = (str: string) => {
-    const data = JSON.parse(str);
-    hiddenSet.getStore().addPoints(serializer.read(data.hiddens));
-    collectionSet.getStore().addPoints(serializer.read(data.collections));
+    try {
+      const data = JSON.parse(str);
+      hiddenSet.getStore().addPoints(serializer.read(data.hiddens));
+      collectionSet.getStore().addPoints(serializer.read(data.collections));
+    } catch (e) {
+      console.log($t('general.localData.importError') + `(${e})`);
+    }
   };
 
   const getCollectionsCount = () => {
@@ -36,9 +41,16 @@
       reader.onload = e => {
         importJson(e.target.result as string);
         if (--importingCount == 0) {
-          console.log('finish');
           isImporting = false;
-          alert(`Import ${getCollectionsCount() - prevCollectionsCount} collections and ${getHiddensCount() - prevHiddensCount} hiddens from ${files.length} files`);
+          let $t = (str: string) => {
+            return get(t)(str);
+          };
+          alert(
+            $t('general.localData.importInfo')
+              .replace('{files}', String(files.length))
+              .replace('{collections}', String(getCollectionsCount() - prevCollectionsCount))
+              .replace('{hiddens}', String(getHiddensCount() - prevHiddensCount))
+          );
           fileinput.value = '';
         }
       };
@@ -53,7 +65,7 @@
     fileinput.click();
   }}
 >
-  {isImporting ? 'importing' : buttonText}
+  {isImporting ? $t('general.localData.importing') : buttonText}
 </button>
 
 <style>

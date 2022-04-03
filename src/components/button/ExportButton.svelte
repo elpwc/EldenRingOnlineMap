@@ -3,6 +3,7 @@
   import { hiddenSet, collectionSet } from '../../stores';
   import { StorageSerializers, Serializer } from '../../utils/persist';
   import dayjs from 'dayjs';
+  import { t } from 'svelte-i18n';
 
   export let buttonText: string;
 
@@ -24,7 +25,7 @@
       );
       saveAs(blob, 'eldenringmap_' + dayjs().format('YYYY_MM_DD_HH_mm_ss') + '.json');
     } catch (e) {
-      console.log('导出错误：' + e);
+      console.log($t('general.localData.exportError') + `(${e})`);
     }
   }}
 >
