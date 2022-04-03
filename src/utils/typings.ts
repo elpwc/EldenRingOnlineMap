@@ -7,7 +7,6 @@ export type { langType } from '../locale/lang/zh-CN';
 
 /** 地标 */
 export type MapPoint = {
-  // TODO: 与后端返回类型不一致
   id: number;
   type: MapPointType;
   name: string;

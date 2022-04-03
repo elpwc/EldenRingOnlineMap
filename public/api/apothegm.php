@@ -127,8 +127,8 @@ switch ($request_type) {
                     $j = 0;
                     while ($row2 = $replyResult->fetch_assoc()) {
                         array_push($replies, [
-                            'id' => $row2['id'],
-                            'pid' => $row2['pid'],
+                            'id' => (int)$row2['id'],
+                            'pid' => (int)$row2['pid'],
                             'content' => $row2['content'],
                             'like' =>  (int)$row2['like'],
                             'dislike' => (int)$row2['dislike'],
@@ -143,7 +143,7 @@ switch ($request_type) {
 
 
                 array_push($res, [
-                    'id' => $row['id'],
+                    'id' => (int)$row['id'],
                     'title' => $row['title'],
                     'content' => $row['content'],
                     'type' => $row['type'],

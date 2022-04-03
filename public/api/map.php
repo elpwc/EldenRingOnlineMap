@@ -197,7 +197,7 @@ switch ($request_type) {
             $i = 0;
             while ($row = $result->fetch_assoc()) {
                 array_push($res, [
-                    'id' => $row['id'],
+                    'id' => (int)$row['id'],
                     'type' => $row['type'],
                     'name' => $row['name'],
                     'desc' => $row['desc'],

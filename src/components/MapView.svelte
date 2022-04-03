@@ -423,28 +423,27 @@
   const refreshCollectedMarkers = () => {
     if (showCollect) {
       // 如果要显示收藏
-      if ($collections.size > 0) {
-        collectMarkers.forEach(marker => {
-          marker.remove();
-        });
-        collectMarkers = [];
-        $collections.forEach(id => {
-          if (id > 0) {
-            const m = allMarkers.find(f => {
-              return f.id === id;
-            });
-            if (m) {
-              collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*/));
-              collectMarkers.push(getMarker(m));
+      collectMarkers.forEach(marker => {
+        marker.remove();
+      });
+      collectMarkers = [];
+      $collections.forEach(id => {
+        if (id > 0) {
+          const m = allMarkers.find(f => {
+            return f.id === id;
+          });
+          if (m) {
+            collectMarkers.push(L.marker(L.latLng(m.lat, m.lng) /*, { icon: L.divIcon(MapIcon.collect()()) }*/));
+            collectMarkers.push(getMarker(m));
 
-              // 把收藏的原始标准，和大一点的显眼标注加进去（正好是倒数两个
-              if (m.is_underground === is_underground) {
-                collectMarkers[collectMarkers.length - 1].addTo(map);
-                collectMarkers[collectMarkers.length - 2].addTo(map);
-              }
+            // 把收藏的原始标准，和大一点的显眼标注加进去（正好是倒数两个
+            if (m.is_underground === is_underground) {
+              collectMarkers[collectMarkers.length - 1].addTo(map);
+              collectMarkers[collectMarkers.length - 2].addTo(map);
             }
+          }
 
-            /*
+          /*
             axios
               .get('./map.php', {
                 params: {
@@ -464,9 +463,8 @@
                 }
               });
               */
-          }
-        });
-      }
+        }
+      });
     } else {
       // 如果不显示收藏
       collectMarkers.forEach(marker => {

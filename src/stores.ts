@@ -80,12 +80,11 @@ export function transferOldStorage() {
         old += getCookie('collect') + '|';
         setCookie('collect', '', 0);
       } 
-      old += localStorage.getItem('collect');
+      old += localStorage.getItem('collect') ?? '';
       
       const transafered = old?.split('|') ?? [];
       if (transafered.length > 0) {
-        // TODO: point id 的实际类型不正确，先按照错误的存字符串吧
-        collectionSet.getStore().addPoints(transafered.map((s) => s as unknown as number));
+        collectionSet.getStore().addPoints(transafered.filter((s) => s).map((s) => Number(s)));
       }
       // 先不删，怕出问题
       // localStorage.removeItem('collect');
@@ -98,12 +97,11 @@ export function transferOldStorage() {
         old += getCookie('hidden') + '|';
         setCookie('hidden', '', 0);
       }
-      old += localStorage.getItem('hidden');
+      old += localStorage.getItem('hidden') ?? '';
       
       const transafered = old?.split('|') ?? [];
       if (transafered.length > 0) {
-        // TODO: point id 的实际类型不正确，先按照错误的存字符串吧
-        hiddenSet.getStore().addPoints(transafered.map((s) => s as unknown as number));
+        hiddenSet.getStore().addPoints(transafered.filter((s) => s).map((s) => Number(s)));
       }
       // 先不删，怕出问题
       // localStorage.removeItem('hidden');
