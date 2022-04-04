@@ -213,8 +213,6 @@ switch ($request_type) {
 
         $result = mysqli_query($sqllink, $sql);
 
-        echo $sql;
-
         echo ($result);
         break;
     default:
