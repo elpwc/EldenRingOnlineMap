@@ -20,14 +20,6 @@
   // 路径参数: 讯息id
   // 仅用来从外部直接打开讯息，从网页内部打开讯息不使用这个
   export let params = { id: null };
-
-  /** 是否是管理员模式 */
-  let isAdminMode: boolean = false;
-
-  isAdminModeStore.subscribe(v => {
-    isAdminMode = v;
-  });
-
   onMount(() => {
     // 加载讯息
     refreshApo();
@@ -476,7 +468,7 @@
           </button>
         </div>
         <div>
-          {#if isAdminMode || apothegms?.[currentShowingApoIndex]?.ip === ip}
+          {#if $isAdminModeStore || apothegms?.[currentShowingApoIndex]?.ip === ip}
             <button
               on:click={() => {
                 // 设置删除的是讯息还是回复
@@ -535,7 +527,7 @@
                 <div class="title-reply"><span class="titlespan">{'#' + String(index + 1) + ' ' + getMD5Id(reply?.ip)}</span></div>
                 <div class="title-reply">
                   <span class="datespan">{reply?.create_date}</span>
-                  {#if isAdminMode || reply?.ip === ip}
+                  {#if $isAdminModeStore || reply?.ip === ip}
                     <button
                       on:click={() => {
                         currentClickedReplyId = reply.id;

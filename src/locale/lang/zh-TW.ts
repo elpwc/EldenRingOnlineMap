@@ -138,7 +138,17 @@ const lang: langType = {
     therereSomeHiddenPoints: '目前有{count}個隱藏點，確定要清除隱藏狀態，全部重置嗎?',
     hiddenPointYattaze: '重置了',
     clearHiddenPointButton: '重置所有隱藏點',
-    developing: '後續功能開發中',
+    developing: '後續功能開發中',    
+    localData: {
+      title: '本地數據管理',
+      import: '導入',
+      export: '導出',
+      tooltip: '當前導入/導出功能只讀取/保存收藏點與隱藏點的id',
+      importing: '正在導入...',
+      importError: '導入錯誤',
+      exportError: '導出錯誤',
+      importInfo: '從 {files} 個文件中導入了 {collections} 個收藏點，{hiddens} 個隱藏點',
+    },
     april: {
       title: '重要通知',
       content:

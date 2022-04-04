@@ -1,4 +1,5 @@
-const lang = {
+import type { langType } from '../../utils/typings';
+const lang: langType = {
   name: 'English',
   title: 'EldenRing Map',
   menu: {
@@ -138,6 +139,23 @@ const lang = {
     hiddenPointYattaze: '重置了',
     clearHiddenPointButton: '重置所有隐藏点',
     developing: '后续功能开发中',
+    localData: {
+      title: 'Local Data Management',
+      import: 'import',
+      export: 'export',
+      tooltip: 'Current import/export only focus on the id of collections and hiddens',
+      importing: 'importing...',
+      importError: 'Import Error',
+      exportError: 'Export Error',
+      importInfo: 'Import {collections} collections and {hiddens} hiddens from {files} files',
+    },
+    april: {
+      title: '重要通知',
+      content:
+        '本地图站一直受到大家厚爱，日访问量连续一个月保持在25万以上，近日更是收到了来自Fr〇mS〇ftware会社的合作邮件：使用本地图的玩家，皆可通过下面按钮申请领取来自FS社送给各位的艾尔登法环-官方设定集一份~ 今后也恳请大家多多支持——',
+      button: '查看详情',
+      footer: '-wniko- 2022 年 4 月 1 日',
+    },
   },
   about: {
     lastUpdate: '最近更新',
@@ -269,4 +287,3 @@ const lang = {
   },
 };
 export default lang;
-export type langType = typeof lang;

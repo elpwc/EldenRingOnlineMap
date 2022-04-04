@@ -1,9 +1,12 @@
 <script lang="ts">
   import LangButton from '../components/button/LangButton.svelte';
+  import ImportButton from '../components/button/ImportButton.svelte';
+  import ExportButton from '../components/button/ExportButton.svelte';
+
   import { SupportedLang } from '../utils/enum';
   import { t } from 'svelte-i18n';
-  import { changeLang, lang } from '../locale';
-  import { changeConvertTarget, ConvertType } from '../utils/convertor';
+  import { lang } from '../stores';
+  import { ConvertType } from '../utils/convertor';
   import { convertTargetStore, isMobile } from '../stores';
 </script>
 
@@ -14,8 +17,8 @@
   <div class="settingItem">
     <p>{$t('general.menulang')}</p>
     <div class="btnContainer">
-      <LangButton buttonLang={SupportedLang.zhCN} buttonText="简体" currentLang={$lang} on:click={event => changeLang(event.detail.lang)} />
-      <LangButton buttonLang={SupportedLang.zhTW} buttonText="正體" currentLang={$lang} on:click={event => changeLang(event.detail.lang)} />
+      <LangButton buttonLang={SupportedLang.zhCN} buttonText="简体" currentLang={$lang} on:click={event => lang.set(event.detail.lang)} />
+      <LangButton buttonLang={SupportedLang.zhTW} buttonText="正體" currentLang={$lang} on:click={event => lang.set(event.detail.lang)} />
     </div>
   </div>
 
@@ -24,9 +27,26 @@
   <div class="settingItem">
     <p>{$t('general.maplang')}</p>
     <div class="btnContainer">
-      <LangButton buttonLang={ConvertType.s2t} buttonText="轉為正體" currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
-      <LangButton buttonLang={ConvertType.t2s} buttonText="转为简体" currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
-      <LangButton buttonLang={ConvertType.dont} buttonText={$t('general.dontConvert')} currentLang={$convertTargetStore} on:click={event => changeConvertTarget(event.detail.lang)} />
+      <LangButton buttonLang={ConvertType.s2t} buttonText="轉為正體" currentLang={$convertTargetStore} on:click={event => convertTargetStore.set(event.detail.lang)} />
+      <LangButton buttonLang={ConvertType.t2s} buttonText="转为简体" currentLang={$convertTargetStore} on:click={event => convertTargetStore.set(event.detail.lang)} />
+      <LangButton buttonLang={ConvertType.dont} buttonText={$t('general.dontConvert')} currentLang={$convertTargetStore} on:click={event => convertTargetStore.set(event.detail.lang)} />
+    </div>
+  </div>
+
+  <br />
+
+  <div class="settingItem">
+    <p style="margin-right: 0px;">{$t('general.localData.title')}</p>
+    <div class="tooltip">
+      <span class="tooltiptext">{$t('general.localData.tooltip')}</span>
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="35" height="35" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"
+        ><circle cx="12" cy="19" r="2" fill="#d0c8b5" /><path fill="#d0c8b5" d="M10 3h4v12h-4z" /></svg
+      >
+    </div>
+
+    <div class="btnContainer">
+      <ExportButton buttonText={$t('general.localData.export')} />
+      <ImportButton buttonText={$t('general.localData.import')} />
     </div>
   </div>
 
@@ -106,6 +126,40 @@
     padding: 10px;
     font-size: 1em;
   }
+
+  /* Tooltip */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  .tooltip .tooltiptext {
+    width: 120px;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+    visibility: hidden;
+    background-color: #d0c8b5;
+    color: black;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+  }
+  .tooltip .tooltiptext::after {
+    content: ' ';
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #d0c8b5 transparent transparent transparent;
+  }
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+  
   .aprilfool {
     margin-top: 10px;
     border: solid 1px white;

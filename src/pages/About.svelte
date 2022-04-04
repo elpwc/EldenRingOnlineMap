@@ -11,13 +11,6 @@
     clickTime = 0;
   });
 
-  /** 管理员模式 */
-  let isAdminMode: boolean = false;
-
-  isAdminModeStore.subscribe(v => {
-    isAdminMode = v;
-  });
-
   /** 薪火点了几下 */
   let clickTime: number = 0;
 
@@ -69,11 +62,11 @@
     <!--Elden Ring Online Map-->
     <p id="title" class="svelte-q01t2y">
       <span class="heads">E</span>LDEN RING ONLINE MA<span class="heads">P</span>
-      {#if isAdminMode}
-        <!--AdminMode显示Admin字样-->
+      {#if $isAdminModeStore}
+        <!--管理员模式显示Admin字样-->
         <span
           on:click={() => {
-            // 点一下退出AdminMode
+            // 点一下退出管理员模式
             isAdminModeStore.set(false);
           }}>(Admin)</span
         >
