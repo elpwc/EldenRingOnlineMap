@@ -1,14 +1,21 @@
 <script lang="ts">
   //
+
+import RouteViewer from "../components/RouteViewer/RouteViewer.svelte";
+
 </script>
 
 <div class="container">
+  <!--
+
   <p>开发中, 预计功能：</p>
   <p>1. 在地图上标注路线</p>
   <p>2. 专门的支线说明页</p>
   <br/>
   <p>尽量一个月内完成吧</p>
   <img src="https://www.elpwc.com/imagebank/bakaqua.gif" width="100px" alt="aqua"/>
+  -->
+  <RouteViewer />
 </div>
 
 <style>
