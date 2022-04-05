@@ -75,6 +75,7 @@ export const StorageSerializers: Record<'boolean' | 'object' | 'number' | 'any' 
 export interface PersistentStore<T> extends Writable<T> {
   /**
    * Delete the store value from the persistent storage
+   * Use when only do not need the store 
    */
   delete(): void;
 }
@@ -106,14 +107,14 @@ export function persist<T extends (string | number | boolean | object | null)>(s
   }
 
   store.subscribe(value => {
-    storage.setItem(key, serializer.write(value));
+    storage.setItem(key, value ? serializer.write(value) : '');
   });
 
   return {
     ...store,
     delete() {
-      storage.removeItem(key);
       store.set(undefined);
+      storage.removeItem(key);
     },
   };
 }

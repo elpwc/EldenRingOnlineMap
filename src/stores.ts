@@ -47,11 +47,15 @@ class pointSet {
       getPoints().delete(p);
       setPoints(getPoints());
     }
+    const clear = () => {
+      setPoints(new Set());
+    }
     return {
       getPoints,
       addPoint,
       addPoints,
       removePoint,
+      clear,
       ...this.store
     };
   }

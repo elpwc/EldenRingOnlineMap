@@ -7,7 +7,7 @@
   import { t } from 'svelte-i18n';
   import { lang } from '../stores';
   import { ConvertType } from '../utils/convertor';
-  import { convertTargetStore, isMobile } from '../stores';
+  import { convertTargetStore, isMobile, hiddenSet } from '../stores';
 </script>
 
 <header>
@@ -56,13 +56,14 @@
     <button
       class="settingbutton"
       on:click={() => {
-        const hiddens = localStorage.getItem('hidden')?.split('|');
-        if (!hiddens || hiddens.length - 1 <= 0) {
+        let hiddenStore = hiddenSet.getStore();
+        const hiddenCount = hiddenStore.getPoints().size;
+        if (hiddenCount == 0) {
           alert($t('general.theresNoHiddenPointByNow'));
         } else {
-          const r = confirm($t('general.therereSomeHiddenPoints').replace('{count}', (hiddens.length - 1).toString()));
+          const r = confirm($t('general.therereSomeHiddenPoints').replace('{count}', String(hiddenCount)));
           if (r === true) {
-            localStorage.setItem('hidden', '');
+            hiddenStore.clear();
             alert($t('general.hiddenPointYattaze'));
           }
         }
