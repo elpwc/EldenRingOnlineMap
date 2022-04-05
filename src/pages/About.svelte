@@ -6,6 +6,7 @@
   import { t } from 'svelte-i18n';
   import type { Statistics } from '../utils/typings';
   import { getSiteTypeFilters } from '../utils/filters';
+  import * as config from '../config';
 
   onMount(() => {
     clickTime = 0;
@@ -103,7 +104,8 @@
       </a>
       <br />
 
-      {$t('about.lastUpdate')}: 2022-4-4 17:46
+      {$t('about.lastUpdate')}: {config.default.lastUpdated}&nbsp;
+      {config.default.currentVer}
       <br />
 
       Contributors:
