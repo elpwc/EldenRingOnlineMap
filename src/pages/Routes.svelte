@@ -23,6 +23,7 @@ import RouteViewer from "../components/RouteViewer/RouteViewer.svelte";
     height: 100%;
     width: 100%;
     text-align: center;
+    overflow-y: scroll;
   }
   .container p {
     color: rgb(208, 200, 181);

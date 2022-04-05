@@ -11,14 +11,12 @@
 
   let rooms: { room: { data; lines: { x: number; y: number }[]; x; y } }[][] = [];
 
-  const getRooms = () => {
-      
-  }
+  const getRooms = () => {};
 
   onMount(() => {
     data = Drawer.d3DagStratify(Drawer.getTree(boxes));
 
-    range = data.size;
+    range = { width: data.size.width * 2, height: data.size.height * 2 };
 
     // const canvas = document.getElementById('routeCanvas') as HTMLCanvasElement;
   });
@@ -32,15 +30,17 @@
 <div>
   <!--canvas id="routeCanvas" width="500px" height="1000px">你的浏览器不支持Canvas</canvas-->
   <div id="rowContainer">
-    {#each new Array(range.height * 2) as h, j}
-      <div class="row row{j}">
-        {#each new Array(range.width * 2) as w, i}
-          <div class="column column{i} row{j}">
-            <p>{i}{j}</p>
-          </div>
-        {/each}
-      </div>
-    {/each}
+    <p style="color: white">{range.height},{range.width}</p>
+      
+    {#each new Array(22 ) as h, j}
+    <div class="row row{j}">
+      {#each new Array(10 ) as w, i}
+        <div class="column column{i} row{j}">
+          <p>{i},{j}</p>
+        </div>
+      {/each}
+    </div>
+  {/each}
   </div>
 </div>
 

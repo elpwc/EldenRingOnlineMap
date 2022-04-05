@@ -121,7 +121,7 @@ export default class Drawer {
       if(room){
 
         room.innerHTML=`
-        <p style="color: red;">123</p>
+        <p style="color: red;">${node.data.id},${instance.name}</p>
         `
         console.log(room, room.innerHTML)
         // // 画图标
