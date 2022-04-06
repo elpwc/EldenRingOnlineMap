@@ -4,9 +4,10 @@ const lang = {
   menu: {
     map: '地图',
     apo: '讯息',
-    routes: '支线(开发中)',
+    routes: '支线(dev)',
     general: '设置',
     about: '说明',
+    tdmap: '3D地图(dev)'
   },
   map: {
     topright: {

@@ -3,12 +3,10 @@
 </script>
 
 <div class="container">
-  <p>开发中, 预计功能：</p>
-  <p>1. 在地图上标注路线</p>
-  <p>2. 专门的支线说明页</p>
-  <br/>
-  <p>尽量一个月内完成吧</p>
-  <img src="https://www.elpwc.com/imagebank/bakaqua.gif" width="100px" alt="aqua"/>
+  <p>开发中, 预计效果：</p>
+
+  <img src="./resource/images/hoi4.jpg" width="300px" alt="hoi4" />
+  <p><del>(懂得都懂)</del></p>
 </div>
 
 <style>
