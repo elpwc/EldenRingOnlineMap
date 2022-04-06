@@ -191,6 +191,7 @@ const lang = {
       testMarker: '早期测试用例',
 
       end: '到此为止了喔!',
+      serverError: '服务器连接失败了喵',
     },
     modals: {
       coffee: {

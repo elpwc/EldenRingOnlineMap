@@ -203,22 +203,32 @@
         <span>{$t('about.statistics.mostRegion')}</span><span>广东省(12.58%)</span>
       </div>
       <p class="hr">——————{$t('about.statistics.mostSearched')}——————</p>
-      {#each statisticsData.mostSearched as search}
-        <div>
-          <span>{search.word}</span><span>{search.count}</span>
-        </div>
-      {/each}
+      {#if statisticsData.mostSearched}
+        {#each statisticsData.mostSearched as search}
+          <div>
+            <span>{search.word}</span><span>{search.count}</span>
+          </div>
+        {/each}
+      {:else}
+        <p>{$t('about.statistics.serverError')}</p>
+      {/if}
       <p class="hr">——————{$t('about.statistics.types')}——————</p>
-      {#each statisticsData.types as type}
-        <div>
-          <span>
-            {getSiteTypeFilters($t).filter(f => {
-              return String(f.value) === type.word;
-            })?.[0]?.name ?? $t('about.statistics.testMarker')}
-          </span>
-          <span>{type.count}</span>
-        </div>
-      {/each}
+
+      {#if statisticsData.mostSearched}
+        {#each statisticsData.types as type}
+          <div>
+            <span>
+              {getSiteTypeFilters($t).filter(f => {
+                return String(f.value) === type.word;
+              })?.[0]?.name ?? $t('about.statistics.testMarker')}
+            </span>
+            <span>{type.count}</span>
+          </div>
+        {/each}
+      {:else}
+        <p>{$t('about.statistics.serverError')}</p>
+      {/if}
+
       <div style="padding: 30px 0; text-align: center;">
         <img src="https://www.elpwc.com/imagebank/xdz.gif" width="100px" alt="kwiixdz" />
         <p>{$t('about.statistics.end')}</p>

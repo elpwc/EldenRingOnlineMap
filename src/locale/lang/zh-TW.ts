@@ -192,6 +192,7 @@ const lang: langType = {
       testMarker: '早期測試用例',
 
       end: '到此為止了喔!',
+      serverError: '伺服器連接失敗了喵',
     },
     modals: {
       coffee: {
