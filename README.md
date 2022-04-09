@@ -25,29 +25,26 @@
 - Frontend: Svelte + Leaflet, via TypeScript
 - Backend: PHP + MySQL, based on Apache + nginx, WinServer
 
-一开始只是随手写的个人用的小网站，因为最近一直有在尝鲜 Svelte 框架，就很大胆地使用了  
+一开始只是随手写的个人用的小网站，因为一直有在尝鲜 Svelte 框架，就很大胆地使用了  
 选用纯 PHP 写后端接口也是图方便省事的原因
 
-结果没想到一周内使用量暴增....  
-现在真的很想前后端分离再用 React + Nestjs 重写一遍（摸了 rua
-
-地图是基于 Leaflet 实现的，现行版本的地标全部使用 DOM 渲染，
-
-在分支 canvas 里，有用自己的 [Leaflet.Canvas-Markers-with-Title](https://github.com/elpwc/Leaflet.Canvas-Markers-with-Title) 插件重写的 canvas 渲染版本。  
-虽然就运行速度来说基本感觉不到卡顿，但生成出来的文字有些糊，个人感觉还是 DOM 看着顺眼，就姑且没有使用 canvas 版本（顺便大幅优化了一下 DOM 版本（速度还是比不过 canvas 版
-
-## 功能
-
-1. 查询地图；
-2. 添加公开的坐标；
-3. 管理已添加的坐标；
-4. 添加讯息(技巧/建议/攻略)；
-5. 浏览讯息；
+地图是基于 Leaflet 实现的，现行版本的地标全部使用 DOM 渲染。
 
 ## 截图
 
 ![alt screenshot](./images/ss1.png)
 ![alt screenshot](./images/ss2.png)
+
+## 关于参与开发
+
+老头环地图的日访问量一直维持在20-30万之间，在如此庞大的用户量面前，我笨拙的技术水平已经不足以跟得上日日增加的计划功能、反馈的bug的开发，所以，欢迎通过邮件/QQ/issue联系 参与到开发里来~
+
+## 贡献者
+
+| <img src="https://avatars.githubusercontent.com/u/52597061?v=4" width = "100" alt="spking11" align=center />|<img src="https://avatars.githubusercontent.com/u/13135477?v=4" width = "100" alt="Ranger" align=center />|
+|-|-|
+|spking11([@spking11](https://github.com/spking11))|Ranger([@RangerChen](https://github.com/RangerChen))|
+
 
 ## 部署
 
@@ -88,3 +85,6 @@
 ## 开源许可
 
 MIT
+
+在包含此协议的前提下可以随意使用、修改、发布 EldenRingMap 的代码。
+
