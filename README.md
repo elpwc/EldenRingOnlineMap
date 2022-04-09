@@ -46,41 +46,86 @@
 |spking11([@spking11](https://github.com/spking11))|Ranger([@RangerChen](https://github.com/RangerChen))|
 
 
-## 部署
+## 开发与部署
 
-之前被问了如何部署，就姑且随意写一下
+### 前端
 
-1. git 到本地后，先
+前端框架：
+Svelte：一个比较新的轻量化的前端框架，具体信息可以参考[官网](https://svelte.dev/)或[中文网](https://www.sveltejs.cn/) 
 
-   ```
-   npm i
-   ```
+> Svelte 是一种全新的构建用户界面的方法。传统框架如 React 和 Vue 在浏览器中需要做大量的工作，而 Svelte 将这些工作放到构建应用程序的编译阶段来处理。
 
-   (废话)
+nodejs version: 16.13.0
 
-2. 后端的话，确保有 php 的运行环境就可以了
-3. 数据库建立参考 `/database.sql`
-4. 数据库配置在 `/public/api/private/` 里  
-   里面有
+npm version: 8.1.2
 
-   - dbcfg.example.php
-   - illegal_words_list.example.php
-   - admin.example.php
+pnpm version: 7.0.0-beta.2
 
-   三个文件  
-   分别是 **数据库配置**，**屏蔽词列表**，**Admin 模式密码**  
-   根据里面的内容增添一下，再把文件名里的 `.example` 去掉就可以正常使用了  
-   在前端进入管理员模式的办法可以可以细读 `src/pages/About.svelte` 内容，进入了就可以直接在前端对各个数据删改了(说明页会出现一个（Admin）字样说明已进入 Admin 模式
+1. 克隆仓库到本地
+```bash
+   git clone https://github.com/elpwc/EldenRingOnlineMap.git
+```
 
-5. 项目使用的 svelte 框架算是多少有些非主流的框架，结构上类似于 Vue，可以参考 [Svelte 官网](https://svelte.dev/) / [Svelte 中文网](https://www.sveltejs.cn/)
-6. 前端使用
-   ```
-   npm run build
-   ```
-   编译后，/public 内就是可以直接扔进服务器跑的东西了
-7. 关于各个文件的说明在 /src/description.txt
+2. 依赖安装
 
-   完成
+**由于项目当前使用了 npm 进行包管理，推荐使用 `npm` 或 `pnpm` 进行依赖安装**
+
+ [pnpm传送门](https://www.pnpm.cn/)
+
+ 如果本地的环境使用的是 `yarn`，提交 pull request 是可以忽略 `yarn.lock` 文件
+```bash
+   npm i // or pnpm install | yarn 
+```
+
+3. 开发环境调试
+```bash
+   npm run dev // or pnpm dev | yarn dev
+```
+
+4. 构建打包
+```bash
+   npm run build // or pnpm build | yarn build
+```
+
+5. 部署
+
+打包后的静态文件位于 `/public` 文件夹下，可以直接作为静态资源部署在静态服务器上。
+
+### 后端
+
+依赖`php`,`mysql`,，
+
+1. 初始化数据库
+
+找到数据库初始化脚本文件 `/database.sql`，通过数据库客户端软件(e.g. navicat)执行脚本即可；
+
+2. 配置数据库
+
+数据库配置在 `/public/api/private/` 下：
+
+```bash
+├── public
+│   ├── api
+│   │   ├── private
+│   │   │   ├── admin.example.php // Admin 模式密码
+│   │   │   ├── dbcfg.example.php // 数据库配置文件
+│   │   │   └── illegal_words_list.example.php // 屏蔽词列表
+```  
+
+启动方式：
+
+在对应的配置中增加了自己的内容后，重命名，将文件名中的 `.example` 就可以生效了
+
+e.g. `admin.example.php` -> `admin.php`
+
+在前端进入管理员模式的办法可以可以细读 `src/pages/About.svelte` 内容，进入了就可以直接在前端对各个数据删改了(说明页会出现一个（Admin）字样说明已进入 Admin 模式；
+
+3. 部署
+
+直接将 `/public` 文件夹的内容部署至 Apache 服务器上即可。
+
+PS：关于各个文件的说明在 `/src/description.txt` 中；
+
 
 ## 开源许可
 
