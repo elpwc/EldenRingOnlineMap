@@ -4,6 +4,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import { svelteSVG } from "rollup-plugin-svelte-svg";
 import sveltePreprocess from 'svelte-preprocess';
 import css from 'rollup-plugin-css-only';
 import json from '@rollup/plugin-json';
@@ -51,7 +52,11 @@ export default defineConfig({
         dev: !production,
       },
     }),
-
+    svelteSVG({
+      // optional SVGO options
+      // pass empty object to enable defaults
+      svgo: {}
+    }),
     // leaflet.css 里含有路径来引用图标，将其静态资源拷贝到 bundle.css 的生成路径下
     copy({
       targets: [{ src: 'node_modules/leaflet/dist/images', dest: 'public/build/' }],
