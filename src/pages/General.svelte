@@ -8,6 +8,8 @@
   import { lang } from '../stores';
   import { ConvertType } from '../utils/convertor';
   import { convertTargetStore, isMobile, hiddenSet } from '../stores';
+
+  import Warning from '../assets/icons/icon-warning.svg';
 </script>
 
 <header>
@@ -39,9 +41,7 @@
     <p style="margin-right: 0px;">{$t('general.localData.title')}</p>
     <div class="tooltip">
       <span class="tooltiptext">{$t('general.localData.tooltip')}</span>
-      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="35" height="35" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"
-        ><circle cx="12" cy="19" r="2" fill="#d0c8b5" /><path fill="#d0c8b5" d="M10 3h4v12h-4z" /></svg
-      >
+      <Warning />
     </div>
 
     <div class="btnContainer">
@@ -160,7 +160,7 @@
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
-  
+
   .aprilfool {
     margin-top: 10px;
     border: solid 1px white;
