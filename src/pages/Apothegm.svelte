@@ -784,8 +784,9 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 80px;
+    bottom: 60px;
     overflow-y: scroll;
+    background-color: rgba(30, 30, 30, 0.9);
   }
   #apothegmContent main {
     background-color: rgb(21, 22, 17, 0.9);
