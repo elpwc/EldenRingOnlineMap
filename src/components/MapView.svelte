@@ -35,7 +35,7 @@
   /** 设备来源 */
   export let device: string = '';
 
-  let filters = getSiteTypeFilters($t);
+  $: filters = getSiteTypeFilters($t);
 
   // 地图数据
   /** 地表地图数据源 */
