@@ -27,7 +27,7 @@
 </script>
 
 {#if visible}
-  <div id="container" style="z-index: {zindex};{ visible && '-webkit-user-select: auto;'}">
+  <div id="container" style="z-index: {zindex};{visible && '-webkit-user-select: auto;'}">
     <div id="bg" style="background-color: {backgroundColor}; opacity: {backgroundOpacity}" transition:fade={{ duration: 300 }} on:outroend={onFlyOutEnd} />
 
     <div class="modal" style="width: {width}; top: {top};" transition:fly={{ y: 200, duration: 300 }}>
@@ -37,7 +37,9 @@
         <hr />
       {/if}
       <div class="content" style="padding: 5px; max-height: {window.innerHeight * 0.75}px">
-        <slot />
+        <main style=" max-height: {window.innerHeight * 0.75}px;">
+          <slot />
+        </main>
         <div style="display:flex; justify-content:space-around;">
           {#if showOkButton}
             <button class="active" on:click={onOKButtonClick} style="margin-right: 5px;">{okButtonText}</button>
@@ -89,7 +91,7 @@
     font-size: 1em;
     padding: 5px 20px;
   }
-  .content {
+  main {
     overflow-y: scroll;
     overflow-x: hidden;
   }

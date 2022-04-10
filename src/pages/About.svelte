@@ -8,6 +8,9 @@
   import { getSiteTypeFilters } from '../utils/filters';
   import * as config from '../config';
 
+  import SubscriptLink7 from '../assets/icons/icon-subscript-link-7.svg';
+  import SubscriptLink10 from '../assets/icons/icon-subscript-link-10.svg';
+
   onMount(() => {
     clickTime = 0;
   });
@@ -80,12 +83,7 @@
       <a href="https://github.com/elpwc" target="_blank">
         @elpwc
         <sup>
-          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="7" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
-            <path
-              fill-rule="evenodd"
-              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
-            />
-          </svg>
+          <SubscriptLink7 />
         </sup>
       </a>
       &copy; 2022 wniko, MIT License<br />
@@ -94,12 +92,7 @@
       <a href="https://www.ali213.net/zt/eldenring/map/" target="_blank">
         Youxia
         <sup>
-          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="7" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
-            <path
-              fill-rule="evenodd"
-              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
-            />
-          </svg>
+          <SubscriptLink7 />
         </sup>
       </a>
       <br />
@@ -112,12 +105,7 @@
       <a href="https://github.com/spking11" target="_blank">
         @spking11
         <sup>
-          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="7" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
-            <path
-              fill-rule="evenodd"
-              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
-            />
-          </svg>
+          <SubscriptLink7 />
         </sup>
       </a>
       <a href="https://github.com/RangerChen" target="_blank">
@@ -153,12 +141,7 @@
       >
         {$t('about.feedback')}
         <sup>
-          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
-            <path
-              fill-rule="evenodd"
-              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
-            />
-          </svg>
+          <SubscriptLink10 />
         </sup>
       </button>
 
@@ -169,12 +152,7 @@
       >
         {$t('about.github')}
         <sup>
-          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-arrow-up-right-square" viewBox="0 0 16 16">
-            <path
-              fill-rule="evenodd"
-              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
-            />
-          </svg>
+          <SubscriptLink10 />
         </sup>
       </button>
     </div>
@@ -215,22 +193,32 @@
         <span>{$t('about.statistics.mostRegion')}</span><span>广东省(12.58%)</span>
       </div>
       <p class="hr">——————{$t('about.statistics.mostSearched')}——————</p>
-      {#each statisticsData.mostSearched as search}
-        <div>
-          <span>{search.word}</span><span>{search.count}</span>
-        </div>
-      {/each}
+      {#if statisticsData.mostSearched}
+        {#each statisticsData.mostSearched as search}
+          <div>
+            <span>{search.word}</span><span>{search.count}</span>
+          </div>
+        {/each}
+      {:else}
+        <p>{$t('about.statistics.serverError')}</p>
+      {/if}
       <p class="hr">——————{$t('about.statistics.types')}——————</p>
-      {#each statisticsData.types as type}
-        <div>
-          <span>
-            {getSiteTypeFilters($t).filter(f => {
-              return String(f.value) === type.word;
-            })?.[0]?.name ?? $t('about.statistics.testMarker')}
-          </span>
-          <span>{type.count}</span>
-        </div>
-      {/each}
+
+      {#if statisticsData.mostSearched}
+        {#each statisticsData.types as type}
+          <div>
+            <span>
+              {getSiteTypeFilters($t).filter(f => {
+                return String(f.value) === type.word;
+              })?.[0]?.name ?? $t('about.statistics.testMarker')}
+            </span>
+            <span>{type.count}</span>
+          </div>
+        {/each}
+      {:else}
+        <p>{$t('about.statistics.serverError')}</p>
+      {/if}
+
       <div style="padding: 30px 0; text-align: center;">
         <img src="https://www.elpwc.com/imagebank/xdz.gif" width="100px" alt="kwiixdz" />
         <p>{$t('about.statistics.end')}</p>

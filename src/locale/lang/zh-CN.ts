@@ -4,9 +4,10 @@ const lang = {
   menu: {
     map: '地图',
     apo: '讯息',
-    routes: '支线(开发中)',
+    routes: '支线(dev)',
     general: '设置',
     about: '说明',
+    tdmap: '3D地图(dev)'
   },
   map: {
     topright: {
@@ -190,6 +191,7 @@ const lang = {
       testMarker: '早期测试用例',
 
       end: '到此为止了喔!',
+      serverError: '服务器连接失败了喵',
     },
     modals: {
       coffee: {

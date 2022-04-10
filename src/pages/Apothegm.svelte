@@ -15,6 +15,13 @@
   import { t } from 'svelte-i18n';
   import { getApoFilters } from '../utils/filters';
 
+  import Edit from '../assets/icons/icon-edit.svg';
+  import SendMyself from '../assets/icons/icon-send-myself.svg';
+  import Pin from '../assets/icons/icon-pin.svg';
+  import Search from '../assets/icons/icon-search.svg';
+  import Left from '../assets/icons/icon-left-arrow.svg';
+  import Comment from '../assets/icons/icon-comment.svg';
+
   let apo_filters = getApoFilters($t);
 
   // 路径参数: 讯息id
@@ -353,12 +360,9 @@
           </button>
         {/if}
       </div>
-      <button on:click={onSearch}
-        ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-          <path
-            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-          />
-        </svg>{$t('apothegm.header.search')}</button
+      <button on:click={onSearch}>
+        <Search />
+        {$t('apothegm.header.search')}</button
       >
     </div>
     <button
@@ -367,15 +371,7 @@
         postModalVisibility = true;
       }}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-        <path
-          d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
-        />
-        <path
-          fill-rule="evenodd"
-          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-        />
-      </svg>
+      <Edit />
       {$t('apothegm.header.write')}
     </button>
     <button
@@ -386,12 +382,7 @@
       }}
       class={showSelf ? 'selfactive' : ''}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-text-center" viewBox="0 0 16 16">
-        <path
-          fill-rule="evenodd"
-          d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
-        />
-      </svg>
+      <SendMyself />
       {$t('apothegm.header.my')}
     </button>
   </header>
@@ -412,11 +403,7 @@
             <div class="title-reply">
               <span class="titlespan">
                 {#if apo.is_top}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-angle-fill" viewBox="0 0 16 16">
-                    <path
-                      d="M9.828.722a.5.5 0 0 1 .354.146l4.95 4.95a.5.5 0 0 1 0 .707c-.48.48-1.072.588-1.503.588-.177 0-.335-.018-.46-.039l-3.134 3.134a5.927 5.927 0 0 1 .16 1.013c.046.702-.032 1.687-.72 2.375a.5.5 0 0 1-.707 0l-2.829-2.828-3.182 3.182c-.195.195-1.219.902-1.414.707-.195-.195.512-1.22.707-1.414l3.182-3.182-2.828-2.829a.5.5 0 0 1 0-.707c.688-.688 1.673-.767 2.375-.72a5.922 5.922 0 0 1 1.013.16l3.134-3.133a2.772 2.772 0 0 1-.04-.461c0-.43.108-1.022.589-1.503a.5.5 0 0 1 .353-.146z"
-                    />
-                  </svg>
+                  <Pin />
                 {/if}
 
                 {#if apo_filters.filter(f => {
@@ -461,9 +448,7 @@
               currentShowingApoIndex = -1;
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
-              <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
-            </svg>
+            <Left />
             {$t('apothegm.reply.return')}
           </button>
         </div>
@@ -487,12 +472,7 @@
               replyModalVisibility = true;
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots" viewBox="0 0 16 16">
-              <path
-                d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-              />
-              <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-            </svg>
+            <Comment />
             {$t('apothegm.reply.reply')}
           </button>
         </div>
@@ -804,8 +784,9 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 80px;
+    bottom: 60px;
     overflow-y: scroll;
+    background-color: rgba(30, 30, 30, 0.9);
   }
   #apothegmContent main {
     background-color: rgb(21, 22, 17, 0.9);

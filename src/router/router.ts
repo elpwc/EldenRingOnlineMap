@@ -8,6 +8,7 @@ import Apothegm from '../pages/Apothegm.svelte';
 import Map from '../pages/Map.svelte';
 import General from '../pages/General.svelte';
 import Routes from '../pages/Routes.svelte';
+import ThreeDimeMap from '../pages/3DMap.svelte';
 
 export const routes = {
   '/': Map,
@@ -16,4 +17,5 @@ export const routes = {
   '/map': Map,
   '/general': General,
   '/routes': Routes,
+  '/3dmap': ThreeDimeMap,
 };
