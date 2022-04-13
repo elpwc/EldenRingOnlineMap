@@ -4,6 +4,12 @@
   import Drawer from './drawer';
   import { boxes } from './data';
 
+  // 初始化地图宽高
+  /** 地图div宽度 */
+  let winW: number = window.innerWidth;
+  /** 地图div高度 */
+  let winH: number = window.innerHeight;
+
   /** 图的长宽 */
   let range = { width: 0, height: 0 };
   /** 计算后的图 */
@@ -15,6 +21,12 @@
   const boxHeight = 50;
 
   onMount(() => {
+    // 地图大小随窗口变化
+    window.addEventListener('resize', e => {
+      winW = window.innerWidth;
+      winH = window.innerHeight;
+    });
+
     // 获得计算后的图
     data = Drawer.d3DagStratify(Drawer.getTree(boxes));
     // 获得图的长宽
@@ -47,11 +59,10 @@
     // 绘制
     refreshRoutes();
   });
-
 </script>
 
 <div>
-  <div id="routeContainer">
+  <div id="routeContainer" style="height: {winH - 60}px;">
     <!--连接线-->
     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       {#each resultLinks as link}
@@ -82,6 +93,9 @@
   #routeContainer {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    position: relative;
+    overflow: scroll;
   }
   .box {
     border: solid 1px white;
