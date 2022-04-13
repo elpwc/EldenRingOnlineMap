@@ -1,8 +1,9 @@
 <script lang="ts">
   import { afterUpdate, onMount } from 'svelte';
-  import { Box, BoxTypes } from './types';
+  import type { Box, BoxTypes } from './types';
   import Drawer from './drawer';
   import { boxes } from './data';
+  import './box.css';
 
   // 初始化地图宽高
   /** 地图div宽度 */
@@ -33,7 +34,7 @@
     range = { width: data.size.width * 2, height: data.size.height * 2 };
   });
   /** 全部Box */
-  let resultBoxes: { top: number; left: number; title: string }[] = [];
+  let resultBoxes: { top: number; left: number; box: Box }[] = [];
   /** 全部连线 */
   let resultLinks: { from: number; to: number; points: { x: number; y: number }[] }[] = [];
 
@@ -45,7 +46,7 @@
     Drawer.draw(
       data.result,
       boxes,
-      (box: { top: number; left: number; title: string }, links: { from: number; to: number; points: { x: number; y: number }[] }[]) => {
+      (box: { top: number; left: number; box: Box }, links: { from: number; to: number; points: { x: number; y: number }[] }[]) => {
         resultBoxes.push(box);
         resultBoxes = resultBoxes;
         resultLinks = [...resultLinks, ...links];
@@ -68,13 +69,7 @@
       {#each resultLinks as link}
         {#each link.points as point, i}
           {#if i > 0}
-            <line
-              x1={link.points[i - 1].x + boxWidth / 2}
-              y1={link.points[i - 1].y + boxHeight / 2}
-              x2={point.x + boxWidth / 2}
-              y2={point.y + boxHeight / 2}
-              style="stroke:rgb(255,0,0);stroke-width:2"
-            />
+            <line x1={link.points[i - 1].x + boxWidth / 2} y1={link.points[i - 1].y + boxHeight / 2} x2={point.x + boxWidth / 2} y2={point.y + boxHeight / 2} />
           {/if}
         {/each}
       {/each}
@@ -82,8 +77,8 @@
 
     <!--框-->
     {#each resultBoxes as box}
-      <div class="box" style="left: {box.left}px; top: {box.top}px; width: {boxWidth}px; height: {boxHeight}px">
-        <p>{box.title}</p>
+      <div class="box box-type{box.box.type}" style="left: {box.left}px; top: {box.top}px; width: {boxWidth}px; height: {boxHeight}px">
+        <p>{box.box.name}</p>
       </div>
     {/each}
   </div>
@@ -98,14 +93,36 @@
     overflow: scroll;
   }
   .box {
-    border: solid 1px white;
-    color: white;
+    border: solid 1px rgb(208, 200, 181);
+    color: rgb(234, 230, 219);
     position: absolute;
     background-color: black;
     z-index: 2;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgb(60, 58, 54);
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+  .box p{
+    margin: 0;
+  }
+
+  @media (any-hover: hover) {
+    .box:hover {
+      background-color: rgb(30, 30, 30);
+      box-shadow: 0 0 10px 0 rgb(60, 58, 54);
+    }
+  }
+
   svg {
     position: absolute;
     z-index: 1;
+  }
+  svg line {
+    stroke: rgb(208, 200, 181);
+    stroke-width: 2;
   }
 </style>

@@ -1,6 +1,5 @@
 import type { Box } from './types';
 import { dagStratify, sugiyama, DagNode, zherebko, grid } from 'd3-dag';
-import { BoxStyles } from './styles';
 
 export default class Drawer {
   public static currentClickedBoxId: number = 1;
@@ -55,18 +54,13 @@ export default class Drawer {
   public static draw = (
     node,
     boxes: Box[],
-    onUpdate: (box: { top: number; left: number; title: string }, links: { from: number; to: number; points: { x: number; y: number }[] }[]) => void,
+    onUpdate: (box: { top: number; left: number; box: Box }, links: { from: number; to: number; points: { x: number; y: number }[] }[]) => void,
     scaleX: number = 50,
     scaleY: number = 50
   ) => {
     // 获取box实例
     const instance = boxes.filter(f => {
       return f.id === Number(node.data.id);
-    })?.[0];
-
-    // 获取style
-    const boxStyle = BoxStyles.filter(f => {
-      return f.type === instance.type;
     })?.[0];
 
     const links: { from: number; to: number; points: { x: number; y: number }[] }[] = [];
@@ -94,6 +88,6 @@ export default class Drawer {
     });
 
     // 返回计算好的DOM属性
-    onUpdate({ top: node.y * scaleY, left: node.x * scaleX, title: instance.name }, links);
+    onUpdate({ top: node.y * scaleY, left: node.x * scaleX, box: instance }, links);
   };
 }
