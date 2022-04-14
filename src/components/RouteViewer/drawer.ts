@@ -2,8 +2,6 @@ import type { Box } from './types';
 import { dagStratify, sugiyama, DagNode, zherebko, grid } from 'd3-dag';
 
 export default class Drawer {
-  public static currentClickedBoxId: number = 1;
-
   /**
    * 将自定义DAG格式转化为D3-DAG格式
    * @param boxes
