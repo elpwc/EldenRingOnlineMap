@@ -9,7 +9,6 @@
   export let title: string = '';
   export let width: string = '60%';
   export let top: string = '20%';
-  export let className: string = '';
   export let showOkButton: boolean = false;
   export let showCloseButton: boolean = false;
   export let okButtonText: string = 'OK';
@@ -28,7 +27,7 @@
 </script>
 
 {#if visible}
-  <div id="container" class={className} style="z-index: {zindex};{visible && '-webkit-user-select: auto;'}">
+  <div id="container" style="z-index: {zindex};{visible && '-webkit-user-select: auto;'}">
     <!--background-->
     <div id="bg" style="background-color: {backgroundColor}; opacity: {backgroundOpacity}" transition:fade={{ duration: 300 }} on:outroend={onFlyOutEnd} />
 
