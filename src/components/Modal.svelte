@@ -28,7 +28,7 @@
 </script>
 
 {#if visible}
-  <div id="container {className}" style="z-index: {zindex};{visible && '-webkit-user-select: auto;'}">
+  <div id="container" class={className} style="z-index: {zindex};{visible && '-webkit-user-select: auto;'}">
     <!--background-->
     <div id="bg" style="background-color: {backgroundColor}; opacity: {backgroundOpacity}" transition:fade={{ duration: 300 }} on:outroend={onFlyOutEnd} />
 
