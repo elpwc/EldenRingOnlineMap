@@ -3,12 +3,13 @@
   Author: wniko
 -->
 <script lang="ts">
-  import { afterUpdate, onDestroy, onMount } from 'svelte';
+  // import { afterUpdate, onDestroy, onMount } from 'svelte';
   import { fade, fly } from 'svelte/transition';
 
   export let title: string = '';
   export let width: string = '60%';
   export let top: string = '20%';
+  export let className: string = '';
   export let showOkButton: boolean = false;
   export let showCloseButton: boolean = false;
   export let okButtonText: string = 'OK';
@@ -27,19 +28,26 @@
 </script>
 
 {#if visible}
-  <div id="container" style="z-index: {zindex};{visible && '-webkit-user-select: auto;'}">
+  <div id="container {className}" style="z-index: {zindex};{visible && '-webkit-user-select: auto;'}">
+    <!--background-->
     <div id="bg" style="background-color: {backgroundColor}; opacity: {backgroundOpacity}" transition:fade={{ duration: 300 }} on:outroend={onFlyOutEnd} />
 
+    <!--front-->
     <div class="modal" style="width: {width}; top: {top};" transition:fly={{ y: 200, duration: 300 }}>
       <!--标题-->
       {#if title}
         <p class="title">{title}</p>
         <hr />
       {/if}
+
+      <!--内容-->
       <div class="content" style="padding: 5px; max-height: {window.innerHeight * 0.75}px">
+        <!--正文-->
         <main style=" max-height: {window.innerHeight * 0.75}px;">
           <slot />
         </main>
+
+        <!--按钮组-->
         <div style="display:flex; justify-content:space-around;">
           {#if showOkButton}
             <button class="active" on:click={onOKButtonClick} style="margin-right: 5px;">{okButtonText}</button>
