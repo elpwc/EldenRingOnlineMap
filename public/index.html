@@ -26,7 +26,8 @@
       const head = document.getElementsByTagName('head')[0];
       const script = document.createElement('script');
       script.setAttribute('defer', 'true');
-      script.setAttribute('src', './build/bundle.js' + params);
+      script.setAttribute('type', 'module');
+      script.setAttribute('src', './build/main.js' + params);
       const link1 = document.createElement('link');
       link1.setAttribute('rel', 'stylesheet');
       link1.setAttribute('href', './global.css' + params);
