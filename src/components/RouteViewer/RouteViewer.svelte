@@ -86,8 +86,10 @@
 </script>
 
 <div>
-  <h1 style="color: white;">只是个预览，没有功能()</h1>
   <div id="routeContainer" style="height: {winH - 60}px;">
+    <h1 style="color: white;">只是个预览，没有功能( )</h1>
+    <p style="color: white;">数据皆为边想边输入的测试数据，不保证正确性orz</p>
+    <p style="color: white;">手机端看不到内容的话请往右边划→</p>
     <!--连接线-->
     <svg xmlns="http://www.w3.org/2000/svg" width="1000%" height="1000%">
       {#each resultLinks as link}
