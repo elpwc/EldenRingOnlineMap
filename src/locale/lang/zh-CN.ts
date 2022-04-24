@@ -161,6 +161,7 @@ const lang = {
     lastUpdate: '最近更新',
     coffee: '请一杯奶茶☕',
     feedback: '漏洞・意见反馈',
+    update: '更新内容',
     github: 'GitHub页面',
     statistics: {
       title: '统计喵',

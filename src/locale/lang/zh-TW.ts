@@ -162,6 +162,7 @@ const lang: langType = {
     lastUpdate: '最近更新',
     coffee: '請一杯奶茶☕',
     feedback: '漏洞・意見反饋',
+    update: '更新內容',
     github: 'GitHub頁面',
     statistics: {
       title: '統計喵',

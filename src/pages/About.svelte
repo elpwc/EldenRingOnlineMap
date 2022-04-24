@@ -10,6 +10,7 @@
 
   import SubscriptLink7 from '../assets/icons/icon-subscript-link-7.svg';
   import SubscriptLink10 from '../assets/icons/icon-subscript-link-10.svg';
+  import UpdateContentModal from '../components/UpdateContentModal.svelte';
 
   onMount(() => {
     clickTime = 0;
@@ -22,6 +23,8 @@
   let inputPasswordVisibility: boolean = false;
   /** 请一杯奶茶Modal */
   let coffeeVisibility: boolean = false;
+
+  let updateVisibility: boolean = false;
 
   /** 输入的密码 */
   let inputPw: string = '';
@@ -129,7 +132,7 @@
 
     <!--下面的按钮组-->
     <div id="buttonsDiv">
-      <button
+      <!--button
         on:click={() => {
           window.open('https://github.com/elpwc/EldenRingOnlineMap/issues', '_blank');
         }}
@@ -138,6 +141,14 @@
         <sup>
           <SubscriptLink10 />
         </sup>
+      </button-->
+
+      <button
+        on:click={() => {
+          updateVisibility = true;
+        }}
+      >
+        {$t('about.update')}
       </button>
 
       <button
@@ -264,6 +275,8 @@
     </div>
   </div>
 </Modal>
+
+<UpdateContentModal {updateVisibility} />
 
 <style>
   .container {
