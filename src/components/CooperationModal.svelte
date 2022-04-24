@@ -17,6 +17,7 @@
     cooperationModalVisibility = false;
     onOKButtonClick();
   }}
+  okButtonText="OK(只会显示一次)"
 >
   <div id="modalContainer">
     <div class="item">

@@ -4,7 +4,7 @@ const lang = {
   menu: {
     map: '地图',
     apo: '讯息',
-    routes: '支线(dev)',
+    routes: '支线(预览)',
     general: '设置',
     about: '说明',
     tdmap: '3D地图(dev)'

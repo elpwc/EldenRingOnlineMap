@@ -5,7 +5,7 @@ const lang: langType = {
   menu: {
     map: '地圖',
     apo: '訊息',
-    routes: '支線(dev)',
+    routes: '支線(預覽)',
     general: '設定',
     about: '說明',
     tdmap: '3D地圖(dev)'
