@@ -10,6 +10,7 @@ export enum BoxTypes {
   Boss = 3,
   Position = 4,
   NPC = 5,
+  Action = 6,
 }
 
 export type Box = {

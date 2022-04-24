@@ -5,28 +5,41 @@
 .box-type1 {
   font-family: Arial;
   font-size: 20px;
+  border-color: rgb(230, 229, 131) !important;
+  color: rgb(230, 229, 131) !important;
 }
 
 /* End */
 .box-type2 {
   font-family: Arial;
   font-size: 20px;
+  border-color: rgb(230, 229, 131) !important;
+  color: rgb(230, 229, 131) !important;
 }
 
 /* Boss */
 .box-type3 {
   font-family: Arial;
   font-size: 15px;
+  border-color: rgb(243, 45, 45) !important;
 }
 
 /* Position */
 .box-type4 {
   font-family: Arial;
-  font-size: 20px;
+  font-size: 15px;
+  border-color: rgb(121, 236, 245) !important;
 }
 
 /* NPC */
 .box-type5 {
+  font-family: Arial;
+  font-size: 10px;
+  border-color: rgb(116, 255, 98) !important;
+}
+
+/* Action */
+.box-type6 {
   font-family: Arial;
   font-size: 10px;
 }
