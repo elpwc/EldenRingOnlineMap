@@ -10,8 +10,10 @@
   import { getCookie, setCookie } from './utils/utils';
   import * as config from './config';
   import UpdateContentModal from './components/UpdateContentModal.svelte';
+  import CooperationModal from './components/CooperationModal.svelte';
 
   let updateVisibility = false;
+  let cooperationModalVisibility = false;
 
   /** 语言 */
   $: menuItems = [
@@ -53,8 +55,12 @@
     {updateVisibility}
     onOKButtonClick={() => {
       setCookie('version', config.default.currentVer);
+
+      cooperationModalVisibility = true;
     }}
   />
+
+  <CooperationModal {cooperationModalVisibility} />
 {/if}
 
 <style>
