@@ -11,6 +11,7 @@
   showOkButton
   top="0%"
   width="85%"
+  backgroundOpacity={0.85}
   title="更新内容"
   zindex={1919811}
   onOKButtonClick={() => {
@@ -27,17 +28,20 @@
         <p>
           大家好~ 我是开发者uni<br />
           两个月来感谢大家的使用和支持！<br />
-          最近几周因为开始全力准备升学，几乎没怎么更新了<br />
-          接下来的一年时间也会是断断续续更新的状态<br />
+          最近几周因为开始全力准备升学，几乎没怎么更新了，真的非常抱歉<br />
+          接下来的一年时间也只会是断断续续更新的状态<br />
+          希望大家能理解!!<br />
           不过只要FS社还在，我就会一直努力让网站运营下去的<br />
-          希望若干年后DLC发售的时候，大家还能记着这个小站w<br />
+          希望若干年后DLC发售的时候，大家还能记着这个小站w<br /><br />
+
+          遇到问题的话记得来反馈群: 161952806<br />
+
           若有意向参与开发，请通过
           <a href="https://github.com/elpwc/EldenRingOnlineMap/issues" target="_blank">github</a> /
           <a href="mailto:elpwc@hotmail.com" target="_blank">email</a> /
           <a href="https://user.qzone.qq.com/2575784532/main" target="_blank">qq</a> /
           <a href="https://twitter.com/elpwc" target="_blank">twitter</a>
           与我取得联系，随时都大欢迎~<br />
-          遇到问题的话记得来反馈群: 161952806<br />
         </p>
       </div>
       <div class="updateSection">
