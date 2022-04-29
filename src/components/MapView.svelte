@@ -1138,10 +1138,10 @@
           <div class="sk-chase-dot" />
         </div>
         {#if isMarkersLoading}
-          <p>加载中</p>
+          <p>{$t('map.loading.loading')}</p>
         {/if}
         {#if isMarkersRenderring}
-          <p>渲染中</p>
+          <p>{$t('map.loading.renderring')}</p>
         {/if}
       </div>
     </div>

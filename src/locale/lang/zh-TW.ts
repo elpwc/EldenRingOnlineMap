@@ -11,6 +11,10 @@ const lang: langType = {
     tdmap: '3D地圖(dev)'
   },
   map: {
+    loading: {
+      loading: '加載中',
+      renderring: '渲染中',
+    },
     topright: {
       search: '搜索',
       add: '添加地標',

@@ -10,6 +10,10 @@ const lang = {
     tdmap: '3D地图(dev)'
   },
   map: {
+    loading: {
+      loading: '加载中',
+      renderring: '渲染中',
+    },
     topright: {
       search: '搜索',
       add: '添加地标',
