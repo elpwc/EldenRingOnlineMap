@@ -21,8 +21,34 @@
 >
   <div id="modalContainer">
     <!--实在没空去搭后端了，就硬编码写在前端了orz-->
+
     <div class="update">
       <p class="updateTitle"><date>{config.default.lastUpdated}</date> 的更新<br />(ver {config.default.currentVer})</p>
+      <div class="updateSection">
+        <div class="updateSection">
+          <p>很可能是上半年最后一次大(?)更新</p>
+        </div>
+        <div class="updateSection">
+          <p class="sectionTitle">✨ 提示:</p>
+          <p>- 地标是可以通过长按/右键点击快速隐藏/收藏的</p>
+        </div>
+        <p class="sectionTitle">💡 新的<ruby>特性</ruby>:</p>
+        <p><b>- 可以给地标评论了！</b></p>
+        <p>- 添加了地标正在载入的提示（现在会有一个转圈圈动画</p>
+        <p>- 更新了支线页的数据</p>
+        <p>- 支线页的连接线改为曲线</p>
+      </div>
+      <div class="updateSection">
+        <p class="sectionTitle">🐞 修复了bug:</p>
+        <p>- 说明页更新窗口只能打开一次</p>
+        <p>- 一些碰巧发现随手改了的bug</p>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="update">
+      <p class="updateTitle"><date>2022-4-24 18:25</date> 的更新<br />(ver 3.2.0.0)</p>
 
       <div class="updateSection">
         <p>
