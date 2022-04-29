@@ -42,6 +42,11 @@ button.checked {
   font-weight: bold;
 }
 
+button:disabled {
+  border: rgb(172 162 138);
+  color: rgb(116 113 106);
+}
+
 @media (any-hover: hover) {
   button:hover,
   select:hover {
