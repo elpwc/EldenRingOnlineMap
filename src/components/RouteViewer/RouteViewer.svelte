@@ -82,7 +82,7 @@
     addBoxModalVisibility = true;
   };
 
-  alert('支线页开发中，暂不可用');
+  //alert('支线页开发中，暂不可用');
 </script>
 
 <div>
@@ -90,14 +90,33 @@
     <h1 style="color: white;">只是个预览，没有功能( )</h1>
     <p style="color: white;">数据皆为边想边输入的测试数据，不保证正确性orz</p>
     <p style="color: white;">手机端看不到内容的话请往右边划→</p>
+    <p style="color: white;">可能会有连线重叠了的情况</p>
     <!--连接线-->
     <svg xmlns="http://www.w3.org/2000/svg" width="1000%" height="1000%">
       {#each resultLinks as link}
+        <path
+          d={`M${link.points[0].x + boxWidth / 2} ${link.points[0].y + boxHeight / 2} 
+              C ${link.points[0].x + boxWidth / 2} ${link.points[0].y + boxHeight / 2 + (link.points[link.points.length - 1].y - link.points[0].y + boxHeight / 2) * 0.5}, 
+              ${link.points[link.points.length - 1].x + boxWidth / 2} ${
+            link.points[link.points.length - 1].y + boxHeight / 2 - (link.points[link.points.length - 1].y - link.points[0].y + boxHeight / 2) * 0.5
+          }, 
+              ${link.points[link.points.length - 1].x + boxWidth / 2} ${link.points[link.points.length - 1].y + boxHeight / 2}`}
+          fill="transparent"
+        />
+        <!--
         {#each link.points as point, i}
           {#if i > 0}
-            <line x1={link.points[i - 1].x + boxWidth / 2} y1={link.points[i - 1].y + boxHeight / 2} x2={point.x + boxWidth / 2} y2={point.y + boxHeight / 2} />
+            <path
+              d={`M${link.points[i - 1].x + boxWidth / 2} ${link.points[i - 1].y + boxHeight / 2} 
+              C ${link.points[i - 1].x + boxWidth / 2} ${link.points[i - 1].y + boxHeight / 2 + 30}, 
+              ${point.x + boxWidth / 2} ${point.y + boxHeight / 2 - 30}, 
+              ${point.x + boxWidth / 2} ${point.y + boxHeight / 2}`}
+              fill="transparent"
+            />
+            !--line x1={link.points[i - 1].x + boxWidth / 2} y1={link.points[i - 1].y + boxHeight / 2} x2={point.x + boxWidth / 2} y2={point.y + boxHeight / 2} /--
           {/if}
         {/each}
+      -->
       {/each}
     </svg>
 
@@ -243,6 +262,10 @@
     z-index: 1;
   }
   svg line {
+    stroke: rgb(208, 200, 181);
+    stroke-width: 2;
+  }
+  svg path {
     stroke: rgb(208, 200, 181);
     stroke-width: 2;
   }
