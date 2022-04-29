@@ -8,8 +8,6 @@
   import { fly } from 'svelte/transition';
   import axios from 'axios';
   import type { Apothegm } from '../utils/typings';
-  // 用来根据ip地址生成匿名用户名
-  import md5 from 'md5';
   import { ApothegmType } from '../utils/enum';
 
   import { t } from 'svelte-i18n';
@@ -21,6 +19,7 @@
   import Search from '../assets/icons/icon-search.svg';
   import Left from '../assets/icons/icon-left-arrow.svg';
   import Comment from '../assets/icons/icon-comment.svg';
+  import { getMD5Id } from '../utils/utils';
 
   let apo_filters = getApoFilters($t);
 
@@ -201,14 +200,6 @@
     } else {
       alert($t('apothegm.alert.titleEmpty'));
     }
-  };
-
-  /**
-   * 根据ip获取对应的匿名id
-   * @param ip IP
-   */
-  const getMD5Id = (ip: string) => {
-    return ip === 'unknown' || ip === '' ? '' : md5(ip).substring(0, 6);
   };
 
   /** 分享 */

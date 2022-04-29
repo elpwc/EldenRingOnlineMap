@@ -3,6 +3,7 @@
  * @author wniko
  */
 import axios from 'axios';
+import md5 from 'md5';
 import { setIp } from '../stores';
 import type { GetIPPositionReturn } from './typings';
 
@@ -64,4 +65,12 @@ export const getCookie = (cname: string): string => {
     if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
   }
   return '';
+};
+
+/**
+ * 根据ip获取对应的匿名id
+ * @param ip IP
+ */
+export const getMD5Id = (ip: string) => {
+  return ip === 'unknown' || ip === '' ? '' : md5(ip).substring(0, 6);
 };
