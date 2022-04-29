@@ -55,7 +55,7 @@
     {updateVisibility}
     onOKButtonClick={() => {
       setCookie('version', config.default.currentVer);
-
+      updateVisibility = false;
       cooperationModalVisibility = true;
     }}
   />
