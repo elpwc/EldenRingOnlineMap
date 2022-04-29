@@ -20,6 +20,7 @@
   import jQuery from 'jquery';
   import RightMenu from './MapViewComponents/RightMenu.svelte';
   import * as config from '../config';
+  import '../../node_modules/spinkit/spinkit.min.css';
 
   import SearchIcon from '../assets/icons/icon-search.svg';
   import QuitMark from '../assets/icons/icon-quit-mark.svg';
@@ -172,6 +173,9 @@
   let replyContent: string = '';
 
   let isReplyLoading: boolean = false;
+
+  let isMarkersLoading: boolean = false;
+  let isMarkersRenderring: boolean = false;
 
   const refreshCurrentShowingMapReplies = (id: number, onFinish?: (data: Reply[]) => void) => {
     axios
@@ -478,6 +482,7 @@
 
   /** 从服务端更新markers, 只在启动时全部读取一次，之后只通过id更新单个 */
   const refreshAllMarkers = (id?: number, onGet?: () => void) => {
+    isMarkersLoading = true;
     if (id && id > 0) {
       // 加载指定id
       axios
@@ -495,6 +500,7 @@
             allMarkers.push(res?.data?.[0]);
           }
 
+          isMarkersLoading = false;
           updateShowingMarkers(id);
         });
     } else {
@@ -519,11 +525,14 @@
         .then(res => {
           if (res?.data && Array.isArray(res?.data)) {
             setAllMarkers(res?.data);
+
+            isMarkersLoading = false;
             updateShowingMarkers();
 
             onGet?.();
           } else {
             alert($t('map.alert.maperror'));
+            isMarkersLoading = false;
           }
         });
     }
@@ -635,6 +644,7 @@
    * @param id 指定渲染的id，不填的话加载所有
    */
   const updateShowingMarkers = (id: number = 0) => {
+    isMarkersRenderring = true;
     if (id > 0) {
       // 加载指定id
       /** 加载到的坐标数据 */
@@ -664,6 +674,8 @@
           })[0]
           .marker.addTo(map);
       }
+
+      isMarkersRenderring = false;
     } else {
       // 加载全部
       markers.forEach(marker => {
@@ -690,6 +702,8 @@
           marker.marker.addTo(map);
         }
       });
+
+      isMarkersRenderring = false;
     }
   };
 
@@ -1112,6 +1126,27 @@
 {/if}
 
 <div>
+  {#if isMarkersLoading || isMarkersRenderring}
+    <div class="loadingDivContainer">
+      <div class="loadingDiv">
+        <div class="sk-chase">
+          <div class="sk-chase-dot" />
+          <div class="sk-chase-dot" />
+          <div class="sk-chase-dot" />
+          <div class="sk-chase-dot" />
+          <div class="sk-chase-dot" />
+          <div class="sk-chase-dot" />
+        </div>
+        {#if isMarkersLoading}
+          <p>加载中</p>
+        {/if}
+        {#if isMarkersRenderring}
+          <p>渲染中</p>
+        {/if}
+      </div>
+    </div>
+  {/if}
+
   <header id="topDiv">
     {#if !isAddPointMode}
       <div id="searchTextContainer">
@@ -1890,5 +1925,21 @@
   .replyList {
     border: solid 1px rgb(204, 178, 118);
     padding: 5px;
+  }
+  .loadingDivContainer {
+    position: fixed;
+    z-index: 1145141919810;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+  .loadingDiv {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    margin: 0 auto;
+    width: fit-content;
+    border-radius: 10px;
   }
 </style>
