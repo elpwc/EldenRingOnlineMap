@@ -70,6 +70,8 @@ const lang: langType = {
         unhide: '取消隱藏',
         lock: '鎖定',
         btn1: '關閉',
+        reply: '補充',
+        replyLoading: '加載中...'
       },
       delete: {
         btn1: '確認刪除',

@@ -69,6 +69,8 @@ const lang = {
         unhide: '取消隐藏',
         lock: '锁定',
         btn1: '关闭',
+        reply: '补充',
+        replyLoading: '加载中...'
       },
       delete: {
         btn1: '确认删除',

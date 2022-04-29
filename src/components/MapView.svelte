@@ -1408,11 +1408,11 @@
         <input type="text" bind:value={replyContent} /><button
           on:click={() => {
             onReply();
-          }}>补充</button
+          }}>{$t('map.modals.info.reply')}</button
         >
       </div>
       {#if isReplyLoading}
-        <p>加载中...</p>
+        <p>{$t('map.modals.info.replyLoading')}</p>
       {:else if currentShowingMapReplies?.length > 0}
         {#each currentShowingMapReplies as reply, index (reply.id)}
           <div class="apothegm">
@@ -1455,6 +1455,8 @@
             <p class="contentp-reply">{@html reply?.content?.replaceAll('\n', '<br />')}</p>
           </div>
         {/each}
+      {:else}
+        <!--p>暂无补充喵</p-->
       {/if}
     </main>
   </div>
