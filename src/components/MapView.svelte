@@ -478,7 +478,7 @@
       // 加载指定id
       axios
         .get('./map.php', {
-          params: { id, queryType: 0 },
+          params: { id, queryType: 2 },
         })
         .then(res => {
           const index = allMarkers.findIndex(i => {
@@ -503,7 +503,7 @@
             ip: showSelf ? ip : '',
             under: is_underground ? 1 : 2,
             queryPosition: current_position.join('|'),
-            queryType: 0,
+            queryType: 2,
           },
         })
         .then(res => {
@@ -699,7 +699,7 @@
         .get('./map.php', {
           params: {
             kword: getKeywordText(searchWord),
-            queryType: 0,
+            queryType: 2,
           },
         })
         .then(res => {
@@ -757,6 +757,8 @@
                   ? {
                       lng: currentClickedlatLng.lng,
                       lat: currentClickedlatLng.lat,
+                      x: map.latLngToLayerPoint(currentClickedlatLng).x,
+                      y: map.latLngToLayerPoint(currentClickedlatLng).y,
                     }
                   : {}),
               })
@@ -819,6 +821,8 @@
                   position: addedPointPosition,
                   lng: currentClickedlatLng.lng,
                   lat: currentClickedlatLng.lat,
+                  x: map.latLngToLayerPoint(currentClickedlatLng).x,
+                  y: map.latLngToLayerPoint(currentClickedlatLng).y,
                   is_underground: is_underground ? '1' : '2',
                   like: 0,
                   dislike: 0,
@@ -1045,6 +1049,33 @@
 
     addPointVisability = true;
   };
+
+  const onGenerateALLXYCoordinateButtonClicked = () => {
+    map.setZoom(12);
+    axios
+      .get('./map.php', {
+        params: {
+          queryType: 0,
+        },
+      })
+      .then(res => {
+        if (res?.data && Array.isArray(res?.data)) {
+          const data: MapPoint[] = res?.data;
+          data.forEach(pointtemp => {
+            const timer = setTimeout(() => {
+              axios
+                .patch('./map.php', { id: pointtemp.id, x: map.latLngToLayerPoint(L.latLng(pointtemp.lat, pointtemp.lng)).x, y: map.latLngToLayerPoint(L.latLng(pointtemp.lat, pointtemp.lng)).y })
+                .then(() => {
+                  console.log(pointtemp.id);
+                });
+            }, 500);
+          });
+          alert('complete~');
+        } else {
+          alert($t('map.alert.maperror'));
+        }
+      });
+  };
 </script>
 
 <!--右键菜单-->
@@ -1260,6 +1291,15 @@
   <!--筛选栏结束-->
 
   <div id="bottomDiv">
+    {#if config.default.inDev}
+      <button
+        on:click={() => {
+          onGenerateALLXYCoordinateButtonClicked();
+        }}
+      >
+        generate xy coordinate
+      </button>
+    {/if}
     <!--移动控件-->
     {#if from === 'dodo' && device === 'ios'}
       <DirectionControl
