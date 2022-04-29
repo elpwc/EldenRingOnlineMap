@@ -244,6 +244,7 @@
           .then(res => {
             console.log(res);
             replyContent = '';
+            refreshCurrentShowingMapReplies(currentClickedMarker.id);
           });
       } else {
         alert($t('apothegm.alert.contentExceeded'));
@@ -1482,15 +1483,17 @@
       <!--锁定-->
       <button disabled={!$isAdminModeStore}>
         <label disabled={!$isAdminModeStore} style="color: rgb(208, 200, 181);">
-          <input type="checkbox" checked={config.default.isLockAllMarkers ? true : currentClickedMarker?.is_lock} on:change={onSetLockChecked} />{$t('map.modals.info.lock')}</label
+          <input disabled={!$isAdminModeStore} type="checkbox" checked={config.default.isLockAllMarkers ? true : currentClickedMarker?.is_lock} on:change={onSetLockChecked} />{$t(
+            'map.modals.info.lock'
+          )}</label
         >
       </button>
     </div>
 
     <!--回复列表-->
     <main class="replyList">
-      <div>
-        <input type="text" bind:value={replyContent} /><button
+      <div style="display: flex;">
+        <input style="width: -webkit-fill-available;" type="text" bind:value={replyContent} /><button
           on:click={() => {
             onReply();
           }}>{$t('map.modals.info.reply')}</button
@@ -1874,7 +1877,7 @@
   }
   @media (any-hover: hover) {
     .apothegm:hover {
-      background-color: rgb(38, 39, 33);
+      background-color: rgb(38, 39, 33, 0.5);
     }
   }
   .apothegm:active {
@@ -1923,8 +1926,9 @@
     margin: 5px 0;
   }
   .replyList {
-    border: solid 1px rgb(204, 178, 118);
+    /*border: solid 1px rgb(204, 178, 118);*/
     padding: 5px;
+    width: 95%;
   }
   .loadingDivContainer {
     position: fixed;
