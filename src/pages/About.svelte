@@ -276,7 +276,12 @@
   </div>
 </Modal>
 
-<UpdateContentModal {updateVisibility} />
+<UpdateContentModal
+  {updateVisibility}
+  onOKButtonClick={() => {
+    updateVisibility = false;
+  }}
+/>
 
 <style>
   .container {

@@ -15,7 +15,7 @@
   title="更新内容"
   zindex={1919811}
   onOKButtonClick={() => {
-    updateVisibility = false;
+    // updateVisibility = false;
     onOKButtonClick();
   }}
 >
