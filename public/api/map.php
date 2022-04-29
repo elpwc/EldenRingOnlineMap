@@ -30,10 +30,12 @@ switch ($request_type) {
         @$ip = trim((string)($data->ip));
         @$is_underground = (string)($data->is_underground);
         @$position = (string)($data->position);
+        @$x = ($data->x);
+        @$y = ($data->y);
 
         $sql = 'INSERT 
-        INTO map (`type`, `name`, `desc`, `lng`, `lat`, `like`, `dislike`, `ip`, `is_deleted`, `is_underground`, `position`)
-        VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0", "' . ($is_underground == '1' ? '1' : '0')  . '","' . $position . '");
+        INTO map (`type`, `name`, `desc`, `lng`, `lat`, `like`, `dislike`, `ip`, `is_deleted`, `is_underground`, `position`, `x`, `y`)
+        VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0", "' . ($is_underground == '1' ? '1' : '0')  . '","' . $position  . '","' . $x . '","' . $y . '");
         ';
 
         $result = mysqli_query($sqllink, $sql);
@@ -66,11 +68,17 @@ switch ($request_type) {
             $queryType = (int)$queryType_ori;
 
             switch ($queryType) {
-                case 0:
+                case 0: // 获取全部信息
                     $count = '*';
                     break;
-                case 1:
-                    $count = '(`id`,`name`,`type`,`lng`,`lat`,`like`,`dislike`,`delete_request`)';
+                case 1: // 只获取主要信息
+                    $count = '`id`,`name`,`type`,`lng`,`lat`,`like`,`dislike`,`delete_request`';
+                    break;
+                case 2: // 获取lnglat
+                    $count = '`id`,`name`, `desc`,`type`,`lng`,`lat`,`is_underground`,`position`,`is_lock`,`is_achivement`,`like`,`dislike`,`delete_request`,`ip`,`is_deleted`,`create_date`, `update_date`';
+                    break;
+                case 3: // 获取xy
+                    $count = '`id`,`name`, `desc`,`type`,`x`,`y`,`is_underground`,`position`,`is_lock`,`is_achivement`,`like`,`dislike`,`delete_request`,`ip`,`is_deleted`,`create_date`, `update_date`';
                     break;
                 default:
                     $count = '*';
@@ -193,10 +201,12 @@ switch ($request_type) {
 
         $res = [];
 
+        $aes_key = '202204292120';
+
         if ($result->num_rows > 0) {
             $i = 0;
             while ($row = $result->fetch_assoc()) {
-                array_push($res, [
+                @array_push($res, [
                     'id' => (int)$row['id'],
                     'type' => $row['type'],
                     'name' => $row['name'],
@@ -213,6 +223,8 @@ switch ($request_type) {
                     'position' => (int)$row['position'],
                     'create_date' => $row['create_date'],
                     'update_date' => $row['update_date'],
+                    'x' => openssl_encrypt($row['x'], "AES-128-CBC", $aes_key, OPENSSL_ZERO_PADDING),
+                    'y' => openssl_encrypt($row['y'], "AES-128-CBC", $aes_key, OPENSSL_ZERO_PADDING),
                 ]);
                 $i++;
             }
@@ -248,6 +260,8 @@ switch ($request_type) {
         @$is_lock = property_exists($data, 'is_lock') ? (string)($data->is_lock) : null;
         @$is_underground = property_exists($data, 'is_underground') ? (string)($data->is_underground) : null;
         @$position = property_exists($data, 'position') ? (string)($data->position) : null;
+        @$x = ($data->x);
+        @$y = ($data->y);
 
         if ($is_deleted == 'false') $is_deleted = "0";
         if ($is_lock == 'false') $is_lock = "0";
@@ -267,6 +281,8 @@ switch ($request_type) {
             ['is_lock', $is_lock, true],
             ['is_underground', $is_underground, true],
             ['position', $position, true],
+            ['x', $x, true],
+            ['y', $y, true],
         ];
 
         $geneRes = patch_condition($select);
