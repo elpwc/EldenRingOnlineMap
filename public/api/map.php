@@ -222,8 +222,8 @@ switch ($request_type) {
                     'position' => (int)$row['position'],
                     'create_date' => $row['create_date'],
                     'update_date' => $row['update_date'],
-                    'x' => openssl_encrypt($row['x'], "AES-128-CBC", AESKEY, OPENSSL_ZERO_PADDING),
-                    'y' => openssl_encrypt($row['y'], "AES-128-CBC", AESKEY, OPENSSL_ZERO_PADDING),
+                    'x' => base64_encode(openssl_encrypt($row['x'], "AES-256-CBC", AESKEY, 0)),
+                    'y' => base64_encode(openssl_encrypt($row['y'], "AES-256-CBC", AESKEY, 0)),
                 ]);
                 $i++;
             }
