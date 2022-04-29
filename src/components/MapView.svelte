@@ -423,6 +423,8 @@
         showPlaceNames = true;
       }
 
+      // 加载坐标
+      //refreshAllMarkers();
       updateShowingMarkers();
     });
 
@@ -431,6 +433,8 @@
       setCookie('centerlat', map?.getCenter().lat);
       setCookie('centerlng', map?.getCenter().lng);
 
+      // 加载坐标
+      //refreshAllMarkers();
       updateShowingMarkers();
     });
 
@@ -504,6 +508,12 @@
             under: is_underground ? 1 : 2,
             queryPosition: current_position.join('|'),
             queryType: 2,
+            /*
+            x1: map.getBounds().getSouthWest().lat,
+            y1: map.getBounds().getSouthWest().lng,
+            x2: map.getBounds().getNorthEast().lat,
+            y2: map.getBounds().getNorthEast().lng,
+            */
           },
         })
         .then(res => {

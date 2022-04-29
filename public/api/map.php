@@ -55,6 +55,11 @@ switch ($request_type) {
         /** 获取的地表类型，不填为全部 */
         @$queryPosition_ori = $_GET['queryPosition'];
 
+        @$x1_ori =  $_GET['x1'];
+        @$y1_ori =  $_GET['y1'];
+        @$x2_ori =  $_GET['x2'];
+        @$y2_ori =  $_GET['y2'];
+
         $id = '';
         $ip = '';
         $type = '';
@@ -63,6 +68,24 @@ switch ($request_type) {
         $queryType = '';
         $queryPosition = '';
         $count = '';
+        $x1 = null;
+        $y1 = null;
+        $x2 = null;
+        $y2 = null;
+
+
+        if (is_numeric($x1_ori)) {
+            $x1 = (int)$x1_ori;
+        }
+        if (is_numeric($y1_ori)) {
+            $y1 = (int)$x1_ori;
+        }
+        if (is_numeric($x2_ori)) {
+            $x2 = (int)$x2_ori;
+        }
+        if (is_numeric($y2_ori)) {
+            $y2 = (int)$y2_ori;
+        }
 
 
         if (is_numeric($queryType_ori)) {
@@ -169,6 +192,14 @@ switch ($request_type) {
             }
         }
 
+        $rangearr = [];
+        if ($x1 !== null && $x2 !== null && $y1 !== null && $y2 !== null) {
+            array_push($rangearr, ['>', ['lat', $x1]]);
+            array_push($rangearr, ['<', ['lat', $x2]]);
+            array_push($rangearr, ['>', ['lng', $y1]]);
+            array_push($rangearr, ['<', ['lng', $y2]]);
+        }
+
 
         $select = [];
 
@@ -181,12 +212,15 @@ switch ($request_type) {
                     ['OR', $positionarr],
                     ['', ['ip', $ip]],
                     ['', ['is_underground', $under]],
-                    ['', ['is_deleted', '0']]
+                    ['', ['is_deleted', '0']],
+                    ['AND', $rangearr],
                 ]
             ];
         } else {
             $select =  ['', ['id', $id]];
         }
+
+
 
         $geneRes = get_condition($select);
         if ($geneRes != '') {
@@ -197,6 +231,8 @@ switch ($request_type) {
         FROM map
         $geneRes;
         ";
+
+        //echo ($sql);
 
         $result = mysqli_query($sqllink, $sql);
 

@@ -23,6 +23,11 @@
  * 3. 对于LIKE:
  * ['LIKE', [列名, 值]]会生成:
  * `列名` LIKE "%值%"
+ * 
+ * 4. 对于> < >= <=:
+ * ['>', [列名, 值]]会生成:
+ * `列名` > 值
+ * 
  */
 function get_condition($condition)
 {
@@ -35,7 +40,7 @@ function get_condition($condition)
         if ($condition[1][1] != '') {
             $res .= '`' . $condition[1][0] . '`' . ' LIKE "%' . $condition[1][1] . '%"';
         }
-    } else {
+    } else if ($condition[0] === 'AND' || $condition[0] === 'OR') {
         if (count($condition[1]) > 1) {
             $res .= '(';
             $tres = '';
@@ -53,6 +58,11 @@ function get_condition($condition)
             }
         } else {
             $res .= @get_condition($condition[1][0]);
+        }
+    } else {
+        // > < >= <=
+        if (@$condition[1][1] !== '') {
+            $res .= '`' . $condition[1][0] . '`' . " $condition[0] " . $condition[1][1];
         }
     }
     return $res;
