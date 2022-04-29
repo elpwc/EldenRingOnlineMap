@@ -5,12 +5,19 @@ export const boxes: Box[] = [
   { id: 7, name: '史东薇尔城', type: BoxTypes.Position, pids: [{ id: 1, type: 0 }] },
   { id: 1, name: '噩兆', type: BoxTypes.Boss, pids: [{ id: 56, type: 0 }] },
   { id: 2, name: '接肢', type: BoxTypes.Boss, pids: [{ id: 7, type: 0 }] },
-  { id: 3, name: '湖区', type: BoxTypes.Position, pids: [{ id: 2, type: 0 }] },
+  {
+    id: 3,
+    name: '湖区',
+    type: BoxTypes.Position,
+    pids: [
+      { id: 2, type: 0 },
+      { id: 56, type: 0 },
+    ],
+  },
   { id: 4, name: '满月女王', type: BoxTypes.Boss, pids: [{ id: 13, type: 0 }] },
   { id: 8, name: '王城', type: BoxTypes.Position, pids: [{ id: 48, type: 0 }] },
   { id: 5, name: '初始之王', type: BoxTypes.Boss, pids: [{ id: 8, type: 0 }] },
-  { id: 6, name: '雪山', type: BoxTypes.Position, pids: [{ id: 14, type: 0 }] },
-  { id: 9, name: '菈妮', type: BoxTypes.NPC, pids: [{ id: 3, type: 0 }] },
+  { id: 9, name: '菈妮', type: BoxTypes.NPC, pids: [{ id: 75, type: 0 }] },
   { id: 10, name: '狮子混种', type: BoxTypes.Boss, pids: [{ id: 59, type: 0 }] },
   {
     id: 11,
@@ -78,10 +85,7 @@ export const boxes: Box[] = [
     id: 33,
     name: '群星时代',
     type: BoxTypes.End,
-    pids: [
-      { id: 36, type: 0 },
-      { id: 35, type: 0 },
-    ],
+    pids: [{ id: 36, type: 0 }],
   },
   {
     id: 34,
@@ -92,7 +96,7 @@ export const boxes: Box[] = [
       { id: 35, type: 0 },
     ],
   },
-  { id: 35, name: '触碰玛莉卡', type: BoxTypes.Action, pids: [{ id: 28, type: 0 }] },
+  { id: 35, name: '触碰玛莉卡', type: BoxTypes.Action, pids: [{ id: 28, type: 0 },{ id: 80, type: 0 }] },
   {
     id: 36,
     name: '触碰菈妮的符文',
@@ -170,16 +174,21 @@ export const boxes: Box[] = [
       { id: 66, type: 0 },
     ],
   },
-  { id: 66, name: '安瑟尔河(上)', type: BoxTypes.Position, pids: [{ id:75, type: 0 },{ id: 63, type: 0 }] },
+  {
+    id: 66,
+    name: '安瑟尔河(上)',
+    type: BoxTypes.Position,
+    pids: [
+      { id: 9, type: 0 },
+      { id: 63, type: 0 },
+    ],
+  },
   { id: 65, name: '腐败湖', type: BoxTypes.Position, pids: [{ id: 66, type: 0 }] },
   {
     id: 67,
     name: '和菈妮结婚',
     type: BoxTypes.Action,
-    pids: [
-      { id: 9, type: 0 },
-      { id: 70, type: 0 },
-    ],
+    pids: [{ id: 70, type: 0 }],
   },
   { id: 68, name: '诺克史黛拉的龙人士兵', type: BoxTypes.Boss, pids: [{ id: 64, type: 0 }] },
   { id: 69, name: '黑暗弃子艾斯提', type: BoxTypes.Boss, pids: [{ id: 65, type: 0 }] },
@@ -193,4 +202,15 @@ export const boxes: Box[] = [
   { id: 77, name: '王城下水道', type: BoxTypes.Position, pids: [{ id: 8, type: 0 }] },
   { id: 78, name: '癫火封印', type: BoxTypes.Position, pids: [{ id: 76, type: 0 }] },
   { id: 79, name: '神皮双人组', type: BoxTypes.Boss, pids: [{ id: 22, type: 0 }] },
+  {
+    id: 80,
+    name: '净化癫火',
+    type: BoxTypes.Action,
+    pids: [
+      { id: 24, type: 0 },
+      { id: 81, type: 0 },
+      { id: 37, type: 0 },
+    ],
+  },
+  { id: 81, name: '取得金针', type: BoxTypes.Action, pids: [{ id: 46, type: 0 }] },
 ];
