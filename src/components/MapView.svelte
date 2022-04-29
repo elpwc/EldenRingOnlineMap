@@ -8,10 +8,10 @@
   import { MapPointType, PointPosition } from '../utils/enum';
   import axios from 'axios';
   import { allMarkers, collectionSet, hiddenSet, ip, isAdminModeStore, isMobile, setAllMarkers } from '../stores';
-  import type { MapPoint } from '../utils/typings';
+  import type { MapPoint, Reply } from '../utils/typings';
   import { MapIcon } from './icons';
   import './icons.css';
-  import { getCookie, setCookie } from '../utils/utils';
+  import { getCookie, getMD5Id, setCookie } from '../utils/utils';
   import DirectionControl from './MapViewComponents/DirectionControl.svelte';
   import { getConvertedText, getKeywordText } from '../utils/convertor';
   import { t } from 'svelte-i18n';
@@ -19,6 +19,7 @@
   import zhConvertor from 'zhconvertor';
   import jQuery from 'jquery';
   import RightMenu from './MapViewComponents/RightMenu.svelte';
+  import * as config from '../config';
 
   import SearchIcon from '../assets/icons/icon-search.svg';
   import QuitMark from '../assets/icons/icon-quit-mark.svg';
@@ -160,6 +161,93 @@
 
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
+
+  let currentShowingMapReplies: Reply[] = [];
+
+  let currentClickedReplyID: number = 0;
+
+  /** 当前删除类型，0：marker, 1: reply */
+  let deleteType: number = 0;
+
+  let replyContent: string = '';
+
+  let isReplyLoading: boolean = false;
+
+  const refreshCurrentShowingMapReplies = (id: number, onFinish?: (data: Reply[]) => void) => {
+    axios
+      .get('./mapReply.php', {
+        params: {
+          pid: id,
+        },
+      })
+      .then(res => {
+        currentShowingMapReplies = res.data as Reply[];
+        onFinish?.(res.data as Reply[]);
+      });
+  };
+
+  /** 删除回复 */
+  const onDeleteReply = id => {
+    axios
+      .delete('./mapReply.php', {
+        data: {
+          id,
+        },
+      })
+      .then(res => {
+        currentShowingMapReplies = currentShowingMapReplies.filter(f => {
+          return f.id !== id;
+        });
+      });
+  };
+
+  /** 对回复好评 */
+  const onLikeReply = id => {
+    axios
+      .patch('./mapReply.php', {
+        id,
+        like: 0,
+      })
+      .then(res => {
+        refreshCurrentShowingMapReplies(currentClickedMarker.id);
+      });
+  };
+
+  /** 对回复恶评 */
+  const onDislikeReply = id => {
+    axios
+      .patch('./mapReply.php', {
+        id,
+        dislike: 0,
+      })
+      .then(res => {
+        refreshCurrentShowingMapReplies(currentClickedMarker.id);
+      });
+  };
+
+  /** 回复 */
+  const onReply = () => {
+    if (replyContent !== '') {
+      if (replyContent.length <= 1000) {
+        axios
+          .post('./mapReply.php', {
+            pid: currentClickedMarker.id,
+            content: replyContent,
+            like: 0,
+            dislike: 0,
+            ip,
+          })
+          .then(res => {
+            console.log(res);
+            replyContent = '';
+          });
+      } else {
+        alert($t('apothegm.alert.contentExceeded'));
+      }
+    } else {
+      alert($t('apothegm.alert.contentEmpty'));
+    }
+  };
 
   /** 刷新左侧栏tip */
   const refreshLeftBarTipIndex = () => {
@@ -513,6 +601,13 @@
         // 在添加的时候不能误点了(取消了， 因为被太多人反应是个bug乌乌明明不是)
         //if (!isAddPointMode) {
         currentClickedMarker = marker;
+
+        isReplyLoading = true;
+        // 加载回复列表
+        refreshCurrentShowingMapReplies(marker.id, data => {
+          isReplyLoading = false;
+        });
+
         markerInfoVisibility = true;
         //}
       })
@@ -1210,7 +1305,16 @@
   okButtonText={$t('map.modals.delete.btn1')}
   closeButtonText={$t('map.modals.delete.btn2')}
   onOKButtonClick={() => {
-    onDelete();
+    switch (deleteType) {
+      case 0:
+        onDelete();
+        break;
+      case 1:
+        onDeleteReply(currentClickedReplyID);
+        break;
+      default:
+        break;
+    }
     deleteConfirmVisibility = false;
   }}
   onCloseButtonClick={() => {
@@ -1245,19 +1349,18 @@
     </div>
 
     <div>
-      {#if !currentClickedMarker?.is_lock || $isAdminModeStore}
-        <!--编辑按钮-->
-        <button
-          on:click={() => {
-            showEditModal(currentClickedMarker);
-          }}
-        >
-          <Edit />
-          {$t('map.modals.info.edit')}
-        </button>
-      {/if}
+      <!--编辑按钮-->
+      <button
+        on:click={() => {
+          showEditModal(currentClickedMarker);
+        }}
+        disabled={!(!currentClickedMarker?.is_lock || $isAdminModeStore)}
+      >
+        <Edit />
+        {$t('map.modals.info.edit')}
+      </button>
 
-      {#if (!currentClickedMarker?.is_lock && currentClickedMarker?.ip === ip) || $isAdminModeStore}
+      {#if (!(config.default.isLockAllMarkers ? true : currentClickedMarker?.is_lock) && currentClickedMarker?.ip === ip) || $isAdminModeStore}
         <!--删除按钮-->
         <button
           on:click={() => {
@@ -1277,23 +1380,83 @@
         <Collect />
         {$collections.has(currentClickedMarker?.id) ? $t('map.modals.info.uncollect') : $t('map.modals.info.collect')}
       </button>
-      <label style="color: rgb(208, 200, 181);">
-        <input
-          type="checkbox"
-          checked={$hiddens.has(currentClickedMarker?.id)}
-          on:change={() => {
-            // 隐藏
-            hideMarker(currentClickedMarker?.id);
-          }}
-        />
-        {$t('map.modals.info.hide')}
-      </label>
+      <button>
+        <label style="color: rgb(208, 200, 181);">
+          <input
+            type="checkbox"
+            checked={$hiddens.has(currentClickedMarker?.id)}
+            on:change={() => {
+              // 隐藏
+              hideMarker(currentClickedMarker?.id);
+            }}
+          />
+          {$t('map.modals.info.hide')}
+        </label>
+      </button>
 
-      {#if $isAdminModeStore}
-        <!--锁定-->
-        <label style="color: rgb(208, 200, 181);"><input type="checkbox" checked={currentClickedMarker?.is_lock} on:change={onSetLockChecked} />{$t('map.modals.info.lock')}</label>
-      {/if}
+      <!--锁定-->
+      <button disabled={!$isAdminModeStore}>
+        <label disabled={!$isAdminModeStore} style="color: rgb(208, 200, 181);">
+          <input type="checkbox" checked={config.default.isLockAllMarkers ? true : currentClickedMarker?.is_lock} on:change={onSetLockChecked} />{$t('map.modals.info.lock')}</label
+        >
+      </button>
     </div>
+
+    <!--回复列表-->
+    <main class="replyList">
+      <div>
+        <input type="text" bind:value={replyContent} /><button
+          on:click={() => {
+            onReply();
+          }}>补充</button
+        >
+      </div>
+      {#if isReplyLoading}
+        <p>加载中...</p>
+      {:else if currentShowingMapReplies?.length > 0}
+        {#each currentShowingMapReplies as reply, index (reply.id)}
+          <div class="apothegm">
+            <div class="title">
+              <div class="title-reply"><span class="titlespan">{'#' + String(index + 1) + ' ' + getMD5Id(reply?.ip)}</span></div>
+              <div class="title-reply">
+                <span class="datespan">{reply?.create_date}</span>
+                {#if $isAdminModeStore || reply?.ip === ip}
+                  <button
+                    on:click={() => {
+                      currentClickedReplyID = reply.id;
+                      //currentClickedReplyIndex = index;
+
+                      // 设置删除的是讯息还是回复
+                      deleteType = 1;
+                      deleteConfirmVisibility = true;
+                    }}
+                  >
+                    {$t('apothegm.reply.delete')}
+                  </button>
+                {/if}
+                <span class="likespan">
+                  <button
+                    on:click={() => {
+                      //currentClickedReplyId = reply?.id;
+                      //currentClickedReplyIndex = index;
+                      onLikeReply(reply?.id);
+                    }}>{$t('apothegm.list.like')} {reply?.like}</button
+                  >
+                  <button
+                    on:click={() => {
+                      //currentClickedReplyId = reply?.id;
+                      //currentClickedReplyIndex = index;
+                      onDislikeReply(reply?.id);
+                    }}>{$t('apothegm.list.dislike')} {reply?.dislike}</button
+                  >
+                </span>
+              </div>
+            </div>
+            <p class="contentp-reply">{@html reply?.content?.replaceAll('\n', '<br />')}</p>
+          </div>
+        {/each}
+      {/if}
+    </main>
   </div>
 </Modal>
 
@@ -1614,5 +1777,66 @@
 
   #leftInnerCloseButton:active {
     transform: rotate(-45deg);
+  }
+
+  .apothegm {
+    border-bottom: solid 1px rgb(204, 178, 118);
+    margin: 0px 10px;
+    padding: 5px;
+    cursor: pointer;
+  }
+  @media (any-hover: hover) {
+    .apothegm:hover {
+      background-color: rgb(38, 39, 33);
+    }
+  }
+  .apothegm:active {
+    background-color: rgb(45, 46, 40);
+  }
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    color: rgb(251 241 218);
+  }
+  .title-reply {
+    display: flex;
+    gap: 5px;
+  }
+
+  .title-reply button {
+    padding: 1px;
+    font-size: 0.7em;
+  }
+  .titlespan {
+    font-size: 0.8em;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
+  .replyspan {
+    font-size: 0.7em;
+    color: rgb(126, 118, 99);
+  }
+  .likespan {
+    font-size: 0.7em;
+  }
+  .datespan {
+    font-size: 0.7em;
+  }
+  .contentp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    margin: 5px 0;
+  }
+  .contentp-reply {
+    margin: 5px 0;
+  }
+  .replyList {
+    border: solid 1px rgb(204, 178, 118);
+    padding: 5px;
   }
 </style>
