@@ -42,22 +42,34 @@ function get_condition($condition)
         }
     } else if ($condition[0] === 'AND' || $condition[0] === 'OR') {
         if (count($condition[1]) > 1) {
-            $res .= '(';
-            $tres = '';
+            $templist = [];
             for ($i = 0; $i < count($condition[1]); $i++) {
-                $tres =  get_condition($condition[1][$i]);
-                $res .= $tres;
-                if ($i < count($condition[1]) - 1 && $tres !== '') {
+                $tres = get_condition($condition[1][$i]);
+                if ($tres != "") {
+                    array_push($templist, $tres);
+                }
+            }
+
+
+            $res .= '(';
+
+            for ($i = 0; $i < count($templist); $i++) {
+                $res .= $templist[$i];
+                if ($i < count($templist) - 1  &&  $templist[$i] !== '') {
                     $res .= " $condition[0] ";
                 }
-                $tres = '';
             }
+
             $res .= ')';
             if ($res === '()') {
                 $res = '';
             }
         } else {
-            $res .= @get_condition($condition[1][0]);
+            if (count($condition[1]) === 1) {
+                $res .= @get_condition($condition[1][0]);
+            } else {
+                $res .= '';
+            }
         }
     } else {
         // > < >= <=
