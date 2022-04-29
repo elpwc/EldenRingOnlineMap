@@ -24,8 +24,8 @@ export type MapPoint = {
   position: PointPosition;
   create_date: string;
   update_date: string;
-  x: string;
-  y: string;
+  x: string | number;
+  y: string | number;
 };
 
 /** 讯息回复 */
