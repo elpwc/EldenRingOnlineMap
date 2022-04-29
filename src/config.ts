@@ -7,7 +7,8 @@ const Config = {
   currentVer: '3.2.0.0', // 本来想着稳定到3.1415926的，果然还是跳过了阿...
   lastUpdated: '2022-4-24 18:25:',
   /** 是否锁定所有地标 */
-  isLockAllMarkers: false
+  isLockAllMarkers: false,
+  inDev: true,
 };
 
 export default Config;
