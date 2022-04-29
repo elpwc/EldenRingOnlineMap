@@ -15,7 +15,7 @@ export type MapPoint = {
   lat: number;
   like: number;
   dislike: number;
-  is_achivement: boolean;
+  is_achievement: boolean;
   delete_request: number;
   ip: string;
   is_deleted: boolean;

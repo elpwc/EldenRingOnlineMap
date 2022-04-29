@@ -99,10 +99,10 @@ switch ($request_type) {
                     $count = '`id`,`name`,`type`,`lng`,`lat`,`like`,`dislike`,`delete_request`';
                     break;
                 case 2: // 获取lnglat
-                    $count = '`id`,`name`, `desc`,`type`,`lng`,`lat`,`is_underground`,`position`,`is_lock`,`is_achivement`,`like`,`dislike`,`delete_request`,`ip`,`is_deleted`,`create_date`, `update_date`';
+                    $count = '`id`,`name`, `desc`,`type`,`lng`,`lat`,`is_underground`,`position`,`is_lock`,`is_achievement`,`like`,`dislike`,`delete_request`,`ip`,`is_deleted`,`create_date`, `update_date`';
                     break;
                 case 3: // 获取xy
-                    $count = '`id`,`name`, `desc`,`type`,`x`,`y`,`is_underground`,`position`,`is_lock`,`is_achivement`,`like`,`dislike`,`delete_request`,`ip`,`is_deleted`,`create_date`, `update_date`';
+                    $count = '`id`,`name`, `desc`,`type`,`x`,`y`,`is_underground`,`position`,`is_lock`,`is_achievement`,`like`,`dislike`,`delete_request`,`ip`,`is_deleted`,`create_date`, `update_date`';
                     break;
                 default:
                     $count = '*';
