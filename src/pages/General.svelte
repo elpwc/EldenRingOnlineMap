@@ -2,6 +2,7 @@
   import LangButton from '../components/button/LangButton.svelte';
   import ImportButton from '../components/button/ImportButton.svelte';
   import ExportButton from '../components/button/ExportButton.svelte';
+  import * as config from '../config';
 
   import { SupportedLang } from '../utils/enum';
   import { t } from 'svelte-i18n';
@@ -87,6 +88,14 @@
     </div>
   {/if}
 
+  {#if config.default.inDev}
+    <div class="inDev">
+      <p>这里是测试内容</p>
+      <p>如果你是在用户环境中看到的，请不要触碰并立即报告bug</p>
+      <div>...</div>
+    </div>
+  {/if}
+
   <p>{$t('general.developing')}</p>
 </div>
 
@@ -168,5 +177,8 @@
     padding: 5px;
     color: white;
     text-align: center;
+  }
+  .inDev p {
+    color: white;
   }
 </style>
