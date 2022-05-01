@@ -8,6 +8,7 @@ const Config = {
   lastUpdated: '2022-4-30 02:07',
   /** 是否锁定所有地标 */
   isLockAllMarkers: false,
+  /** 是否在开发中，为true会导致一些界面上测试按钮被显示出来 */
   inDev: false,
 };
 

@@ -258,8 +258,8 @@ switch ($request_type) {
                     'position' => (int)$row['position'],
                     'create_date' => $row['create_date'],
                     'update_date' => $row['update_date'],
-                    'x' => base64_encode(openssl_encrypt($row['x'], "AES-256-CBC", AESKEY, 0)),
-                    'y' => base64_encode(openssl_encrypt($row['y'], "AES-256-CBC", AESKEY, 0)),
+                    'x' => base64_encode(openssl_encrypt((string)$row['x'], "AES-256-CBC",  AESKEY, 1, $iv = AESIV)),
+                    'y' => base64_encode(openssl_encrypt((string)$row['y'], "AES-256-CBC",  AESKEY, 1, $iv = AESIV)),
                 ]);
                 $i++;
             }

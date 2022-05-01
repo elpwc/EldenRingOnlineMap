@@ -1076,11 +1076,11 @@
   };
 
   const onGenerateALLXYCoordinateButtonClicked = () => {
-    map.setZoom(12);
+    map.setZoom(6);
     axios
       .get('./map.php', {
         params: {
-          queryType: 0,
+          queryType: 1,
         },
       })
       .then(res => {
@@ -1337,6 +1337,7 @@
   <!--筛选栏结束-->
 
   <div id="bottomDiv">
+    <!--dev-->
     {#if config.default.inDev}
       <button
         on:click={() => {
