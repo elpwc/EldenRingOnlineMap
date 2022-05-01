@@ -238,9 +238,11 @@ switch ($request_type) {
 
         $res = [];
 
+
         if ($result->num_rows > 0) {
             $i = 0;
             while ($row = $result->fetch_assoc()) {
+
                 @array_push($res, [
                     'id' => (int)$row['id'],
                     'type' => $row['type'],
@@ -258,8 +260,8 @@ switch ($request_type) {
                     'position' => (int)$row['position'],
                     'create_date' => $row['create_date'],
                     'update_date' => $row['update_date'],
-                    'x' => base64_encode(openssl_encrypt((string)$row['x'], "AES-256-CBC",  AESKEY, 1, $iv = AESIV)),
-                    'y' => base64_encode(openssl_encrypt((string)$row['y'], "AES-256-CBC",  AESKEY, 1, $iv = AESIV)),
+                    'x' => $row['x'] == NULL ? 'null' : base64_encode(openssl_encrypt((string)$row['x'], "AES-256-CBC",  AESKEY, 1, $iv = AESIV)),
+                    'y' => $row['y'] == NULL ? 'null' : base64_encode(openssl_encrypt((string)$row['y'], "AES-256-CBC",  AESKEY, 1, $iv = AESIV)),
                 ]);
                 $i++;
             }

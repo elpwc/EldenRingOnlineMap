@@ -1080,20 +1080,22 @@
     axios
       .get('./map.php', {
         params: {
-          queryType: 1,
+          queryType: 0,
         },
       })
       .then(res => {
         if (res?.data && Array.isArray(res?.data)) {
           const data: MapPoint[] = res?.data;
           data.forEach(pointtemp => {
-            const timer = setTimeout(() => {
-              axios
-                .patch('./map.php', { id: pointtemp.id, x: map.latLngToLayerPoint(L.latLng(pointtemp.lat, pointtemp.lng)).x, y: map.latLngToLayerPoint(L.latLng(pointtemp.lat, pointtemp.lng)).y })
-                .then(() => {
-                  console.log(pointtemp.id);
-                });
-            }, 500);
+            if (pointtemp.x === 'null' || pointtemp.y === 'null') {
+              (pt => {
+                setTimeout(() => {
+                  axios.patch('./map.php', { id: pt.id, x: map.latLngToLayerPoint(L.latLng(pt.lat, pt.lng)).x, y: map.latLngToLayerPoint(L.latLng(pt.lat, pt.lng)).y }).then(() => {
+                    console.log(pt.id);
+                  });
+                }, 500);
+              })(pointtemp);
+            }
           });
           alert('complete~');
         } else {
