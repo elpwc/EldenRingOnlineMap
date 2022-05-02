@@ -782,8 +782,8 @@
                   ? {
                       lng: currentClickedlatLng.lng,
                       lat: currentClickedlatLng.lat,
-                      x: map.latLngToLayerPoint(currentClickedlatLng).x,
-                      y: map.latLngToLayerPoint(currentClickedlatLng).y,
+                      x: map.project(currentClickedlatLng, 5).x,
+                      y: map.project(currentClickedlatLng, 5).y,
                     }
                   : {}),
               })
@@ -846,8 +846,8 @@
                   position: addedPointPosition,
                   lng: currentClickedlatLng.lng,
                   lat: currentClickedlatLng.lat,
-                  x: map.latLngToLayerPoint(currentClickedlatLng).x,
-                  y: map.latLngToLayerPoint(currentClickedlatLng).y,
+                  x: map.project(currentClickedlatLng, 5).x,
+                  y: map.project(currentClickedlatLng, 5).y,
                   is_underground: is_underground ? '1' : '2',
                   like: 0,
                   dislike: 0,
@@ -1090,7 +1090,7 @@
             if (pointtemp.x === 'null' || pointtemp.y === 'null') {
               (pt => {
                 setTimeout(() => {
-                  axios.patch('./map.php', { id: pt.id, x: map.latLngToLayerPoint(L.latLng(pt.lat, pt.lng)).x, y: map.latLngToLayerPoint(L.latLng(pt.lat, pt.lng)).y }).then(() => {
+                  axios.patch('./map.php', { id: pt.id, x: map.project(L.latLng(pt.lat, pt.lng), 5).x, y: map.project(L.latLng(pt.lat, pt.lng), 5).y }).then(() => {
                     console.log(pt.id);
                   });
                 }, 500);
