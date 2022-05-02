@@ -25,6 +25,20 @@
     <div class="update">
       <p class="updateTitle"><date>{config.default.lastUpdated}</date> 的更新<br />(ver {config.default.currentVer})</p>
       <div class="updateSection">
+        <p>配合 APP 法环地图 - 狭间地冒险指南 的数据格式更新，没有功能上的更新</p>
+      </div>
+      <div class="updateSection">
+        <p class="sectionTitle">✨ 提示:</p>
+        <p>- 地标可以通过长按/右键点击快速隐藏/收藏</p>
+        <p>- 可以在 设置 里导出/导入隐藏/收藏点</p>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="update">
+      <p class="updateTitle"><date>2022-4-30 02:07</date> 的更新<br />(ver 3.3.0.2)</p>
+      <div class="updateSection">
         <div class="updateSection">
           <p>很可能是上半年最后一次大(?)更新</p>
         </div>
