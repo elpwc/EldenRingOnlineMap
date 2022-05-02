@@ -28,7 +28,9 @@
   onMount(() => {
     const lastVersion = getCookie('version');
     if (lastVersion !== config.default.currentVer) {
-      updateVisibility = true;
+      if (config.default.showUpdateModal) {
+        updateVisibility = true;
+      }
     }
   });
 </script>
