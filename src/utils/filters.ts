@@ -26,6 +26,7 @@ export const getSiteTypeFilters = $t => [
   { name: $t('siteTypes.filters.cemetery'), value: MapPointType.Cemetery, icon: MapIcon.yellow(), emoji: '🗻' },
   { name: $t('siteTypes.filters.sword'), value: MapPointType.Sword, icon: MapIcon.yellow(), emoji: '◉' },
   { name: $t('siteTypes.filters.temple'), value: MapPointType.Temple, icon: MapIcon.yellow(), emoji: '🐢' },
+  { name: $t('siteTypes.filters.arena'), value: MapPointType.Arena, icon: MapIcon.yellow(), emoji: '⚔️' },
   { name: $t('siteTypes.filters.place'), value: MapPointType.Place, icon: MapIcon.yellow(true) },
 
   { name: $t('siteTypes.filterGroupNames.enemy'), hr: true },

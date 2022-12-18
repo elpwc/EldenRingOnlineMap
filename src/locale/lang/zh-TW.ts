@@ -241,6 +241,7 @@ const lang: langType = {
       sword: '封印監牢',
       temple: '靈廟',
       place: '地點',
+      arena: '競技場',
       bigboss: '半神BOSS',
       boss: 'BOSS(成就)',
       littleboss: '小BOSS',

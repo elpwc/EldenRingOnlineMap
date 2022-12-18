@@ -23,6 +23,7 @@ export enum MapPointType {
   Wind = 'wind',
   Sword = 'sword',
   Temple = 'temple',
+  Arena = 'arena',
 
   BigBoss = 'bigboss',
   Boss = 'boss',

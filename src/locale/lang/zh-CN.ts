@@ -240,6 +240,7 @@ const lang = {
       sword: '封印监牢',
       temple: '灵庙',
       place: '地点',
+      arena: '竞技场',
       bigboss: '半神BOSS',
       boss: 'BOSS(成就)',
       littleboss: '小BOSS',
