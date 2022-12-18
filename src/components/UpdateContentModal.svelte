@@ -25,6 +25,38 @@
     <div class="update">
       <p class="updateTitle"><date>{config.default.lastUpdated}</date> 的更新<br />(ver {config.default.currentVer})</p>
       <div class="updateSection">
+        <p>时隔半年的更新喵，这次带来了<b>桌面应用模式</b>和“竞技场”分类</p>
+        <p>有疑问进反馈群或者邮箱联系捏：161952806 / elpwc@hotmail.com</p>
+      </div>
+      <div class="updateSection">
+        <p class="sectionTitle">✨ 提示:</p>
+        <p>
+          - <b>桌面应用模式</b><br />现在可以作为应用添加到手机或电脑的桌面，和普通的应用使用起来一模一样捏。<br />
+          设置方法↓ <br />
+        </p>
+        <ul>
+          <li>手机上，如果浏览器支持的话，进入网页就会提示要不要添加在主页/桌面之类的，点确定就行，不行的话，大概是手机没给浏览器权限）</li>
+          <li>电脑上的话，在Edge上是地址栏内部右侧有个三个方块组成的图标，点一下就可以了，其他浏览器支持的话应该也大同小异(?)</li>
+        </ul>
+        <p>- 地标可以通过长按/右键点击快速隐藏/收藏捏</p>
+        <p>- 可以在 设置 里导出/导入隐藏/收藏点</p>
+      </div>
+      <div class="updateSection">
+        <p class="sectionTitle">💡 新的<ruby>特性</ruby>:</p>
+        <p>- 设置成了PWA应用</p>
+        <p>- 添加了新类型“竞技场”</p>
+      </div>
+      <div class="updateSection">
+        <p class="sectionTitle">🐞 修复了bug:</p>
+        <p>- 修复了一个代码中的类型匹配Bug，和功能没有关系捏</p>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="update">
+      <p class="updateTitle"><date>2022-5-2 17:10</date> 的更新<br />(ver 3.3.0.3)</p>
+      <div class="updateSection">
         <p>配合 APP 法环地图 - 狭间地冒险指南 的数据格式更新，没有功能上的更新</p>
       </div>
       <div class="updateSection">
@@ -39,13 +71,13 @@
     <div class="update">
       <p class="updateTitle"><date>2022-4-30 02:07</date> 的更新<br />(ver 3.3.0.2)</p>
       <div class="updateSection">
-        <div class="updateSection">
-          <p>很可能是上半年最后一次大(?)更新</p>
-        </div>
-        <div class="updateSection">
-          <p class="sectionTitle">✨ 提示:</p>
-          <p>- 地标是可以通过长按/右键点击快速隐藏/收藏的</p>
-        </div>
+        <p>很可能是上半年最后一次大(?)更新</p>
+      </div>
+      <div class="updateSection">
+        <p class="sectionTitle">✨ 提示:</p>
+        <p>- 地标是可以通过长按/右键点击快速隐藏/收藏的</p>
+      </div>
+      <div class="updateSection">
         <p class="sectionTitle">💡 新的<ruby>特性</ruby>:</p>
         <p><b>- 可以给地标评论了！</b></p>
         <p>- 添加了地标正在载入的提示（现在会有一个转圈圈动画</p>
@@ -142,6 +174,10 @@
   }
 
   #modalContainer p {
+    color: rgb(228, 223, 210);
+    margin: 10px 0;
+  }
+  #modalContainer ul {
     color: rgb(228, 223, 210);
     margin: 10px 0;
   }
