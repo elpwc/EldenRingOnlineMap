@@ -51,7 +51,7 @@
         <p class="titlep">艾尔登法环超级群 - DoDo社区</p>
       </div>
       <p>为艾尔登法环玩家准备的交流地，不管是攻略，还是道具图鉴都可以轻松找到~</p>
-      <a href="https://imdodo.com/i?gNo=19255" target="_blank"> 点此跳转 </a>
+      <a href="https://imdodo.com/i?gNo=19255" target="_blank"> 点此前往~ </a>
     </div>
   </div>
 </Modal>

@@ -179,7 +179,7 @@ const lang: langType = {
       markersWithoutDeleted: '地標總計(不計入已刪除地標)',
       markersWithoutDeletedData: '{count} 個',
 
-      weeklyUpdate: '訪問情況(1周更新1次)',
+      weeklyUpdate: '訪問情況',
 
       view: '訪問量總計',
       viewData: '{count} 次',

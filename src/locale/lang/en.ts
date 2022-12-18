@@ -178,7 +178,7 @@ const lang = {
       markersWithoutDeleted: '地标总计(不计入已删除地标)',
       markersWithoutDeletedData: '{count} 个',
 
-      weeklyUpdate: '访问情况(1周更新1次)',
+      weeklyUpdate: '访问情况',
 
       view: '访问量总计',
       viewData: '{count} 次',
