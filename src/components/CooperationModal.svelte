@@ -28,7 +28,7 @@
       </div>
 
       <p>非常出色的iPhone/iPad端法环离线地图，标记、成就查看等..该有的功能应有尽有</p>
-      <p>很快会和老头环地图共享数据，使用狭间地冒险指南也可以轻鬆看到这里的个性化标注了~</p>
+      <p>已经和本站共享了部分数据，使用狭间地冒险指南也可以轻鬆看到这里的个性化标注了~</p>
       <div style="display: flex; gap: 30px; width: 100%; justify-content: center;">
         <img src="./resource/images/app.png" width="100px" alt="qrcode for app" />
 
