@@ -620,15 +620,17 @@
       .on('click', () => {
         // 在添加的时候不能误点了(取消了， 因为被太多人反应是个bug乌乌明明不是)
         //if (!isAddPointMode) {
-        currentClickedMarker = marker;
+        if (!isUpdateLnglatMode) {
+          currentClickedMarker = marker;
 
-        isReplyLoading = true;
-        // 加载回复列表
-        refreshCurrentShowingMapReplies(marker.id, data => {
-          isReplyLoading = false;
-        });
+          isReplyLoading = true;
+          // 加载回复列表
+          refreshCurrentShowingMapReplies(marker.id, data => {
+            isReplyLoading = false;
+          });
 
-        markerInfoVisibility = true;
+          markerInfoVisibility = true;
+        }
         //}
       })
       .on('contextmenu', (e: LeafletMouseEvent) => {
@@ -856,6 +858,8 @@
                 .then(res => {
                   // console.log(res);
                   addPointVisability = false;
+                  editMode = false;
+                  isUpdateLnglatMode = false;
 
                   // 清除Modal已输入内容
                   addedPointDesc = '';
