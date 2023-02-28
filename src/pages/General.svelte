@@ -80,18 +80,18 @@
       <p>{$t('general.april.content')}</p>
       <button
         on:click={() => {
-          window.open('https://pro-video.xiaoheiban.cn/xls/67a483e3-0998-4ff0-b98a-d17159552604.mp4', '_blank');
+          window.open('https://www.bilibili.com/video/BV1dF411V7wE', '_blank');
         }}
         style="font-size: large;">👉{$t('general.april.button')}👈</button
       >
-      <date><p>{$t('general.april.footer')}</p></date>
+      <date><p>{`-wniko- ${new Date().getFullYear()}.4.1`}</p></date>
     </div>
   {/if}
 
   {#if config.default.inDev}
     <div class="inDev">
-      <p>这里是测试内容</p>
-      <p>如果你是在用户环境中看到的，请不要触碰并立即报告bug</p>
+      <p>以下是测试内容</p>
+      <p>如果你在使用中看到了，请不要触碰并立即报告bug</p>
       <div>...</div>
     </div>
   {/if}

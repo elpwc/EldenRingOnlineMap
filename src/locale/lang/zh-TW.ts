@@ -41,7 +41,7 @@ const lang: langType = {
     },
     bottom: {
       developerAndProvider: '開發&提供',
-      donate: '請一杯奶茶',
+      donate: '給伺服器續命',
     },
     modals: {
       add: {
@@ -159,14 +159,14 @@ const lang: langType = {
     april: {
       title: '重要通知',
       content:
-        '本地圖站一直受到大家厚愛，日訪問量連續一個月保持在25萬以上，近日更是收到了來自Fr〇mS〇ftware會社的合作郵件：使用本地圖的玩家，皆可通過下面按鈕申請領取来自FS社送给各位的艾爾登法環-官方設定集一份~ 今後也恳請大家多多支持——',
-      button: '查看詳情',
+        '本站的日瀏覽量竟然、竟然連續一年保持在了2000以上——(≧▽≦)ノﾊﾟﾁﾊﾟﾁ! 作爲对大家使用的感謝，咱要送給每位訪問者一隻可愛的貓娘，點擊下面按鈕填寫信息後將在接下來一周内陸續發放喵，今後也恳請大家多多支持喵——',
+      button: '點擊領取',
       footer: '-wniko- 2022 年 4 月 1 日',
     },
   },
   about: {
     lastUpdate: '最近更新',
-    coffee: '請一杯奶茶☕',
+    coffee: '給伺服器續命☕',
     feedback: '漏洞・意見反饋',
     update: '更新內容',
     github: 'GitHub頁面',
@@ -203,7 +203,7 @@ const lang: langType = {
     },
     modals: {
       coffee: {
-        text: '覺得幫到了自己的話，可以請咱喝一杯奶茶當作創作激勵(以及伺服器費用',
+        text: '覺得好用的話，可以在這裡續命一下伺服器（小聲）咱的生活費已經要撑不下去了（悲',
         or: '或者...',
         btn1: 'OK',
       },
