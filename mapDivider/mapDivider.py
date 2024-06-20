@@ -129,9 +129,23 @@ if __name__ == "__main__":
     '''
 
     # 安瑟尔河
+    '''
     get_divided_maps(
         './underground2.jpg',
         -4039, -4458, 'map2',
         currentXCalculator_2,
         currentYCalculator_2
+    )
+    '''
+
+# 基准点：3500, 3500
+# 计算后的全图左上角：480-6400, 522-6400 => 
+# 计算后的全图长宽：12800, 12800
+
+    # DLC1
+    get_divided_maps(
+        './dlc1.png',
+        3500-6400, 3500-6400, 'map3',
+        currentXCalculator_1,
+        currentYCalculator_1
     )
