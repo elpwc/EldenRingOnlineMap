@@ -1,6 +1,7 @@
 <script lang="ts">
   import Modal from './Modal.svelte';
   import * as config from '../config';
+  import { isMobile } from '../stores';
 
   export let updateVisibility: boolean = false;
   export let onOKButtonClick: () => void = () => {};
@@ -24,6 +25,33 @@
 
     <div class="update">
       <p class="updateTitle"><date>{config.default.lastUpdated}</date> 的更新<br />(ver {config.default.currentVer})</p>
+      <div class="updateSection" style={isMobile ? '' : 'display: flex; gap: 10px; '}>
+        {#if isMobile}
+          <img style="max-width: 100%;height: fit-content; " src="./resource/images/dlc1.png" alt="dlc1 Shadow of the Erdtree" />
+        {:else}
+          <img style="max-width: 50%;height: fit-content; " src="./resource/images/dlc1_narrow.png" alt="dlc1 Shadow of the Erdtree _ header for PC" />
+        {/if}
+        <div>
+          <p>时隔一年向大家问声好——！</p>
+          <p>盼星星盼月亮终于盼来了万众瞩目的老头环第一份DLC!</p>
+          <img style="max-width: 150px;" src="./resource/images/kotone1.gif" alt="kotone" />
+          <p>因为现在还没有解包出的DLC地图，所以姑且使用了之前泄露的地图截图作为<b>临时用的DLC地图</b></p>
+          <p>用起来会很模糊，给大家带来不便深表歉意... 不过等近几天内有清晰地图後，我会立即进行一个更换的</p>
+          <p>嘛总之感谢所有人以往的支持！有大家的支持这个开放式地图才能一直延续运转到现在。祝大家在接下来的DLC内容中玩得愉快~</p>
+          <p>有疑问/建议/漏洞反馈的话请进QQ群或者邮箱联系→ 161952806 / elpwc@hotmail.com</p>
+          <p>（群里大概也可以拉好哥哥跑图）</p>
+          <p class="sectionTitle">✨ 提示:</p>
+          <p>- 地标可以通过长按/右键单击快速隐藏和收藏</p>
+          <p>- 可以在 设置 里导出/导入隐藏/收藏点</p>
+        </div>
+      </div>
+      <div class="updateSection"></div>
+    </div>
+
+    <hr />
+
+    <div class="update">
+      <p class="updateTitle"><date>2023-3-1 1:39 UT+8</date> 的更新<br />(ver 3.3.0.5)</p>
       <div class="updateSection">
         <p>因为下午收到了严重bug的报告，所以在考试复习中抽空进行了更新喵，这次沒有功能上的新内容</p>
         <p>说起来刚刚FS社公开了DLC的开发，真是令人兴奋的消息阿... 如果DLC有新地图、而且届时咱不忙的话，这里也会第一时间更新的!</p>
