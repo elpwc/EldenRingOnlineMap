@@ -46,7 +46,7 @@
   /** 地下地图数据源 */
   const undergroundMap: string = 'https://imgs.ali213.net/picfile/eldenring_dx/{z}/{x}/{y}.png'; // './resource/maps/underground/{z}/{x}/{y}.jpg';
   /** DLC Shadow of the Erdtree 地图数据源 */
-  const dlcShadowOfTheErdtreeMap: string = 'https://imgs.ali213.net/picfile/eldenring_dx/{z}/{x}/{y}.png'; // './resource/maps/underground/{z}/{x}/{y}.jpg';
+  const dlcShadowOfTheErdtreeMap: string = './resource/maps/dlc1/{z}/{x}/{y}.jpg'; // './resource/maps/underground/{z}/{x}/{y}.jpg';
 
   /** 本页面！唯一指定！地图对象！喵！ */
   let map: L.Map;
@@ -399,7 +399,7 @@
       zoomOffset: 0,
     });
 
-    dlcShadowOfTheErdtreeMapLayer = L.tileLayer(undergroundMap, {
+    dlcShadowOfTheErdtreeMapLayer = L.tileLayer(dlcShadowOfTheErdtreeMap, {
       maxZoom: 7,
       minZoom: 2,
       tileSize: 200,
@@ -1759,7 +1759,9 @@
       on:click={() => {
         onMapTypeChanged(MapType.Underground);
       }}>{$t('map.modals.mapSwitcher.underground')}</button
-    ><button
+    >
+    <p style="color: rgb(208, 200, 181);">下面是临时用的DLC地图，等有清晰地图後会马上更新——!</p>
+    <button
       class="ButtonInswitchMapModal"
       on:click={() => {
         onMapTypeChanged(MapType.DLC_shadow_of_the_erdtree);
