@@ -1,6 +1,6 @@
 /// <reference types="svelte" />
 
 declare module '*.svg' {
-  const src: string;
+  const src: ConstructorOfATypedSvelteComponent;
   export default src;
 }

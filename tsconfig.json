@@ -6,12 +6,10 @@
     "declaration": true,
     "target": "esnext",
     "module": "esnext",
-    "strict": false
+    "strict": false,
+    "verbatimModuleSyntax": true,
+    "ignoreDeprecations": "5.0"
   },
-  "include": [
-    "src/**/*",
-    "rollup.config.ts"
-  ],
-  "exclude": [
-  ]
+  "include": ["src/**/*", "rollup.config.ts"],
+  "exclude": []
 }

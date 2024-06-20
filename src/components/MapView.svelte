@@ -1,7 +1,8 @@
 <script lang="ts">
   // leaflet 需要 leaflet.css， 这里通过 rollup-plugin-css-only 将其打包到 bundle.css
   import '../../node_modules/leaflet/dist/leaflet.css';
-  import L, { LeafletMouseEvent } from 'leaflet';
+  import L from 'leaflet';
+  import type { LeafletMouseEvent } from 'leaflet';
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
@@ -1535,7 +1536,7 @@
 
       <!--锁定-->
       <button disabled={!$isAdminModeStore}>
-        <label disabled={!$isAdminModeStore} style="color: rgb(208, 200, 181);">
+        <label style="color: rgb(208, 200, 181);">
           <input disabled={!$isAdminModeStore} type="checkbox" checked={config.default.isLockAllMarkers ? true : currentClickedMarker?.is_lock} on:change={onSetLockChecked} />{$t(
             'map.modals.info.lock',
           )}</label
