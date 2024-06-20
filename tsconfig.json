@@ -7,8 +7,8 @@
     "target": "esnext",
     "module": "esnext",
     "strict": false,
-    "verbatimModuleSyntax": true,
-    "ignoreDeprecations": "5.0"
+    //"verbatimModuleSyntax": true,
+    //"ignoreDeprecations": "5.0"
   },
   "include": ["src/**/*", "rollup.config.ts"],
   "exclude": []
