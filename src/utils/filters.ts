@@ -49,6 +49,7 @@ export const getSiteTypeFilters = $t => [
   { name: $t('siteTypes.filters.metarial'), value: MapPointType.Material, icon: MapIcon.white(true, 6) },
   { name: $t('siteTypes.filters.importantitem'), value: MapPointType.ImportantItem, icon: MapIcon.purple(true) },
   { name: $t('siteTypes.filters.item'), value: MapPointType.Item, icon: MapIcon.blue(true) },
+  { name: $t('siteTypes.filters.erdtreefragment'), value: MapPointType.ErdtreeFragment, icon: MapIcon.blue(), emoji: '🌳' },
 
   { name: $t('siteTypes.filterGroupNames.collection'), hr: true },
   { name: $t('siteTypes.filters.gesture'), value: MapPointType.Gesture, icon: MapIcon.blue(), emoji: '🕺' },

@@ -280,6 +280,7 @@ const lang: langType = {
       metarial: '材料',
       ring: '戒指護符',
       tear: '淚滴幼體',
+      erdtreefragment: '幽影樹碎片',
     },
   },
   apoTypes: {

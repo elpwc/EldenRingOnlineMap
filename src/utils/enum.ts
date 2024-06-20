@@ -8,7 +8,7 @@
  */
 export enum MapPointType {
   Empty = '',
-
+  // 地点
   Cifu = 'cifu',
   Jiejing = 'pass',
   Portal = 'portal',
@@ -25,12 +25,14 @@ export enum MapPointType {
   Temple = 'temple',
   Arena = 'arena',
 
+  // 敌人
   BigBoss = 'bigboss',
   Boss = 'boss',
   LittleBoss = 'littboss',
   RedSoul = 'redsoul',
   Jingyingguai = 'jingying',
 
+  // 道具
   Item = 'item',
   ImportantItem = 'impoitem',
   Stone = 'stone',
@@ -43,10 +45,13 @@ export enum MapPointType {
   Orchid = 'orchid',
   Material = 'material',
   Tear = 'tear',
+  ErdtreeFragment = 'erdtreefragment',
 
+  // 收集
   Paint = 'paint',
   Gesture = 'gesture',
 
+  // 武器
   Magic = 'magic',
   Weapon = 'weapon',
   Daogao = 'daogao',
@@ -55,6 +60,7 @@ export enum MapPointType {
   Guhui = 'guhui',
   Ring = 'ring',
 
+  // 留言
   Text = 'text',
   Warn = 'warn',
   Question = 'question',

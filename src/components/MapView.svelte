@@ -862,6 +862,7 @@
               MapPointType.Warn,
               MapPointType.Taoke,
               MapPointType.Question,
+              MapPointType.ErdtreeFragment,
             ];
             // 判断是否重复
             let existflag = false;
