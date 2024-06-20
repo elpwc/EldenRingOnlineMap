@@ -36,7 +36,7 @@ switch ($request_type) {
 
         $sql = 'INSERT 
         INTO map (`type`, `name`, `desc`, `lng`, `lat`, `like`, `dislike`, `ip`, `is_deleted`, `is_underground`, `position`, `x`, `y`)
-        VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0", "' . ($is_underground == '1' ? '1' : '0')  . '","' . $position  . '","' . $x . '","' . $y . '");
+        VALUES ("' . anti_inj($type) . '","' . cator_to_cn_censorship(anti_inj($name)) . '","' . cator_to_cn_censorship(anti_inj($desc)) . '","' . $lng . '","' . $lat . '","' . $like . '","' . $dislike . '","' . anti_inj($ip) . '", "0", "' . ($is_underground)  . '","' . $position  . '","' . $x . '","' . $y . '");
         ';
 
         $result = mysqli_query($sqllink, $sql);
@@ -49,7 +49,7 @@ switch ($request_type) {
         @$ip_ori = $_GET['ip'];
         @$type_ori = $_GET['type'];
         @$kword_ori = $_GET['kword']; // | 隔开
-        @$under_ori = $_GET['under'];
+        @$mapType_ori = $_GET['mapType'];
         /** 获取的属性，不填为全部 */
         @$queryType_ori = $_GET['queryType'];
         /** 获取的地表类型，不填为全部 */
@@ -64,7 +64,7 @@ switch ($request_type) {
         $ip = '';
         $type = '';
         $kword = '';
-        $under = 0; //0 全部，1 地下， 2 地面
+        $mapType = 0; //0 地面, 1 地下, 2 DLC1
         $queryType = '';
         $queryPosition = '';
         $count = '';
@@ -113,16 +113,16 @@ switch ($request_type) {
         if (is_numeric($id_ori)) {
             $id = (int)$id_ori;
         }
-        if (is_numeric($under_ori)) {
-            switch ($under_ori) {
+        if (is_numeric($mapType_ori)) {
+            switch ($mapType_ori) {
                 case 0:
-                    $under = '';
+                    $mapType = '0';
                     break;
                 case 1:
-                    $under = '1';
+                    $mapType = '1';
                     break;
                 case 2:
-                    $under = '0';
+                    $mapType = '2';
                     break;
                 default:
                     break;
@@ -211,7 +211,7 @@ switch ($request_type) {
                     ['OR', $kwordarr],
                     ['OR', $positionarr],
                     ['', ['ip', $ip]],
-                    ['', ['is_underground', $under]],
+                    ['', ['is_underground', $mapType]],
                     ['', ['is_deleted', '0']],
                     ['AND', $rangearr],
                 ]
@@ -255,7 +255,7 @@ switch ($request_type) {
                     'delete_request' => (int)$row['delete_request'],
                     'ip' => $row['ip'],
                     'is_deleted' => (bool)(int)$row['is_deleted'],
-                    'is_underground' => (bool)(int)$row['is_underground'],
+                    'is_underground' => (int)$row['is_underground'],
                     'is_lock' => (bool)(int)$row['is_lock'],
                     'position' => (int)$row['position'],
                     'create_date' => $row['create_date'],

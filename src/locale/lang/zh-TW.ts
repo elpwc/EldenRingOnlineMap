@@ -8,7 +8,7 @@ const lang: langType = {
     routes: '支線(預覽)',
     general: '設定',
     about: '說明',
-    tdmap: '3D地圖(dev)'
+    tdmap: '3D地圖(dev)',
   },
   map: {
     loading: {
@@ -27,6 +27,7 @@ const lang: langType = {
     left: {
       buttonBeforeOpen: '篩<br />選',
       buttonAfterOpen: '收<br />回',
+      mapSwitcher: '切換地面/地底/DLC地圖',
       undergroundSwitcher1: '切換到地下地圖',
       undergroundSwitcher2: '切換到地面地圖',
       surface: '在地表的',
@@ -48,6 +49,7 @@ const lang: langType = {
         title: '添加一個地標',
         surface: '位於地面',
         underground: '位於地底(希芙拉河等)',
+        dlcShadowOfTheErdtree: '位於DLC',
         selector: '選擇類型',
         namePlaceHolder: '名稱',
         descPlaceHolder: '描述',
@@ -75,11 +77,17 @@ const lang: langType = {
         lock: '鎖定',
         btn1: '關閉',
         reply: '補充',
-        replyLoading: '加載中...'
+        replyLoading: '加載中...',
       },
       delete: {
         btn1: '確認刪除',
         btn2: '取消',
+      },
+      mapSwitcher: {
+        title: '切換地圖',
+        surface: '地面地圖',
+        underground: '地底地圖',
+        dlcShadowOfTheErdtree: 'DLC「黃金樹幽影」地圖',
       },
     },
     alert: {
@@ -145,7 +153,7 @@ const lang: langType = {
     therereSomeHiddenPoints: '目前有{count}個隱藏點，確定要清除隱藏狀態，全部重置嗎?',
     hiddenPointYattaze: '重置了',
     clearHiddenPointButton: '重置所有隱藏點',
-    developing: '後續功能開發中',    
+    developing: '後續功能開發中',
     localData: {
       title: '本地數據管理',
       import: '導入',

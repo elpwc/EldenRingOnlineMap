@@ -7,7 +7,7 @@ const lang = {
     routes: '支线(dev)',
     general: '设置',
     about: '说明',
-    tdmap: '3D地图(dev)'
+    tdmap: '3D地图(dev)',
   },
   map: {
     loading: {
@@ -26,6 +26,7 @@ const lang = {
     left: {
       buttonBeforeOpen: '筛<br />选',
       buttonAfterOpen: '收<br />回',
+      mapSwitcher: '切换地面/地底/DLC地图',
       undergroundSwitcher1: '切换到地下地图',
       undergroundSwitcher2: '切换到地面地图',
       surface: '在地表的',
@@ -47,6 +48,7 @@ const lang = {
         title: '添加一个地标',
         surface: '位于地面',
         underground: '位于地底(希芙拉河等)',
+        dlcShadowOfTheErdtree: '位于DLC',
         selector: '选择类型',
         namePlaceHolder: '名称',
         descPlaceHolder: '描述',
@@ -74,11 +76,17 @@ const lang = {
         lock: '锁定',
         btn1: '关闭',
         reply: '补充',
-        replyLoading: '加载中...'
+        replyLoading: '加载中...',
       },
       delete: {
         btn1: '确认删除',
         btn2: '取消',
+      },
+      mapSwitcher: {
+        title: '切换地图',
+        surface: '地面地图',
+        underground: '地底地图',
+        dlcShadowOfTheErdtree: 'DLC「黄金树幽影」地图',
       },
     },
     alert: {

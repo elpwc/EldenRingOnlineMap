@@ -99,3 +99,13 @@ export enum PointPosition {
   /** 灰城 */
   AfterBurning = 2,
 }
+
+/** 显示的地图类型 */
+export enum MapType {
+  /** 默认的地表地图 */
+  Default = 0,
+  /** 地下地图 */
+  Underground = 1,
+  /** DLC Shadow of the Erdtree地图 */
+  DLC_shadow_of_the_erdtree = 2,
+}

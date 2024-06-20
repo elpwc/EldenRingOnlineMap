@@ -5,7 +5,7 @@
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
   import { fly } from 'svelte/transition';
-  import { MapPointType, PointPosition } from '../utils/enum';
+  import { MapPointType, MapType, PointPosition } from '../utils/enum';
   import axios from 'axios';
   import { allMarkers, collectionSet, hiddenSet, ip, isAdminModeStore, isMobile, setAllMarkers } from '../stores';
   import type { MapPoint, Reply } from '../utils/typings';
@@ -44,6 +44,8 @@
   const groundMap: string = 'https://imgs.ali213.net/picfile/eldenring/{z}/{x}/{y}.jpg';
   /** 地下地图数据源 */
   const undergroundMap: string = 'https://imgs.ali213.net/picfile/eldenring_dx/{z}/{x}/{y}.png'; // './resource/maps/underground/{z}/{x}/{y}.jpg';
+  /** DLC Shadow of the Erdtree 地图数据源 */
+  const dlcShadowOfTheErdtreeMap: string = 'https://imgs.ali213.net/picfile/eldenring_dx/{z}/{x}/{y}.png'; // './resource/maps/underground/{z}/{x}/{y}.jpg';
 
   /** 本页面！唯一指定！地图对象！喵！ */
   let map: L.Map;
@@ -89,8 +91,12 @@
 
   /** 是否显示地标名字 */
   let showPlaceNames: boolean = true;
-  /** 是否显示地下 0 全部显示，1 显示地下，2 显示地表 */
-  let is_underground: boolean = false;
+  /** 已废弃(随着DLC发售，已经有了两个以上的地图)是否显示地下 0 全部显示，1 显示地下，2 显示地表 */
+  //let is_underground: boolean = false;
+  /** 当前显示的地图的类型 */
+  let mapType: MapType = MapType.Default;
+  /** 切换地图类型Modal */
+  let switchMapTypeVisability: boolean = false;
   /** 地表显示模式 [地表, 洞穴, 灰城] */
   let current_position: [boolean, boolean, boolean] = [true, true, false];
   /** 左侧栏筛选文本（未使用 */
@@ -162,6 +168,7 @@
 
   let groundLayer: L.Layer;
   let undergroundLayer: L.Layer;
+  let dlcShadowOfTheErdtreeMapLayer: L.Layer;
 
   let currentShowingMapReplies: Reply[] = [];
 
@@ -290,14 +297,27 @@
   };
 
   afterUpdate(() => {
-    if (is_underground) {
-      setCookie('underground', '1');
-      groundLayer.remove();
-      undergroundLayer.addTo(map);
-    } else {
-      setCookie('underground', '0');
-      undergroundLayer.remove();
-      groundLayer.addTo(map);
+    switch (mapType) {
+      case MapType.Default:
+        setCookie('underground', '0');
+        undergroundLayer.remove();
+        dlcShadowOfTheErdtreeMapLayer.remove();
+        groundLayer.addTo(map);
+        break;
+      case MapType.Underground:
+        setCookie('underground', '1');
+        groundLayer.remove();
+        dlcShadowOfTheErdtreeMapLayer.remove();
+        undergroundLayer.addTo(map);
+        break;
+      case MapType.DLC_shadow_of_the_erdtree:
+        setCookie('underground', '2');
+        groundLayer.remove();
+        undergroundLayer.remove();
+        dlcShadowOfTheErdtreeMapLayer.addTo(map);
+        break;
+      default:
+        break;
     }
 
     // 若窗口方向转换，更新filterbar宽度，以让按钮位置匹配
@@ -324,7 +344,18 @@
       showfilterDiv = getCookie('filterBarOpen') === '1';
     }
     if (getCookie('underground')) {
-      is_underground = getCookie('underground') === '1';
+      const mapTypeCookie = getCookie('underground');
+      switch (mapTypeCookie) {
+        case '0':
+          mapType = MapType.Default;
+          break;
+        case '1':
+          mapType = MapType.Underground;
+          break;
+        case '2':
+          mapType = MapType.DLC_shadow_of_the_erdtree;
+          break;
+      }
     }
     if (getCookie('hidebad')) {
       hideBad = getCookie('hidebad') === '1';
@@ -361,6 +392,13 @@
     });
 
     undergroundLayer = L.tileLayer(undergroundMap, {
+      maxZoom: 7,
+      minZoom: 2,
+      tileSize: 200,
+      zoomOffset: 0,
+    });
+
+    dlcShadowOfTheErdtreeMapLayer = L.tileLayer(undergroundMap, {
       maxZoom: 7,
       minZoom: 2,
       tileSize: 200,
@@ -477,7 +515,7 @@
     setAllMarkers(
       allMarkers.filter(f => {
         return f.id !== id;
-      })
+      }),
     );
   };
 
@@ -512,7 +550,7 @@
             type: selectAll ? '' : checkedTypes.length === 0 || (checkedTypes.length === 1 && checkedTypes[0] === '') ? 'none' : checkedTypes.join('|'),
             kword: searchWord,
             ip: showSelf ? ip : '',
-            under: is_underground ? 1 : 2,
+            mapType: mapType,
             queryPosition: current_position.join('|'),
             queryType: 2,
             /*
@@ -557,7 +595,7 @@
             collectMarkers.push(getMarker(m));
 
             // 把收藏的原始标准，和大一点的显眼标注加进去（正好是倒数两个
-            if (m.is_underground === is_underground) {
+            if (m.mapType === mapType) {
               collectMarkers[collectMarkers.length - 1].addTo(map);
               collectMarkers[collectMarkers.length - 2].addTo(map);
             }
@@ -607,14 +645,14 @@
         (
           typeInfo?.icon as (
             title?: string,
-            fontSize?: string
+            fontSize?: string,
           ) => {
             html: string;
             className: string;
             iconSize: L.Point;
             iconArchor: L.Point;
           }
-        )?.((typeInfo.emoji === undefined ? '' : typeInfo.emoji) + (showPlaceNames ? getConvertedText(marker.name) : ''), `${markerFontSize}em`)
+        )?.((typeInfo.emoji === undefined ? '' : typeInfo.emoji) + (showPlaceNames ? getConvertedText(marker.name) : ''), `${markerFontSize}em`),
       ),
     })
       .on('click', () => {
@@ -778,7 +816,7 @@
                   name: addedPointName,
                   desc: addedPointDesc,
                   position: addedPointPosition,
-                  is_underground: is_underground ? '1' : '0',
+                  is_underground: mapType,
                 },
                 ...(isUpdateLnglatMode
                   ? {
@@ -850,7 +888,7 @@
                   lat: currentClickedlatLng.lat,
                   x: map.project(currentClickedlatLng, 5).x,
                   y: map.project(currentClickedlatLng, 5).y,
-                  is_underground: is_underground ? '1' : '2',
+                  is_underground: mapType,
                   like: 0,
                   dislike: 0,
                   ip,
@@ -1107,6 +1145,19 @@
         }
       });
   };
+
+  /** 变更地图类型*/
+  const onMapTypeChanged = (targetMapType: MapType) => {
+    if (targetMapType !== mapType) {
+      // 变一下tip
+      refreshLeftBarTipIndex();
+
+      mapType = targetMapType;
+      refreshAllMarkers();
+      refreshCollectedMarkers();
+    }
+    switchMapTypeVisability = false;
+  };
 </script>
 
 <!--右键菜单-->
@@ -1201,16 +1252,11 @@
         <button
           id="undergroundSwitchButton"
           on:click={() => {
-            // 变一下tip
-            refreshLeftBarTipIndex();
-
-            is_underground = !is_underground;
-            refreshAllMarkers();
-            refreshCollectedMarkers();
+            switchMapTypeVisability = true;
           }}
         >
           <Toggle />
-          {is_underground ? $t('map.left.undergroundSwitcher2') : $t('map.left.undergroundSwitcher1')}
+          {$t('map.left.mapSwitcher')}
         </button>
         <button on:click={onFilterButtonClick} id="leftInnerCloseButton">
           <FilterClose />
@@ -1218,7 +1264,7 @@
       </div>
 
       <!--地表切换显示-->
-      {#if !is_underground}
+      {#if mapType === MapType.Default}
         <div id="underSelector" style="font-size: 0.9em; margin: 5px; align-items: center;">
           <button
             on:click={() => {
@@ -1491,7 +1537,7 @@
       <button disabled={!$isAdminModeStore}>
         <label disabled={!$isAdminModeStore} style="color: rgb(208, 200, 181);">
           <input disabled={!$isAdminModeStore} type="checkbox" checked={config.default.isLockAllMarkers ? true : currentClickedMarker?.is_lock} on:change={onSetLockChecked} />{$t(
-            'map.modals.info.lock'
+            'map.modals.info.lock',
           )}</label
         >
       </button>
@@ -1574,27 +1620,36 @@
   <div class="modalInner">
     <div id="underSelector">
       <button
-        class={!is_underground && 'checked'}
+        class={mapType === MapType.Default && 'checked'}
         on:click={() => {
-          is_underground = false;
+          mapType = MapType.Default;
           refreshAllMarkers();
         }}
       >
         {$t('map.modals.add.surface')}
       </button>
       <button
-        class={is_underground && 'checked'}
+        class={mapType === MapType.Underground && 'checked'}
         on:click={() => {
-          is_underground = true;
+          mapType = MapType.Underground;
           refreshAllMarkers();
         }}
       >
         {$t('map.modals.add.underground')}
       </button>
+      <button
+        class={mapType === MapType.DLC_shadow_of_the_erdtree && 'checked'}
+        on:click={() => {
+          mapType = MapType.DLC_shadow_of_the_erdtree;
+          refreshAllMarkers();
+        }}
+      >
+        {$t('map.modals.add.dlcShadowOfTheErdtree')}
+      </button>
     </div>
 
     <!--选择地面-洞穴-灰城按钮组-->
-    {#if !is_underground}
+    {#if mapType === MapType.Default}
       <div id="underSelector">
         <button
           on:click={() => {
@@ -1675,6 +1730,40 @@
         >
       {/if}
     {/each}
+  </div>
+</Modal>
+
+<!--切换地图类型Modal-->
+<Modal
+  visible={switchMapTypeVisability}
+  top="0%"
+  title={$t('map.modals.mapSwitcher.title')}
+  zindex={1919810}
+  width="{window.innerWidth * 0.8}px "
+  backgroundOpacity={0.8}
+  showCloseButton
+  closeButtonText={$t('map.modals.add.btn2')}
+  onCloseButtonClick={() => {
+    switchMapTypeVisability = false;
+  }}
+>
+  <div id="switchMapModalInner">
+    <button
+      class="ButtonInswitchMapModal"
+      on:click={() => {
+        onMapTypeChanged(MapType.Default);
+      }}>{$t('map.modals.mapSwitcher.surface')}</button
+    ><button
+      class="ButtonInswitchMapModal"
+      on:click={() => {
+        onMapTypeChanged(MapType.Underground);
+      }}>{$t('map.modals.mapSwitcher.underground')}</button
+    ><button
+      class="ButtonInswitchMapModal"
+      on:click={() => {
+        onMapTypeChanged(MapType.DLC_shadow_of_the_erdtree);
+      }}>{$t('map.modals.mapSwitcher.dlcShadowOfTheErdtree')}</button
+    >
   </div>
 </Modal>
 
@@ -1856,6 +1945,16 @@
     margin: 5px;
     font-size: 0.9em;
     width: -webkit-fill-available;
+  }
+  #switchMapModalInner {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .ButtonInswitchMapModal {
+    font-size: 1.1em;
+    padding: 20px 10px;
+    margin: 20px 0;
   }
   #leftInnerCloseButton {
     border: none;
