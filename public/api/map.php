@@ -255,7 +255,7 @@ switch ($request_type) {
                     'delete_request' => (int)$row['delete_request'],
                     'ip' => $row['ip'],
                     'is_deleted' => (bool)(int)$row['is_deleted'],
-                    'is_underground' => (int)$row['is_underground'],
+                    'mapType' => (int)$row['is_underground'],
                     'is_lock' => (bool)(int)$row['is_lock'],
                     'position' => (int)$row['position'],
                     'create_date' => $row['create_date'],
