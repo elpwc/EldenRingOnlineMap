@@ -232,6 +232,7 @@ const lang = {
       collection: '收集',
       weapons: '武器',
       message: '留言',
+      dlc1items: 'DLC1道具',
     },
     filters: {
       cifu: '赐福',
@@ -279,7 +280,8 @@ const lang = {
       metarial: '材料',
       ring: '戒指护符',
       tear: '泪滴幼体',
-      erdtreefragment: '幽影树碎片',
+      scadutreefragment: '幽影树碎片',
+      spiritashes: '灵灰',
     },
   },
   apoTypes: {

@@ -45,7 +45,8 @@ export enum MapPointType {
   Orchid = 'orchid',
   Material = 'material',
   Tear = 'tear',
-  ErdtreeFragment = 'erdtreefragment',
+  ScadutreeFragment = 'scadutreefragment',
+  SpiritAshes = 'spiritashes',
 
   // 收集
   Paint = 'paint',
