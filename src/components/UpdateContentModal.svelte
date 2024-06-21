@@ -25,6 +25,15 @@
 
     <div class="update">
       <p class="updateTitle"><date>{config.default.lastUpdated}</date> 的更新<br />(ver {config.default.currentVer})</p>
+      <div class="updateSection">
+        <p>加入了幽影树碎片和灵灰这两个DLC道具</p>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="update">
+      <p class="updateTitle"><date>2024-6-21 5:57 UT+8</date> 的更新<br />(ver 3.3.1.0)</p>
       <div class="updateSection" style={isMobile ? '' : 'display: flex; gap: 10px; '}>
         {#if isMobile}
           <img style="max-width: 100%;height: fit-content; " src="./resource/images/dlc1.png" alt="dlc1 Shadow of the Erdtree" />
