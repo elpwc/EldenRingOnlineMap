@@ -29,12 +29,7 @@
       <p class="updateTitle"><date>{config.default.lastUpdated}</date> 的更新<br />(ver {config.default.currentVer})</p>
       <div class="updateSection">
         <p>
-          连夜引入了更高清晰度的DLC1底图，感谢数据来源<a href="https://www.gamersky.com/tools/map/eldenring/?ref=SEO&pageType=pc" target="_blank">
-            gamersky
-            <sup>
-              <SubscriptLink7 />
-            </sup>
-          </a>和
+          连夜引入了更高清晰度的DLC1底图，感谢数据来源
           <a href="https://mapgenie.io/elden-ring/maps/the-shadow-realm" target="_blank">
             mapgenie
             <sup>

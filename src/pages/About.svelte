@@ -98,8 +98,8 @@
           <SubscriptLink7 />
         </sup>
       </a>, 
-      <a href="https://www.gamersky.com/tools/map/eldenring/?ref=SEO&pageType=pc" target="_blank">
-        gamersky
+      <a href="https://mapgenie.io/elden-ring/maps/the-shadow-realm" target="_blank">
+        mapgenie
         <sup>
           <SubscriptLink7 />
         </sup>
