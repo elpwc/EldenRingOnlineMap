@@ -137,7 +137,7 @@ const lang = {
       },
     },
     alert: {
-      titleExceeded: '标题(≤20)/内容(≤1000)太长了~',
+      titleExceeded: '标题(≤50)/内容(≤1000)太长了~',
       titleEmpty: '请填写标题/类型再提交~',
       contentExceeded: '内容(≤1000)太长了~',
       contentEmpty: '请填写内容再提交~',
@@ -148,7 +148,7 @@ const lang = {
     menulang: '菜单语言',
     maplang: '地图语言转换',
     dontConvert: '不转换',
-    theresNoHiddenPointByNow: '目前没有隐藏点捏，点开地标后在下面可以隐藏这个地标，筛选栏里可以切换是否显示~',
+    theresNoHiddenPointByNow: '目前没有隐藏点，点开地标后在下面可以隐藏这个地标，筛选栏里可以切换是否显示~',
     therereSomeHiddenPoints: '目前有{count}个隐藏点，确定要清除隐藏状态，全部重置吗?',
     hiddenPointYattaze: '重置了',
     clearHiddenPointButton: '重置所有隐藏点',
@@ -166,7 +166,7 @@ const lang = {
     april: {
       title: '重要通知',
       content:
-        '本站的日浏览量竟然、竟然连续一年保持在了2000以上——(≧▽≦)ノﾊﾟﾁﾊﾟﾁ! 作为对大家使用的感谢，咱将送给每位访问者一只可爱的猫娘，点击下面按钮填写信息後将在接下来一周内陆续發放喵，今后也恳请大家多多支持喵——',
+        '本站的日浏览量竟然、竟然连续一年保持在了2000以上——(≧▽≦)ノﾊﾟﾁﾊﾟﾁ! 作为对大家使用的感谢，送给每位访问者一只可爱的猫娘，点击下面按钮填写信息後将在接下来一周内陆续發放喵，今后也恳请大家多多支持喵——',
       button: '查看详情',
       footer: '-wniko- 2022 年 4 月 1 日',
     },

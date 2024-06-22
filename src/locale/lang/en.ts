@@ -137,7 +137,7 @@ const lang = {
       },
     },
     alert: {
-      titleExceeded: '标题(≤20)/内容(≤1000)太长了~',
+      titleExceeded: '标题(≤50)/内容(≤1000)太长了~',
       titleEmpty: '请填写标题/类型再提交~',
       contentExceeded: '内容(≤1000)太长了~',
       contentEmpty: '请填写内容再提交~',
