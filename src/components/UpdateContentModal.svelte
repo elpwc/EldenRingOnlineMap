@@ -27,9 +27,27 @@
 
     <div class="update">
       <p class="updateTitle"><date>{config.default.lastUpdated}</date> 的更新<br />(ver {config.default.currentVer})</p>
+
       <div class="updateSection">
+        <p class="sectionTitle">🐞 修复了bug:</p>
+        <p>- DLC1 地图在缩放到最大时变成黑屏</p>
+      </div>
+      <div class="updateSection">
+        <p class="sectionTitle">💡 新的<ruby>特性</ruby>:</p>
+        <p>- 提升了讯息标题的字数上限</p>
+        <p>- 适当增大了TIPS字体的大小</p>
+        <p>- 一些文本更改</p>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="update">
+      <p class="updateTitle"><date>2024-6-23 3:40 UT+8</date> 的更新<br />(ver 3.3.1.2)</p>
+      <div class="updateSection">
+        <p class="sectionTitle">💡 新的<ruby>特性</ruby>:</p>
         <p>
-          连夜引入了更高清晰度的DLC1底图，感谢数据来源
+          - 连夜引入了更高清晰度的DLC1底图，感谢数据来源
           <a href="https://mapgenie.io/elden-ring/maps/the-shadow-realm" target="_blank">
             mapgenie
             <sup>
@@ -37,7 +55,7 @@
             </sup>
           </a>
         </p>
-        <p>适当增加了地标字体的大小</p>
+        <p>- 适当增加了地标字体的大小</p>
       </div>
     </div>
 
@@ -46,7 +64,8 @@
     <div class="update">
       <p class="updateTitle"><date>2024-6-21 17:53 UT+8</date> 的更新<br />(ver 3.3.1.1)</p>
       <div class="updateSection">
-        <p>加入了幽影树碎片和灵灰这两个DLC道具</p>
+        <p class="sectionTitle">💡 新的<ruby>特性</ruby>:</p>
+        <p>- 加入了幽影树碎片和灵灰这两个DLC道具</p>
       </div>
     </div>
 
