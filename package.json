@@ -46,7 +46,7 @@
     "dayjs": "^1.11.0",
     "file-saver": "^2.0.5",
     "jquery": "^3.6.0",
-    "leaflet": "^1.7.1",
+    "leaflet": "^1.9.4",
     "leaflet-canvas-markers-with-title": "^0.8.0",
     "md5": "^2.3.0",
     "qs": "^6.10.3",
