@@ -3,6 +3,8 @@
   import * as config from '../config';
   import { isMobile } from '../stores';
 
+  import SubscriptLink7 from '../assets/icons/icon-subscript-link-7.svg';
+
   export let updateVisibility: boolean = false;
   export let onOKButtonClick: () => void = () => {};
 </script>
@@ -25,6 +27,29 @@
 
     <div class="update">
       <p class="updateTitle"><date>{config.default.lastUpdated}</date> 的更新<br />(ver {config.default.currentVer})</p>
+      <div class="updateSection">
+        <p>
+          连夜引入了更高清晰度的DLC1底图，感谢数据来源<a href="https://www.gamersky.com/tools/map/eldenring/?ref=SEO&pageType=pc" target="_blank">
+            gamersky
+            <sup>
+              <SubscriptLink7 />
+            </sup>
+          </a>和
+          <a href="https://mapgenie.io/elden-ring/maps/the-shadow-realm" target="_blank">
+            mapgenie
+            <sup>
+              <SubscriptLink7 />
+            </sup>
+          </a>
+        </p>
+        <p>适当增加了地标字体的大小</p>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="update">
+      <p class="updateTitle"><date>2024-6-21 17:53 UT+8</date> 的更新<br />(ver 3.3.1.1)</p>
       <div class="updateSection">
         <p>加入了幽影树碎片和灵灰这两个DLC道具</p>
       </div>
