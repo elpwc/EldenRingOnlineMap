@@ -1,7 +1,7 @@
 <script lang="ts">
   // leaflet 需要 leaflet.css， 这里通过 rollup-plugin-css-only 将其打包到 bundle.css
   import '../../node_modules/leaflet/dist/leaflet.css';
-  import L from 'leaflet';
+  import L, { TileLayer } from 'leaflet';
   import type { LeafletMouseEvent } from 'leaflet';
   import { afterUpdate, onMount } from 'svelte';
   import Modal from './Modal.svelte';
@@ -46,7 +46,11 @@
   /** 地下地图数据源 */
   const undergroundMap: string = 'https://imgs.ali213.net/picfile/eldenring_dx/{z}/{x}/{y}.png'; // './resource/maps/underground/{z}/{x}/{y}.jpg';
   /** DLC Shadow of the Erdtree 地图数据源 */
-  const dlcShadowOfTheErdtreeMap: string = './resource/maps/dlc1/{z}/{x}/{y}.jpg'; // './resource/maps/underground/{z}/{x}/{y}.jpg';
+  const dlcShadowOfTheErdtreeMap: string = 'https://tiles.mapgenie.io/games/elden-ring/the-shadow-lands/asdnlkkveao-v1/{z}/{x}/{y}.jpg'; //'./resource/maps/dlc1/{z}/{x}/{y}.jpg'; // './resource/maps/underground/{z}/{x}/{y}.jpg';
+
+  const change_currently_used_maptile_format_to_dlc_maptile_format = (z_for_current_maptile, x_or_y) => {
+    return 2 ** (z_for_current_maptile - 1 + 8) - (2 ** z_for_current_maptile - x_or_y);
+  };
 
   /** 本页面！唯一指定！地图对象！喵！ */
   let map: L.Map;
@@ -399,12 +403,32 @@
       zoomOffset: 0,
     });
 
-    dlcShadowOfTheErdtreeMapLayer = L.tileLayer(dlcShadowOfTheErdtreeMap, {
-      maxZoom: 7,
+    // dlc1 layer
+    // 由于引用的dlc地图瓦片格式是 z, 2**z-x, 2**z-y 格式的，在这里重写dlclayer的url
+    const TileLayerForDlc1Map = L.TileLayer.extend({
+      getTileUrl: (coords: { x: number; y: number; z: number }) => {
+        const z = coords.z + 8;
+        const x = change_currently_used_maptile_format_to_dlc_maptile_format(coords.z, coords.x);
+        const y = change_currently_used_maptile_format_to_dlc_maptile_format(coords.z, coords.y);
+        return `https://tiles.mapgenie.io/games/elden-ring/the-shadow-lands/asdnlkkveao-v1/${z}/${x}/${y}.jpg`;
+      },
+    });
+
+    // 唉，ts
+    //@ts-ignore
+    dlcShadowOfTheErdtreeMapLayer = new TileLayerForDlc1Map(dlcShadowOfTheErdtreeMap, {
+      maxZoom: 12,
       minZoom: 2,
-      tileSize: 200,
+      tileSize: 256,
       zoomOffset: 0,
     });
+
+    // dlcShadowOfTheErdtreeMapLayer = L.tileLayer(dlcShadowOfTheErdtreeMap, {
+    //   maxZoom: 7,
+    //   minZoom: 2,
+    //   tileSize: 200,
+    //   zoomOffset: 0,
+    // });
 
     // 把缩放控件加到左下角
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
@@ -563,6 +587,8 @@
           },
         })
         .then(res => {
+          const use_dlc_test_data = false;
+
           if (res?.data && Array.isArray(res?.data)) {
             setAllMarkers(res?.data);
 
@@ -863,7 +889,7 @@
               MapPointType.Taoke,
               MapPointType.Question,
               MapPointType.ScadutreeFragment,
-              MapPointType.SpiritAshes
+              MapPointType.SpiritAshes,
             ];
             // 判断是否重复
             let existflag = false;
