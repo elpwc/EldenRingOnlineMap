@@ -1395,7 +1395,7 @@
         </div>
       {/if}
 
-      <p style="font-size: 0.6em;">tips: {$t('map.left.tips').split('|')[leftBarTipIndex]}</p>
+      <p style="font-size: 0.7em;">TIPS: {$t('map.left.tips').split('|')[leftBarTipIndex]}</p>
 
       <div id="filter" style="min-height: {mapH * 0.4}px;max-height: {mapH}px; height: {mapH - 300}px;">
         {#each filters as filter}
