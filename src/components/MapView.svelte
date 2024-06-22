@@ -587,18 +587,88 @@
           },
         })
         .then(res => {
-          const use_dlc_test_data = false;
-
-          if (res?.data && Array.isArray(res?.data)) {
-            setAllMarkers(res?.data);
+          const useTestData = false;
+          if (useTestData) {
+            const testdata = [
+              {
+                id: 8594,
+                type: 'cifu',
+                name: '\u5d16\u4e0a\u9053\u8def\u7684\u7ec8\u70b9',
+                desc: '\u4ece\u201c\u4e09\u53c9\u53e3\u7684\u5341\u5b57\u8bb0\u53f7\u201d\u8d50\u798f\u8fdb\u5927\u95e8\u540e\u5de6\u8f6c\u4ece\u5c0f\u8def\u4e00\u8def\u5411\u524d\u8d70',
+                lng: 7.20472979864393,
+                lat: 20.865315844283565,
+                like: 6,
+                dislike: 0,
+                delete_request: 0,
+                ip: '123.138.104.169',
+                is_deleted: false,
+                mapType: 2,
+                is_lock: false,
+                position: 0,
+                create_date: '2024-06-21 10:42:39',
+                update_date: '2024-06-23 03:25:52',
+                x: 'null',
+                y: 'null',
+              },
+              {
+                id: 8599,
+                type: 'cifu',
+                name: '\u57ce\u7684\u524d\u65b9',
+                desc: '',
+                lng: 12.779375829198814,
+                lat: 27.506565341489775,
+                like: 2,
+                dislike: 0,
+                delete_request: 0,
+                ip: '36.63.159.180',
+                is_deleted: false,
+                mapType: 2,
+                is_lock: false,
+                position: 0,
+                create_date: '2024-06-21 10:59:25',
+                update_date: '2024-06-23 03:25:52',
+                x: 'null',
+                y: 'null',
+              },
+              {
+                id: 8604,
+                type: 'cifu',
+                name: '\u7194\u5ca9\u7ba1\u953b\u9020\u9057\u8ff9',
+                desc: '\u9057\u8ff9\u5c0f\u602a\u5f88\u786c\uff0c\u5efa\u8bae\u8dd1\u56fe\u6536\u96c6\u9053\u5177\uff0c\u9014\u4e2d\u6709\u7279\u5927\u9524\u3001\u6295\u63b7\u5251\u3001\u53e4\u9f99\u5ca9',
+                lng: 14.06361685690951,
+                lat: 23.504209591901343,
+                like: 2,
+                dislike: 1,
+                delete_request: 0,
+                ip: '171.104.187.37',
+                is_deleted: false,
+                mapType: 2,
+                is_lock: false,
+                position: 0,
+                create_date: '2024-06-21 11:08:17',
+                update_date: '2024-06-23 03:25:52',
+                x: 'null',
+                y: 'null',
+              },
+            ] as MapPoint[];
+            setAllMarkers(testdata);
 
             isMarkersLoading = false;
             updateShowingMarkers();
 
             onGet?.();
           } else {
-            alert($t('map.alert.maperror'));
-            isMarkersLoading = false;
+            if (res?.data && Array.isArray(res?.data)) {
+              setAllMarkers(res?.data);
+
+              isMarkersLoading = false;
+              updateShowingMarkers();
+
+              onGet?.();
+            } else {
+              alert($t('map.alert.maperror'));
+              isMarkersLoading = false;
+            }
           }
         });
     }
@@ -1376,9 +1446,9 @@
       <div id="underSelector" style="margin: 5px; align-items: center;">
         <span style="min-width: fit-content;">{$t('map.left.fontSizeLabel')}</span>
         <button
-          class={markerFontSize === 0.5 && 'checked'}
+          class={markerFontSize === 0.8 && 'checked'}
           on:click={() => {
-            markerFontSize = 0.5;
+            markerFontSize = 0.8;
             updateShowingMarkers();
           }}
         >
@@ -1386,9 +1456,9 @@
         </button>
 
         <button
-          class={markerFontSize === 0.8 && 'checked'}
+          class={markerFontSize === 1.0 && 'checked'}
           on:click={() => {
-            markerFontSize = 0.8;
+            markerFontSize = 1.0;
             updateShowingMarkers();
           }}
         >
