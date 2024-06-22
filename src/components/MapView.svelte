@@ -417,7 +417,7 @@
     // 唉，ts
     //@ts-ignore
     dlcShadowOfTheErdtreeMapLayer = new TileLayerForDlc1Map(dlcShadowOfTheErdtreeMap, {
-      maxZoom: 11,
+      maxZoom: 9,
       minZoom: 2,
       tileSize: 256,
       zoomOffset: 0,
