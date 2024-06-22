@@ -1782,13 +1782,13 @@
       on:click={() => {
         onMapTypeChanged(MapType.Default);
       }}>{$t('map.modals.mapSwitcher.surface')}</button
-    ><button
+    >
+    <button
       class="ButtonInswitchMapModal"
       on:click={() => {
         onMapTypeChanged(MapType.Underground);
       }}>{$t('map.modals.mapSwitcher.underground')}</button
     >
-    <p style="color: rgb(208, 200, 181);">下面是临时用的DLC地图，等有清晰地图後会马上更新——!</p>
     <button
       class="ButtonInswitchMapModal"
       on:click={() => {

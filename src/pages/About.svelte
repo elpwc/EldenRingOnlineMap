@@ -97,6 +97,12 @@
         <sup>
           <SubscriptLink7 />
         </sup>
+      </a>, 
+      <a href="https://www.gamersky.com/tools/map/eldenring/?ref=SEO&pageType=pc" target="_blank">
+        gamersky
+        <sup>
+          <SubscriptLink7 />
+        </sup>
       </a>
       <br />
 

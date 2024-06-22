@@ -87,7 +87,7 @@ const lang: langType = {
         title: '切換地圖',
         surface: '地面地圖',
         underground: '地底地圖',
-        dlcShadowOfTheErdtree: 'DLC「黃金樹幽影」地圖（臨時）',
+        dlcShadowOfTheErdtree: 'DLC「黃金樹幽影」地圖',
       },
     },
     alert: {
