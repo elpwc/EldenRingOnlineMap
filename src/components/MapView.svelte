@@ -372,6 +372,9 @@
           return f !== '' && f !== undefined;
         });
     }
+    if (getCookie('markerfontsize')) {
+      markerFontSize = Number(getCookie('markerfontsize'));
+    }
 
     // 初始化是否显示地名，zoom过小就不显示了，不然嫩卡
     if (initZoom > 3) {
@@ -1449,6 +1452,7 @@
           class={markerFontSize === 0.8 && 'checked'}
           on:click={() => {
             markerFontSize = 0.8;
+            setCookie('markerfontsize', markerFontSize);
             updateShowingMarkers();
           }}
         >
@@ -1459,6 +1463,7 @@
           class={markerFontSize === 1.0 && 'checked'}
           on:click={() => {
             markerFontSize = 1.0;
+            setCookie('markerfontsize', markerFontSize);
             updateShowingMarkers();
           }}
         >
@@ -1469,6 +1474,7 @@
           class={markerFontSize === 1.3 && 'checked'}
           on:click={() => {
             markerFontSize = 1.3;
+            setCookie('markerfontsize', markerFontSize);
             updateShowingMarkers();
           }}
         >
