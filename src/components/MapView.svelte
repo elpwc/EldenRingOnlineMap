@@ -21,6 +21,7 @@
   import jQuery from 'jquery';
   import RightMenu from './MapViewComponents/RightMenu.svelte';
   import * as config from '../config';
+  import * as privateConfig from '../privateConfig';
   import '../../node_modules/spinkit/spinkit.min.css';
 
   import SearchIcon from '../assets/icons/icon-search.svg';
@@ -33,6 +34,7 @@
   import Collect from '../assets/icons/icon-collect.svg';
   import Remark from '../assets/icons/icon-remark.svg';
   import { testdata } from '../utils/testdata';
+  import md5 from 'md5';
 
   /** 是否禁用拖动而采用方向按钮控制，适用于一些移动app的引用 */
   export let from: string = '';
@@ -53,7 +55,7 @@
     return 2 ** (z_for_current_maptile - 1 + 8) - (2 ** z_for_current_maptile - x_or_y);
   };
 
-  /** 本页面！唯一指定！地图对象！喵！ */
+  /** 本页面！唯一指定！地图对象！ */
   let map: L.Map;
 
   // 初始化地图宽高
@@ -190,6 +192,94 @@
   let isMarkersLoading: boolean = false;
   let isMarkersRenderring: boolean = false;
 
+  /** 注册Modal */
+  let registerVisability: boolean = false;
+  /** 登录Modal */
+  let loginVisability: boolean = false;
+
+  let username: string = '';
+  let password: string = '';
+  let password_2: string = '';
+  let recaptcha_res: string = '';
+
+  let register_error: string = '';
+
+  let current_username: string = '';
+  let user_token: string = '';
+
+  let is_login: boolean = false;
+
+  /** 注册 */
+  const register = (uid: string, password_: string, onOK: () => void) => {
+    axios
+      .post('./user.php', {
+        name: uid,
+        pw: md5(password_),
+      })
+      .then(res => {
+        switch (res.data.res) {
+          case 'ok':
+            register_error = '';
+            onOK();
+            break;
+          case 'exist':
+            register_error = $t('map.modals.register.exist');
+            break;
+          case 'unknown_error':
+            register_error = $t('map.modals.register.unknown_error');
+            break;
+          default:
+            break;
+        }
+      });
+  };
+
+  /** 登录 */
+  const login = (uid: string, password_: string, useMD5: boolean = true, onOK?: (token: string) => void, onFail?: () => void) => {
+    const pw = useMD5 ? md5(password_) : password_;
+    axios
+      .post('./login.php', {
+        name: uid,
+        pw,
+      })
+      .then(res => {
+        switch (res.data.res) {
+          case 'ok':
+            register_error = '';
+            user_token = res.data.token;
+            current_username = uid;
+            set_login(current_username, pw, user_token);
+            onOK(res.data.token);
+            break;
+          case 'fail':
+            register_error = $t('map.modals.login.error');
+            onFail();
+            break;
+          default:
+            break;
+        }
+      });
+  };
+
+  const set_login = (uid, p, token) => {
+    setCookie('login_uid', uid);
+    setCookie('login_p', p);
+    setCookie('login_token', token);
+    is_login = true;
+  };
+
+  const has_loginned = () => {
+    return getCookie('login_token') !== '';
+  };
+
+  const logout = () => {
+    setCookie('login_uid', '');
+    setCookie('login_p', '');
+    setCookie('login_token', '');
+    is_login = false;
+    axios.delete('./login.php').then(res => {});
+  };
+
   const refreshCurrentShowingMapReplies = (id: number, onFinish?: (data: Reply[]) => void) => {
     axios
       .get('./mapReply.php', {
@@ -201,6 +291,23 @@
         currentShowingMapReplies = res.data as Reply[];
         onFinish?.(res.data as Reply[]);
       });
+  };
+
+  /** 渲染reCAPTCHA v2 */
+  const renderReCAPTCHA_v2 = (onTokenReceived: (token: string) => void, onExpired: () => void) => {
+    //@ts-ignore
+    grecaptcha.ready(function () {
+      //@ts-ignore
+      grecaptcha.render('recaptcha-container', {
+        sitekey: privateConfig.default.reCaptchaV2SiteKey,
+        callback: token => {
+          onTokenReceived(token);
+        },
+        expiredCallback: () => {
+          onExpired();
+        },
+      });
+    });
   };
 
   /** 删除回复 */
@@ -522,6 +629,27 @@
     getFilterBarWidth();
 
     refreshLeftBarTipIndex();
+
+    // 从cookie登录
+    const user_token_t = getCookie('login_token');
+    const username_t = getCookie('login_uid');
+    if (username_t !== '' && user_token_t !== '') {
+      login(
+        username_t,
+        getCookie('login_p'),
+        false,
+        (token: string) => {
+          // OK
+          current_username = username_t;
+          user_token = token;
+          set_login(current_username, getCookie('login_p'), user_token);
+        },
+        () => {
+          // Fail
+          logout();
+        },
+      );
+    }
   });
   // onMount 结束=============================================================
 
@@ -591,7 +719,7 @@
           },
         })
         .then(res => {
-          if (config.default.inDev) {
+          if (config.default.useTestData) {
             setAllMarkers(testdata);
 
             isMarkersLoading = false;
@@ -1374,18 +1502,17 @@
           {/if}
         {/each}
       </div>
-      <button
-        id="showNameBtn"
-        class={showPlaceNames && 'checked'}
-        on:click={() => {
-          showPlaceNames = !showPlaceNames;
-          updateShowingMarkers();
-        }}
-      >
-        {$t('map.left.showNameButton')}{showPlaceNames ? ' √' : ''}
-      </button>
+
       <div id="underSelector" style="margin: 5px; align-items: center;">
-        <span style="min-width: fit-content;">{$t('map.left.fontSizeLabel')}</span>
+        <button
+          class={showPlaceNames && 'checked'}
+          on:click={() => {
+            showPlaceNames = !showPlaceNames;
+            updateShowingMarkers();
+          }}
+        >
+          {$t('map.left.showNameButton')}{showPlaceNames ? ' √' : ''}
+        </button>
         <button
           class={markerFontSize === 0.8 && 'checked'}
           on:click={() => {
@@ -1419,6 +1546,33 @@
           {$t('map.left.fontSizeLarge')}
         </button>
       </div>
+      <div>
+        {#if is_login}
+          <div style="display: flex; justify-content: space-between">
+            <p>{current_username}</p>
+            <button
+              on:click={() => {
+                logout();
+              }}>{$t('map.left.logout')}</button
+            >
+          </div>
+        {:else}
+          <div>
+            <button
+              on:click={() => {
+                registerVisability = true;
+              }}>{$t('map.modals.register.title')}</button
+            >
+            <button
+              on:click={() => {
+                loginVisability = true;
+              }}>{$t('map.modals.login.title')}</button
+            >
+            <span style="font-size: 0.8rem;">{$t('map.left.registerTip')}</span>
+          </div>
+        {/if}
+      </div>
+
       <!--input type="text" placeholder="关键词" bind:value={filterString}/-->
     </div>
     <div id="leftDiv2" style="left: {filterBarWidth};" in:fly={{ x: -165, duration: 300 }} out:fly={{ x: -165, duration: 300 }}>
@@ -1809,6 +1963,105 @@
         onMapTypeChanged(MapType.DLC_shadow_of_the_erdtree);
       }}>{$t('map.modals.mapSwitcher.dlcShadowOfTheErdtree')}</button
     >
+  </div>
+</Modal>
+
+<!--注册Modal-->
+<Modal
+  visible={registerVisability}
+  top="0%"
+  title={$t('map.modals.register.title')}
+  zindex={1919810}
+  width="{window.innerWidth * 0.8}px "
+  backgroundOpacity={0.8}
+  showOkButton
+  showCloseButton
+  okButtonText={$t('map.modals.register.title')}
+  closeButtonText={$t('map.modals.add.btn2')}
+  onOKButtonClick={() => {
+    if (recaptcha_res !== '') {
+      register_error = '';
+      if (username.length <= 20) {
+        if (password === password_2) {
+          register(username, password, () => {
+            registerVisability = false;
+            loginVisability = true;
+          });
+        } else {
+          register_error = $t('map.modals.register.password_not_the_same');
+        }
+      } else {
+        register_error = $t('map.modals.register.username_too_long');
+      }
+    } else {
+      register_error = $t('map.modals.register.not_recaptcha');
+    }
+  }}
+  onCloseButtonClick={() => {
+    registerVisability = false;
+    register_error = '';
+    username = '';
+    password = '';
+    password_2 = '';
+    recaptcha_res = '';
+  }}
+>
+  <div class="modalInner" style="align-items: center;">
+    <div style="display: flex;flex-direction: column;gap: 20px;padding: 0 0;">
+      <input
+        type="text"
+        placeholder={$t('map.modals.register.username')}
+        bind:value={username}
+        on:input={() => {
+          renderReCAPTCHA_v2(
+            token => {
+              recaptcha_res = token;
+            },
+            () => {
+              recaptcha_res = '';
+            },
+          );
+        }}
+      />
+      <input type="password" placeholder={$t('map.modals.register.password')} bind:value={password} />
+      <input type="password" placeholder={$t('map.modals.register.password2')} bind:value={password_2} />
+      <p>{register_error}</p>
+      <div id="recaptcha-container"></div>
+      <span style="color: rgb(239 234 222);">{$t('map.modals.register.tips')}</span>
+    </div>
+  </div>
+</Modal>
+
+<!--登录Modal-->
+<Modal
+  visible={loginVisability}
+  top="0%"
+  title={$t('map.modals.login.title')}
+  zindex={1919810}
+  width="{window.innerWidth * 0.8}px "
+  backgroundOpacity={0.8}
+  showOkButton
+  showCloseButton
+  okButtonText={$t('map.modals.login.title')}
+  closeButtonText={$t('map.modals.add.btn2')}
+  onCloseButtonClick={() => {
+    loginVisability = false;
+    register_error = '';
+    username = '';
+    password = '';
+  }}
+  onOKButtonClick={() => {
+    login(username, password, true, () => {
+      loginVisability = false;
+    });
+  }}
+>
+  <div class="modalInner" style="align-items: center;">
+    <div style="display: flex;flex-direction: column;gap: 20px;padding: 0 0;">
+      <input type="text" placeholder={$t('map.modals.register.username')} bind:value={username} />
+      <input type="password" placeholder={$t('map.modals.register.password')} bind:value={password} />
+      <p>{register_error}</p>
+    </div>
   </div>
 </Modal>
 
