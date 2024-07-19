@@ -111,6 +111,7 @@ const lang = {
         verification_code_blank: '邮箱验证码还沒有输入哦',
         verification_code_error: '邮箱验证码不正确哦',
         verification_code_send: '已发送, 如果没有收到请检查垃圾邮件',
+        verification_code_send_fail: '邮件发送失败，请检查邮箱是否有问题',
       },
       login: {
         title: '登录',

@@ -55,8 +55,8 @@ function send_verification_mail($target, $verify_code)
             "老头环地图 邮箱验证码",
             '<h3>验证码是：<span>' . $verify_code . '</span></h3><p>有效期：5分钟</p>' . date('Y-m-d H:i:s')
         );
-        echo $mail->send();
+        return true;
     } catch (Exception $e) {
-        echo 'failed';
+        return false;
     }
 }

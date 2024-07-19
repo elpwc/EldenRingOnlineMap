@@ -2047,22 +2047,23 @@
               .then(res => {
                 switch (res.data.res) {
                   case 'ok':
+                    register_error = $t('map.modals.register.verification_code_send');
+                    countdown_for_verification_code = 60;
+                    const countdown_verification_timer = setInterval(() => {
+                      countdown_for_verification_code--;
+                      if (countdown_for_verification_code <= 0) {
+                        clearTimeout(countdown_verification_timer);
+                      }
+                    }, 1000);
                     break;
                   case 'fail':
+                    register_error = $t('map.modals.register.verification_code_send_fail');
                     break;
                   default:
-                    console.log(res)
+                    console.log(res);
                     break;
                 }
               });
-
-            countdown_for_verification_code = 60;
-            const countdown_verification_timer = setInterval(() => {
-              countdown_for_verification_code--;
-              if (countdown_for_verification_code <= 0) {
-                clearTimeout(countdown_verification_timer);
-              }
-            }, 1000);
           }}
           disabled={countdown_for_verification_code > 0}
         >

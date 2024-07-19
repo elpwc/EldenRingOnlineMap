@@ -20,8 +20,13 @@ switch ($request_type) {
 
     $_SESSION["verify_code"] = $verify_code;
 
-    send_verification_mail($email, $verify_code);
+    $res = send_verification_mail($email, $verify_code);
 
+    if ($res) {
+      echo json_encode(["res" => "ok"]);
+    } else {
+      echo json_encode(["res" => "fail"]);
+    }
 
     break;
   default:
