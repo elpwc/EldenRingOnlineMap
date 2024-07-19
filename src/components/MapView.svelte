@@ -2040,6 +2040,22 @@
         <input style="width: -webkit-fill-available;" type="text" placeholder={$t('map.modals.register.verification_code')} bind:value={verification_code} />
         <button
           on:click={() => {
+            axios
+              .post('./mail.php', {
+                email,
+              })
+              .then(res => {
+                switch (res.data.res) {
+                  case 'ok':
+                    break;
+                  case 'fail':
+                    break;
+                  default:
+                    console.log(res)
+                    break;
+                }
+              });
+
             countdown_for_verification_code = 60;
             const countdown_verification_timer = setInterval(() => {
               countdown_for_verification_code--;

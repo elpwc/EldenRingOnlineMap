@@ -8,6 +8,10 @@ require './utils.php';
 
 session_start();
 
+$request_type = $_SERVER['REQUEST_METHOD']; //请求类型GET POST PUT DELETE
+$json = file_get_contents('php://input'); //获取CURL GET POST PUT DELETE 请求的数据
+$data = json_decode($json);
+
 switch ($request_type) {
   case 'POST':
     @$email = trim((string)($data->email));

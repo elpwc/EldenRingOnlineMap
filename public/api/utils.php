@@ -6,7 +6,7 @@
  */
 
 require('./private/illegal_words_list.php');
-require "../private/emailcfg.php";
+require "./private/emailcfg.php";
 require './plugin/Lib_Smtp.php';
 
 /**
@@ -47,8 +47,8 @@ function send_verification_mail($target, $verify_code)
     try {
         $mail = new Lib_Smtp();
 
-        $mail->setServer(HOST, USER, PASS, PORT, true);
-        $mail->setFrom(MAIL);
+        $mail->setServer(EMAIL_HOST, EMAIL_USER, EMAIL_PASS, EMAIL_PORT, true);
+        $mail->setFrom(EMAIL_MAIL);
         $mail->setReceiver($target);
         $mail->addAttachment("");
         $mail->setMail(

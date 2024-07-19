@@ -9,6 +9,8 @@ require './private/admin.php';
 require './utils.php';
 require './sqlgenerator.php';
 
+session_start();
+
 $request_type = $_SERVER['REQUEST_METHOD']; //请求类型GET POST PUT DELETE
 $json = file_get_contents('php://input'); //获取CURL GET POST PUT DELETE 请求的数据
 $data = json_decode($json);
@@ -27,7 +29,7 @@ switch ($request_type) {
     @$verify_code = trim((string)($data->verify_code));
     @$pw = trim((string)($data->pw));
 
-    if ($verify_code == $_SESSION["verify_code"]) {
+    if ($_SESSION["verify_code"] != '' && $verify_code == $_SESSION["verify_code"]) {
 
       unset($_SESSION['verify_code']);
 
@@ -50,8 +52,8 @@ switch ($request_type) {
       } else {
         // not exist
         $sql = 'INSERT 
-      INTO `user` (`name`, `pw`)
-      VALUES ("' . $name . '","' . $pw . '");
+      INTO `user` (`name`, `pw`, `email`)
+      VALUES ("' . $name . '","' . $pw . '","' . $email . '");
       ';
 
         $result = mysqli_query($sqllink, $sql);
