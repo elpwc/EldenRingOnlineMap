@@ -6,6 +6,8 @@
  */
 
 require('./private/illegal_words_list.php');
+require "../private/emailcfg.php";
+require './plugin/Lib_Smtp.php';
 
 /**
  * 防注入
@@ -36,4 +38,25 @@ function cator_to_cn_censorship($text)
         $res = str_ireplace($word, str_repeat('*', mb_strlen($word)), $res);
     }
     return $res;
+}
+
+
+
+function send_verification_mail($target, $verify_code)
+{
+    try {
+        $mail = new Lib_Smtp();
+
+        $mail->setServer(HOST, USER, PASS, PORT, true);
+        $mail->setFrom(MAIL);
+        $mail->setReceiver($target);
+        $mail->addAttachment("");
+        $mail->setMail(
+            "老头环地图 邮箱验证码",
+            '<h3>验证码是：<span>' . $verify_code . '</span></h3><p>有效期：5分钟</p>' . date('Y-m-d H:i:s')
+        );
+        echo $mail->send();
+    } catch (Exception $e) {
+        echo 'failed';
+    }
 }

@@ -140,7 +140,8 @@ create table `user`(
     `auth` INT DEFAULT 0,
     `create_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `update_date` DATETIME ON UPDATE CURRENT_TIMESTAMP,
-    `last_login` DATETIME DEFAULT CURRENT_TIMESTAMP
+    `last_login` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `email` NOT NULL,
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 create table `collection`(

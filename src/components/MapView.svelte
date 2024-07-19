@@ -198,9 +198,14 @@
   let loginVisability: boolean = false;
 
   let username: string = '';
+  let email: string = '';
+  let verification_code: string = '';
   let password: string = '';
   let password_2: string = '';
   let recaptcha_res: string = '';
+
+  /** 邮箱验证码倒计时，如果是0的时候可以按下 发送验证码 的按钮，大于0时按钮变灰显示倒计时*/
+  let countdown_for_verification_code: number = 0;
 
   let register_error: string = '';
 
@@ -210,10 +215,12 @@
   let is_login: boolean = false;
 
   /** 注册 */
-  const register = (uid: string, password_: string, onOK: () => void) => {
+  const register = (uid: string, password_: string, email: string, email_verification_code: string, onOK: () => void) => {
     axios
       .post('./user.php', {
         name: uid,
+        email,
+        verify_code: email_verification_code,
         pw: md5(password_),
       })
       .then(res => {
@@ -227,6 +234,9 @@
             break;
           case 'unknown_error':
             register_error = $t('map.modals.register.unknown_error');
+            break;
+          case 'verification_error':
+            register_error = $t('map.modals.register.verification_code_error');
             break;
           default:
             break;
@@ -1983,7 +1993,7 @@
       register_error = '';
       if (username.length <= 20) {
         if (password === password_2) {
-          register(username, password, () => {
+          register(username, password, email, verification_code, () => {
             registerVisability = false;
             loginVisability = true;
           });
@@ -2004,6 +2014,8 @@
     password = '';
     password_2 = '';
     recaptcha_res = '';
+    verification_code = '';
+    email = '';
   }}
 >
   <div class="modalInner" style="align-items: center;">
@@ -2023,6 +2035,26 @@
           );
         }}
       />
+      <input type="email" placeholder={$t('map.modals.register.email')} bind:value={email} />
+      <div style="display: flex; justify-content: space-between;">
+        <input style="width: -webkit-fill-available;" type="text" placeholder={$t('map.modals.register.verification_code')} bind:value={verification_code} />
+        <button
+          on:click={() => {
+            countdown_for_verification_code = 60;
+            const countdown_verification_timer = setInterval(() => {
+              countdown_for_verification_code--;
+              if (countdown_for_verification_code <= 0) {
+                clearTimeout(countdown_verification_timer);
+              }
+            }, 1000);
+          }}
+          disabled={countdown_for_verification_code > 0}
+        >
+          {countdown_for_verification_code === 0
+            ? $t('map.modals.register.send_verification_code')
+            : $t('map.modals.register.wait_for_one_minute').replace('{seconds}', countdown_for_verification_code.toString())}
+        </button>
+      </div>
       <input type="password" placeholder={$t('map.modals.register.password')} bind:value={password} />
       <input type="password" placeholder={$t('map.modals.register.password2')} bind:value={password_2} />
       <p>{register_error}</p>
@@ -2049,6 +2081,9 @@
     register_error = '';
     username = '';
     password = '';
+    password_2 = '';
+    verification_code = '';
+    email = '';
   }}
   onOKButtonClick={() => {
     login(username, password, true, () => {

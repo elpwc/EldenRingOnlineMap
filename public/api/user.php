@@ -23,32 +23,48 @@ switch ($request_type) {
   case 'POST':
 
     @$name = trim((string)($data->name));
+    @$email = trim((string)($data->email));
+    @$verify_code = trim((string)($data->verify_code));
     @$pw = trim((string)($data->pw));
 
-    // user exist
-    $sql = 'SELECT `name` FROM `user`
+    if ($verify_code == $_SESSION["verify_code"]) {
+
+      unset($_SESSION['verify_code']);
+
+      // user exist
+      $usersql = 'SELECT `name` FROM `user`
     WHERE `name`="' . $name . '" AND `is_deleted`=0
     ;';
+      // email exist
+      $emailsql = 'SELECT `email` FROM `user`
+    WHERE `email`="' . $email . '" AND `is_deleted`=0
+    ;';
 
-    $result = mysqli_query($sqllink, $sql);
+      $user_result = mysqli_query($sqllink, $usersql);
 
-    if ($result->num_rows > 0) {
-      // exist
-      echo json_encode(["res" => "exist"]);
-    } else {
-      // not exist
-      $sql = 'INSERT 
+      $email_result = mysqli_query($sqllink, $emailsql);
+
+      if (($user_result->num_rows > 0) || ($email_result->num_rows > 0)) {
+        // exist
+        echo json_encode(["res" => "exist"]);
+      } else {
+        // not exist
+        $sql = 'INSERT 
       INTO `user` (`name`, `pw`)
       VALUES ("' . $name . '","' . $pw . '");
       ';
 
-      $result = mysqli_query($sqllink, $sql);
-      if ($result == true) {
-        echo json_encode(["res" => "ok"]);
-      } else {
-        echo json_encode(["res" => "unknown_error"]);
+        $result = mysqli_query($sqllink, $sql);
+        if ($result == true) {
+          echo json_encode(["res" => "ok"]);
+        } else {
+          echo json_encode(["res" => "unknown_error"]);
+        }
       }
+    } else {
+      echo json_encode(["res" => "verification_error"]);
     }
+
     break;
   case 'PATCH':
 
@@ -61,7 +77,7 @@ switch ($request_type) {
     WHERE `id`=$id;";
 
     $result = mysqli_query($sqllink, $sql);
-    
+
     if ($result == true) {
       echo json_encode(["res" => "ok"]);
     } else {

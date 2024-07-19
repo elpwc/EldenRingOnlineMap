@@ -13,3 +13,5 @@
 
 /todo.txt
 /src/privateConfig.ts
+
+/public/api/plugin/*

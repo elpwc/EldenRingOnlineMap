@@ -24,16 +24,24 @@ $result = '';
 switch ($request_type) {
   case 'POST':
 
-    @$name = trim((string)($data->name));
+    @$name_email = trim((string)($data->name));
     @$pw = trim((string)($data->pw));
 
     // user exist
-    $sql = 'SELECT `name` FROM `user`
-    WHERE `name`="' . $name . '" AND `pw`="' . $pw . '" AND `is_deleted`=0 AND `is_banned`=0
+    $usersql = 'SELECT `name` FROM `user`
+    WHERE `name`="' . $name_email . '" AND `pw`="' . $pw . '" AND `is_deleted`=0 AND `is_banned`=0
     ;';
 
-    $result = mysqli_query($sqllink, $sql);
-    if ($result->num_rows > 0) {
+    // email exist
+    $emailsql = 'SELECT `email` FROM `user`
+    WHERE `email`="' . $name_email . '" AND `pw`="' . $pw . '" AND `is_deleted`=0 AND `is_banned`=0
+    ;';
+
+    $user_result = mysqli_query($sqllink, $usersql);
+
+    $email_result = mysqli_query($sqllink, $emailsql);
+
+    if (($user_result->num_rows > 0) || ($email_result->num_rows > 0)) {
       // exist
       @$token = md5(((string)time()) + $name);
       $_SESSION["token"] = $token;
