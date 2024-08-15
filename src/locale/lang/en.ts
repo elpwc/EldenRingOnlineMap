@@ -108,6 +108,8 @@ const lang = {
         email_blank: '还没有输入邮箱哦',
         username_blank: '记得输入用户名哦',
         password_blank: '密码还沒有输入哦',
+        username_wrong: '用户id请使用字母和数字，长度在2-20之间',
+        password_wrong: '密码请使用字母和数字，长度在2-20之间',
         verification_code_blank: '邮箱验证码还沒有输入哦',
         verification_code_error: '邮箱验证码不正确哦',
         verification_code_send: '已发送, 如果没有收到请检查垃圾邮件',

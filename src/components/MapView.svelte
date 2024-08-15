@@ -1992,13 +1992,21 @@
     if (recaptcha_res !== '') {
       register_error = '';
       if (username.length <= 20) {
-        if (password === password_2) {
-          register(username, password, email, verification_code, () => {
-            registerVisability = false;
-            loginVisability = true;
-          });
+        if (/^[a-zA-Z0-9]{2,20}$/.test(username)) {
+          if (/^[a-zA-Z0-9]{2,20}$/.test(password)) {
+            if (password === password_2) {
+              register(username, password, email, verification_code, () => {
+                registerVisability = false;
+                loginVisability = true;
+              });
+            } else {
+              register_error = $t('map.modals.register.password_not_the_same');
+            }
+          } else {
+            register_error = $t('map.modals.register.password_wrong');
+          }
         } else {
-          register_error = $t('map.modals.register.password_not_the_same');
+          register_error = $t('map.modals.register.username_wrong');
         }
       } else {
         register_error = $t('map.modals.register.username_too_long');
