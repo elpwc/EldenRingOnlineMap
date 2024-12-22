@@ -3,12 +3,16 @@
   export let currentLang;
   export let buttonLang;
   export let buttonText: string;
+  import { t } from 'svelte-i18n';
 
   const dispatch = createEventDispatcher();
-  const cilck = () =>
+  const cilck = () => {
     dispatch('click', {
       lang: buttonLang,
     });
+    // 根据语言改变网页标题
+    document.title = $t('title');
+  };
 </script>
 
 <button class={currentLang === buttonLang && 'active'} on:click={cilck}>

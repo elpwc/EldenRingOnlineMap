@@ -26,6 +26,9 @@
     { path: '/about', text: $t('menu.about'), imgSrc: './resource/images/about.png' },
   ];
 
+  // 根据语言初始化网页标题
+  document.title = $t('title');
+
   onMount(() => {
     const lastVersion = getCookie('version');
     if (lastVersion !== config.default.currentVer) {
