@@ -1,3 +1,5 @@
 调试请使用 npm run dev
+Use `npm run dev` while dev
 
 不要使用 npm start
+Don't use `npm start`

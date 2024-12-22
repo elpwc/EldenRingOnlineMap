@@ -9,6 +9,7 @@ const lang: langType = {
     general: '設定',
     about: '說明',
     tdmap: '3D地圖(dev)',
+    collect: '收藏',
   },
   map: {
     loading: {
@@ -339,6 +340,18 @@ const lang: langType = {
       ask: '求助',
       message: '留言',
       water: '氵',
+    },
+  },
+  collect: {
+    table: {
+      type: '類型',
+      name: '名字',
+      savePlace: '保存位置',
+      delete: '刪除',
+      locate: '定位',
+      local: '本地',
+      server: '雲端',
+      saveToServer: '一鍵上傳所有收藏點到雲端',
     },
   },
 };

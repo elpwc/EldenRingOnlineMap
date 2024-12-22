@@ -66,7 +66,7 @@ switch ($request_type) {
         $ip = '';
         $type = '';
         $kword = '';
-        $mapType = 0; //0 地面, 1 地下, 2 DLC1
+        $mapType = 0; //0 地面, 1 地下, 2 DLC1, 3 ALL
         $queryType = '';
         $queryPosition = '';
         $count = '';
@@ -126,6 +126,9 @@ switch ($request_type) {
                 case 2:
                     $mapType = '2';
                     break;
+                case 3:
+                    $mapType = '3';
+                    break;
                 default:
                     break;
             }
@@ -175,7 +178,8 @@ switch ($request_type) {
                 $kwords = explode('|', $kword);
                 if (is_string($kwords)) {
                     $kwords = [[
-                        'OR', [
+                        'OR',
+                        [
                             ['LIKE', ['name', $kword]],
                             ['LIKE', ['desc', $kword]]
                         ]
@@ -184,7 +188,8 @@ switch ($request_type) {
                 if (count($kwords) > 0) {
                     for ($i = 0; $i < count($kwords); $i++) {
                         array_push($kwordarr, [
-                            'OR', [
+                            'OR',
+                            [
                                 ['LIKE', ['name', $kwords[$i]]],
                                 ['LIKE', ['desc', $kwords[$i]]]
                             ]
@@ -206,18 +211,32 @@ switch ($request_type) {
         $select = [];
 
         if ($id <= 0) {
-            $select = [
-                'AND',
-                [
-                    ['OR', $typearr],
-                    ['OR', $kwordarr],
-                    ['OR', $positionarr],
-                    ['', ['ip', $ip]],
-                    ['', ['is_underground', $mapType]],
-                    ['', ['is_deleted', '0']],
-                    ['AND', $rangearr],
-                ]
-            ];
+            if ($mapType === 3) {
+                $select = [
+                    'AND',
+                    [
+                        ['OR', $typearr],
+                        ['OR', $kwordarr],
+                        ['OR', $positionarr],
+                        ['', ['ip', $ip]],
+                        ['', ['is_deleted', '0']],
+                        ['AND', $rangearr],
+                    ]
+                ];
+            } else {
+                $select = [
+                    'AND',
+                    [
+                        ['OR', $typearr],
+                        ['OR', $kwordarr],
+                        ['OR', $positionarr],
+                        ['', ['ip', $ip]],
+                        ['', ['is_underground', $mapType]],
+                        ['', ['is_deleted', '0']],
+                        ['AND', $rangearr],
+                    ]
+                ];
+            }
         } else {
             $select =  ['', ['id', $id]];
         }

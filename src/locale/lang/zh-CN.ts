@@ -8,6 +8,7 @@ const lang = {
     general: '设置',
     about: '说明',
     tdmap: '3D地图(dev)',
+    collect: '收藏',
   },
   map: {
     loading: {
@@ -338,6 +339,18 @@ const lang = {
       ask: '求助',
       message: '留言',
       water: '氵',
+    },
+  },
+  collect: {
+    table: {
+      type: '类型',
+      name: '名字',
+      savePlace: '保存位置',
+      delete: '删除',
+      locate: '定位',
+      local: '本地',
+      server: '云端',
+      saveToServer: '一键上传所有收藏点到云端',
     },
   },
 };
