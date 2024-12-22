@@ -22,6 +22,7 @@
     <div class="btnContainer">
       <LangButton buttonLang={SupportedLang.zhCN} buttonText="简体" currentLang={$lang} on:click={event => lang.set(event.detail.lang)} />
       <LangButton buttonLang={SupportedLang.zhTW} buttonText="正體" currentLang={$lang} on:click={event => lang.set(event.detail.lang)} />
+      <LangButton buttonLang={SupportedLang.ja} buttonText="日本語" currentLang={$lang} on:click={event => lang.set(event.detail.lang)} />
     </div>
   </div>
 

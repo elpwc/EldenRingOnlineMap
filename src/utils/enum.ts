@@ -90,6 +90,7 @@ export enum ApothegmType {
 export enum SupportedLang {
   zhCN = 'zh-CN',
   zhTW = 'zh-TW',
+  ja = 'ja',
 }
 
 export enum TranslateTargetLang {
