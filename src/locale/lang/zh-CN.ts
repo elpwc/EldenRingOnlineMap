@@ -212,6 +212,7 @@ const lang = {
     coffee: '给服务器续命☕',
     feedback: '漏洞・意见反馈',
     update: '更新内容',
+    coop: '合作伙伴',
     github: 'GitHub页',
     statistics: {
       title: '统计喵',

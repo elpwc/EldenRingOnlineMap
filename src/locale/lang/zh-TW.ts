@@ -213,6 +213,7 @@ const lang: langType = {
     coffee: '給伺服器續命☕',
     feedback: '漏洞・意見反饋',
     update: '更新內容',
+    coop: '合作夥伴',
     github: 'GitHub頁面',
     statistics: {
       title: '統計喵',

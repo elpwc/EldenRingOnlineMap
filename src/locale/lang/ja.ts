@@ -214,6 +214,7 @@ const lang = {
     coffee: 'サーバーを支援する☕',
     feedback: 'バグ・意見フィードバック',
     update: '更新内容',
+    coop: '協力サイト',
     github: 'GitHubページ',
     statistics: {
       title: '統計情報',
