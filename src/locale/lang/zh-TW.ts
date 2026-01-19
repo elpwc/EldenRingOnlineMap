@@ -349,7 +349,7 @@ const lang: langType = {
       savePlace: '保存位置',
       delete: '刪除',
       locate: '定位',
-      local: '本地',
+      local: '設備',
       server: '雲端',
       saveToServer: '一鍵上傳所有收藏點到雲端',
     },

@@ -1556,7 +1556,7 @@
           {$t('map.left.fontSizeLarge')}
         </button>
       </div>
-      <div>
+      <!-- <div>
         {#if is_login}
           <div style="display: flex; justify-content: space-between">
             <p>{current_username}</p>
@@ -1581,7 +1581,7 @@
             <span style="font-size: 0.8rem;">{$t('map.left.registerTip')}</span>
           </div>
         {/if}
-      </div>
+      </div> -->
 
       <!--input type="text" placeholder="关键词" bind:value={filterString}/-->
     </div>

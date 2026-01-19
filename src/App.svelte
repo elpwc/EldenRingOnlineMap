@@ -23,7 +23,7 @@
     { path: '/', text: $t('menu.map'), imgSrc: './resource/images/map.png' },
     { path: '/apothegm', text: $t('menu.apo'), imgSrc: './resource/images/apothegm.png' },
     { path: '/routes', text: $t('menu.routes'), imgSrc: './resource/images/apothegm.png' },
-    { path: '/collect', text: $t('menu.collect'), imgSrc: './resource/images/apothegm.png' },
+    { path: '/collect', text: $t('menu.collect'), imgSrc: './resource/images/collection.png' },
     //{ path: '/3dmap', text: $t('menu.tdmap'), imgSrc: './resource/images/apothegm.png' },
     { path: '/general', text: $t('menu.general'), imgSrc: './resource/images/general.png' },
     { path: '/about', text: $t('menu.about'), imgSrc: './resource/images/about.png' },

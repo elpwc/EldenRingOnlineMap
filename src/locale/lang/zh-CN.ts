@@ -348,7 +348,7 @@ const lang = {
       savePlace: '保存位置',
       delete: '删除',
       locate: '定位',
-      local: '本地',
+      local: '设备',
       server: '云端',
       saveToServer: '一键上传所有收藏点到云端',
     },

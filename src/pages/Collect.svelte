@@ -15,9 +15,12 @@
   }
 
   /** 所有收藏的地标的id */
-  const F_collectionsSet = collectionSet.getStore();
-  const collections = Array.from($F_collectionsSet);
+  let F_collectionsSet = collectionSet.getStore();
+  let collections = Array.from($F_collectionsSet);
   let markers = [];
+
+  /** 收藏的所有地标 */
+  let collectMarkersData: CollectContainer[] = [];
 
   const getAllMarkers = async () => {
     return await axios
@@ -47,9 +50,6 @@
         }
       });
   };
-
-  /** 收藏的所有地标 */
-  let collectMarkersData: CollectContainer[] = [];
 
   const getAllCollectsFromLocal = () => {
     collections.forEach(id => {
@@ -89,32 +89,49 @@
   };
 
   const init = async () => {
+    F_collectionsSet = collectionSet.getStore();
+    collections = Array.from($F_collectionsSet);
+
     markers = await getAllMarkers();
+    collectMarkersData = [];
     getAllCollectsFromLocal();
-    collectMarkersData = collectMarkersData;
+    //collectMarkersData = collectMarkersData;
   };
 
   init();
 
+  /** 收藏/取消收藏一个地标 */
+  const collectMarker = (id: number) => {
+    if ($F_collectionsSet.has(id)) {
+      F_collectionsSet.removePoint(id);
+    } else {
+      F_collectionsSet.addPoint(id);
+    }
+  };
+
   const handleRowClick = row => {};
 
-  const handleDelete = i => {};
+  const handleDelete = i => {
+    console.log(collections[i]);
+    collectMarker(collections[i]);
+    init();
+  };
 
   const handleLocate = row => {};
 </script>
 
 <div class="container">
   <header>
-    <button>
+    <!-- <button>
       {$t('collect.table.saveToServer')}
-    </button>
+    </button> -->
   </header>
   <table>
     <thead>
       <tr>
         <th class="type-col">{$t('collect.table.type')}</th>
         <th>{$t('collect.table.name')}</th>
-        <th class="savePlace-col">{$t('collect.table.savePlace')}</th>
+        <!-- <th class="savePlace-col">{$t('collect.table.savePlace')}</th> -->
         <th></th>
       </tr>
     </thead>
@@ -127,7 +144,7 @@
           <td>
             <div class="button-group">
               <button on:click={() => handleDelete(index)}>{$t('collect.table.delete')}</button>
-              <button on:click={() => handleLocate(collectMarkerData)}>{$t('collect.table.locate')}</button>
+              <!-- <button on:click={() => handleLocate(collectMarkerData)}>{$t('collect.table.locate')}</button> -->
             </div>
           </td>
         </tr>
