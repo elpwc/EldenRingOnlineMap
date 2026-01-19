@@ -11,6 +11,7 @@
   import SubscriptLink7 from '../assets/icons/icon-subscript-link-7.svg';
   import SubscriptLink10 from '../assets/icons/icon-subscript-link-10.svg';
   import UpdateContentModal from '../components/UpdateContentModal.svelte';
+  import CooperationModal from '../components/CooperationModal.svelte';
 
   onMount(() => {
     clickTime = 0;
@@ -25,6 +26,7 @@
   let coffeeVisibility: boolean = false;
 
   let updateVisibility: boolean = false;
+  let coopVisibility: boolean = false;
 
   /** 输入的密码 */
   let inputPw: string = '';
@@ -97,7 +99,7 @@
         <sup>
           <SubscriptLink7 />
         </sup>
-      </a>, 
+      </a>,
       <a href="https://mapgenie.io/elden-ring/maps/the-shadow-realm" target="_blank">
         mapgenie
         <sup>
@@ -155,6 +157,14 @@
         }}
       >
         {$t('about.update')}
+      </button>
+
+      <button
+        on:click={() => {
+          coopVisibility = true;
+        }}
+      >
+        {$t('about.coop')}
       </button>
 
       <button
@@ -288,6 +298,8 @@
     updateVisibility = false;
   }}
 />
+
+<CooperationModal cooperationModalVisibility={coopVisibility} isOpenningWhileSiteStart={false} />
 
 <style>
   .container {
