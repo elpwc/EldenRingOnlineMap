@@ -2,6 +2,7 @@
   import Modal from './Modal.svelte';
   import DownloadOnTheAppStoreIcon from '../assets/icons/icon-download_on_the_App_Store_Badge_CNSC_RGB_wht_092917.svg';
   export let cooperationModalVisibility: boolean = false;
+  export let isOpenningWhileSiteStart: boolean = true;
   export let onOKButtonClick: () => void = () => {};
 </script>
 
@@ -17,7 +18,12 @@
     cooperationModalVisibility = false;
     onOKButtonClick();
   }}
-  okButtonText="OK(只会更新後显示一次)"
+  okButtonText={'OK' + (isOpenningWhileSiteStart ? '(只会更新後显示一次)' : '')}
+  showCloseButton
+  onCloseButtonClick={() => {
+    window.open('https://www.wanjiadongli.com/games/2815?tab=2&inviteCode=eldenringmap114514', '_blank');
+  }}
+  closeButtonText="Mod-修改器"
 >
   <div id="modalContainer">
     <div class="item">

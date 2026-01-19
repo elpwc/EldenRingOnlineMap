@@ -1976,6 +1976,13 @@
         onMapTypeChanged(MapType.DLC_shadow_of_the_erdtree);
       }}>{$t('map.modals.mapSwitcher.dlcShadowOfTheErdtree')}</button
     >
+    <button
+      class="ButtonInswitchMapModal"
+      style="border:none;"
+      on:click={() => {
+        window.open('https://www.wanjiadongli.com/games/2815?tab=2&inviteCode=eldenringmap114514', '_blank');
+      }}>Mod-修改器</button
+    >
   </div>
 </Modal>
 
