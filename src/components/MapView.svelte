@@ -941,6 +941,7 @@
           params: {
             kword: getKeywordText(searchWord),
             queryType: 2,
+            mapType: mapType
           },
         })
         .then(res => {
