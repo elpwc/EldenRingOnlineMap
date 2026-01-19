@@ -941,7 +941,7 @@
           params: {
             kword: getKeywordText(searchWord),
             queryType: 2,
-            mapType: mapType
+            mapType: mapType,
           },
         })
         .then(res => {
@@ -1443,7 +1443,7 @@
       </div>
 
       <!--地表切换显示-->
-      {#if mapType === MapType.Default}
+      {#if mapType === MapType.Default || mapType === MapType.DLC_shadow_of_the_erdtree}
         <div id="underSelector" style="font-size: 0.9em; margin: 5px; align-items: center;">
           <button
             on:click={() => {
@@ -1463,15 +1463,17 @@
             {current_position[1] ? '☑ ' : '☐ '}
             {$t('map.left.cave')}
           </button>
-          <button
-            on:click={() => {
-              current_position[2] = !current_position[2];
-              refreshAllMarkers();
-            }}
-          >
-            {current_position[2] ? '☑ ' : '☐ '}
-            {$t('map.left.afterBurning')}
-          </button>
+          {#if mapType === MapType.Default}
+            <button
+              on:click={() => {
+                current_position[2] = !current_position[2];
+                refreshAllMarkers();
+              }}
+            >
+              {current_position[2] ? '☑ ' : '☐ '}
+              {$t('map.left.afterBurning')}
+            </button>
+          {/if}
         </div>
       {/if}
 
