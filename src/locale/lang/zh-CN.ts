@@ -51,7 +51,7 @@ const lang = {
         title: '添加一个地标',
         surface: '位于地面',
         underground: '位于地底(希芙拉河等)',
-        dlcShadowOfTheErdtree: '位于DLC',
+        dlcShadowOfTheErdtree: '位于DLC1',
         selector: '选择类型',
         namePlaceHolder: '名称',
         descPlaceHolder: '描述',
@@ -346,6 +346,12 @@ const lang = {
     table: {
       type: '类型',
       name: '名字',
+      mapType: '位置',
+      mapTypes: {
+        surface: '地面',
+        underground: '地底',
+        dlcShadowOfTheErdtree: 'DLC1',
+      },
       savePlace: '保存位置',
       delete: '删除',
       locate: '定位',

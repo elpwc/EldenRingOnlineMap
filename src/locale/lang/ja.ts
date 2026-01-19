@@ -348,6 +348,12 @@ const lang = {
     table: {
       type: 'タイプ',
       name: '名前',
+      mapType: '位置',
+      mapTypes: {
+        surface: '地表',
+        underground: '地下',
+        dlcShadowOfTheErdtree: 'DLC1',
+      },
       savePlace: '保存位置',
       delete: '削除',
       locate: '位置を特定',

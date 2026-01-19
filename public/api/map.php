@@ -66,7 +66,7 @@ switch ($request_type) {
         $ip = '';
         $type = '';
         $kword = '';
-        $mapType = 0; //0 地面, 1 地下, 2 DLC1, 3 ALL
+        $mapType = ''; //0 地面, 1 地下, 2 DLC1, all ALL
         $queryType = '';
         $queryPosition = '';
         $count = '';
@@ -115,24 +115,21 @@ switch ($request_type) {
         if (is_numeric($id_ori)) {
             $id = (int)$id_ori;
         }
-        if (is_numeric($mapType_ori)) {
-            switch ($mapType_ori) {
-                case 0:
-                    $mapType = '0';
-                    break;
-                case 1:
-                    $mapType = '1';
-                    break;
-                case 2:
-                    $mapType = '2';
-                    break;
-                case 3:
-                    $mapType = '3';
-                    break;
-                default:
-                    break;
-            }
+        switch ($mapType_ori) {
+            case '0':
+                $mapType = '0';
+                break;
+            case '1':
+                $mapType = '1';
+                break;
+            case '2':
+                $mapType = '2';
+                break;
+            default:
+                $mapType = 'all';
+                break;
         }
+
         if (isset($ip_ori)) {
             $ip = trim(anti_inj((string)$ip_ori));
         }
@@ -211,7 +208,7 @@ switch ($request_type) {
         $select = [];
 
         if ($id <= 0) {
-            if ($mapType === 3) {
+            if ($mapType === 'all') {
                 $select = [
                     'AND',
                     [

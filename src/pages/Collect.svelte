@@ -5,6 +5,7 @@
   import axios from 'axios';
   import * as config from '../config';
   import { testdata } from '../utils/testdata';
+  import { MapType } from '../utils/enum';
 
   $: filters = getSiteTypeFilters($t);
 
@@ -29,7 +30,8 @@
           type: '',
           kword: '',
           ip: '',
-          mapType: 3,
+          mapType: 'all',
+          queryType: 2,
           /*
             x1: map.getBounds().getSouthWest().lat,
             y1: map.getBounds().getSouthWest().lng,
@@ -118,6 +120,17 @@
   };
 
   const handleLocate = row => {};
+
+  const getMapTypeTitleByMapType = (mapType: MapType) => {
+    switch (mapType) {
+      case MapType.Default:
+        return $t('collect.table.mapTypes.surface');
+      case MapType.Underground:
+        return $t('collect.table.mapTypes.underground');
+      case MapType.DLC_shadow_of_the_erdtree:
+        return $t('collect.table.mapTypes.dlcShadowOfTheErdtree');
+    }
+  };
 </script>
 
 <div class="container">
@@ -131,6 +144,7 @@
       <tr>
         <th class="type-col">{$t('collect.table.type')}</th>
         <th>{$t('collect.table.name')}</th>
+        <th>{$t('collect.table.mapType')}</th>
         <!-- <th class="savePlace-col">{$t('collect.table.savePlace')}</th> -->
         <th></th>
       </tr>
@@ -140,7 +154,8 @@
         <tr>
           <td class="type-col">{collectMarkerData.type}</td>
           <td on:click={() => handleRowClick(collectMarkerData)}>{collectMarkerData.collect.name}</td>
-          <td class="savePlace-col">{collectMarkerData.isLocal ? '💻' + $t('collect.table.local') : '☁' + $t('collect.table.server')}</td>
+          <td>{getMapTypeTitleByMapType(collectMarkerData.collect.mapType)}</td>
+          <!-- <td class="savePlace-col">{collectMarkerData.isLocal ? '💻' + $t('collect.table.local') : '☁' + $t('collect.table.server')}</td> -->
           <td>
             <div class="button-group">
               <button on:click={() => handleDelete(index)}>{$t('collect.table.delete')}</button>
