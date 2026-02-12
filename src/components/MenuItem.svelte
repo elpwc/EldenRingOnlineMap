@@ -8,15 +8,24 @@
   export let width: string = '30px';
   export let imgSrc: string;
   export let imgAlt: string = 'mapicon';
+  export let useOuterUrl: boolean = false;
+  export let target: string = '_blank';
 </script>
 
-<a href={path} use:link>
-  {#if currentPath === path}
-    <div class="backgroundLight" transition:fade />
-  {/if}
-  <img src={imgSrc} alt={imgAlt} {width} />
-  <span>{text}</span>
-</a>
+{#if useOuterUrl}
+  <a href={path} {target}>
+    <img src={imgSrc} alt={imgAlt} {width} />
+    <span>{text}</span>
+  </a>
+{:else}
+  <a href={path} use:link>
+    {#if currentPath === path}
+      <div class="backgroundLight" transition:fade />
+    {/if}
+    <img src={imgSrc} alt={imgAlt} {width} />
+    <span>{text}</span>
+  </a>
+{/if}
 
 <style>
   a {

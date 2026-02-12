@@ -4,11 +4,12 @@ const lang = {
   menu: {
     map: '地图',
     apo: '讯息',
-    routes: '支线(预览)',
+    routes: '支线',
     general: '设置',
     about: '说明',
     tdmap: '3D地图(dev)',
     collect: '收藏',
+    mods: 'Mod/修改器'
   },
   map: {
     loading: {

@@ -9,6 +9,7 @@ const lang = {
     about: '说明',
     tdmap: '3D地图(dev)',
     collect: '收藏',
+    mods: 'MOD/修改器'
   },
   map: {
     loading: {

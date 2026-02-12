@@ -22,9 +22,10 @@
   $: menuItems = [
     { path: '/', text: $t('menu.map'), imgSrc: './resource/images/map.png' },
     { path: '/apothegm', text: $t('menu.apo'), imgSrc: './resource/images/apothegm.png' },
-    { path: '/routes', text: $t('menu.routes'), imgSrc: './resource/images/apothegm.png' },
+    { path: '/routes', text: $t('menu.routes'), imgSrc: './resource/images/bag.png' },
     { path: '/collect', text: $t('menu.collect'), imgSrc: './resource/images/collection.png' },
     //{ path: '/3dmap', text: $t('menu.tdmap'), imgSrc: './resource/images/apothegm.png' },
+    { path: 'https://www.wanjiadongli.com/games/2815?tab=2&inviteCode=eldenringmap114514', text: $t('menu.mods'), imgSrc: './resource/images/shield.png', useOuterUrl: true, target: '_blank' },
     { path: '/general', text: $t('menu.general'), imgSrc: './resource/images/general.png' },
     { path: '/about', text: $t('menu.about'), imgSrc: './resource/images/about.png' },
   ];
@@ -39,7 +40,7 @@
         updateVisibility = true;
       }
     }
-    
+
     // for defaultly ja
     // setTimeout(() => {
     //   lang.set(SupportedLang.ja);

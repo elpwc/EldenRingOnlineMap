@@ -5,11 +5,12 @@ const lang: langType = {
   menu: {
     map: '地圖',
     apo: '訊息',
-    routes: '支線(預覽)',
+    routes: '支線',
     general: '設定',
     about: '說明',
     tdmap: '3D地圖(dev)',
     collect: '收藏',
+    mods: 'Mod修改器'
   },
   map: {
     loading: {

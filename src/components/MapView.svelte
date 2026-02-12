@@ -1977,11 +1977,11 @@
       }}>{$t('map.modals.mapSwitcher.dlcShadowOfTheErdtree')}</button
     >
     <button
-      class="ButtonInswitchMapModal"
+      class="ButtonInswitchMapModal ButtonInGoldenBackground"
       style="border:none;"
       on:click={() => {
         window.open('https://www.wanjiadongli.com/games/2815?tab=2&inviteCode=eldenringmap114514', '_blank');
-      }}>Mod-修改器</button
+      }}>MOD / 修改器</button
     >
   </div>
 </Modal>
@@ -2323,6 +2323,10 @@
     font-size: 1.1em;
     padding: 20px 10px;
     margin: 20px 0;
+  }
+  .ButtonInGoldenBackground {
+    background-color: rgb(208, 200, 181);
+    color: rgb(21, 22, 17);
   }
   #leftInnerCloseButton {
     border: none;

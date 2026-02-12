@@ -23,7 +23,7 @@
   onCloseButtonClick={() => {
     window.open('https://www.wanjiadongli.com/games/2815?tab=2&inviteCode=eldenringmap114514', '_blank');
   }}
-  closeButtonText="Mod-修改器"
+  closeButtonText="MOD / 修改器"
 >
   <div id="modalContainer">
     <div class="item">

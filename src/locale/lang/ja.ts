@@ -9,6 +9,7 @@ const lang = {
     about: '説明',
     tdmap: '3Dマップ（開発中）',
     collect: '保存済',
+    mods: 'MOD'
   },
   map: {
     loading: {
