@@ -29,6 +29,39 @@
     <div class="update">
       <p class="updateTitle"><date>{config.default.lastUpdated}</date> 的更新<br />(ver {config.default.currentVer})</p>
       <div class="updateSection">
+        <p>有任何问题请进入反馈群→ 161952806</p>
+      </div>
+      <div class="updateSection">
+        <p class="sectionTitle">💡 新的<ruby>特性</ruby>:</p>
+        <p>
+          - 在底部菜单添加了<a href="https://www.wanjiadongli.com/games/2815?tab=2&inviteCode=eldenringmap114514" target="_blank"
+            >Mod/修改器
+            <sup>
+              <SubscriptLink10 />
+            </sup>
+          </a>的入口链接
+        </p>
+        <p>- 更新了底部菜单图标的显示</p>
+      </div>
+      <div class="updateSection">
+        <p class="sectionTitle">✨ 提示:</p>
+        <p>
+          - <b>桌面APP模式</b><br />现在可以作为应用添加到手机或电脑的桌面，和普通的APP使用起来一模一样捏。<br />
+          设置方法↓ <br />
+        </p>
+        <ul>
+          <li>手机上，如果浏览器支持的话（一般会是Chrome或者Edge），进入网页就会提示要不要添加在主页/桌面之类的，点确定就行，不行的话，大概是手机没给浏览器权限）</li>
+          <li>电脑上的话，在Edge上是地址栏内部右侧有个三个方块组成的图标，点一下就可以了，其他浏览器支持的话应该也大同小异</li>
+        </ul>
+        <p>- 地标是可以通过长按/右键点击来快速隐藏/收藏的</p>
+        <p>- 可以在 设置 里导出/导入隐藏/收藏点</p>
+      </div>
+    </div>
+
+    <hr />
+    <div class="update">
+      <p class="updateTitle"><date>2026-1-19 17:31 UT+8</date> 的更新<br />(ver 3.3.1.4)</p>
+      <div class="updateSection">
         <p>时隔一年的更新 感谢大家数年来的使用和支持喵!</p>
         <p>有任何问题请大胆进入反馈群→ 161952806</p>
       </div>
